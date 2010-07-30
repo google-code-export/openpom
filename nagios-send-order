@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+#  OpenPom $Revision$
+#  $HeadURL$
+# 
+#  Copyright 2010, Exosec
+#  Licensed under GPL Version 2.
+#  http://www.gnu.org/licenses/
+# 
+#  $Date$
+#
+#  Sylvain Choisnard - schoisnard@exosec.fr  
+#
+#
+# This bash script is just an exemple,
+# you must improve it for you needs
+#
+# exec("\"$EXEC_CMD\" \"$CMD_FILE\" \"$cmd\" &");
+#
+
+# uncomment for debug
+# out=/tmp/${0##*/}.$RANDOM
+# echo $0 $* > $out
+# exec 2>> $out
+# set -x
+
+[ $# -ne 2 ] && exit 2
+
+echo -e $2 > $1
+
+exit $? 
+

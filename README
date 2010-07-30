@@ -1,0 +1,135 @@
+------------------------------
+        OpenPom how-to 
+------------------------------
+
+  Sylvain Choisnard - schoisnard@exosec.fr
+  $Date$
+
+  OpenPom $Revision$
+  $HeadURL$
+ 
+  Copyright 2010, Exosec
+  Licensed under GPL Version 2.
+  http://www.gnu.org/licenses/
+
+
+1) Requirements
+---------------
+
+- Nagios (http://nagios.org/) installation with a contact_name admin 
+
+- MySQL 
+
+- NdoUtils  (NDOUtils : http://www.nagios.org/download/addons)
+
+- A web server (Apache/Apache2) with php5
+
+2) Configure NdoUtils
+---------------------
+
+After NdoUtils install don't forget to add the broker in nagios conf (nagios.cfg)
+
+event_broker_options=-1
+broker_module=/usr/lib/ndoutils/ndomod-mysql-3x.o config_file=/etc/nagios3/ndomod.cfg
+
+Grant access to your Ndo MySQL base (assume name is ndoutils)
+
+mysql> grant select on ndoutils.* to 'openpom'@'127.0.0.1' identified by 'my_password';
+mysql> flush privileges;
+
+For performance reason you have to set up index on some ndoutils tables.
+
+
+3) Configure OpenPom
+--------------------
+
+Adjust the following variables in config.php:
+
+/* SQL */
+$SQL_HOST           = "127.0.0.1";
+$SQL_USER           = "openpom";
+$SQL_PASSWD         = "my_password";
+$SQL_DB             = "ndoutils";
+
+/* NAGIOS */
+$EXEC_CMD           = "./nagios-send-order";
+$CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
+$NAGIOSLINK         = "http://nagios/nagios/cgi-bin/extinfo.cgi";
+
+
+!!! Check that you have the right to write in the nagios cmd file !!!
+chown :www-data /usr/local/nagios/var/rw/nagios.cmd
+chmod g+w /usr/local/nagios/var/rw/nagios.cmd
+or with sudo add this to your sudoers :
+www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
+
+
+4) Configure Apache2
+--------------------
+
+4.1) Apache global authentification
+-----------------------------------
+
+  Alias       /openpom    /var/www/openpom
+  ScriptAliasMatch  /openpom/(.*\.cgi)  "/var/www/openpom/$1"
+  <Directory /var/www/openpom>
+     Options ExecCGI Indexes
+     AllowOverride None
+     Order allow,deny
+     Allow from all
+
+     AuthName "Nagios Access"
+     AuthType Basic
+     AuthUserFile  /etc/nagios/http-passwd
+     AuthGroupFile /etc/nagios/http-group
+     Require groupe nagios
+     Satisfy Any
+
+     SetEnv REMOTE_USER root
+     SetEnv REMOTE_PASSWD your_custom_password
+  </Directory>
+
+!!! The REMOTE_USER user name must match a contact_name in nagios contact.cfg !!!
+
+4.2) Apache local authentification
+-----------------------------------
+
+  Alias       /openpom            /var/www/openpom
+  ScriptAliasMatch  /openpom/(.*\.cgi)  "/var/www/openpom/$1"
+  <Directory /var/www/openpom>
+     Options ExecCGI Indexes
+     AllowOverride None
+     Order allow,deny
+     Allow from all
+
+     AuthName "Nagios Access"
+     AuthType Basic
+     AuthUserFile  /etc/nagios/http-passwd
+     Require valid-user
+  </Directory>
+
+
+Add your user:password with htpasswd in /etc/nagios/http-passwd
+
+!!! The user name must match a contact_name in nagios contact.cfg !!!
+
+
+5) Note
+-------
+
+This web interface has only being tested under firefox 3.x.
+
+There are 2 keywords that you can use in the search filter :
+
+not something_to_search : inverse the search filter
+
+= something_to_search   : exact match your search
+
+
+6) Contributors
+---------------
+
+Sylvain Choisnard  - schoisnard@exosec.fr
+Benoit  Dolez      - bdolez@exosec.fr
+Thierry Fournier   - tfournier@exosec.fr
+Bertrand Jacquin   - bjacquin@exosec.fr
