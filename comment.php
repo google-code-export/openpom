@@ -13,7 +13,6 @@
 */
 
 require_once("config.php");
-session_set_cookie_params($COOKIE_LIFETIME);
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
@@ -40,7 +39,7 @@ else
       <tr>
         <td class="submitline" colspan="2">
           <input type="submit" name="comment_persistent" value="Ok" />
-          <input type="submit" name="cancel" value="<?=ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="this.form.comment.value=''" />
+          <input type="button" name="cancel" value="<?=ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" />
         </td>
       </tr>
     </table>

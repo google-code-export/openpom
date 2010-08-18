@@ -38,7 +38,28 @@ mysql> grant select on ndoutils.* to 'openpom'@'127.0.0.1' identified by 'my_pas
 mysql> flush privileges;
 
 For performance reason you have to set up index on some ndoutils tables.
-
+Connect to your mysql server and use the correct database then inject these lines :
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `object_id` );
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `entry_time` );
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `object_id_2` );
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `author_name` );
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `deletion_time` );
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `entry_type` );
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `comment_data` );
+ALTER TABLE `nagios_contactgroup_members` ADD INDEX ( `contactgroup_id` );
+ALTER TABLE `nagios_contactgroups` ADD INDEX ( `contactgroup_object_id` );
+ALTER TABLE `nagios_contacts` ADD INDEX ( `contact_object_id` );
+ALTER TABLE `nagios_downtimehistory` ADD INDEX ( `actual_end_time` );
+ALTER TABLE `nagios_host_contactgroups` ADD INDEX ( `host_id` );
+ALTER TABLE `nagios_hostgroup_members` ADD INDEX ( `hostgroup_id` );
+ALTER TABLE `nagios_hostgroup_members` ADD INDEX ( `host_object_id` );
+ALTER TABLE `nagios_hostgroups` ADD INDEX ( `hostgroup_object_id` );
+ALTER TABLE `nagios_objects` ADD INDEX ( `objecttype_id` );
+ALTER TABLE `nagios_objects` ADD INDEX ( `name1` );
+ALTER TABLE `nagios_scheduleddowntime` ADD INDEX ( `downtime_type` );
+ALTER TABLE `nagios_service_contactgroups` ADD INDEX ( `service_id` );
+ALTER TABLE `nagios_service_contactgroups` ADD INDEX ( `contactgroup_object_id` );
+ALTER TABLE `nagios_services` ADD INDEX ( `host_object_id` );
 
 3) Configure OpenPom
 --------------------
@@ -67,11 +88,12 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
 4) Configure Apache2
 --------------------
 
+Activate the option short_open_tag in your php.ini (short_open_tag = On)
+
 4.1) Apache global authentification
 -----------------------------------
 
   Alias       /openpom    /var/www/openpom
-  ScriptAliasMatch  /openpom/(.*\.cgi)  "/var/www/openpom/$1"
   <Directory /var/www/openpom>
      Options ExecCGI Indexes
      AllowOverride None
@@ -95,7 +117,6 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
 -----------------------------------
 
   Alias       /openpom            /var/www/openpom
-  ScriptAliasMatch  /openpom/(.*\.cgi)  "/var/www/openpom/$1"
   <Directory /var/www/openpom>
      Options ExecCGI Indexes
      AllowOverride None
@@ -112,7 +133,6 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
 Add your user:password with htpasswd in /etc/nagios/http-passwd
 
 !!! The user name must match a contact_name in nagios contact.cfg !!!
-
 
 5) Note
 -------

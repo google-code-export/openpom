@@ -13,7 +13,6 @@
 */
 
 require_once("config.php");
-session_set_cookie_params($COOKIE_LIFETIME);
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
@@ -116,7 +115,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <input type="hidden" name="level" value="<?=$level?>" />
           <? } ?>
           <input type="submit" name="option" value="Ok" />
-          <input type="submit" name="cancel" value="<?=ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="this.form.method='post'" /> 
+          <input type="button" name="cancel" value="<?=ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" /> 
           <input type="submit" name="reset" value="<?=ucfirst($LANG[$MYLANG]['reset0'])?>" /> 
         </td>
       </tr>

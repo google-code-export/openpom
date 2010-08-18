@@ -26,7 +26,8 @@
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
 require_once("config.php");
-session_set_cookie_params($COOKIE_LIFETIME);
+session_set_cookie_params('864000');
+session_cache_limiter('private_no_expire');
 session_start();
 if (isset($_SERVER['REMOTE_USER'])) 
   $_SESSION['USER'] = strip_tags(addslashes(htmlspecialchars($_SERVER['REMOTE_USER']))) ;

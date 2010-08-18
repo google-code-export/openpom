@@ -71,7 +71,6 @@ $MYLANG             = "en";
 /* OTHER VARIABLE */
 $VERSION            = "1.0";
 $CODENAME           = "OpenPom";
-$COOKIE_LIFETIME    = "604800"; /* KEEP COOKIE ONE WEEK */
 
 /* NAGIOS VARIABLE */
 $EXEC_CMD           = "./nagios-send-order";
