@@ -108,7 +108,6 @@ Activate the option short_open_tag in your php.ini (short_open_tag = On)
      Satisfy Any
 
      SetEnv REMOTE_USER root
-     SetEnv REMOTE_PASSWD your_custom_password
   </Directory>
 
 !!! The REMOTE_USER user name must match a contact_name in nagios contact.cfg !!!
