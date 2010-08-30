@@ -84,6 +84,7 @@ $LANG['en'] = array (
 'fontsize'           => 'Font size alert',
 'search'             => 'search (keywords are : not something / = something)',
 'querytime'          => 'query in',
+'end_down'           => 'end time: ', 
 ) ;
 
 
@@ -153,6 +154,7 @@ $LANG['fr'] = array (
 'fontsize'           => 'Taille de la police des alertes',
 'search'             => 'Recherche (mots cl&eacute;s : not ma_recherche / = ma_recherche)',
 'querytime'          => 'requ&ecirc;te en',
+'end_down'           => 'fin pr&eacute;vu: ',
 ) ;
 
 /* GET/SET LANG */

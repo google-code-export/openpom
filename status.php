@@ -67,17 +67,6 @@ if ( ! isset($st_data['ADDRESS']) ){
   exit (0);
 }
 
-/*
-Next Scheduled Check:  	N/A
-Last Notification:	N/A (notification 0)
-Is This Service Flapping?	
-  NO  
- (0.00% state change)
-In Scheduled Downtime?	
-  NO  
-Last Update:	16-12-2008 19:03:04  ( 0d 0h 0m 25s ago)
-*/
-
 switch($st_data['STATE']) {
   case 0: $STATUS = "OK";       $COLOR = $OK;        break;
   case 1: $STATUS = "WARNING";  $COLOR = $WARNING;   break;
@@ -135,7 +124,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
   <tr><th><img src="img/ack.gif" alt="ack comment" /> (<?=$ACKCOMMENT[0]?>) </th><td><?=$ACKCOMMENT[1]?></td></tr>
   <? } ?>
   <? if (isset($DOWNCOMMENT[1])) { ?>
-  <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?=$DOWNCOMMENT[0]?>) </th><td><?=$DOWNCOMMENT[1]?></td></tr>
+  <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?=$DOWNCOMMENT[0]?>) </th><td><?=$DOWNCOMMENT[1]?>, <?=ucfirst($LANG[$MYLANG]['end_down'])?> <?=$DOWNCOMMENT[2]?></td></tr>
   <? } ?>
   <? if (isset($COMMENT[1])) { ?>
   <tr><th><img src="img/comment.gif" alt="comment" /> (<?=$COMMENT[0]?>) </th><td><?=$COMMENT[1]?></td></tr>

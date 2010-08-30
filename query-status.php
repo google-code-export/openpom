@@ -54,7 +54,7 @@ $QUERY_SVC = "
       ORDER BY ACO.entry_time DESC
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
-      concat_ws(';', author_name, comment_data)
+      concat_ws(';', author_name, comment_data, scheduled_end_time)
       FROM nagios_downtimehistory AS DCO
       WHERE DCO.object_id = SS.service_object_id
       AND actual_end_time = '000-00-00 00:00:00' 
@@ -122,7 +122,7 @@ $QUERY_HOST = "
       ORDER BY ACO.entry_time DESC
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
-      concat_ws(';', author_name, comment_data)
+      concat_ws(';', author_name, comment_data, scheduled_end_time)
       FROM nagios_downtimehistory AS DCO
       WHERE DCO.object_id = HS.host_object_id
       AND actual_end_time = '000-00-00 00:00:00' 
