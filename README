@@ -41,7 +41,6 @@ For performance reason you have to set up index on some ndoutils tables.
 Connect to your mysql server and use the correct database then inject these lines :
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `object_id` );
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `entry_time` );
-ALTER TABLE `nagios_commenthistory` ADD INDEX ( `object_id_2` );
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `author_name` );
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `deletion_time` );
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `entry_type` );
