@@ -12,15 +12,10 @@
   Sylvain Choisnard - schoisnard@exosec.fr                                                 
 */
 
-
 $QUERY = "
 SELECT
   SQL_CALC_FOUND_ROWS
-  GROUP_CONCAT(
-    DISTINCT sub.GROUPES
-    ORDER BY sub.GROUPES
-    DESC SEPARATOR 'define_my_separator'
-  ) AS GROUPE,
+  sub.GROUPES                      AS GROUPE,
   sub.MACHINES                     AS MACHINES,
   sub.MACHINE_NAME                 AS MACHINE_NAME,
   sub.SERVICES                     AS SERVICES,
@@ -45,7 +40,11 @@ SELECT
 FROM (
 
   SELECT
-    OHG.name1                            AS GROUPES,
+    GROUP_CONCAT(
+      DISTINCT OHG.name1
+      ORDER BY OHG.name1
+      DESC SEPARATOR 'define_my_separator'
+    )                                    AS GROUPES,
     H.alias                              AS MACHINES,
     H.display_name                       AS MACHINE_NAME,
     S.display_name                       AS SERVICES,
@@ -69,11 +68,8 @@ FROM (
       LIMIT 1 )                          AS COMMENT
 
   FROM
-         nagios_hostgroups AS HG
-    JOIN nagios_objects AS OHG               ON HG.hostgroup_object_id = OHG.object_id
-    JOIN nagios_hostgroup_members AS HGM     ON HG.hostgroup_id = HGM.hostgroup_id
-    JOIN nagios_hosts AS H                   ON HGM.host_object_id = H.host_object_id
-    JOIN nagios_hoststatus AS HS             ON HGM.host_object_id = HS.host_object_id
+         nagios_hosts AS H
+    JOIN nagios_hoststatus AS HS             ON H.host_object_id = HS.host_object_id
     JOIN nagios_services AS S                ON H.host_object_id = S.host_object_id
     JOIN nagios_servicestatus AS SS          ON S.service_object_id = SS.service_object_id
     JOIN nagios_service_contactgroups AS SCG ON SCG.service_id = S.service_id
@@ -81,6 +77,9 @@ FROM (
     JOIN nagios_contactgroup_members AS CGM  ON CGM.contactgroup_id = HCG.contactgroup_id
     JOIN nagios_contacts AS C                ON C.contact_object_id = CGM.contact_object_id
     JOIN nagios_objects AS O                 ON O.object_id = C.contact_object_id
+    LEFT JOIN nagios_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
+    LEFT JOIN nagios_hostgroups AS HG        ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT JOIN nagios_objects AS OHG          ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
     (
@@ -99,10 +98,16 @@ FROM (
           HS.scheduled_downtime_depth IN (define_my_acklist) )
     AND ( define_my_nosvc = 0 OR HS.current_state = 0 )
 
-  UNION
+  GROUP BY SVCID
+
+UNION
 
   SELECT
-    OHG.name1                            AS GROUPES,
+    GROUP_CONCAT(
+      DISTINCT OHG.name1
+      ORDER BY OHG.name1
+      DESC SEPARATOR 'define_my_separator'
+    )                                    AS GROUPES,
     H.alias                              AS MACHINES,
     H.display_name                       AS MACHINE_NAME,
     '--host--'                           AS SERVICES,
@@ -130,16 +135,16 @@ FROM (
       LIMIT 1 )                          AS COMMENT
 
   FROM
-         nagios_hostgroups AS HG 
-    JOIN nagios_objects AS OHG              ON HG.hostgroup_object_id = OHG.object_id
-    JOIN nagios_hostgroup_members AS HGM    ON HG.hostgroup_id = HGM.hostgroup_id
-    JOIN nagios_hosts AS H                  ON HGM.host_object_id = H.host_object_id
-    JOIN nagios_hoststatus AS HS            ON HGM.host_object_id = HS.host_object_id
+         nagios_hosts AS H
+    JOIN nagios_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
     JOIN nagios_host_contactgroups AS HCG   ON HCG.host_id = H.host_id
     JOIN nagios_contactgroups As OCG        ON HCG.contactgroup_object_id = OCG.contactgroup_object_id
     JOIN nagios_contactgroup_members AS CGM ON CGM.contactgroup_id = OCG.contactgroup_id
     JOIN nagios_contacts AS C               ON C.contact_object_id = CGM.contact_object_id
     JOIN nagios_objects AS O                ON O.object_id = C.contact_object_id
+    LEFT JOIN nagios_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
+    LEFT JOIN nagios_hostgroups AS HG       ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT JOIN nagios_objects AS OHG         ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
     (
@@ -153,9 +158,10 @@ FROM (
     AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
     AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
 
-) AS sub
+  GROUP BY SVCID
 
-GROUP BY SVCID
+
+) AS sub
 
 ORDER BY define_sortfield define_sortsensfield
 
