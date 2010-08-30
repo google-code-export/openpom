@@ -26,8 +26,8 @@
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
 require_once("config.php");
+session_cache_limiter('nocache');
 session_set_cookie_params('864000');
-session_cache_limiter('private_no_expire');
 session_start();
 if (isset($_SERVER['REMOTE_USER'])) 
   $_SESSION['USER'] = strip_tags(addslashes(htmlspecialchars($_SERVER['REMOTE_USER']))) ;
@@ -126,6 +126,14 @@ if ( (isset($_GET['level'])) && (is_numeric($_GET['level'])) &&
 select_level($LEVEL);
 
 /* FORGE FILTER */
+if (isset($_GET['clear'])) { 
+  unset($_GET['filter']);
+  if (isset($_GET['filtering'])) unset($_GET['filtering']);
+}
+else if ( (isset($_GET['filtering'])) && (strlen($_GET['filtering'] < 2)) ) {
+  unset($_GET['filtering']);
+  unset($_GET['filter']);
+}
 if (isset($_GET['filter'])) {
   if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
     if (strlen($_GET['filtering']) > 100) 

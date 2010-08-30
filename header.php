@@ -20,6 +20,8 @@
       <?=$CODENAME?> E=<?=$hit_critical?> W=<?=$hit_warning?> U=<?=$hit_unknown?> T=<?=$hit_any?>
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
     <link rel="StyleSheet" href="style.css" type="text/css" />
     <script type='text/javascript' src='js/XMLHttpRequest-IE.js'></script>
     <script type='text/javascript' src='js/func.js'></script>
