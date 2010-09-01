@@ -34,15 +34,18 @@ tr.blacksoft {
 	color: #FFFFFF;
 	background: black;
 }
-tr.blue {
-	background: blue;
-	color: #FFFFFF;
+tr.blue {                                                                                 
+        background: lightblue;
+        color: #000000;
 }
 tr.bluesoft {
-	font-style: italic;
-	font-weight: lighter;
-	color: #FFFFFF;
-	background: blue;
+        font-style: italic;
+        font-weight: lighter;
+        color: #000000;
+        background: lightblue;
+}
+td.bluedark, th.bluedark {
+  background: blue;
 }
 tr.red {
 	background: #FFBBBB;

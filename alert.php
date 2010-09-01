@@ -54,6 +54,9 @@
             case 3: $COLOR = $UNKNOWN.$COLOR; 
                     break;
 	  }
+          if ( ($data['ACK'] == "1") && ($LEVEL < 3) ) { 
+             $COLOR = $TRACK;
+          }
       ?>
       <tr class="<?=$COLOR?>" id="<?=$data['SVCID']?>" style="font-size:<?=$_SESSION['FONTSIZE']?>px;"
          onmouseover='to = setTimeout("get_data(\"<?=$data['TYPE']?>\", \"<?=$data['SVCID']?>\")",500); 

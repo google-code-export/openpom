@@ -59,6 +59,7 @@ $WARNING            = "yellow";
 $OK                 = "green";
 $UNKNOWN            = "orange";
 $OTHER              = "white";
+$TRACK              = "blue";
 
 
 /*
@@ -69,7 +70,7 @@ $OTHER              = "white";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.0.3";
+$VERSION            = "1.0.4";
 $CODENAME           = "OpenPom";
 
 /* NAGIOS VARIABLE */

@@ -12,6 +12,7 @@
   Sylvain Choisnard - schoisnard@exosec.fr                                                 
 */
 
+
 $QUERY = "
 SELECT
   SQL_CALC_FOUND_ROWS
@@ -90,9 +91,29 @@ FROM (
     )
     AND O.name1 = 'define_my_user'
     AND SS.current_state IN (define_my_svcfilt)
-    AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
-    AND ( SS.problem_has_been_acknowledged IN (define_my_svcacklist) AND
+    AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
+      OR  ( SELECT substring( comment_data, 1 ,1) 
+            FROM nagios_commenthistory
+            WHERE object_id = S.service_object_id
+            AND entry_type = 4
+            AND author_name != '(Nagios Process)'
+            AND deletion_time = '000-00-00 00:00:00'
+            ORDER BY entry_time DESC
+            LIMIT 1
+          ) = '!'
+        )
+    AND ( ( SS.problem_has_been_acknowledged IN (define_my_svcacklist) AND
           HS.problem_has_been_acknowledged IN (define_my_acklist) )
+      OR  ( SELECT substring( comment_data, 1 ,1) 
+            FROM nagios_commenthistory
+            WHERE object_id = S.service_object_id
+            AND entry_type = 4
+            AND author_name != '(Nagios Process)'
+            AND deletion_time = '000-00-00 00:00:00'
+            ORDER BY entry_time DESC
+            LIMIT 1
+          ) = '!'
+	) 
     AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
     AND ( SS.scheduled_downtime_depth IN (define_my_svcdownlist) AND
           HS.scheduled_downtime_depth IN (define_my_acklist) )
@@ -156,7 +177,17 @@ UNION
     AND O.name1 = 'define_my_user'
     AND HS.current_state IN (define_my_hostfilt)
     AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
-    AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
+    AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
+      OR ( SELECT substring( comment_data, 1 ,1) 
+            FROM nagios_commenthistory
+            WHERE object_id = H.host_object_id
+            AND entry_type = 4
+            AND author_name != '(Nagios Process)'
+            AND deletion_time = '000-00-00 00:00:00'
+            ORDER BY entry_time DESC
+            LIMIT 1
+          ) = '!'
+        )
 
   GROUP BY SVCID
 

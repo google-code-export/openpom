@@ -144,6 +144,8 @@ function post_data_to_cmd($dbconn) {
           return 2;
       }//end foreach
       $comment = $_POST['comment'];
+      if (isset($_POST['track']))
+        $comment = "!".$comment;
     }
     else
       return 2;

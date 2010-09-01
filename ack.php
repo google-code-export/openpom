@@ -39,6 +39,7 @@ else
       <tr>
         <td class="submitline" colspan="2">
           <input type="submit" name="ack" value="Ok" />
+          <input type="submit" name="track" value="<?=ucfirst($LANG[$MYLANG]['track'])?>" onclick="this.form.comment.value='<?=$LANG[$MYLANG]['track']?> ' + this.form.comment.value" />
           <input type="button" name="cancel" value="<?=ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" />
         </td>
       </tr>
