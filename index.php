@@ -248,7 +248,8 @@ foreach($no_cols AS $col) {
   $no_filt_group = '/define_or_and[[:space:]]+OHG.name1[[:space:]]+define_my_like.*/'; 
   if (isset($_GET[$col])) {
     unset($COLS[$col]);
-    $QUERY = preg_replace($no_filt_group,' ',$QUERY);
+    if ($col == "group")
+      $QUERY = preg_replace($no_filt_group,' ',$QUERY);
     if (!preg_match($pattern,$_SESSION['COLS']))
       $_SESSION['COLS'] .= $pattern;
   }
@@ -256,7 +257,8 @@ foreach($no_cols AS $col) {
     $_SESSION['COLS'] = str_replace($pattern,'',$_SESSION['COLS']);
   else if (preg_match($pattern,$_SESSION['COLS'])) {
     unset($COLS[$col]);
-    $QUERY = preg_replace($no_filt_group,' ',$QUERY);
+    if ($col == "group")
+      $QUERY = preg_replace($no_filt_group,' ',$QUERY);
   }
 }
  
