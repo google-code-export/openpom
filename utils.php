@@ -88,6 +88,7 @@ function select_level($LEVEL) {
   global $MY_HOSTDOWNLIST;
   global $MY_SVCDOWNLIST;
   global $MY_ACKLIST;
+  global $MY_DISABLE;
   global $MY_NOSVC;
   if ($LEVEL == 1) { 
     $MY_SVCFILT       = "2";
@@ -97,6 +98,7 @@ function select_level($LEVEL) {
     $MY_SVCACKLIST    = "0,1";
     $MY_HOSTDOWNLIST  = "0,1";
     $MY_SVCDOWNLIST   = "0,1";
+    $MY_DISABLE       = "0,1";
   }
   else if ($LEVEL == 4) {
     $MY_HOSTFILT      = "1,2,3";
@@ -104,7 +106,7 @@ function select_level($LEVEL) {
     $MY_SVCACKLIST    = "0,1";
     $MY_HOSTDOWNLIST  = "0,1";
     $MY_SVCDOWNLIST   = "0,1";
-       
+    $MY_DISABLE       = "0,1";
   }
   else if ($LEVEL == 5) {
     $MY_HOSTACKLIST   = "0,1";
@@ -113,6 +115,7 @@ function select_level($LEVEL) {
     $MY_SVCDOWNLIST   = "0,1";
     $MY_ACKLIST       = "0,1";
     $MY_NOSVC         = 0;
+    $MY_DISABLE       = "0,1";
   }
   else if ($LEVEL == 6) {
     $MY_SVCFILT       = "0,1,2,3";
@@ -123,6 +126,7 @@ function select_level($LEVEL) {
     $MY_SVCDOWNLIST   = "0,1";
     $MY_ACKLIST       = "0,1";
     $MY_NOSVC         = 0;
+    $MY_DISABLE       = "0,1";
   }
 }
 

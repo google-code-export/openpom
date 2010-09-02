@@ -118,6 +118,7 @@ FROM (
     AND ( SS.scheduled_downtime_depth IN (define_my_svcdownlist) AND
           HS.scheduled_downtime_depth IN (define_my_acklist) )
     AND ( define_my_nosvc = 0 OR HS.current_state = 0 )
+    AND SS.notifications_enabled IN (define_my_disable)
 
   GROUP BY SVCID
 
@@ -188,6 +189,7 @@ UNION
             LIMIT 1
           ) = '!'
         )
+    AND HS.notifications_enabled IN (define_my_disable)
 
   GROUP BY SVCID
 

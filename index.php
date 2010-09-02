@@ -25,7 +25,6 @@
 
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
-require_once("config.php");
 session_cache_limiter('nocache');
 session_set_cookie_params('864000');
 session_start();
@@ -34,6 +33,7 @@ if (isset($_SERVER['REMOTE_USER']))
 else 
   die("no user");
 
+require_once("config.php");
 require_once("query.php");
 require_once("utils.php");
 special_char(); 
@@ -98,6 +98,7 @@ $MY_HOSTDOWNLIST = 0;                  //HOST DOWNTIME
 $MY_SVCDOWNLIST  = 0;                  //SVC DOWNTIME
 $MY_ACKLIST      = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST
 $MY_NOSVC        = 1;                  //NO SVC FOR CRITICAL HOST
+$MY_DISABLE      = 1;                  //DISABLE ALERT ARE TREATED LIKE ACK AND DOWN
 $MY_ORAND        = "OR";               //FILTER CONDITION
 $MY_LIKE         = "LIKE";             //FILTER RESTRICTION
 $SORTFIELD       = "COEF, DURATION";   //SORT FIELD 
@@ -294,6 +295,7 @@ while ( ($nb_rows <= 0) && ($level < 7) ) {
   'define_my_hostdownlist' =>  mysql_real_escape_string($MY_HOSTDOWNLIST, $dbconn),
   'define_my_svcdownlist'  =>  mysql_real_escape_string($MY_SVCDOWNLIST, $dbconn),
   'define_my_acklist'      =>  mysql_real_escape_string($MY_ACKLIST, $dbconn),
+  'define_my_disable'      =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
   'define_my_nosvc'        =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
   'define_my_hostfilt'     =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
   'define_or_and'          =>  mysql_real_escape_string($MY_ORAND, $dbconn),
