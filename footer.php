@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   OpenPom $Revision$
   $HeadURL$
@@ -14,20 +14,20 @@
  
   if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ; ?>
     <div align="center">
-      <?=$CODENAME?> - <?=$VERSION?> - GPL -
+      <?php echo $CODENAME?> - <?php echo $VERSION?> - GPL -
       <a href="http://www.exosec.fr/" target="_blank">Exosec</a> - 2010 - 
-      <?=$LANG[$MYLANG]['querytime']?> <?=sprintf($str_query_time, $query_time)?>
+      <?php echo $LANG[$MYLANG]['querytime']?> <?php echo sprintf($str_query_time, $query_time)?>
     </div>
-  <? if ($_SESSION['FRAME'] == 1) { ?>
+  <?php if ($_SESSION['FRAME'] == 1) { ?>
   </td></tr></table>
-  <? } ?>
+  <?php } ?>
   </body>
   <script>
     refresh  = document.getElementById("refreshspan");
-    autorefresh("<?=$MY_GET?>");
-    document.getElementById("acklink").href = "ack.php?num=<?=$nb_rows?>";
-    document.getElementById("downlink").href = "down.php?num=<?=$nb_rows?>";
+    autorefresh("<?php echo $MY_GET?>");
+    document.getElementById("acklink").href = "ack.php?num=<?php echo $nb_rows?>";
+    document.getElementById("downlink").href = "down.php?num=<?php echo $nb_rows?>";
     document.getElementById("optlink").href = "option.php";
-    document.getElementById("commentlink").href = "comment.php?num=<?=$nb_rows?>";
+    document.getElementById("commentlink").href = "comment.php?num=<?php echo $nb_rows?>";
   </script>
 </html> 

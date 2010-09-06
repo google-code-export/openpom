@@ -1,4 +1,4 @@
-<? 
+<?php 
 /*
   OpenPom $Revision$
   $HeadURL$
@@ -23,54 +23,54 @@
   <table width="100%" class="filter">
       <tr>
         <th class="filter" width="4px" style="white-space:nowrap;">
-	  <span title="<?=ucfirst($LANG[$MYLANG]['refreshing'])?>" id="refreshspan"></span>
+	  <span title="<?php echo ucfirst($LANG[$MYLANG]['refreshing'])?>" id="refreshspan"></span>
         </th>
         <th class="filter" width="50px">
-          <a class="refresh" href="<?=$MY_GET?>" alt="<?=ucfirst($LANG[$MYLANG]['refresh'])?>" title="<?=ucfirst($LANG[$MYLANG]['refresh'])?>"></a>
+          <a class="refresh" href="<?php echo $MY_GET?>" alt="<?php echo ucfirst($LANG[$MYLANG]['refresh'])?>" title="<?php echo ucfirst($LANG[$MYLANG]['refresh'])?>"></a>
         </th>
         <th class="filters" width="1">
 	<form method="get" class="filt" name="filt" action="?filter=1" id="filt"> 
           <select name="level" onChange='add_input("filter","filt"); this.form.submit();'>
-            <? 
+            <?php 
               for ($sub_level=1; $sub_level <= 6; $sub_level++) { 
             ?>
-            <option value="<?=$sub_level?>" <?=($sub_level==$LEVEL)?"selected":""?>><?=$sub_level?> - <?=ucfirst($LANG[$MYLANG]['level'.$sub_level])?></option>
-            <? } ?>
+            <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$LEVEL)?"selected":""?>><?php echo $sub_level?> - <?php echo ucfirst($LANG[$MYLANG]['level'.$sub_level])?></option>
+            <?php } ?>
           </select>
         </th>
         <th class="filter" width="1">
-          <input type="text" name="filtering" value="<?=$FILTER?>" id="filtering" title="<?=ucfirst($LANG[$MYLANG]['search'])?>"/>
+          <input type="text" name="filtering" value="<?php echo $FILTER?>" id="filtering" title="<?php echo ucfirst($LANG[$MYLANG]['search'])?>"/>
         </th>
         <th class="filter" width="1">
           <input type="submit" name="filter" id="filter"
-            value="<?=ucfirst($LANG[$MYLANG]['filter'])?>" />
+            value="<?php echo ucfirst($LANG[$MYLANG]['filter'])?>" />
         </th>
         <th class="filter" width="1">
-	  <input type="submit" name="clear" value="<?=ucfirst($LANG[$MYLANG]['clear'])?>" onclick='filtering.value="";' />
+	  <input type="submit" name="clear" value="<?php echo ucfirst($LANG[$MYLANG]['clear'])?>" onclick='filtering.value="";' />
 	</form>
         </th>
         <th class="monitor">
-          <a href="?monitor"><?=ucfirst($LANG[$MYLANG]['mode'])?></a>
+          <a href="?monitor"><?php echo ucfirst($LANG[$MYLANG]['mode'])?></a>
         </th>
-        <th width="200px" style="white-space:nowrap;" title="<?=$LANG[$MYLANG]['meter']?>">
-          C=<?=$hit_critical?> W=<?=$hit_warning?> U=<?=$hit_unknown?> 
-          D=<?=$hit_down?> A=<?=$hit_ack?> T=<?=$hit_any?> 
+        <th width="200px" style="white-space:nowrap;" title="<?php echo $LANG[$MYLANG]['meter']?>">
+          C=<?php echo $hit_critical?> W=<?php echo $hit_warning?> U=<?php echo $hit_unknown?> 
+          D=<?php echo $hit_down?> A=<?php echo $hit_ack?> T=<?php echo $hit_any?> 
         </th>
-        <? if ($FIRST >= $LINE_BY_PAGE) { ?>
+        <?php if ($FIRST >= $LINE_BY_PAGE) { ?>
         <th width="1">
-          <a href="<?=$MY_GET_NO_NEXT?>&prev=<?=$FIRST-$LINE_BY_PAGE?>"><?=ucfirst($LANG[$MYLANG]['prev'])?></a> 
+          <a href="<?php echo $MY_GET_NO_NEXT?>&prev=<?php echo $FIRST-$LINE_BY_PAGE?>"><?php echo ucfirst($LANG[$MYLANG]['prev'])?></a> 
         </th>
-        <? } ?>
+        <?php } ?>
         <th width="1" style="white-space:nowrap;">
-          <? echo $FIRST."-".($FIRST+$nb_rows)."/".$hit_any; ?>
+          <?php echo $FIRST."-".($FIRST+$nb_rows)."/".$hit_any; ?>
         </th>
-        <? if ($nb_rows >= $LINE_BY_PAGE) { ?>
+        <?php if ($nb_rows >= $LINE_BY_PAGE) { ?>
         <th width="1">
-          <a href="<?=$MY_GET_NO_NEXT?>&next=<?=$FIRST+$LINE_BY_PAGE?>"><?=ucfirst($LANG[$MYLANG]['next'])?></a>
+          <a href="<?php echo $MY_GET_NO_NEXT?>&next=<?php echo $FIRST+$LINE_BY_PAGE?>"><?php echo ucfirst($LANG[$MYLANG]['next'])?></a>
         </th>
-        <? } ?>
+        <?php } ?>
         <th width="1">
-          <a class="option" href="#" id="optlink"><?=ucfirst($LANG[$MYLANG]['option'])?></a>
+          <a class="option" href="#" id="optlink"><?php echo ucfirst($LANG[$MYLANG]['option'])?></a>
         </th>
       </tr>
     </table>

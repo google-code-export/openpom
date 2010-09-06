@@ -87,8 +87,6 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
 4) Configure Apache2
 --------------------
 
-Activate the option short_open_tag in your php.ini (short_open_tag = On)
-
 4.1) Apache global authentification
 -----------------------------------
 

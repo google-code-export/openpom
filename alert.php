@@ -1,4 +1,4 @@
-<? 
+<?php 
 /*
   OpenPom $Revision$
   $HeadURL$
@@ -18,28 +18,28 @@
 
     <table width="100%" class="alert" id="alert">
       <tr class="headers">
-        <? 
+        <?php 
           foreach($COLS AS $key => $val) { 
             if ($key == 'checkbox') {
         ?>
         <th class="checkall">
-          <input type="checkbox" onclick='selectall(<?=$nb_rows?>);' />
+          <input type="checkbox" onclick='selectall(<?php echo $nb_rows?>);' />
         </th>
-        <? } else { ?>
+        <?php } else { ?>
         <th style="white-space:nowrap;">
-          <? if ( ($SORTFIELD == $val) && ($SORTORDERFIELD == "ASC") ) { ?>
-          <a class="col_sort_up" href="<?=$MY_GET_NO_SORT?>&sort=<?=$key?>&order=1">
-          <? } else if ($SORTFIELD == $val) { ?>
-          <a class="col_sort_down" href="<?=$MY_GET_NO_SORT?>&sort=<?=$key?>&order=0">
-	  <? } else { ?>
-          <a class="col_no_sort" href="<?=$MY_GET_NO_SORT?>&sort=<?=$key?>&order=0">
-          <? } ?>
-            <?=ucfirst($LANG[$MYLANG][$key])?>
+          <?php if ( ($SORTFIELD == $val) && ($SORTORDERFIELD == "ASC") ) { ?>
+          <a class="col_sort_up" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=1">
+          <?php } else if ($SORTFIELD == $val) { ?>
+          <a class="col_sort_down" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=0">
+	  <?php } else { ?>
+          <a class="col_no_sort" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=0">
+          <?php } ?>
+            <?php echo ucfirst($LANG[$MYLANG][$key])?>
           </a>
         </th>
-        <? } } ?>
+        <?php } } ?>
       </tr>
-      <?
+      <?php
         while($data = mysql_fetch_array($rep, MYSQL_ASSOC)) { 
 
           if ($data['SVCST'] == 0) { $COLOR = "soft"; $soft= "soft"; }
@@ -58,12 +58,12 @@
              $COLOR = $TRACK;
           }
       ?>
-      <tr class="<?=$COLOR?>" id="<?=$data['SVCID']?>" style="font-size:<?=$_SESSION['FONTSIZE']?>px;"
-         onmouseover='to = setTimeout("get_data(\"<?=$data['TYPE']?>\", \"<?=$data['SVCID']?>\")",500); 
-           this.className="over<?=$soft?>";' 
-           onmouseout='clearTimeout(to); hide_data(); this.className="<?=$COLOR?>";'
-         onclick='selectline(<?=$line?>);'>
-        <? 
+      <tr class="<?php echo $COLOR?>" id="<?php echo $data['SVCID']?>" style="font-size:<?php echo $_SESSION['FONTSIZE']?>px;"
+         onmouseover='to = setTimeout("get_data(\"<?php echo $data['TYPE']?>\", \"<?php echo $data['SVCID']?>\")",500); 
+           this.className="over<?php echo $soft?>";' 
+           onmouseout='clearTimeout(to); hide_data(); this.className="<?php echo $COLOR?>";'
+         onclick='selectline(<?php echo $line?>);'>
+        <?php 
           foreach($COLS AS $key => $val) { 
 
             if ($key == 'checkbox')
@@ -110,27 +110,27 @@
             }
           if (isset($_GET['monitor'])) {
         ?>
-        <td<?=($key=="flag")?" class=\"".$COLOR."dark\"":""?> style="white-space:nowrap;">
-        <? } else { ?>
-        <td<?=($key=="checkbox")?" style=\"text-align:center;\" class=\"".$COLOR."dark\"":""?> style="white-space:nowrap;">
-        <? } ?>
-          <?=$toprint?>
+        <td<?php echo ($key=="flag")?" class=\"".$COLOR."dark\"":""?> style="white-space:nowrap;">
+        <?php } else { ?>
+        <td<?php echo ($key=="checkbox")?" style=\"text-align:center;\" class=\"".$COLOR."dark\"":""?> style="white-space:nowrap;">
+        <?php } ?>
+          <?php echo $toprint?>
         </td>
-        <? } //end foreach ?>
+        <?php } //end foreach ?>
       </tr>
-      <?
+      <?php
           $line++;  
         } //end while
       ?>
     </table>
-    <? if (isset($_GET['monitor'])) { ?>
-    <?=ucfirst($LANG[$MYLANG]['refreshing'])?> <b><span id="refreshspan"></span></b> <?=ucfirst($LANG[$MYLANG]['second'])?>
-    <a href="index.php"><?=ucfirst($LANG[$MYLANG]['mode0'])?></a>
-    <? } else { ?>
+    <?php if (isset($_GET['monitor'])) { ?>
+    <?php echo ucfirst($LANG[$MYLANG]['refreshing'])?> <b><span id="refreshspan"></span></b> <?php echo ucfirst($LANG[$MYLANG]['second'])?>
+    <a href="index.php"><?php echo ucfirst($LANG[$MYLANG]['mode0'])?></a>
+    <?php } else { ?>
     </form>
-    <? } ?>
+    <?php } ?>
 
-<? /*
+<?php /*
 if ($nb_rows > 0) {
 mysql_data_seek($rep, 0);
 while($data = mysql_fetch_array($rep, MYSQL_ASSOC)) { 

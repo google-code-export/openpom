@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   OpenPom $Revision$
   $HeadURL$
@@ -17,7 +17,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title>
-      <?=$CODENAME?> E=<?=$hit_critical?> W=<?=$hit_warning?> U=<?=$hit_unknown?> T=<?=$hit_any?>
+      <?php echo $CODENAME?> E=<?php echo $hit_critical?> W=<?php echo $hit_warning?> U=<?php echo $hit_unknown?> T=<?php echo $hit_any?>
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
@@ -30,8 +30,8 @@
       var cache    = new Array();
       var popup;
       var refresh; 
-      var mytime   = <?=($REFRESHTIME+1)?>;
-      var filter   = "<?=$FILTER?>";
+      var mytime   = <?php echo ($REFRESHTIME+1)?>;
+      var filter   = "<?php echo $FILTER?>";
     </script>
   </head>
   <body>
@@ -41,9 +41,9 @@
       popup.style.visibility = "hidden";                                                  
       document.onmousemove = WhereMouse;
     </script>
-    <? if ($_SESSION['FRAME'] == 1) { ?>
-    <table width="100%" height="100%" class="frame" id="type_<?=$framecolor?>">
+    <?php if ($_SESSION['FRAME'] == 1) { ?>
+    <table width="100%" height="100%" class="frame" id="type_<?php echo $framecolor?>">
       <tr>
         <td valign="top">
-    <? } ?>
+    <?php } ?>
 

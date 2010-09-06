@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   OpenPom $Revision$                                                           
   $HeadURL$
@@ -25,12 +25,12 @@ else
   <div class="popact" id="popack">
   <form action="" name="comment" method="post" id="com">
     <script>
-      getallselectline(<?=$nb_rows?>,"comment");
+      getallselectline(<?php echo $nb_rows?>,"comment");
      </script>
     <table class="popact">
-      <tr><th colspan="2"><?=ucfirst($LANG[$MYLANG]['comment0'])?></th></tr>
+      <tr><th colspan="2"><?php echo ucfirst($LANG[$MYLANG]['comment0'])?></th></tr>
       <tr>
-        <td><?=ucfirst($LANG[$MYLANG]['comment'])?></td>
+        <td><?php echo ucfirst($LANG[$MYLANG]['comment'])?></td>
         <td>
           <input type="text" name="comment" id="comment" />
           <input type="hidden" name="comment_persistent" value="Ok" />
@@ -39,7 +39,7 @@ else
       <tr>
         <td class="submitline" colspan="2">
           <input type="submit" name="comment_persistent" value="Ok" />
-          <input type="button" name="cancel" value="<?=ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" />
+          <input type="button" name="cancel" value="<?php echo ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" />
         </td>
       </tr>
     </table>

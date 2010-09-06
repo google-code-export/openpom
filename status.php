@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   OpenPom $Revision$
   $HeadURL$
@@ -61,9 +61,9 @@ if ( ! isset($st_data['ADDRESS']) ){
 
 ?>
   <table class="popuptable">
-    <tr><th><b><?=ucfirst($LANG[$MYLANG]['reload'])?></b></th></tr>
+    <tr><th><b><?php echo ucfirst($LANG[$MYLANG]['reload'])?></b></th></tr>
   </table>
-<?
+<?php
   exit (0);
 }
 
@@ -109,29 +109,29 @@ $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT']);
 $COMMENT           = explode(';', $st_data['COMMENT']);
 ?>
 
-<table class="popuptable<?=$COLOR?>" id="popuptable">
-  <tr><th><?=ucfirst($LANG[$MYLANG]['host'])?></th><td><?=$HOSTNAME?> (<?=$ADDRESS?>)</td></tr>
-  <tr><th class="<?=$COLOR?>dark"><?=ucfirst($LANG[$MYLANG]['curstat'])?></th><td><?=$STATUS?> (for <?=$LASTCHANGEDIFF?>)</td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['stinfo'])?></th><td><?=linebreak($OUTPUT)?></td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['curat'])?></th><td><?=$CURATTEMP?>/<?=$MAXATTEMP?></td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['last'])?></th><td><?=$LASTCHECKTIME?> (<?=$LASTCHECKTIMEDIFF?>)</td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['chktyp'])?></th><td><?=$CHKTYPE?></td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['latency'])?> / <?=ucfirst($LANG[$MYLANG]['duration'])?></th><td><?=$LATENCY?> / <?=$EXEC_TIME?></td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['lastchange'])?></th><td><?=$LASTCHANGE?></td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['flapping'])?> ?</th><td><?=$FLAPPING?><? if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td></tr>
-  <tr><th><?=ucfirst($LANG[$MYLANG]['lastup'])?></th><td><?=$UPDATETIME?> (<?=$UPDATETIMEDIFF?> ago)</td></tr>
-  <? if (isset($ACKCOMMENT[1])) { ?>
-  <tr><th><img src="img/ack.gif" alt="ack comment" /> (<?=$ACKCOMMENT[0]?>) </th><td><?=$ACKCOMMENT[1]?></td></tr>
-  <? } ?>
-  <? if (isset($DOWNCOMMENT[1])) { ?>
-  <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?=$DOWNCOMMENT[0]?>) </th><td><?=$DOWNCOMMENT[1]?>, <?=ucfirst($LANG[$MYLANG]['end_down'])?> <?=$DOWNCOMMENT[2]?></td></tr>
-  <? } ?>
-  <? if (isset($COMMENT[1])) { ?>
-  <tr><th><img src="img/comment.gif" alt="comment" /> (<?=$COMMENT[0]?>) </th><td><?=$COMMENT[1]?></td></tr>
-  <? } ?>
+<table class="popuptable<?php echo $COLOR?>" id="popuptable">
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['host'])?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td></tr>
+  <tr><th class="<?php echo $COLOR?>dark"><?php echo ucfirst($LANG[$MYLANG]['curstat'])?></th><td><?php echo $STATUS?> (for <?php echo $LASTCHANGEDIFF?>)</td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['stinfo'])?></th><td><?php echo linebreak($OUTPUT)?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['curat'])?></th><td><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['last'])?></th><td><?php echo $LASTCHECKTIME?> (<?php echo $LASTCHECKTIMEDIFF?>)</td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['chktyp'])?></th><td><?php echo $CHKTYPE?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['latency'])?> / <?php echo ucfirst($LANG[$MYLANG]['duration'])?></th><td><?php echo $LATENCY?> / <?php echo $EXEC_TIME?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['lastchange'])?></th><td><?php echo $LASTCHANGE?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['flapping'])?> ?</th><td><?php echo $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['lastup'])?></th><td><?php echo $UPDATETIME?> (<?php echo $UPDATETIMEDIFF?> ago)</td></tr>
+  <?php if (isset($ACKCOMMENT[1])) { ?>
+  <tr><th><img src="img/ack.gif" alt="ack comment" /> (<?php echo $ACKCOMMENT[0]?>) </th><td><?php echo $ACKCOMMENT[1]?></td></tr>
+  <?php } ?>
+  <?php if (isset($DOWNCOMMENT[1])) { ?>
+  <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?php echo $DOWNCOMMENT[0]?>) </th><td><?php echo $DOWNCOMMENT[1]?>, <?php echo ucfirst($LANG[$MYLANG]['end_down'])?> <?php echo $DOWNCOMMENT[2]?></td></tr>
+  <?php } ?>
+  <?php if (isset($COMMENT[1])) { ?>
+  <tr><th><img src="img/comment.gif" alt="comment" /> (<?php echo $COMMENT[0]?>) </th><td><?php echo $COMMENT[1]?></td></tr>
+  <?php } ?>
 </table>
 
-<?
+<?php
 /*  free resources */
 mysql_free_result($st_rep);
 mysql_close();
