@@ -10,6 +10,10 @@
   $Date$
 */
 
+/* NAGIOS or ICINGA */
+$BACKEND            = "nagios" ;
+//$BACKEND            = "icinga" ;
+
 /* SQL VARIABLE */
 $SQL_HOST           = "127.0.0.1";
 $SQL_USER           = "openpom";
@@ -71,13 +75,14 @@ $MYLANG             = "en";
 $VERSION            = "1.0.7";
 $CODENAME           = "OpenPom";
 
-/* NAGIOS VARIABLE */
-$EXEC_CMD           = "./nagios-send-order";
+/* NAGIOS AND ICINGA VARIABLES */
+$EXEC_CMD           = "./send-order";
 $EXEC_PARAM         = "";
 $SUDO_EXEC          = "/usr/bin/sudo";
 $SUDO_PARAM         = "";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
-$NAGIOSLINK         = "/nagios/cgi-bin/extinfo.cgi";
+//$CMD_FILE           = "/var/lib/icinga/rw/icinga.cmd";
+$LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 

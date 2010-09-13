@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-#  OpenPom $Revision$
-#  $HeadURL$
+#  OpenPom $Revision: 16 $
+#  $HeadURL: https://openpom.googlecode.com/svn/trunk/nagios-send-order $
 # 
 #  Copyright 2010, Exosec
 #  Licensed under GPL Version 2.
 #  http://www.gnu.org/licenses/
 # 
-#  $Date$
+#  $Date: 2010-09-13 10:24:33 +0200 (Mon, 13 Sep 2010) $
 #
 #
 # This bash script is just an exemple,

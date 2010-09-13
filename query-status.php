@@ -44,7 +44,7 @@ $QUERY_SVC = "
     S.display_name                         AS SERVICE,
     ( SELECT 
       concat_ws(';', author_name, comment_data)
-      FROM nagios_commenthistory AS ACO
+      FROM ".$BACKEND."_commenthistory AS ACO
       WHERE ACO.object_id = SS.service_object_id
       AND entry_type = 4
       AND author_name != '(Nagios Process)'
@@ -53,14 +53,14 @@ $QUERY_SVC = "
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', author_name, comment_data, scheduled_end_time)
-      FROM nagios_downtimehistory AS DCO
+      FROM ".$BACKEND."_downtimehistory AS DCO
       WHERE DCO.object_id = SS.service_object_id
       AND actual_end_time = '000-00-00 00:00:00' 
       ORDER BY DCO.entry_time DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', author_name, comment_data)
-      FROM nagios_commenthistory AS CO
+      FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = SS.service_object_id
       AND entry_type = 1
       AND author_name != '(Nagios Process)'
@@ -69,9 +69,9 @@ $QUERY_SVC = "
       LIMIT 1 )                           AS COMMENT
 
   FROM
-    nagios_servicestatus AS SS
-    INNER JOIN nagios_services AS S      ON S.service_object_id = SS.service_object_id
-    INNER JOIN nagios_hosts AS H         ON H.host_object_id = S.host_object_id
+    ".$BACKEND."_servicestatus AS SS
+    INNER JOIN ".$BACKEND."_services AS S      ON S.service_object_id = SS.service_object_id
+    INNER JOIN ".$BACKEND."_hosts AS H         ON H.host_object_id = S.host_object_id
   WHERE
     SS.servicestatus_id = define_my_id
 " ;
@@ -112,7 +112,7 @@ $QUERY_HOST = "
     H.display_name                         AS HOSTNAME,
     ( SELECT 
       concat_ws(';', author_name, comment_data)
-      FROM nagios_commenthistory AS ACO
+      FROM ".$BACKEND."_commenthistory AS ACO
       WHERE ACO.object_id = HS.host_object_id
       AND entry_type = 4
       AND author_name != '(Nagios Process)'
@@ -121,14 +121,14 @@ $QUERY_HOST = "
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', author_name, comment_data, scheduled_end_time)
-      FROM nagios_downtimehistory AS DCO
+      FROM ".$BACKEND."_downtimehistory AS DCO
       WHERE DCO.object_id = HS.host_object_id
       AND actual_end_time = '000-00-00 00:00:00' 
       ORDER BY DCO.entry_time DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', author_name, comment_data)
-      FROM nagios_commenthistory AS CO
+      FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = HS.host_object_id
       AND entry_type = 1
       AND author_name != '(Nagios Process)'
@@ -137,8 +137,8 @@ $QUERY_HOST = "
       LIMIT 1 )                            AS COMMENT
 
   FROM
-    nagios_hoststatus AS HS
-    INNER JOIN nagios_hosts AS H      ON H.host_object_id = HS.host_object_id
+    ".$BACKEND."_hoststatus AS HS
+    INNER JOIN ".$BACKEND."_hosts AS H      ON H.host_object_id = HS.host_object_id
   WHERE
     HS.hoststatus_id = define_my_id
 " ;

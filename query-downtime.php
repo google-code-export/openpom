@@ -13,16 +13,16 @@
 
 $QUERY_DOWNTIME_HOST_ID = "
   SELECT o.name1,o.name2,d.internal_downtime_id
-  FROM nagios_scheduleddowntime AS d
-  JOIN nagios_objects AS o
+  FROM ".$BACKEND."_scheduleddowntime AS d
+  JOIN ".$BACKEND."_objects AS o
   ON o.object_id = d.object_id WHERE downtime_type = 2
   AND o.name1 = 'define_mhost'
 ";
 
 $QUERY_DOWNTIME_SVC_ID = "
   SELECT o.name1,o.name2,d.internal_downtime_id
-  FROM nagios_scheduleddowntime AS d
-  JOIN nagios_objects AS o
+  FROM ".$BACKEND."_scheduleddowntime AS d
+  JOIN ".$BACKEND."_objects AS o
   ON o.object_id = d.object_id WHERE downtime_type = 1
   AND o.name1 = 'define_mhost'
   AND o.name2 = 'define_msvc'

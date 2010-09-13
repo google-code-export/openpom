@@ -58,7 +58,7 @@ FROM (
     SS.scheduled_downtime_depth          AS DOWNTIME,
     SS.notifications_enabled             AS NOTIF,
     ( SELECT count(*)
-      FROM nagios_commenthistory AS CO
+      FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = S.service_object_id
       AND entry_type = 1
       AND author_name != '(Nagios Process)'
@@ -67,18 +67,18 @@ FROM (
       LIMIT 1 )                          AS COMMENT
 
   FROM
-         nagios_hosts AS H
-    JOIN nagios_hoststatus AS HS             ON H.host_object_id = HS.host_object_id
-    JOIN nagios_services AS S                ON H.host_object_id = S.host_object_id
-    JOIN nagios_servicestatus AS SS          ON S.service_object_id = SS.service_object_id
-    JOIN nagios_service_contactgroups AS SCG ON SCG.service_id = S.service_id
-    JOIN nagios_contactgroups AS HCG         ON SCG.contactgroup_object_id = HCG.contactgroup_object_id
-    JOIN nagios_contactgroup_members AS CGM  ON CGM.contactgroup_id = HCG.contactgroup_id
-    JOIN nagios_contacts AS C                ON C.contact_object_id = CGM.contact_object_id
-    JOIN nagios_objects AS O                 ON O.object_id = C.contact_object_id
-    LEFT JOIN nagios_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
-    LEFT JOIN nagios_hostgroups AS HG        ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT JOIN nagios_objects AS OHG          ON HG.hostgroup_object_id = OHG.object_id
+         ".$BACKEND."_hosts AS H
+    JOIN ".$BACKEND."_hoststatus AS HS             ON H.host_object_id = HS.host_object_id
+    JOIN ".$BACKEND."_services AS S                ON H.host_object_id = S.host_object_id
+    JOIN ".$BACKEND."_servicestatus AS SS          ON S.service_object_id = SS.service_object_id
+    JOIN ".$BACKEND."_service_contactgroups AS SCG ON SCG.service_id = S.service_id
+    JOIN ".$BACKEND."_contactgroups AS HCG         ON SCG.contactgroup_object_id = HCG.contactgroup_object_id
+    JOIN ".$BACKEND."_contactgroup_members AS CGM  ON CGM.contactgroup_id = HCG.contactgroup_id
+    JOIN ".$BACKEND."_contacts AS C                ON C.contact_object_id = CGM.contact_object_id
+    JOIN ".$BACKEND."_objects AS O                 ON O.object_id = C.contact_object_id
+    LEFT JOIN ".$BACKEND."_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
+    LEFT JOIN ".$BACKEND."_hostgroups AS HG        ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT JOIN ".$BACKEND."_objects AS OHG          ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
     (
@@ -91,7 +91,7 @@ FROM (
     AND SS.current_state IN (define_my_svcfilt)
     AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
       OR  ( SELECT substring( comment_data, 1 ,1) 
-            FROM nagios_commenthistory
+            FROM ".$BACKEND."_commenthistory
             WHERE object_id = S.service_object_id
             AND entry_type = 4
             AND author_name != '(Nagios Process)'
@@ -103,7 +103,7 @@ FROM (
     AND ( ( SS.problem_has_been_acknowledged IN (define_my_svcacklist) AND
           HS.problem_has_been_acknowledged IN (define_my_acklist) )
       OR  ( SELECT substring( comment_data, 1 ,1) 
-            FROM nagios_commenthistory
+            FROM ".$BACKEND."_commenthistory
             WHERE object_id = S.service_object_id
             AND entry_type = 4
             AND author_name != '(Nagios Process)'
@@ -146,7 +146,7 @@ UNION
     HS.scheduled_downtime_depth          AS DOWNTIME,
     HS.notifications_enabled             AS NOTIF,
     ( SELECT count(*)
-      FROM nagios_commenthistory AS CO
+      FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = H.host_object_id
       AND entry_type = 1
       AND author_name != '(Nagios Process)'
@@ -155,16 +155,16 @@ UNION
       LIMIT 1 )                          AS COMMENT
 
   FROM
-         nagios_hosts AS H
-    JOIN nagios_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
-    JOIN nagios_host_contactgroups AS HCG   ON HCG.host_id = H.host_id
-    JOIN nagios_contactgroups As OCG        ON HCG.contactgroup_object_id = OCG.contactgroup_object_id
-    JOIN nagios_contactgroup_members AS CGM ON CGM.contactgroup_id = OCG.contactgroup_id
-    JOIN nagios_contacts AS C               ON C.contact_object_id = CGM.contact_object_id
-    JOIN nagios_objects AS O                ON O.object_id = C.contact_object_id
-    LEFT JOIN nagios_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
-    LEFT JOIN nagios_hostgroups AS HG       ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT JOIN nagios_objects AS OHG         ON HG.hostgroup_object_id = OHG.object_id
+         ".$BACKEND."_hosts AS H
+    JOIN ".$BACKEND."_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
+    JOIN ".$BACKEND."_host_contactgroups AS HCG   ON HCG.host_id = H.host_id
+    JOIN ".$BACKEND."_contactgroups As OCG        ON HCG.contactgroup_object_id = OCG.contactgroup_object_id
+    JOIN ".$BACKEND."_contactgroup_members AS CGM ON CGM.contactgroup_id = OCG.contactgroup_id
+    JOIN ".$BACKEND."_contacts AS C               ON C.contact_object_id = CGM.contact_object_id
+    JOIN ".$BACKEND."_objects AS O                ON O.object_id = C.contact_object_id
+    LEFT JOIN ".$BACKEND."_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
+    LEFT JOIN ".$BACKEND."_hostgroups AS HG       ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT JOIN ".$BACKEND."_objects AS OHG         ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
     (
@@ -178,7 +178,7 @@ UNION
     AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
     AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
       OR ( SELECT substring( comment_data, 1 ,1) 
-            FROM nagios_commenthistory
+            FROM ".$BACKEND."_commenthistory
             WHERE object_id = H.host_object_id
             AND entry_type = 4
             AND author_name != '(Nagios Process)'

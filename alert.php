@@ -70,9 +70,9 @@
             else if ($key == 'flag') {
 
               if ($data['TYPE'] == "svc") 
-                $toprint = '<a onclick="selectline('.$line.');" target ="_BLANK" href="'.$NAGIOSLINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/svc.png" border="0" alt="S" title="'.ucfirst($LANG[$MYLANG]['service']).'" /></a>'; 
+                $toprint = '<a onclick="selectline('.$line.');" target ="_BLANK" href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/svc.png" border="0" alt="S" title="'.ucfirst($LANG[$MYLANG]['service']).'" /></a>'; 
               else
-                $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target ="_BLANK" href="'.$NAGIOSLINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst($LANG[$MYLANG]['host']).'" /></a>'; 
+                $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target ="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst($LANG[$MYLANG]['host']).'" /></a>'; 
 
               if ($data['ACK'] == "1") 
                 $toprint = $toprint.'<img src="img/ack.gif" alt="A" title="'.ucfirst($LANG[$MYLANG]['acknowledge']).'" />';
