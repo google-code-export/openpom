@@ -8,8 +8,6 @@
   http://www.gnu.org/licenses/
  
   $Date$
-
-  Sylvain Choisnard - schoisnard@exosec.fr                                                 
 */
 
 /* SQL VARIABLE */
@@ -70,7 +68,7 @@ $TRACK              = "blue";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.0.5";
+$VERSION            = "1.0.7";
 $CODENAME           = "OpenPom";
 
 /* NAGIOS VARIABLE */

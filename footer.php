@@ -8,8 +8,6 @@
   http://www.gnu.org/licenses/
  
   $Date$
-
-  Sylvain Choisnard - schoisnard@exosec.fr                                                 
 */
  
   if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ; ?>
