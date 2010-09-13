@@ -50,17 +50,14 @@
         <th class="monitor" style="white-space:nowrap;">
           <a href="?monitor"><?php echo ucfirst($LANG[$MYLANG]['mode'])?></a>
         </th>
-        <th width="200px" style="white-space:nowrap;" title="<?php echo $LANG[$MYLANG]['meter']?>">
-          C=<?php echo $hit_critical?> W=<?php echo $hit_warning?> U=<?php echo $hit_unknown?> 
-          D=<?php echo $hit_down?> A=<?php echo $hit_ack?> T=<?php echo $hit_any?> 
-        </th>
+        <th width="200px" style="white-space:nowrap;" title="<?php echo $LANG[$MYLANG]['meter']?>">C=<?php echo $hit_critical?>&nbsp;W=<?php echo $hit_warning?>&nbsp;U=<?php echo $hit_unknown?>&nbsp;D=<?php echo $hit_down?>&nbsp;A=<?php echo $hit_ack?>&nbsp;T=<?php echo $hit_any?></th>
         <?php if ($FIRST >= $LINE_BY_PAGE) { ?>
         <th width="1" style="white-space:nowrap;">
           <a href="<?php echo $MY_GET_NO_NEXT?>&prev=<?php echo $FIRST-$LINE_BY_PAGE?>"><?php echo ucfirst($LANG[$MYLANG]['prev'])?></a> 
         </th>
         <?php } ?>
         <th width="1" style="white-space:nowrap;">
-          <?php echo $FIRST."-".($FIRST+$nb_rows)."/".$hit_any; ?>
+          <?php echo $FIRST.":".($FIRST+$nb_rows)."/".$hit_any; ?>
         </th>
         <?php if ($nb_rows >= $LINE_BY_PAGE) { ?>
         <th width="1" style="white-space:nowrap;">
