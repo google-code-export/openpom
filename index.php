@@ -75,7 +75,7 @@ if (isset($_GET['monitor'])) {
   unset($_POST);
 }
 
-/* PROCESS POST DATA AND SEND CMD TO NAGIOS */
+/* PROCESS POST DATA AND SEND CMD TO NAGIOS OR ICINGA */
 if ( (isset($_POST['ack']))     ||
      (isset($_POST['down']))    ||
      (isset($_POST['recheck'])) ||

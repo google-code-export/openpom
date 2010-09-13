@@ -75,7 +75,7 @@ $EXEC_CMD           = "./nagios-send-order";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 $LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
 
-!!! Check that you have the right to write in the nagios cmd file !!!
+!!! Check that you have the right to write in the nagios or icinga cmd file !!!
 chown :www-data /usr/local/nagios/var/rw/nagios.cmd
 chmod g+w /usr/local/nagios/var/rw/nagios.cmd
 or with sudo add this to your sudoers :
@@ -95,7 +95,7 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
      Order allow,deny
      Allow from all
 
-     AuthName "Nagios Access"
+     AuthName "OpenPom Access"
      AuthType Basic
      AuthUserFile  /etc/nagios/http-passwd
      AuthGroupFile /etc/nagios/http-group
@@ -105,7 +105,7 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
      SetEnv REMOTE_USER root
   </Directory>
 
-!!! The REMOTE_USER user name must match a contact_name in nagios contact.cfg !!!
+!!! The REMOTE_USER user name must match a contact_name in nagios or icinga contact.cfg !!!
 
 4.2) Apache local authentification
 -----------------------------------
@@ -117,7 +117,7 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
      Order allow,deny
      Allow from all
 
-     AuthName "Nagios Access"
+     AuthName "OpenPom Access"
      AuthType Basic
      AuthUserFile  /etc/nagios/http-passwd
      Require valid-user
@@ -126,7 +126,7 @@ www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
 
 Add your user:password with htpasswd in /etc/nagios/http-passwd
 
-!!! The user name must match a contact_name in nagios contact.cfg !!!
+!!! The user name must match a contact_name in nagios or icinga contact.cfg !!!
 
 5) Note
 -------
