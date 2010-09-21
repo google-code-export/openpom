@@ -67,7 +67,7 @@ if ( (isset($_GET['option'])) && ($_GET['option'] != "Ok") ) {
   unset($_GET['option']);
 }
 
-/* FORCE CLEAN MODE MONITOR (NO FILTER, NO SORT, DEFAULT LEVEL ...)*/
+/* FORCE CLEAN MODE MONITOR (NO FILTER, DEFAULT LEVEL ...)*/
 if (isset($_GET['monitor'])) {
   foreach($_GET AS $key => $val)
     if ( ($key != "monitor") && ($key != "sort") && ($key != "order") )
