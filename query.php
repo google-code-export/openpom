@@ -10,7 +10,6 @@
   $Date$
 */
 
-
 $QUERY = "
 SELECT
   SQL_CALC_FOUND_ROWS
@@ -117,6 +116,7 @@ FROM (
           HS.scheduled_downtime_depth IN (define_my_acklist) )
     AND ( define_my_nosvc = 0 OR HS.current_state = 0 )
     AND SS.notifications_enabled IN (define_my_disable)
+    AND ( define_my_soft = 0 OR SS.state_type = 1 )
 
   GROUP BY SVCID
 
@@ -188,6 +188,7 @@ UNION
           ) = '!'
         )
     AND HS.notifications_enabled IN (define_my_disable)
+    AND ( define_my_soft = 0 OR HS.state_type = 1 )
 
   GROUP BY SVCID
 

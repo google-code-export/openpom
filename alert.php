@@ -52,7 +52,7 @@
             case 3: $COLOR = $UNKNOWN.$COLOR; 
                     break;
 	  }
-          if ( ($data['ACK'] == "1") && ($LEVEL < 3) ) { 
+          if ($data['ACK'] == "1") { 
              $COLOR = $TRACK;
           }
       ?>

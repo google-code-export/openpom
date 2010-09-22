@@ -97,6 +97,7 @@ $MY_SVCDOWNLIST  = 0;                  //SVC DOWNTIME
 $MY_ACKLIST      = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST
 $MY_NOSVC        = 1;                  //NO SVC FOR CRITICAL HOST
 $MY_DISABLE      = 1;                  //DISABLE ALERT ARE TREATED LIKE ACK AND DOWN
+$MY_SOFT         = 0;                  //SOFT ALERTS (0 print soft alerts)
 $MY_ORAND        = "OR";               //FILTER CONDITION
 $MY_LIKE         = "LIKE";             //FILTER RESTRICTION
 $SORTFIELD       = "COEF, DURATION";   //SORT FIELD 
@@ -108,7 +109,7 @@ $FILTER          = '';                 //NO FILTER
 
 /* GET DEFAULT LEVEL */
 if ( (isset($_GET['defaultlevel'])) && (is_numeric($_GET['defaultlevel'])) &&
-     ($_GET['defaultlevel'] > 0) && ($_GET['defaultlevel'] < 7) ) {
+     ($_GET['defaultlevel'] > 0) && ($_GET['defaultlevel'] <= $MAXLEVEL) ) {
   $LEVEL = substr($_GET['defaultlevel'], 0, 1);
   $_SESSION['LEVEL'] = $LEVEL;
 }
@@ -119,7 +120,7 @@ else
 
 /* SELECT LEVEL */
 if ( (isset($_GET['level'])) && (is_numeric($_GET['level'])) &&
-  ($_GET['level'] > 0) && ($_GET['level'] < 7) ) 
+  ($_GET['level'] > 0) && ($_GET['level'] <= $MAXLEVEL) ) 
   $LEVEL = substr($_GET['level'], 0, 1);
 
 select_level($LEVEL);
@@ -283,7 +284,7 @@ $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_FILT);
 /* FORGE QUERY (AUTO CHANGE LEVEL IN MONITOR MODE) */
 $nb_rows = 0;
 $level = $LEVEL;
-while ( ($nb_rows <= 0) && ($level < 7) ) {
+while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   $query = $QUERY;
   $replacement = array (
   'define_my_separator'    =>  mysql_real_escape_string($SEPARATOR, $dbconn),
@@ -296,6 +297,7 @@ while ( ($nb_rows <= 0) && ($level < 7) ) {
   'define_my_svcdownlist'  =>  mysql_real_escape_string($MY_SVCDOWNLIST, $dbconn),
   'define_my_acklist'      =>  mysql_real_escape_string($MY_ACKLIST, $dbconn),
   'define_my_disable'      =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
+  'define_my_soft'         =>  mysql_real_escape_string($MY_SOFT, $dbconn),
   'define_my_nosvc'        =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
   'define_my_hostfilt'     =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
   'define_or_and'          =>  mysql_real_escape_string($MY_ORAND, $dbconn),

@@ -30,7 +30,7 @@
 	<form method="get" class="filt" name="filt" action="?filter=1" id="filt"> 
           <select name="level" onChange='add_input("filter","filt"); this.form.submit();'>
             <?php 
-              for ($sub_level=1; $sub_level <= 6; $sub_level++) { 
+              for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { 
             ?>
             <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$LEVEL)?"selected":""?>><?php echo $sub_level?> - <?php echo ucfirst($LANG[$MYLANG]['level'.$sub_level])?></option>
             <?php } ?>

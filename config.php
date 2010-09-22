@@ -17,8 +17,11 @@ $BACKEND            = "nagios" ;
 /* SQL VARIABLE */
 $SQL_HOST           = "127.0.0.1";
 $SQL_USER           = "openpom";
+$SQL_USER           = "enagios";
 $SQL_PASSWD         = "my_password";
+$SQL_PASSWD         = "veshCen1";
 $SQL_DB             = "ndoutils";
+$SQL_DB             = "nagios";
 
 /* PAGE REFRESH TIME */
 $REFRESHTIME        = 60;
@@ -34,11 +37,13 @@ $FRAME              = 0;
 $FONT_SIZE          = 12;
 
 //$LEVEL              = 1; /* SHOW CRITICAL ONLY */
-$LEVEL              = 2; /* DEFAULT LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
-//$LEVEL              = 3; /* SHOW LEVEL 2 AND ACK AND DOWNTIME */
-//$LEVEL              = 4; /* SHOW LEVEL 3 AND OUTAGE */
-//$LEVEL              = 5; /* SHOW LEVEL 4 AND SVC FOR ACK/DOWNTIME HOST */
-//$LEVEL              = 6; /* LEVEL 6 SHOW ALL */
+$LEVEL              = 2; /* LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
+//$LEVEL              = 3; /* LEVEL 3 SHOW CRITICAL WARNING UNKNOWN AND SOFT */
+//$LEVEL              = 4; /* SHOW LEVEL 4 AND ACK AND DOWNTIME */
+//$LEVEL              = 5; /* SHOW LEVEL 5 AND OUTAGE */
+//$LEVEL              = 6; /* SHOW LEVEL 6 AND SVC FOR ACK/DOWNTIME HOST */
+//$LEVEL              = 7; /* LEVEL 7 SHOW ALL */
+$MAXLEVEL             = 7;
 
 /* TABLE ALERT COLUMNS ORDER */
 $COLS               = array(
