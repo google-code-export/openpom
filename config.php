@@ -19,9 +19,7 @@ $SQL_HOST           = "127.0.0.1";
 $SQL_USER           = "openpom";
 $SQL_USER           = "enagios";
 $SQL_PASSWD         = "my_password";
-$SQL_PASSWD         = "veshCen1";
 $SQL_DB             = "ndoutils";
-$SQL_DB             = "nagios";
 
 /* PAGE REFRESH TIME */
 $REFRESHTIME        = 60;
@@ -77,7 +75,7 @@ $TRACK              = "blue";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.0.7";
+$VERSION            = "1.0.8";
 $CODENAME           = "OpenPom";
 
 /* NAGIOS AND ICINGA VARIABLES */
