@@ -17,7 +17,6 @@ $BACKEND            = "nagios" ;
 /* SQL VARIABLE */
 $SQL_HOST           = "127.0.0.1";
 $SQL_USER           = "openpom";
-$SQL_USER           = "enagios";
 $SQL_PASSWD         = "my_password";
 $SQL_DB             = "ndoutils";
 
