@@ -76,8 +76,11 @@
 
               if (isset($GRAPH_POPUP)) {
                 $gpop = str_replace('_HOSTNAME_',$data['MACHINE_NAME'],$GRAPH_POPUP);
-                $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
-                $toprint .= '<a href="" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH_POPUP.'","'.$GRAPH_HEIGHT_POPUP.'")\';return(false);><img src="img/graph.png" alt="G" border="0" /></a>';
+                if ($data['SERVICES'] == "--host--")
+                  $gpop = str_replace('_SERVICE_','PING',$gpop);
+                else
+                  $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
+                $toprint .= '<a href="" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'")\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst($LANG[$MYLANG]['graph_icon']).'" /></a>';
               }
 
               if ($data['ACK'] == "1") 

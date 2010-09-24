@@ -85,6 +85,7 @@ $LANG['en'] = array (
 'search'             => 'search (keywords are : not something / = something)',
 'querytime'          => 'query in',
 'end_down'           => 'end time: ', 
+'graph_icon'         => 'show graph for 10 days',
 ) ;
 
 
@@ -157,6 +158,7 @@ $LANG['fr'] = array (
 'search'             => 'Recherche (mots cl&eacute;s : not ma_recherche / = ma_recherche)',
 'querytime'          => 'requ&ecirc;te en',
 'end_down'           => 'fin pr&eacute;vu: ',
+'graph_icon'         => 'affiche les graphes pour les 10 derniers jours',
 ) ;
 
 /* GET/SET LANG */

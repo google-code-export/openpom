@@ -20,15 +20,6 @@ $SQL_USER           = "openpom";
 $SQL_PASSWD         = "my_password";
 $SQL_DB             = "ndoutils";
 
-/* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
-$GRAPH_WIDTH        = 400;
-$GRAPH_HEIGHT       = 80;
-//$GRAPH_STATUS       = "";
-/* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
-$GRAPH_WIDTH_POPUP  = 800;
-$GRAPH_HEIGHT_POPUP = 400;
-//$GRAPH_POPUP        = "";
-
 /* PAGE REFRESH TIME */
 $REFRESHTIME        = 60;
 /* MAX LINE PER PAGE AND LIMIT SQL REQUEST */
@@ -94,6 +85,14 @@ $SUDO_PARAM         = "";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE           = "/var/lib/icinga/rw/icinga.cmd";
 $LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
+
+/* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
+$GRAPH_WIDTH        = 550;
+$GRAPH_HEIGHT       = 300;
+$GRAPH_STATUS       = "".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
+/* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
+$GRAPH_POPUP        = "".$BACKEND."/cgi-bin/trends.cgi?createimage&t1=".strtotime("-10 day")."&t2=".time()."&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
+
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 
