@@ -128,7 +128,17 @@ Add your user:password with htpasswd in /etc/nagios/http-passwd
 
 !!! The user name must match a contact_name in nagios or icinga contact.cfg !!!
 
-5) Note
+5) Graph
+--------
+
+You can show graph from external sources (like rrdgraph, pnp, cacti, ...)
+Edit config.php and add the url source for graph in ths variables :
+/* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
+$GRAPH_STATUS       = "";
+/* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
+$GRAPH_POPUP        = "";
+
+6) Note
 -------
 
 This web interface has only being tested under firefox 3.x.
@@ -140,7 +150,7 @@ not something_to_search : inverse the search filter
 = something_to_search   : exact match your search
 
 
-6) Contributors
+7) Contributors
 ---------------
 
 Sylvain Choisnard  - schoisnard@exosec.fr
