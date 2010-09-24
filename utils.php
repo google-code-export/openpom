@@ -189,6 +189,7 @@ function post_data_to_cmd($dbconn) {
         $cmd .= "[$now] ".implode(';', $array)."\\n";
 
     if ($key == 'reset') {
+      global $BACKEND ;
       require_once("query-downtime.php");
       if ($host_svc[1] == "--host--") 
         $query = str_replace('define_mhost', $host_svc[0], $QUERY_DOWNTIME_HOST_ID);
