@@ -58,9 +58,8 @@
       ?>
       <tr class="<?php echo $COLOR?>" id="<?php echo $data['SVCID']?>" style="font-size:<?php echo $_SESSION['FONTSIZE']?>px;"
          onmouseover='to = setTimeout("get_data(\"<?php echo $data['TYPE']?>\", \"<?php echo $data['SVCID']?>\")",500); 
-           this.className="over<?php echo $soft?>";' 
-           <? /* onmouseout='clearTimeout(to); hide_data(); this.className="<?php echo $COLOR?>";' */ ?>
-         onmouseout='clearTimeout(to); this.className="<?=$COLOR?>";'
+         this.className="over<?php echo $soft?>";' 
+         onmouseout='clearTimeout(to); this.className="<?php echo $COLOR; ?>";'
          onclick='selectline(<?php echo $line?>);'>
         <?php 
           foreach($COLS AS $key => $val) { 

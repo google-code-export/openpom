@@ -17,17 +17,20 @@ $BACKEND            = "nagios" ;
 /* SQL VARIABLE */
 $SQL_HOST           = "127.0.0.1";
 $SQL_USER           = "openpom";
+$SQL_USER           = "enagios";
 $SQL_PASSWD         = "my_password";
+$SQL_PASSWD         = "veshCen1";
 $SQL_DB             = "ndoutils";
+$SQL_DB             = "nagios";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
 $GRAPH_WIDTH        = 400;
 $GRAPH_HEIGHT       = 80;
-$GRAPH_STATUS       = "";
+//$GRAPH_STATUS       = "";
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
 $GRAPH_WIDTH_POPUP  = 800;
 $GRAPH_HEIGHT_POPUP = 400;
-$GRAPH_POPUP        = "";
+//$GRAPH_POPUP        = "";
 
 /* PAGE REFRESH TIME */
 $REFRESHTIME        = 60;
