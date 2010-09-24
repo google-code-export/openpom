@@ -131,3 +131,15 @@ function add_input(name, form) {
   el.value = 1;
   my_form.appendChild(el);
 }
+
+function gpop(url,host,service,width,height) {
+  var name = host + "_" + service;
+  var re = /[^a-zA-Z0-9]/g;
+  name = name.replace(re, '_');
+  pop(url,host,width,height);
+}
+
+function pop(url, name, width, height) {
+  window.open(url, name, 'location=no,toolbar=no,directories=no,menubar=no,resizable=no,scrollbars=yes,status=no,width='+width+',height='+height);
+}
+

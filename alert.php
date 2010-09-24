@@ -74,6 +74,12 @@
               else
                 $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target ="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst($LANG[$MYLANG]['host']).'" /></a>'; 
 
+              if (isset($GRAPH_POPUP)) {
+                $gpop = str_replace('_HOSTNAME_',$data['MACHINE_NAME'],$GRAPH_POPUP);
+                $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
+                $toprint .= '<a href="" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH_POPUP.'","'.$GRAPH_HEIGHT_POPUP.'")\';return(false);><img src="img/graph.png" alt="G" border="0" /></a>';
+              }
+
               if ($data['ACK'] == "1") 
                 $toprint = $toprint.'<img src="img/ack.gif" alt="A" title="'.ucfirst($LANG[$MYLANG]['acknowledge']).'" />';
 

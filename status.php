@@ -127,6 +127,12 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
   <?php if (isset($COMMENT[1])) { ?>
   <tr><th><img src="img/comment.gif" alt="comment" /> (<?php echo $COMMENT[0]?>) </th><td><?php echo $COMMENT[1]?></td></tr>
   <?php } ?>
+  <?php if (isset($GRAPH_STATUS)) {
+    $GRAPH_STATUS = str_replace('_HOSTNAME_',$HOSTNAME,$GRAPH_STATUS);
+    $GRAPH_STATUS = str_replace('_SERVICE_',$SERVICE,$GRAPH_STATUS);
+  ?>
+  <tr><td colspan=2><img src="<?=$GRAPH_STATUS?>&width=400&height=80"></td></tr>
+  <?php } ?>
 </table>
 
 <?php

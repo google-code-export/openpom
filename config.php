@@ -20,6 +20,15 @@ $SQL_USER           = "openpom";
 $SQL_PASSWD         = "my_password";
 $SQL_DB             = "ndoutils";
 
+/* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
+$GRAPH_WIDTH        = 400;
+$GRAPH_HEIGHT       = 80;
+$GRAPH_STATUS       = "";
+/* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
+$GRAPH_WIDTH_POPUP  = 800;
+$GRAPH_HEIGHT_POPUP = 400;
+$GRAPH_POPUP        = "";
+
 /* PAGE REFRESH TIME */
 $REFRESHTIME        = 60;
 /* MAX LINE PER PAGE AND LIMIT SQL REQUEST */
