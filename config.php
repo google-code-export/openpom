@@ -17,11 +17,8 @@ $BACKEND            = "nagios" ;
 /* SQL VARIABLE */
 $SQL_HOST           = "127.0.0.1";
 $SQL_USER           = "openpom";
-$SQL_USER           = "enagios";
 $SQL_PASSWD         = "my_password";
-$SQL_PASSWD         = "veshCen1";
 $SQL_DB             = "ndoutils";
-$SQL_DB             = "nagios";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
 $GRAPH_WIDTH        = 400;
