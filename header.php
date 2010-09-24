@@ -33,7 +33,7 @@
     </script>
   </head>
   <body>
-    <div id="popup"><img src="img/ajax_loading.gif" /></div>
+    <div id="popup" onClick="clearTimeout(to); hide_data();"><img src="img/ajax_loading.gif" /></div>
     <script>
       popup = document.getElementById("popup");
       popup.style.visibility = "hidden";                                                  

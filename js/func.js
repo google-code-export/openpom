@@ -114,9 +114,8 @@ function WhereMouse(e) {
     if (popup.clientHeight - document.body.scrollTop + y > window.innerHeight)
       y = y - popup.clientHeight - 10;
   }
-  popup.style.left = x + "px";
-  //popup.style.left = window.innerWidth - 600 + "px";
-  popup.style.top = document.body.scrollTop + "px";
+  popup.style.left = window.innerWidth - 600 + "px";
+  popup.style.top = document.body.scrollTop +20 + "px";
 }
 
 function hide_data() {                                                                     
@@ -136,7 +135,7 @@ function gpop(url,host,service,width,height) {
   var name = host + "_" + service;
   var re = /[^a-zA-Z0-9]/g;
   name = name.replace(re, '_');
-  pop(url,host,width,height);
+  pop(url,name,width,height);
 }
 
 function pop(url, name, width, height) {

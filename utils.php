@@ -87,8 +87,8 @@ function select_level($LEVEL) {
   global $MY_SVCDOWNLIST;
   global $MY_ACKLIST;
   global $MY_DISABLE;
-  global $MY_SOFT;
   global $MY_NOSVC;
+  global $MY_SOFT;
   if ($LEVEL == 1) { 
     $MY_SVCFILT       = "2";
     $MY_SOFT          = "1";
