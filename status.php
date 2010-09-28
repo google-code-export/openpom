@@ -13,7 +13,7 @@
 
 /*
 echo "<pre>";
-print_r($_POST);
+print_r($_GET);
 echo "</pre>";
 */
 
@@ -106,35 +106,36 @@ $ACKCOMMENT        = explode(';', $st_data['ACKCOMMENT']);
 $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT']);
 $COMMENT           = explode(';', $st_data['COMMENT']);
 ?>
-
-<table class="popuptable<?php echo $COLOR?>" id="popuptable">
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['host'])?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td></tr>
-  <tr><th class="<?php echo $COLOR?>dark"><?php echo ucfirst($LANG[$MYLANG]['curstat'])?></th><td><?php echo $STATUS?> (for <?php echo $LASTCHANGEDIFF?>)</td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['stinfo'])?></th><td><?php echo linebreak($OUTPUT)?></td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['curat'])?></th><td><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?></td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['last'])?></th><td><?php echo $LASTCHECKTIME?> (<?php echo $LASTCHECKTIMEDIFF?>)</td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['chktyp'])?></th><td><?php echo $CHKTYPE?></td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['latency'])?> / <?php echo ucfirst($LANG[$MYLANG]['duration'])?></th><td><?php echo $LATENCY?> / <?php echo $EXEC_TIME?></td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['lastchange'])?></th><td><?php echo $LASTCHANGE?></td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['flapping'])?> ?</th><td><?php echo $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td></tr>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['lastup'])?></th><td><?php echo $UPDATETIME?> (<?php echo $UPDATETIMEDIFF?> ago)</td></tr>
+<table class="popuptable<?php echo $COLOR?>" id="popuptable" onmouseover='clearInterval(it); it = setInterval("hide_data()", 15000);'>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['host'])?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td><td align="right" border="0"><a onmouseover="document.body.style.cursor='pointer';" onmouseout="document.body.style.cursor='auto';" onClick='pop("status-popup.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>","status_popup",document.getElementById("popuptable").offsetParent.offsetWidth,document.getElementById("popuptable").offsetParent.offsetHeight);'><img src="img/popup.png" border="0" alt"<?php echo ucfirst($LANG[$MYLANG]['fixed'])?>" title="<?php echo ucfirst($LANG[$MYLANG]['fixed'])?>" /></a></td></tr>
+  <tr><th class="<?php echo $COLOR?>dark"><?php echo ucfirst($LANG[$MYLANG]['curstat'])?></th><td colspan="2"><?php echo $STATUS?> (for <?php echo $LASTCHANGEDIFF?>)</td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['stinfo'])?></th><td colspan="2"><?php echo linebreak($OUTPUT)?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['curat'])?></th><td colspan="2"><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['last'])?></th><td colspan="2"><?php echo $LASTCHECKTIME?> (<?php echo $LASTCHECKTIMEDIFF?>)</td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['chktyp'])?></th><td colspan="2"><?php echo $CHKTYPE?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['latency'])?> / <?php echo ucfirst($LANG[$MYLANG]['duration'])?></th><td colspan="2"><?php echo $LATENCY?> / <?php echo $EXEC_TIME?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['lastchange'])?></th><td colspan="2"><?php echo $LASTCHANGE?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['flapping'])?> ?</th><td colspan="2"><?php echo $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td></tr>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['lastup'])?></th><td colspan="2"><?php echo $UPDATETIME?> (<?php echo $UPDATETIMEDIFF?> ago)</td></tr>
   <?php if (isset($ACKCOMMENT[1])) { ?>
-  <tr><th><img src="img/ack.gif" alt="ack comment" /> (<?php echo $ACKCOMMENT[0]?>) </th><td><?php echo $ACKCOMMENT[1]?></td></tr>
+  <tr><th><img src="img/ack.gif" alt="ack comment" /> (<?php echo $ACKCOMMENT[0]?>) </th><td colspan="2"><?php echo $ACKCOMMENT[1]?></td></tr>
   <?php } ?>
   <?php if (isset($DOWNCOMMENT[1])) { ?>
-  <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?php echo $DOWNCOMMENT[0]?>) </th><td><?php echo $DOWNCOMMENT[1]?>, <?php echo ucfirst($LANG[$MYLANG]['end_down'])?> <?php echo $DOWNCOMMENT[2]?></td></tr>
+  <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?php echo $DOWNCOMMENT[0]?>) </th><td colspan="2"><?php echo $DOWNCOMMENT[1]?>, <?php echo ucfirst($LANG[$MYLANG]['end_down'])?> <?php echo $DOWNCOMMENT[2]?></td></tr>
   <?php } ?>
   <?php if (isset($COMMENT[1])) { ?>
-  <tr><th><img src="img/comment.gif" alt="comment" /> (<?php echo $COMMENT[0]?>) </th><td><?php echo $COMMENT[1]?></td></tr>
+  <tr><th><img src="img/comment.gif" alt="comment" /> (<?php echo $COMMENT[0]?>) </th><td colspan="2"><?php echo $COMMENT[1]?></td></tr>
   <?php } ?>
   <?php if (isset($GRAPH_STATUS)) {
     $graph = str_replace('_HOSTNAME_',$HOSTNAME,$GRAPH_STATUS);
-    $graph = str_replace('_SERVICE_',$SERVICE,$graph);
+    if ($TYPE == "host")
+      $graph = str_replace('&service=_SERVICE_','',$graph);
+    else
+      $graph = str_replace('_SERVICE_',$SERVICE,$graph);
   ?>
-  <tr><td colspan=2><img width="<?php echo $GRAPH_WIDTH; ?>px" height="<?php echo $GRAPH_HEIGHT; ?>px" src="<?php echo $graph; ?>"></td></tr>
+  <tr><td colspan="3"><img src="<?php echo $graph; ?>" width="550px" height="300px"></td></tr>
   <?php } ?>
 </table>
-
 <?php
 /*  free resources */
 mysql_free_result($st_rep);
