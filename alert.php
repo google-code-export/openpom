@@ -53,7 +53,7 @@
                     break;
 	  }
           if ( ($data['ACK'] == "1") && ($LEVEL < 4) ) { 
-             $COLOR = $TRACK;
+            $COLOR = $TRACK;
           }
       ?>
       <tr class="<?php echo $COLOR?>" id="<?php echo $data['SVCID']?>" style="font-size:<?php echo $_SESSION['FONTSIZE']?>px;"
