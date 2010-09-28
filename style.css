@@ -298,26 +298,55 @@ div.popact table tr td.submitline {
         text-align: right;
 }
 
-/*----- 4. STYLES SCRIPTS JQUERY -----*/
+/*--- Pop-in ---*/
+/*
+div.begin-popin { padding:20px 0 0 20px; margin:0; }
+.content-popin-l { padding:0 20px 0 20px; overflow:hidden; max-height:450px;}
+.content-popin { padding:20px 30px; overflow:hidden; max-height:450px;}
+.content-popin h3 { margin-bottom:1em;}
+.content-popin ul li { list-style:disc; list-style-position:inside;}
+.content-popin input, .content-popin select, .content-popin textarea { width:270px;}
+.content-popin .col_left, .content-popin .col_right { width:auto; overflow:hidden;}
+.content-popin-small { width:280px; max-height:350px; overflow:auto;}
+.content-popin-auto { min-width:280px; width:auto; max-width:500px; overflow:auto; max-height:500px;}
+.content-popin-large { overflow:auto; width:600px; max-height:500px;}
+.content-popin-large .col_left, .content-popin-large .col_right { width:280px;}
+.content-popin-xlarge { width:700px; max-height:450px; overflow:auto;}
+.content-popin-xlarge .col_left { width:55%;}
+.content-popin-xlarge .col_right { width:35%;}
+.content-popin-xlarge select, .content-popin-auto select { min-width:150px;}
+.content-popin .help_hint {vertical-align:middle;margin-bottom:3px;}
+.content-popin-mod { margin:0; width:340px; height:auto; overflow:hidden;}
+.content-popin-mod p { margin:0; padding:4px 0 4px 0;}
+ul.list-btn { border-top:1px solid #d1dade; margin:0; padding:10px 30px; overflow:hidden; text-align:right;}
+ul.list-btn li { margin:0 0 0 5px;}
+ul.list-btn-center { overflow:hidden;}
+ul.list-btn li, ul.list-btn-center li { display:inline;}
+ul.list-btn-center li { margin:0 5px;}
+ul.list-btnreset { border-top:0px solid #d1dade; margin:0; padding:10px 30px; overflow:hidden; text-align:left;}
+ul.list-btnreset li { margin:0 0 0 5px;}
+ul.list-btnreset li{ display:inline;}
+ul#list-diodes { margin:10px 0; padding:0; text-align:center;}
+ul#list-diodes li { text-align:center; display:inline; margin-right:10px;}
+td.name {padding:5px 0 5px 0; margin:0; text-align:left;}
+td.titlename {padding:5px 0 5px 10px; margin:0; text-align:left;}
+td.boxdiode {padding:5px 5px 0 0; margin:0; text-align:left;}
+.content-popin #little {width:auto;}
 
-/*--- 4.1 Menu ---*/ 
-/* level 1 */
 ul.dropdown { position:relative;}
 ul.dropdown li { float:left; zoom:1;}
 ul.dropdown li.hover, ul.dropdown li:hover { position:relative;}
-/* Niveau 2 */
 ul.dropdown ul { width:120px; visibility:hidden; position:absolute; top:100%; left:-9px; border-top:1px solid #c8cfd5;}
 ul.dropdown ul li { float:none; font-size:12px;}                                                          
 ul.dropdown ul li a      { width:100%; display:inline-block; border:1px solid #c8cfd5; border-width:0 1px 1px 1px; background:#fff; text-decoration:none; padding-left:10px;} /* IE 6 & 7 Needs Inline Block */
 /* Niveau 3 */
+/*
 ul.dropdown ul ul { left:100%; top:0;}
 ul.dropdown li:hover > ul { visibility:visible;}
 
-/*--- 4.2 Colorbox ---*/
-
-/* ColorBox Core Style ~@~T Don't change this to maintain compatibility with future versioons */
+/* ColorBox Core Style ~@~T Don't change this to maintain compatibility with future versiions */
 #colorbox, #cboxOverlay, #cboxWrapper { position:absolute; top:0; left:0; z-index:9999; overflow:hidden;}
-#cboxOverlay { position:fixed; width:100%; height:100%;}
+#cboxOverlay { width:100%; height:100%;}
 #cboxMiddleLeft, #cboxBottomLeft { clear:left;}
 #cboxContent { position:relative; overflow:visible;}
 #cboxLoadedContent { overflow:auto;}
@@ -327,21 +356,22 @@ ul.dropdown li:hover > ul { visibility:visible;}
 #cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow { cursor:pointer;}
 /* ColorBox User Style */
 #cboxOverlay { background:#555;}
-#colorbox { border:2px solid #697786; background:#fff; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; overflow:hidden;}
+/*#colorbox { border:2px solid #697786; background:#fff; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px; overflow:hidden;}*/
 #cboxContent { }
 #cboxLoadedContent { }
-#cboxLoadingGraphic { background:url("img/loading.gif") center center no-repeat;}
+#cboxLoadingGraphic { background:url("../images/loading.gif") center center no-repeat;}
 #cboxLoadingOverlay { }
-#cboxTitle { position:absolute; top:0; left:0; color:#000;}
-#cboxCurrent { position:absolute; top:0; right:205px; text-indent:-9999px;}
+#cboxTitle { position:absolute; top:-22px; left:0; color:#000;}
+#cboxCurrent { position:absolute; top:-22px; right:205px; text-indent:-9999px;}
+#cboxSlideshow, #cboxPrevious, #cboxNext, #cboxClose { text-indent:-9999px; width:20px; height:20px; position:absolute; top:-20px; background:url("../images/controls.png") 0 0 no-repeat;}
 #cboxPrevious { background-position:0px 0px; right:44px;}
 #cboxPrevious.hover { background-position:0px -25px;}
 #cboxNext { background-position:-25px 0px; right:22px;}
 #cboxNext.hover { background-position:-25px -25px;}
-#cboxClose { background-position:-50px 0px; top:0; right:15px;}
+#cboxClose { background-position:-50px 0px; top:15px; right:15px;}
 #cboxClose.hover { background-position:-50px -25px;}
 .cboxSlideshow_on #cboxPrevious, .cboxSlideshow_off #cboxPrevious { right:66px;}
 .cboxSlideshow_on #cboxSlideshow { background-position:-75px -25px; right:44px;}
 .cboxSlideshow_on #cboxSlideshow.hover { background-position:-100px -25px;}
 .cboxSlideshow_off #cboxSlideshow { background-position:-100px 0px; right:44px;}
-.cboxSlideshow_off #cboxSlideshow.hover { background-position:-75px -25px;} 
+.cboxSlideshow_off #cboxSlideshow.hover { background-position:-75px -25px;}    
