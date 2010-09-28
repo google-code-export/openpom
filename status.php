@@ -106,8 +106,23 @@ $ACKCOMMENT        = explode(';', $st_data['ACKCOMMENT']);
 $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT']);
 $COMMENT           = explode(';', $st_data['COMMENT']);
 ?>
+<?php if (isset($_GET['fix'])) { ?>
+<!DCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+  <head>
+    <title><?php echo $HOSTNAME." ".$SERVICE; ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
+    <link rel="StyleSheet" href="style.css" type="text/css" />
+    <script type='text/javascript' src='js/func.js'></script>
+  </head>
+  <body>
+<table class="popuptable<?php echo $COLOR?>" id="popuptable">
+<?php } else { ?>
 <table class="popuptable<?php echo $COLOR?>" id="popuptable" onmouseover='clearInterval(it); it = setInterval("hide_data()", 15000);'>
-  <tr><th><?php echo ucfirst($LANG[$MYLANG]['host'])?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td><td align="right" border="0"><a onmouseover="document.body.style.cursor='pointer';" onmouseout="document.body.style.cursor='auto';" onClick='pop("status-popup.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>","status_popup",document.getElementById("popuptable").offsetParent.offsetWidth,document.getElementById("popuptable").offsetParent.offsetHeight);'><img src="img/popup.png" border="0" alt"<?php echo ucfirst($LANG[$MYLANG]['fixed'])?>" title="<?php echo ucfirst($LANG[$MYLANG]['fixed'])?>" /></a></td></tr>
+<?php } ?>
+  <tr><th><?php echo ucfirst($LANG[$MYLANG]['host'])?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td><td align="right" border="0"><a onmouseover="document.body.style.cursor='pointer';" onmouseout="document.body.style.cursor='auto';" onClick='pop("status.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>&fix","status_popup",document.getElementById("popuptable").offsetParent.offsetWidth,document.getElementById("popuptable").offsetParent.offsetHeight);'><img src="img/popup.png" border="0" alt"<?php echo ucfirst($LANG[$MYLANG]['fixed'])?>" title="<?php echo ucfirst($LANG[$MYLANG]['fixed'])?>" /></a></td></tr>
   <tr><th class="<?php echo $COLOR?>dark"><?php echo ucfirst($LANG[$MYLANG]['curstat'])?></th><td colspan="2"><?php echo $STATUS?> (for <?php echo $LASTCHANGEDIFF?>)</td></tr>
   <tr><th><?php echo ucfirst($LANG[$MYLANG]['stinfo'])?></th><td colspan="2"><?php echo linebreak($OUTPUT)?></td></tr>
   <tr><th><?php echo ucfirst($LANG[$MYLANG]['curat'])?></th><td colspan="2"><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?></td></tr>
@@ -136,6 +151,10 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
   <tr><td colspan="3"><img src="<?php echo $graph; ?>" width="550px" height="300px"></td></tr>
   <?php } ?>
 </table>
+<?php if (isset($_GET['fix'])) { ?>
+</body>
+</html>
+<?php } ?>
 <?php
 /*  free resources */
 mysql_free_result($st_rep);
