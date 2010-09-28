@@ -45,7 +45,7 @@ $MAXLEVEL             = 7;
 /* TABLE ALERT COLUMNS ORDER */
 $COLS               = array(
 "checkbox"          => 'none',
-"flag"              => 'COEF',
+"flag"              => 'COEF, DURATION',
 "duration"          => 'DURATION',
 "machine"           => 'MACHINE_NAME',
 "service"           => 'SERVICES' ,
@@ -92,7 +92,6 @@ $GRAPH_HEIGHT       = 450;
 $GRAPH_STATUS       = "/".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
 $GRAPH_POPUP        = "/".$BACKEND."/cgi-bin/trends.cgi?createimage&t1=".strtotime("-10 day")."&t2=".time()."&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
-
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 
