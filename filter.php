@@ -14,9 +14,9 @@
   if (!isset($_SESSION['USER'])) die();
 ?>
 
-  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script> 
-  <script type="text/javascript" src="js/jquery.colorbox.js"></script>
-  <script type="text/javascript" src="js/scripts.js"></script>
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js" charset="utf-8"></script> 
+  <script type="text/javascript" src="js/jquery.colorbox.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/scripts.js" charset="utf-8"></script>
 
   <table width="100%" class="filter">
       <tr>
