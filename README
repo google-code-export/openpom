@@ -141,7 +141,11 @@ $GRAPH_POPUP        = "";
 6) Note
 -------
 
-This web interface has only being tested under firefox 3.x.
+Supported Navigators :
+  - Firefox 3.X
+  - IE > 6
+  - Opera 10
+  - Chrome
 
 There are 2 keywords that you can use in the search filter :
 
@@ -157,3 +161,4 @@ Sylvain Choisnard  - schoisnard@exosec.fr
 Benoit  Dolez      - bdolez@exosec.fr
 Thierry Fournier   - tfournier@exosec.fr
 Bertrand Jacquin   - bjacquin@exosec.fr
+Alexandre Bray   - abray@exosec.fr
