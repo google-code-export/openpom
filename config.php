@@ -87,8 +87,8 @@ $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 $LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
-$GRAPH_WIDTH        = 550;
-$GRAPH_HEIGHT       = 300;
+$GRAPH_WIDTH        = 750;
+$GRAPH_HEIGHT       = 450;
 $GRAPH_STATUS       = "/".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
 $GRAPH_POPUP        = "/".$BACKEND."/cgi-bin/trends.cgi?createimage&t1=".strtotime("-10 day")."&t2=".time()."&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";

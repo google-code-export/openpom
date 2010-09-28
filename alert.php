@@ -57,7 +57,7 @@
           }
       ?>
       <tr class="<?php echo $COLOR?>" id="<?php echo $data['SVCID']?>" style="font-size:<?php echo $_SESSION['FONTSIZE']?>px;"
-         onmouseover='to = setTimeout("get_data(\"<?php echo $data['TYPE']?>\", \"<?php echo $data['SVCID']?>\")",500); 
+         onmouseover='to = setTimeout("get_data(\"<?php echo $data['TYPE']?>\", \"<?php echo $data['SVCID']?>\");",500); 
          this.className="over<?php echo $soft?>";' 
          onmouseout='clearTimeout(to); this.className="<?php echo $COLOR; ?>";'
          onclick='selectline(<?php echo $line?>);'>
@@ -70,17 +70,17 @@
             else if ($key == 'flag') {
 
               if ($data['TYPE'] == "svc") 
-                $toprint = '<a onclick="selectline('.$line.');" target ="_BLANK" href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/svc.png" border="0" alt="S" title="'.ucfirst($LANG[$MYLANG]['service']).'" /></a>'; 
+                $toprint = '<a onclick="selectline('.$line.');" target="_BLANK" href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/svc.png" border="0" alt="S" title="'.ucfirst($LANG[$MYLANG]['service']).'" /></a>'; 
               else
-                $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target ="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst($LANG[$MYLANG]['host']).'" /></a>'; 
+                $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst($LANG[$MYLANG]['host']).'" /></a>'; 
 
               if (isset($GRAPH_POPUP)) {
                 $gpop = str_replace('_HOSTNAME_',$data['MACHINE_NAME'],$GRAPH_POPUP);
                 if ($data['SERVICES'] == "--host--")
-                  $gpop = str_replace('_SERVICE_','PING',$gpop);
+                  $gpop = str_replace('&service=_SERVICE_','',$gpop);
                 else
                   $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
-                $toprint .= '<a href="" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'")\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst($LANG[$MYLANG]['graph_icon']).'" /></a>';
+                $toprint .= '<a onmouseover="document.body.style.cursor=\'pointer\';" onmouseout="document.body.style.cursor=\'auto\';" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'"); selectline('.$line.');\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst($LANG[$MYLANG]['graph_icon']).'" /></a>';
               }
 
               if ($data['ACK'] == "1") 
