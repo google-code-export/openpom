@@ -76,10 +76,19 @@ function XMLHttpRequestSurcouche(zeasy) {
 }
 
 function get_data(type, id) {
+  if (cur_id == null) 
+    cur_id = id;
+  else if ( (cur_id != id) && (it != null) ) {
+    clearInterval(it);
+    cur_id = id;
+  }
+  it = setInterval("hide_data()", 10000);
   if (popup.style.left != "" && popup.style.top != "")
     popup.style.visibility = "visible";
-  else
+  else {
     popup.style.visibility = "hidden";
+    clearInterval(it);
+  }
 
   current_data_displayed = type + ":" + id;
   if (cache[current_data_displayed]) {
@@ -114,12 +123,13 @@ function WhereMouse(e) {
     if (popup.clientHeight - document.body.scrollTop + y > window.innerHeight)
       y = y - popup.clientHeight - 10;
   }
-  popup.style.left = window.innerWidth - 600 + "px";
-  popup.style.top = document.body.scrollTop +20 + "px";
+  popup.style.left = document.body.clientWidth - 600 + "px";
+  popup.style.top = document.body.scrollTop + 30 + "px";
 }
 
-function hide_data() {                                                                     
+function hide_data() { 
   popup.style.visibility = "hidden";
+  clearInterval(it);
 }
 
 function add_input(name, form) {
