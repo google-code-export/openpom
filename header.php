@@ -30,10 +30,12 @@
       var refresh; 
       var mytime   = <?php echo ($REFRESHTIME+1)?>;
       var filter   = "<?php echo $FILTER?>";
+      var cur_id;
+      var it;
     </script>
   </head>
-  <body>
-    <div id="popup" onClick="clearTimeout(to); hide_data();"><img src="img/ajax_loading.gif" /></div>
+  <body onClick='hide_data();'>
+    <div id="popup"><img src="img/ajax_loading.gif" /></div>
     <script>
       popup = document.getElementById("popup");
       popup.style.visibility = "hidden";                                                  
