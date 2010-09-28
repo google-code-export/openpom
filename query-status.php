@@ -56,6 +56,7 @@ $QUERY_SVC = "
       FROM ".$BACKEND."_downtimehistory AS DCO
       WHERE DCO.object_id = SS.service_object_id
       AND actual_end_time = '000-00-00 00:00:00' 
+      AND scheduled_end_time >= NOW()
       ORDER BY DCO.entry_time DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
@@ -124,6 +125,7 @@ $QUERY_HOST = "
       FROM ".$BACKEND."_downtimehistory AS DCO
       WHERE DCO.object_id = HS.host_object_id
       AND actual_end_time = '000-00-00 00:00:00' 
+      AND scheduled_end_time >= NOW()
       ORDER BY DCO.entry_time DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
