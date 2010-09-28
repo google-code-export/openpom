@@ -86,6 +86,7 @@ $LANG['en'] = array (
 'querytime'          => 'query in',
 'end_down'           => 'end time: ', 
 'graph_icon'         => 'show graph for 10 days',
+'fixed'              => 'Fix popup',
 ) ;
 
 
@@ -159,6 +160,7 @@ $LANG['fr'] = array (
 'querytime'          => 'requ&ecirc;te en',
 'end_down'           => 'fin pr&eacute;vu: ',
 'graph_icon'         => 'affiche les graphes pour les 10 derniers jours',
+'fixed'              => 'Fixer en popup',
 ) ;
 
 /* GET/SET LANG */
