@@ -65,11 +65,10 @@ $UNKNOWN            = "orange";
 $OTHER              = "white";
 $TRACK              = "blue";
 
-
 /*
-  set default lang (see supported lang in lang.php) 
-  default lang is en or
-  call nox/index.php?lang=xx  where xx is the country abreviation code
+  set default lang (supported lang are en, fr and de)                                     
+  default lang is "english" or 
+  try openpom/index.php?lang=xx where xx is the country abreviation code
 */
 $MYLANG             = "en"; 
 
