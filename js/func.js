@@ -141,6 +141,28 @@ function add_input(name, form) {
   my_form.appendChild(el);
 }
 
+function valid_form() {
+  com = document.getElementById('comment') ;
+  tim = document.getElementById('time') ;                                                 
+  if (tim != null) {
+    if ( (tim.value.length < 1) || (isNaN(tim.value)) ) {
+      tim.focus();
+      tim.style.backgroundColor = "red";
+      return false;
+    }
+    else
+      tim.style.backgroundColor = "white";
+  }
+  if ( (com != null) && (com.value.length < 2) ) {
+    com.focus();
+    com.style.backgroundColor = "red";
+    return false;
+  }
+  else
+    com.style.backgroundColor = "white";
+  return true;
+} 
+
 function gpop(url,host,service,width,height) {
   var name = host + "_" + service;
   var re = /[^a-zA-Z0-9]/g;

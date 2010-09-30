@@ -21,7 +21,7 @@ else
 ?>
   <script type='text/javascript' src='js/func.js'></script>
   <div class="popact" id="popack">
-    <form action="" name="down" method="post" id="down">
+    <form action="" name="down" method="post" id="down" onSubmit='return valid_form();'>
     <script>getallselectline(<?php echo $nb_rows?>,"down");</script>
       <table>
         <tr><th colspan="3"><?php echo ucfirst($LANG[$MYLANG]['downtime'])?></th></tr>

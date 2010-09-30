@@ -21,7 +21,7 @@ else
 ?>
   <script type='text/javascript' src='js/func.js'></script>
   <div class="popact" id="popack">
-  <form action="" name="comment" method="post" id="com">
+  <form action="" name="comment" method="post" id="com" onSubmit='return valid_form();'>
     <script>
       getallselectline(<?php echo $nb_rows?>,"comment");
      </script>
