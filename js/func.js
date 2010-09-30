@@ -51,7 +51,7 @@ function autorefresh() {
     }
   }
   mytime--;
-  var my_get = location.href.replace(/^.*[\/\\]/g, ''); 
+  var my_get = location.href.replace(/^.*[\/#\\]/g, ''); 
   if (mytime == 0)
     window.location.href = my_get;
   refresh.innerHTML = mytime;
