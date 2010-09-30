@@ -10,11 +10,9 @@
   $Date$
 */
 
-
 if (!isset($_SESSION['USER'])) die();
 
-/* supported lang are "en" "fr" */
-
+/* supported lang are "en" "fr" "de" */
 
 /* ENGLISH */
 
@@ -89,7 +87,6 @@ $LANG['en'] = array (
 'fixed'              => 'Fix popup',
 ) ;
 
-
 /* FRENCH */
 
 $LANG['fr'] = array (
@@ -161,6 +158,77 @@ $LANG['fr'] = array (
 'end_down'           => 'fin pr&eacute;vu: ',
 'graph_icon'         => 'affiche les graphes pour les 10 derniers jours',
 'fixed'              => 'Fixer en popup',
+) ;
+
+$LANG['de'] = array (
+'acknowledge'        => 'best&auml;tigen',
+'downtime'           => 'Ausfallzeit',
+'recheck'            => 'erneut pr&uuml;fen',
+'disable'            => 'deaktivieren',
+'disable_title'      => 'Benachrichtigung deaktivieren',
+'reset'              => 'Status zur&uuml;cksetzen',
+'reset0'             => 'zur&uuml;cksetzen',
+'reset_title'        => 'Best&auml;tigt, Ausfallzeit, Benachrichtigung und Kommentare zur&uuml;cksetzen',
+'filter'             => 'Filter',
+'filtering'          => 'filtern',
+'help'               => 'Hilfe',
+'refresh'            => 'aktualisieren',
+'mode'               => 'mode_monitor',
+'mode0'              => 'stoppe mode monitor',
+'level1'             => 'kritische',
+'level2'             => 'Kritische/Warnungen',
+'level3'             => 'Kritische/Warnungen/Soft',
+'level4'             => 'Kritische/Warnungen/Best&auml;tigt',
+'level5'             => 'Kritische/Warnungen/Best&auml;tigt/Ausfall',
+'level6'             => 'Kritische/Warnungen/Best&auml;tigt/Ausfall/svc',
+'level7'             => 'Alle',
+'exclude'            => 'Best&auml;tigt & Ausfall ausschliessen',
+'hide'               => 'Verstecke Dienste von best&auml;tigten Hosts',
+'refreshing'         => 'aktualisieren in',
+'refreshing0'        => 'aktualisiere alle',
+'flag'               => 'markieren',
+'track'              => 'verfolgen',
+'machine'            => 'Ger&auml;te',
+'service'            => 'Dienste',
+'group'              => 'Gruppen',
+'stinfo'             => 'Status Information',
+'last'               => 'letzter Check',
+'duration'           => 'Dauer',
+'comment'            => 'Kommentare',
+'comment0'           => 'Kommentar hinzuf&uuml;gen',
+'hour'               => 'Stunden',
+'reload'             => $BACKEND.' l&auml;d neu',
+'host'               => 'Host',
+'curstat'            => 'aktueller Status',
+'curat'              => 'aktueller Versuch',
+'chktyp'             => 'pr&uuml;fe Typ',
+'latency'            => 'pr&uuml;fe Latenz',
+'lastchange'         => 'letzte Status&auml;nderung',
+'flapping'           => 'dieser Dienst "flattert"',
+'lastup'             => 'letztes Aenderung',
+'cancel'             => 'abbrechen',
+'clear'              => 'leeren',
+'second'             => 'Sekunden',
+'apply'              => 'anwenden',
+'set'                => 'setzen',
+'reverse'            => 'reverse filter',
+'option'             => 'Optionen',
+'lang'               => 'Sprache',
+'column'             => 'angezeigte Spalten',
+'step'               => 'Anzahl angezeigte Zeilen',
+'level'              => 'Standard Level',
+'cols'               => 'Ausgew&auml;hlte Spalten ausblenden',
+'maxlentd'           => 'Maximale Anzahl Zeichen pro Feld',
+'frame'              => 'Frameumrandung ausblenden',
+'meter'              => 'C=Kritisch W=Warnung U=Unbekannt D=Ausfall A=Best&auml;tigt T=Gesamt',
+'next'               => 'n&auml;chste Seite',
+'prev'               => 'vorherige Seite',
+'fontsize'           => 'Schriftgr&ouml;sse Alarm',
+'search'             => 'Suche (keywords are : not something / = something)',
+'querytime'          => 'Suche in',
+'end_down'           => 'end time: ',
+'graph_icon'         => 'zeige Grafik f&uuml;r 10 Tage',
+'fixed'              => 'Fix popup',
 ) ;
 
 /* GET/SET LANG */
