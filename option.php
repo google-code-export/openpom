@@ -33,60 +33,60 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
   <div class="popact" id="popack">
   <form action="" name="fopt" method="get" class="fopt" id="fopt">
     <table class="popact">
-      <tr><th colspan="2"><?php echo ucfirst($LANG[$MYLANG]['option'])?></th></tr>
+      <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'option'))?></th></tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['refreshing0'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'refreshing0'))?></td>
         <td>
           <input type="text" size="4" maxlength="4" name="refresh" id="refresh"
             value="<?php echo $_SESSION['REFRESH']?>" />
-          <?php echo $LANG[$MYLANG]['second']?> (min 10, max 3600)
+          <?php echo lang($MYLANG, 'second')?> (min 10, max 3600)
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['lang'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'lang'))?></td>
         <td><?php foreach(array_keys($LANG) AS $lang) { ?>
           <input type="radio" name="lang" value="<?php echo $lang?>" <?php echo ($_SESSION['LANG']==$lang)?"checked":""?> /> <?php echo $lang?>
           <?php } ?>
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['step'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'step'))?></td>
         <td>
           <input type="text" size="3" maxlength="3" name="step" value="<?php echo $_SESSION['STEP']?>" /> (min 1, max 999)
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['level'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'level'))?></td>
         <td>
           <input type="text" size="1" maxlength="1" name="defaultlevel" value="<?php echo $_SESSION['LEVEL']?>" /> 
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['maxlentd'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'maxlentd'))?></td>
         <td>
           <input type="text" size="3" maxlength="3" name="maxlentd" value="<?php echo $_SESSION['MAXLENTD']?>" /> (min 1, max 999)
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['fontsize'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'fontsize'))?></td>
         <td>
           <input type="text" size="3" maxlength="3" name="fontsize" value="<?php echo $_SESSION['FONTSIZE']?>" /> (min 1, max 100)
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['frame'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'frame'))?></td>
         <td>
           <input type="checkbox" name="frame" value="0" <?php echo ($_SESSION['FRAME']==0)?"checked":""?> />
         </td>
       </tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['cols'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'cols'))?></td>
         <td>
           <?php foreach($COLS AS $key => $val) { 
                if (preg_match('/^(flag|duration|last|stinfo|group)$/', $key)) {
                  $pattern = ",".$key.",";
           ?>
-          <input type="checkbox" name="<?php echo $key?>" value="<?php echo $key?>" <?php echo (preg_match($pattern,$_SESSION['COLS']))?"checked":""?> /> <?php echo ucfirst($LANG[$MYLANG][$key])?><br />
+          <input type="checkbox" name="<?php echo $key?>" value="<?php echo $key?>" <?php echo (preg_match($pattern,$_SESSION['COLS']))?"checked":""?> /> <?php echo ucfirst(lang($MYLANG, $key))?><br />
           <?php } } ?>
         </td>
       </tr>
@@ -113,8 +113,8 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <input type="hidden" name="level" value="<?php echo $level?>" />
           <?php } ?>
           <input type="submit" name="option" value="Ok" />
-          <input type="button" name="cancel" value="<?php echo ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" /> 
-          <input type="submit" name="reset" value="<?php echo ucfirst($LANG[$MYLANG]['reset0'])?>" /> 
+          <input type="button" name="cancel" value="<?php echo ucfirst(lang($MYLANG, 'cancel'))?>" onclick="$.fn.colorbox.close();" /> 
+          <input type="submit" name="reset" value="<?php echo ucfirst(lang($MYLANG, 'reset0'))?>" /> 
         </td>
       </tr>
     </table>

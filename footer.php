@@ -14,7 +14,7 @@
     <div align="center">
       <?php echo $CODENAME?> - <?php echo $VERSION?> - GPL -
       <a href="http://www.exosec.fr/" target="_blank">Exosec</a> - 2010 - 
-      <?php echo $LANG[$MYLANG]['querytime']?> <?php echo sprintf($str_query_time, $query_time)?>
+      <?php echo lang($MYLANG, 'querytime')?> <?php echo sprintf($str_query_time, $query_time)?>
     </div>
   <?php if ($_SESSION['FRAME'] == 1) { ?>
   </td></tr></table>

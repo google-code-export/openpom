@@ -21,10 +21,10 @@
   <table width="100%" class="filter">
       <tr>
         <th class="filter" width="4px" style="white-space:nowrap;">
-	  <span title="<?php echo ucfirst($LANG[$MYLANG]['refreshing'])?>" id="refreshspan"></span>
+	  <span title="<?php echo lang($MYLANG, 'refreshing')?>" id="refreshspan"></span>
         </th>
         <th class="filter" width="50px" style="white-space:nowrap;">
-          <a class="refresh" href="<?php echo $MY_GET?>" alt="<?php echo ucfirst($LANG[$MYLANG]['refresh'])?>" title="<?php echo ucfirst($LANG[$MYLANG]['refresh'])?>"></a>
+          <a class="refresh" href="<?php echo $MY_GET?>" alt="<?php echo ucfirst(lang($MYLANG, 'refresh'))?>" title="<?php echo ucfirst(lang($MYLANG, 'refresh'))?>"></a>
         </th>
         <th class="filters" width="1" style="white-space:nowrap;">
 	<form method="get" class="filt" name="filt" action="?filter=1" id="filt"> 
@@ -32,28 +32,28 @@
             <?php 
               for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { 
             ?>
-            <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$LEVEL)?"selected":""?>><?php echo $sub_level?> - <?php echo ucfirst($LANG[$MYLANG]['level'.$sub_level])?></option>
+            <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$LEVEL)?"selected":""?>><?php echo $sub_level?> - <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?></option>
             <?php } ?>
           </select>
         </th>
         <th class="filter" width="1" style="white-space:nowrap;">
-          <input type="text" name="filtering" value="<?php echo $FILTER?>" id="filtering" title="<?php echo ucfirst($LANG[$MYLANG]['search'])?>"/>
+          <input type="text" name="filtering" value="<?php echo $FILTER?>" id="filtering" title="<?php echo ucfirst(lang($MYLANG, 'search'))?>"/>
         </th>
         <th class="filter" width="1" style="white-space:nowrap;">
           <input type="submit" name="filter" id="filter"
-            value="<?php echo ucfirst($LANG[$MYLANG]['filter'])?>" />
+            value="<?php echo ucfirst(lang($MYLANG, 'filter'))?>" />
         </th>
         <th class="filter" width="1" style="white-space:nowrap;">
-	  <input type="submit" name="clear" value="<?php echo ucfirst($LANG[$MYLANG]['clear'])?>" onclick='filtering.value="";' />
+	  <input type="submit" name="clear" value="<?php echo ucfirst(lang($MYLANG, 'clear'))?>" onclick='filtering.value="";' />
 	</form>
         </th>
         <th class="monitor" style="white-space:nowrap;">
-          <a href="?monitor"><?php echo ucfirst($LANG[$MYLANG]['mode'])?></a>
+          <a href="?monitor"><?php echo ucfirst(lang($MYLANG, 'mode'))?></a>
         </th>
-        <th width="200px" style="white-space:nowrap;" title="<?php echo $LANG[$MYLANG]['meter']?>">C=<?php echo $hit_critical?>&nbsp;W=<?php echo $hit_warning?>&nbsp;U=<?php echo $hit_unknown?>&nbsp;D=<?php echo $hit_down?>&nbsp;A=<?php echo $hit_ack?>&nbsp;T=<?php echo $hit_any?></th>
+        <th width="200px" style="white-space:nowrap;" title="<?php echo lang($MYLANG, 'meter')?>">C=<?php echo $hit_critical?>&nbsp;W=<?php echo $hit_warning?>&nbsp;U=<?php echo $hit_unknown?>&nbsp;D=<?php echo $hit_down?>&nbsp;A=<?php echo $hit_ack?>&nbsp;T=<?php echo $hit_any?></th>
         <?php if ($FIRST >= $LINE_BY_PAGE) { ?>
         <th width="1" style="white-space:nowrap;">
-          <a href="<?php echo $MY_GET_NO_NEXT?>&prev=<?php echo $FIRST-$LINE_BY_PAGE?>"><?php echo ucfirst($LANG[$MYLANG]['prev'])?></a> 
+          <a href="<?php echo $MY_GET_NO_NEXT?>&prev=<?php echo $FIRST-$LINE_BY_PAGE?>"><?php echo ucfirst(lang($MYLANG, 'prev'))?></a> 
         </th>
         <?php } ?>
         <th width="1" style="white-space:nowrap;">
@@ -61,11 +61,11 @@
         </th>
         <?php if ($nb_rows >= $LINE_BY_PAGE) { ?>
         <th width="1" style="white-space:nowrap;">
-          <a href="<?php echo $MY_GET_NO_NEXT?>&next=<?php echo $FIRST+$LINE_BY_PAGE?>"><?php echo ucfirst($LANG[$MYLANG]['next'])?></a>
+          <a href="<?php echo $MY_GET_NO_NEXT?>&next=<?php echo $FIRST+$LINE_BY_PAGE?>"><?php echo ucfirst(lang($MYLANG, 'next'))?></a>
         </th>
         <?php } ?>
         <th width="1" style="white-space:nowrap;">
-          <a class="option" href="#" id="optlink"><?php echo ucfirst($LANG[$MYLANG]['option'])?></a>
+          <a class="option" href="#" id="optlink"><?php echo ucfirst(lang($MYLANG, 'option'))?></a>
         </th>
       </tr>
     </table>

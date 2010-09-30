@@ -226,7 +226,7 @@ $LANG['de'] = array (
 'fontsize'           => 'Schriftgr&ouml;sse Alarm',
 'search'             => 'Suche (keywords are : not something / = something)',
 'querytime'          => 'Suche in',
-'end_down'           => 'end time: ',
+'end_down'           => 'endet: ',
 'graph_icon'         => 'zeige Grafik f&uuml;r 10 Tage',
 'fixed'              => 'Fix popup',
 ) ;
@@ -240,5 +240,16 @@ else if (isset($_SESSION['LANG']))
   $MYLANG = $_SESSION['LANG'] ;
 else
   $_SESSION['LANG'] = $MYLANG ;
+
+function lang($lang, $key) {
+  global $LANG;
+  if ( (empty($key)) || (empty($lang)) )
+    return sprintf("lang error");
+  if (strlen($key) > 100)
+    return sprintf("lang error");
+  if (isset($LANG[$lang][$key])) 
+    return sprintf("%s", $LANG[$lang][$key]);
+  return sprintf("%s", $key);
+}
 
 ?>

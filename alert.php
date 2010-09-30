@@ -32,7 +32,7 @@
 	  <?php } else { ?>
           <a class="col_no_sort" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=0">
           <?php } ?>
-            <?php echo ucfirst($LANG[$MYLANG][$key])?>
+            <?php echo ucfirst(lang($MYLANG, $key))?>
           </a>
         </th>
         <?php } } ?>
@@ -70,9 +70,9 @@
             else if ($key == 'flag') {
 
               if ($data['TYPE'] == "svc") 
-                $toprint = '<a onclick="selectline('.$line.');" target="_BLANK" href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/svc.png" border="0" alt="S" title="'.ucfirst($LANG[$MYLANG]['service']).'" /></a>'; 
+                $toprint = '<a onclick="selectline('.$line.');" target="_BLANK" href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/svc.png" border="0" alt="S" title="'.ucfirst(lang($MYLANG, 'service')).'" /></a>'; 
               else
-                $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst($LANG[$MYLANG]['host']).'" /></a>'; 
+                $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst(lang($MYLANG, 'host')).'" /></a>'; 
 
               if (isset($GRAPH_POPUP)) {
                 $gpop = str_replace('_HOSTNAME_',$data['MACHINE_NAME'],$GRAPH_POPUP);
@@ -80,17 +80,17 @@
                   $gpop = str_replace('&service=_SERVICE_','',$gpop);
                 else
                   $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
-                $toprint .= '<a onmouseover="document.body.style.cursor=\'pointer\';" onmouseout="document.body.style.cursor=\'auto\';" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'"); selectline('.$line.');\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst($LANG[$MYLANG]['graph_icon']).'" /></a>';
+                $toprint .= '<a onmouseover="document.body.style.cursor=\'pointer\';" onmouseout="document.body.style.cursor=\'auto\';" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'"); selectline('.$line.');\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
               }
 
               if ($data['ACK'] == "1") 
-                $toprint = $toprint.'<img src="img/ack.gif" alt="A" title="'.ucfirst($LANG[$MYLANG]['acknowledge']).'" />';
+                $toprint = $toprint.'<img src="img/ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
 
               if ($data['NOTIF'] == "0")
                 $toprint = $toprint.'<img src="img/notify.gif" alt="N" />';
 
               if ($data['DOWNTIME'] == "1") 
-                $toprint = $toprint.'<img src="img/downtime.gif" alt="D" title="'.ucfirst($LANG[$MYLANG]['downtime']).'" />';
+                $toprint = $toprint.'<img src="img/downtime.gif" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
 
               if ($data['COMMENT'] > 0)
                 $toprint = $toprint.'<img src="img/comment.gif" alt="C" />';
@@ -131,8 +131,8 @@
       ?>
     </table>
     <?php if (isset($_GET['monitor'])) { ?>
-    <?php echo ucfirst($LANG[$MYLANG]['refreshing'])?> <b><span id="refreshspan"></span></b> <?php echo ucfirst($LANG[$MYLANG]['second'])?>
-    <a href="index.php"><?php echo ucfirst($LANG[$MYLANG]['mode0'])?></a>
+    <?php echo ucfirst(lang($MYLANG, 'refreshing'))?> <b><span id="refreshspan"></span></b> <?php echo ucfirst(lang($MYLANG, 'second'))?>
+    <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a>
     <?php } else { ?>
     </form>
     <?php } ?>

@@ -73,7 +73,7 @@ $TRACK              = "blue";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.1.0";
+$VERSION            = "1.1.1";
 $CODENAME           = "OpenPom";
 
 /* NAGIOS AND ICINGA VARIABLES */

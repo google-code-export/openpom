@@ -26,9 +26,9 @@ else
       getallselectline(<?php echo $nb_rows?>,"ack");
      </script>
     <table class="popact">
-      <tr><th colspan="2"><?php echo ucfirst($LANG[$MYLANG]['acknowledge'])?></th></tr>
+      <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'acknowledge'))?></th></tr>
       <tr>
-        <td><?php echo ucfirst($LANG[$MYLANG]['comment'])?></td>
+        <td><?php echo ucfirst(lang($MYLANG, 'comment'))?></td>
         <td>
           <input type="text" name="comment" id="comment" />
           <input type="hidden" name="ack" value="Ok" />
@@ -37,8 +37,8 @@ else
       <tr>
         <td class="submitline" colspan="2">
           <input type="submit" name="ack" value="Ok" />
-          <input type="submit" name="track" value="<?php echo ucfirst($LANG[$MYLANG]['track'])?>" onclick="this.form.comment.value='<?php echo $LANG[$MYLANG]['track']?> ' + this.form.comment.value" />
-          <input type="button" name="cancel" value="<?php echo ucfirst($LANG[$MYLANG]['cancel'])?>" onclick="$.fn.colorbox.close();" />
+          <input type="submit" name="track" value="<?php echo ucfirst(lang($MYLANG, 'track'))?>" onclick="this.form.comment.value='<?php echo lang($MYLANG, 'track')?> ' + this.form.comment.value" />
+          <input type="button" name="cancel" value="<?php echo ucfirst(lang($MYLANG, 'cancel'))?>" onclick="$.fn.colorbox.close();" />
         </td>
       </tr>
     </table>
