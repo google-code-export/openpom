@@ -80,7 +80,7 @@
                   $gpop = str_replace('&service=_SERVICE_','',$gpop);
                 else
                   $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
-                $toprint .= '<a onmouseover="document.body.style.cursor=\'pointer\';" onmouseout="document.body.style.cursor=\'auto\';" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'"); selectline('.$line.');\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
+                $toprint .= '<a href="#" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'"); selectline('.$line.');\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
               }
 
               if ($data['ACK'] == "1") 
