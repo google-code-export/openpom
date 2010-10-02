@@ -9,6 +9,7 @@
  
   $Date$
 */
+
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("config.php");
