@@ -84,6 +84,7 @@ $EXEC_PARAM         = "";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE           = "/var/lib/icinga/rw/icinga.cmd";
 $LINK               = "http://".$BACKEND."/cgi-bin/extinfo.cgi";
+$LOG                = "http://".$BACKEND."/cgi-bin/showlog.cgi";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
 $GRAPH_WIDTH        = 800;

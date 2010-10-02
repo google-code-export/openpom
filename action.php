@@ -31,3 +31,5 @@
 
     <a class="comment" href="#" id="commentlink"><input type="button" name="comment"
       value="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>" /></a>
+
+    <div style="display:inline; float:right; margin:0; padding:5px 0 0 0; text-align:right;"><a href="#" onClick='pop("<?php echo $LOG; ?>","nagios_log",600,400);'><?php echo ucfirst(lang($MYLANG, 'show_log'))?></a></div>

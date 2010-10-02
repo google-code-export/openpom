@@ -87,6 +87,7 @@ $LANG['en'] = array (
 'fixed'              => 'Fix popup',
 'start_time'         => 'start time:',
 'minutes'            => 'minutes:',
+'show_log'           => 'Nagios LOG',
 ) ;
 
 /* FRENCH */
@@ -162,6 +163,7 @@ $LANG['fr'] = array (
 'fixed'              => 'Fixer en popup',
 'start_time'         => 'd&eacute;but:',
 'minutes'            => 'minutes:',
+'show_log'           => 'Nagios LOG',
 ) ;
 
 $LANG['de'] = array (
@@ -235,6 +237,7 @@ $LANG['de'] = array (
 'fixed'              => 'Fix popup',
 'start_time'         => 'startzeit:',
 'minutes'            => 'minutes:',
+'show_log'           => 'Nagios LOG',
 ) ;
 
 /* GET/SET LANG */
