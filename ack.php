@@ -23,8 +23,9 @@ else
   <div class="popact" id="popack">
   <form action="" name="ack" method="post" id="ack" onSubmit='return valid_form();'>
     <script>
-      getallselectline(<?php echo $nb_rows?>,"ack");
-     </script>
+      if (getallselectline(<?php echo $nb_rows?>,"ack") == false)
+        $.fn.colorbox.close();
+    </script>
     <table class="popact">
       <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'acknowledge'))?></th></tr>
       <tr>

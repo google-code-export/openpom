@@ -22,9 +22,10 @@ else
   <script type='text/javascript' src='js/func.js'></script>
   <div class="popact" id="popack">
   <form action="" name="comment" method="post" id="com" onSubmit='return valid_form();'>
-    <script>
-      getallselectline(<?php echo $nb_rows?>,"comment");
-     </script>
+    <script>                                                                              
+      if (getallselectline(<?php echo $nb_rows?>,"comment") == false)
+        $.fn.colorbox.close();
+    </script>
     <table class="popact">
       <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'comment0'))?></th></tr>
       <tr>

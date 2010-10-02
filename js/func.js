@@ -24,6 +24,7 @@ function selectline(i) {
 }
 
 function getallselectline(num,form) {
+  var check = false ;
   for (i=1; i<=num; i++) {
     if (document.getElementById("check_" + i).checked == true) {
       var name = document.getElementById("check_" + i).name;
@@ -34,8 +35,10 @@ function getallselectline(num,form) {
       el.name = name;
       el.value = value;
       my_form.appendChild(el);
+      check = true ;
     }
   }
+  return check
 }
 
 function autorefresh() { 

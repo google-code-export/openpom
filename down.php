@@ -22,7 +22,10 @@ else
   <script type='text/javascript' src='js/func.js'></script>
   <div class="popact" id="popack">
     <form action="" name="down" method="post" id="down" onSubmit='return valid_form();'>
-    <script>getallselectline(<?php echo $nb_rows?>,"down");</script>
+    <script>
+     if (getallselectline(<?php echo $nb_rows?>,"down") == false)
+       $.fn.colorbox.close();
+    </script>
       <table>
         <tr><th colspan="3"><?php echo ucfirst(lang($MYLANG, 'downtime'))?></th></tr>
         <tr>
