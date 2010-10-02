@@ -1,4 +1,14 @@
 <?php
+/*
+  OpenPom $Revision$
+  $HeadURL$
+ 
+  Copyright 2010, Exosec
+  Licensed under GPL Version 2.
+  http://www.gnu.org/licenses/
+ 
+  $Date$
+*/
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("config.php");
