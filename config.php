@@ -79,18 +79,18 @@ $CODENAME           = "OpenPom";
 /* NAGIOS AND ICINGA VARIABLES */
 $EXEC_CMD           = "./send-order";
 $EXEC_PARAM         = "";
-$SUDO_EXEC          = "/usr/bin/sudo";
-$SUDO_PARAM         = "";
+//$SUDO_EXEC          = "/usr/bin/sudo";
+//$SUDO_PARAM         = "";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE           = "/var/lib/icinga/rw/icinga.cmd";
-$LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
+$LINK               = "http://".$BACKEND."/cgi-bin/extinfo.cgi";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
-$GRAPH_WIDTH        = 750;
-$GRAPH_HEIGHT       = 450;
-$GRAPH_STATUS       = "/".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
+$GRAPH_WIDTH        = 800;
+$GRAPH_HEIGHT       = 400;
+$GRAPH_STATUS       = "http://".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
-$GRAPH_POPUP        = "/".$BACKEND."/cgi-bin/trends.cgi?createimage&t1=".strtotime("-10 day")."&t2=".time()."&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
+$GRAPH_POPUP        = "http://".$BACKEND."/cgi-bin/trends.cgi?createimage&t1=".strtotime("-10 day")."&t2=".time()."&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 
@@ -115,10 +115,10 @@ $EXT_CMD['ack']['svc'][0]       = array(
 $EXT_CMD['down']['host'][0]     = array(
 'SCHEDULE_HOST_DOWNTIME',
 '$host',
-'$now',
+'$start_time',
 '$end_time',
 '1;0',
-'$time',
+'7200',
 '$user',
 '$comment');
 
@@ -126,10 +126,10 @@ $EXT_CMD['down']['svc'][0]      = array(
 'SCHEDULE_SVC_DOWNTIME',
 '$host',
 '$svc',
-'$now',
+'$start_time',
 '$end_time',
 '1;0',
-'$time',
+'7200',
 '$user',
 '$comment');
 

@@ -137,11 +137,32 @@ function select_level($LEVEL) {
 }
 
 function post_data_to_cmd($dbconn) {
-  if (isset($_POST['down']))  
-    if ( (!isset($_POST['time'])) || (!is_numeric($_POST['time'])) ) 
-      return 2;
-    else
-      $time = $_POST['time'];
+  print_r($_POST);
+  if (isset($_POST['down'])) {
+    if ( (isset($_POST['start'])) && (isset($_POST['end'])) ) {
+      $pat = '/[0-9]{1,2}[-]{1}[0-9]{1,2}[-]{1}[0-9]{4} [0-9]{1,2}:[0-9]{1,2}/';
+      if ( (preg_match($pat, $_POST['start'])) && (preg_match($pat, $_POST['end'])) ) {
+        $start = strtotime($_POST['start']);
+        $end = strtotime($_POST['end']);
+      }
+    }
+    if ( (isset($_POST['hour'])) || (isset($_POST['minute'])) ) {
+      $endf = 0;
+      if (is_numeric($_POST['hour'])) { 
+        $start = time();
+        $endf = $start + ($_POST['hour'] * 3600) ;
+      }
+      if (is_numeric($_POST['minute'])) {
+        $start = time();
+        if ($endf != 0)
+          $endf = $endf + ($_POST['minute'] * 60) ;
+        else
+          $endf = $start + ($_POST['minute'] * 60) ;
+      }
+    }
+    if ($endf != 0) $end = $endf;
+    if ( (!isset($start)) || (!isset($end)) ) return 2;
+  }
 
   global $ILLEGAL_CHAR;
   if ( (isset($_POST['ack']))  || 
@@ -217,9 +238,9 @@ function post_data_to_cmd($dbconn) {
     $cmd = str_replace('$now', $now, $cmd);
     if (isset($comment))
       $cmd = str_replace('$comment', $comment, $cmd);
-    if (isset($time)) {
-      $cmd = str_replace('$time', ($time * 3600), $cmd);
-      $cmd = str_replace('$end_time', ($now + ($time * 3600)), $cmd);
+    if (isset($start)) {
+      $cmd = str_replace('$start_time', $start, $cmd);
+      $cmd = str_replace('$end_time', $end, $cmd);
     }
     
   }//end foreach

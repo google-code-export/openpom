@@ -52,7 +52,7 @@ $LANG['en'] = array (
 'duration'           => 'duration',
 'comment'            => 'comments',
 'comment0'           => 'add comment',
-'hour'               => 'hours',
+'hour'               => 'hours:',
 'reload'             => $BACKEND.' is reloading',
 'host'               => 'host',
 'curstat'            => 'current status',
@@ -85,6 +85,8 @@ $LANG['en'] = array (
 'end_down'           => 'end time: ', 
 'graph_icon'         => 'show graph for 10 days',
 'fixed'              => 'Fix popup',
+'start_time'         => 'start time:',
+'minutes'            => 'minutes:',
 ) ;
 
 /* FRENCH */
@@ -125,7 +127,7 @@ $LANG['fr'] = array (
 'duration'           => 'dur&eacute;e',
 'comment'            => 'commentaires',
 'comment0'           => 'ajout commentaire',
-'hour'               => 'heures',
+'hour'               => 'heures:',
 'reload'             => $BACKEND.' est en cours de red&eacute;marrage',
 'host'               => 'h&ocirc;te',
 'curstat'            => 'etat actuel',
@@ -158,6 +160,8 @@ $LANG['fr'] = array (
 'end_down'           => 'fin pr&eacute;vu: ',
 'graph_icon'         => 'affiche les graphes pour les 10 derniers jours',
 'fixed'              => 'Fixer en popup',
+'start_time'         => 'd&eacute;but:',
+'minutes'            => 'minutes:',
 ) ;
 
 $LANG['de'] = array (
@@ -196,7 +200,7 @@ $LANG['de'] = array (
 'duration'           => 'Dauer',
 'comment'            => 'Kommentare',
 'comment0'           => 'Kommentar hinzuf&uuml;gen',
-'hour'               => 'Stunden',
+'hour'               => 'stunden:',
 'reload'             => $BACKEND.' l&auml;d neu',
 'host'               => 'Host',
 'curstat'            => 'aktueller Status',
@@ -229,6 +233,8 @@ $LANG['de'] = array (
 'end_down'           => 'endet: ',
 'graph_icon'         => 'zeige Grafik f&uuml;r 10 Tage',
 'fixed'              => 'Fix popup',
+'start_time'         => 'startzeit:',
+'minutes'            => 'minutes:',
 ) ;
 
 /* GET/SET LANG */

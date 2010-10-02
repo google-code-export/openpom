@@ -146,16 +146,6 @@ function add_input(name, form) {
 
 function valid_form() {
   com = document.getElementById('comment') ;
-  tim = document.getElementById('time') ;                                                 
-  if (tim != null) {
-    if ( (tim.value.length < 1) || (isNaN(tim.value)) ) {
-      tim.focus();
-      tim.style.backgroundColor = "red";
-      return false;
-    }
-    else
-      tim.style.backgroundColor = "white";
-  }
   if ( (com != null) && (com.value.length < 2) ) {
     com.focus();
     com.style.backgroundColor = "red";
