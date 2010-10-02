@@ -75,12 +75,7 @@
                 $toprint = '<a onclick="selectline('.$line.');" class="col_no_sort" target="_BLANK" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/host.png" border="0" alt="H" title="'.ucfirst(lang($MYLANG, 'host')).'" /></a>'; 
 
               if (isset($GRAPH_POPUP)) {
-                $gpop = str_replace('_HOSTNAME_',$data['MACHINE_NAME'],$GRAPH_POPUP);
-                if ($data['SERVICES'] == "--host--")
-                  $gpop = str_replace('&service=_SERVICE_','',$gpop);
-                else
-                  $gpop = str_replace('_SERVICE_',$data['SERVICES'],$gpop);
-                $toprint .= '<a href="#" onclick=\'gpop("'.$gpop.'","'.$data['MACHINE_NAME'].'","'.$data['SERVICES'].'","'.$GRAPH_WIDTH.'","'.$GRAPH_HEIGHT.'"); selectline('.$line.');\';return(false);><img src="img/graph.png" alt="G" border="0" title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
+                $toprint .= '<a href="#" onClick=\'pop("graph.php?host='.$data['MACHINE_NAME'].'&svc='.$data['SERVICES'].'&period=week","'.$data['SVCID'].'",800,400);\'><img src="img/graph.png" alt="G" border="0" title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
               }
 
               if ($data['ACK'] == "1") 

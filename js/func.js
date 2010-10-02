@@ -156,13 +156,6 @@ function valid_form() {
   return true;
 } 
 
-function gpop(url,host,service,width,height) {
-  var name = host + "_" + service;
-  var re = /[^a-zA-Z0-9]/g;
-  name = name.replace(re, '_');
-  pop(url,name,width,height);
-}
-
 function pop(url, name, width, height) {
   window.open(url, name, 'location=no,toolbar=no,directories=no,menubar=no,resizable=no,scrollbars=yes,status=no,width='+width+',height='+height);
 }

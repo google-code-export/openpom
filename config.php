@@ -91,7 +91,7 @@ $GRAPH_WIDTH        = 800;
 $GRAPH_HEIGHT       = 400;
 $GRAPH_STATUS       = "http://".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
-$GRAPH_POPUP        = "http://".$BACKEND."/cgi-bin/trends.cgi?createimage&t1=".strtotime("-10 day")."&t2=".time()."&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
+$GRAPH_POPUP        = "http://".$BACKEND."/cgi-bin/trends.cgi";
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 

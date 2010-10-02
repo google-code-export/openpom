@@ -246,6 +246,12 @@ a.refresh {
 	height: 23px;
 }
 
+a.graph {
+  font-size: 15px;
+  padding: 5px;
+  margin: 1px;
+}
+
 div.frame {
         width: auto;
 	height: auto;

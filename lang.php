@@ -88,6 +88,10 @@ $LANG['en'] = array (
 'start_time'         => 'start time:',
 'minutes'            => 'minutes:',
 'show_log'           => 'Nagios LOG',
+'today'              => 'today',
+'week'               => 'week',
+'month'              => 'month',
+'year'               => 'year',
 ) ;
 
 /* FRENCH */
@@ -164,6 +168,10 @@ $LANG['fr'] = array (
 'start_time'         => 'd&eacute;but:',
 'minutes'            => 'minutes:',
 'show_log'           => 'Nagios LOG',
+'today'              => 'aujourd\'hui',
+'week'               => 'semaine',
+'month'              => 'mois',
+'year'               => 'ann&eacute;e',
 ) ;
 
 $LANG['de'] = array (
@@ -238,6 +246,10 @@ $LANG['de'] = array (
 'start_time'         => 'startzeit:',
 'minutes'            => 'minutes:',
 'show_log'           => 'Nagios LOG',
+'today'              => 'heute',
+'week'               => 'woche',
+'month'              => 'monat',
+'year'               => 'jahr',
 ) ;
 
 /* GET/SET LANG */
