@@ -137,7 +137,6 @@ function select_level($LEVEL) {
 }
 
 function post_data_to_cmd($dbconn) {
-  print_r($_POST);
   if (isset($_POST['down'])) {
     if ( (isset($_POST['start'])) && (isset($_POST['end'])) ) {
       $pat = '/[0-9]{1,2}[-]{1}[0-9]{1,2}[-]{1}[0-9]{4} [0-9]{1,2}:[0-9]{1,2}/';
