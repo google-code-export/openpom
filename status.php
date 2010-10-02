@@ -122,7 +122,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
 <?php } else { ?>
 <table class="popuptable<?php echo $COLOR?>" id="popuptable" onmouseover='clearInterval(it); it = setInterval("hide_data()", 15000);'>
 <?php } ?>
-  <tr><th><?php echo ucfirst(lang($MYLANG, 'host'))?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td><td align="right" border="0"><a href="#" onClick='pop("status.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>&fix","status_popup",document.getElementById("popuptable").offsetParent.offsetWidth,document.getElementById("popuptable").offsetParent.offsetHeight);'><img src="img/popup.png" border="0" alt"<?php echo ucfirst(lang($MYLANG, 'fixed'))?>" title="<?php echo ucfirst(lang($MYLANG, 'fixed'))?>" /></a></td></tr>
+  <tr><th><?php echo ucfirst(lang($MYLANG, 'host'))?></th><td><?php echo $HOSTNAME?> (<?php echo $ADDRESS?>)</td><td align="right" border="0"><a href="#" onClick='pop("status.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>&fix","<?php echo $HOSTNAME." ".$SERVICE?>",document.getElementById("popuptable").offsetParent.offsetWidth,document.getElementById("popuptable").offsetParent.offsetHeight);'><img src="img/popup.png" border="0" alt"<?php echo ucfirst(lang($MYLANG, 'fixed'))?>" title="<?php echo ucfirst(lang($MYLANG, 'fixed'))?>" /></a></td></tr>
   <tr><th class="<?php echo $COLOR?>dark"><?php echo ucfirst(lang($MYLANG, 'curstat'))?></th><td colspan="2"><?php echo $STATUS?> (for <?php echo $LASTCHANGEDIFF?>)</td></tr>
   <tr><th><?php echo ucfirst(lang($MYLANG, 'stinfo'))?></th><td colspan="2"><?php echo linebreak($OUTPUT)?></td></tr>
   <tr><th><?php echo ucfirst(lang($MYLANG, 'curat'))?></th><td colspan="2"><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?></td></tr>
