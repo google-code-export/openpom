@@ -38,7 +38,7 @@ function getallselectline(num,form) {
       check = true ;
     }
   }
-  return check
+  return check ;
 }
 
 function autorefresh() { 
@@ -85,7 +85,7 @@ function get_data(type, id) {
     clearInterval(it);
     cur_id = id;
   }
-  it = setInterval("hide_data()", 10000);
+  it = setInterval("hide_data()", 5000);
   if (popup.style.left != "" && popup.style.top != "")
     popup.style.visibility = "visible";
   else {
