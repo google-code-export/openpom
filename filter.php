@@ -21,7 +21,7 @@
   <table width="100%" class="filter">
       <tr>
         <th class="filter" width="4px" style="white-space:nowrap;">
-	  <span title="<?php echo lang($MYLANG, 'refreshing')?>" id="refreshspan"></span>
+	  <span title="<?php echo ucfirst(lang($MYLANG, 'refreshing'))?>" id="refreshspan"></span>
         </th>
         <th class="filter" width="50px" style="white-space:nowrap;">
           <a class="refresh" href="<?php echo $MY_GET?>" alt="<?php echo ucfirst(lang($MYLANG, 'refresh'))?>" title="<?php echo ucfirst(lang($MYLANG, 'refresh'))?>"></a>
