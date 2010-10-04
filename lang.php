@@ -50,7 +50,7 @@ $LANG['en'] = array (
 'stinfo'             => 'status information',
 'last'               => 'last check',
 'duration'           => 'duration',
-'comment'            => 'comment',
+'comment'            => 'comment:',
 'comment0'           => 'add comment',
 'hour'               => 'hours',
 'reload'             => $BACKEND.' is reloading',
@@ -92,7 +92,7 @@ $LANG['en'] = array (
 'week'               => 'week',
 'month'              => 'month',
 'year'               => 'year',
-'fix'                => 'fixed',
+'fix'                => 'fixed:',
 ) ;
 
 /* FRENCH */
@@ -131,7 +131,7 @@ $LANG['fr'] = array (
 'stinfo'             => 'Information',
 'last'               => 'dernier test',
 'duration'           => 'dur&eacute;e',
-'comment'            => 'commentaire',
+'comment'            => 'commentaire:',
 'comment0'           => 'ajout commentaire',
 'hour'               => 'heures',
 'reload'             => $BACKEND.' est en cours de red&eacute;marrage',
@@ -173,7 +173,7 @@ $LANG['fr'] = array (
 'week'               => 'semaine',
 'month'              => 'mois',
 'year'               => 'ann&eacute;e',
-'fix'                => 'fixe',
+'fix'                => 'fixe:',
 ) ;
 
 $LANG['de'] = array (
@@ -210,7 +210,7 @@ $LANG['de'] = array (
 'stinfo'             => 'status-informationen',
 'last'               => 'letzter Check',
 'duration'           => 'Dauer',
-'comment'            => 'Kommentare',
+'comment'            => 'Kommentare:',
 'comment0'           => 'Kommentar hinzuf&uuml;gen',
 'hour'               => 'stunden',
 'reload'             => $BACKEND.' l&auml;d neu',
@@ -252,7 +252,7 @@ $LANG['de'] = array (
 'week'               => 'woche',
 'month'              => 'monat',
 'year'               => 'jahr',
-'fix'                => 'fixiert',
+'fix'                => 'fixiert:',
 ) ;
 
 /* GET/SET LANG */
