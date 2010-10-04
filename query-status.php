@@ -25,6 +25,8 @@ $QUERY_SVC = "
     SS.perfdata                            AS PERFDATA,
     SS.latency                             AS LATENCY,
     SS.execution_time                      AS EXEC_TIME,
+    SS.problem_has_been_acknowledged       AS ACK,
+    SS.scheduled_downtime_depth          AS DOWNTIME,
     IF (
       SS.no_more_notifications = 0
       AND SS.notifications_enabled = 1,
@@ -95,6 +97,8 @@ $QUERY_HOST = "
     HS.perfdata                            AS PERFDATA,
     HS.latency                             AS LATENCY,
     HS.execution_time                      AS EXEC_TIME,
+    HS.problem_has_been_acknowledged       AS ACK,
+    HS.scheduled_downtime_depth            AS DOWNTIME,
     IF (
       HS.no_more_notifications = 0
       AND HS.notifications_enabled = 1,

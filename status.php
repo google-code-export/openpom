@@ -102,6 +102,8 @@ $NOTIF             = $st_data['NOTIF'];
 $PERCENT           = $st_data['PERCENT'];
 $UPDATETIMEDIFF    = $st_data['UPDATETIMEDIFF'];
 $UPDATETIME        = $st_data['UPDATETIME'];
+$ACK               = $st_data['ACK'];
+$DOWN              = $st_data['DOWNTIME'];
 $ACKCOMMENT        = explode(';', $st_data['ACKCOMMENT']);
 $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT']);
 $COMMENT           = explode(';', $st_data['COMMENT']);
@@ -132,10 +134,10 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
   <tr><th><?php echo ucfirst(lang($MYLANG, 'lastchange'))?></th><td colspan="2"><?php echo $LASTCHANGE?></td></tr>
   <tr><th><?php echo ucfirst(lang($MYLANG, 'flapping'))?> ?</th><td colspan="2"><?php echo $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td></tr>
   <tr><th><?php echo ucfirst(lang($MYLANG, 'lastup'))?></th><td colspan="2"><?php echo $UPDATETIME?> (<?php echo $UPDATETIMEDIFF?> ago)</td></tr>
-  <?php if (isset($ACKCOMMENT[1])) { ?>
+  <?php if ( ($ACK == 1) && (isset($ACKCOMMENT[1])) ) { ?>
   <tr><th><img src="img/ack.gif" alt="ack comment" /> (<?php echo $ACKCOMMENT[0]?>) </th><td colspan="2"><?php echo $ACKCOMMENT[1]?></td></tr>
   <?php } ?>
-  <?php if (isset($DOWNCOMMENT[1])) { ?>
+  <?php if ( ($DOWN == 1) && (isset($DOWNCOMMENT[1])) ) { ?>
   <tr><th><img src="img/downtime.gif" alt="downtime comment" /> (<?php echo $DOWNCOMMENT[0]?>) </th><td colspan="2"><?php echo $DOWNCOMMENT[1]?>, <?php echo ucfirst(lang($MYLANG, 'end_down'))?> <?php echo $DOWNCOMMENT[2]?></td></tr>
   <?php } ?>
   <?php if (isset($COMMENT[1])) { ?>
