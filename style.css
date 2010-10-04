@@ -211,6 +211,16 @@ input {
 	margin: 0;
 }
 
+table.action, table.action tr, table.action td {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+table.action td {
+  width: auto;
+  padding-right: 5px;
+}
+
 form {
 	padding: 0;
 	margin: 0;
