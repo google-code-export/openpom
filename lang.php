@@ -52,7 +52,7 @@ $LANG['en'] = array (
 'duration'           => 'duration',
 'comment'            => 'comment',
 'comment0'           => 'add comment',
-'hour'               => 'hours:',
+'hour'               => 'hours',
 'reload'             => $BACKEND.' is reloading',
 'host'               => 'host',
 'curstat'            => 'current status',
@@ -86,12 +86,13 @@ $LANG['en'] = array (
 'graph_icon'         => 'show graph',
 'fixed'              => 'Fix popup',
 'start_time'         => 'start time:',
-'minutes'            => 'minutes:',
+'minutes'            => 'minutes',
 'show_log'           => 'Nagios LOG',
 'today'              => 'today',
 'week'               => 'week',
 'month'              => 'month',
 'year'               => 'year',
+'fix'                => 'fixed',
 ) ;
 
 /* FRENCH */
@@ -132,7 +133,7 @@ $LANG['fr'] = array (
 'duration'           => 'dur&eacute;e',
 'comment'            => 'commentaire',
 'comment0'           => 'ajout commentaire',
-'hour'               => 'heures:',
+'hour'               => 'heures',
 'reload'             => $BACKEND.' est en cours de red&eacute;marrage',
 'host'               => 'h&ocirc;te',
 'curstat'            => 'etat actuel',
@@ -166,12 +167,13 @@ $LANG['fr'] = array (
 'graph_icon'         => 'affiche les graphes',
 'fixed'              => 'Fixer en popup',
 'start_time'         => 'd&eacute;but:',
-'minutes'            => 'minutes:',
+'minutes'            => 'minutes',
 'show_log'           => 'Nagios LOG',
 'today'              => 'aujourd\'hui',
 'week'               => 'semaine',
 'month'              => 'mois',
 'year'               => 'ann&eacute;e',
+'fix'                => 'fixe',
 ) ;
 
 $LANG['de'] = array (
@@ -210,7 +212,7 @@ $LANG['de'] = array (
 'duration'           => 'Dauer',
 'comment'            => 'Kommentare',
 'comment0'           => 'Kommentar hinzuf&uuml;gen',
-'hour'               => 'stunden:',
+'hour'               => 'stunden',
 'reload'             => $BACKEND.' l&auml;d neu',
 'host'               => 'Host',
 'curstat'            => 'aktueller Status',
@@ -244,12 +246,13 @@ $LANG['de'] = array (
 'graph_icon'         => 'zeige Grafik',
 'fixed'              => 'Fix popup',
 'start_time'         => 'startzeit:',
-'minutes'            => 'minutes:',
+'minutes'            => 'minutes',
 'show_log'           => 'Nagios LOG',
 'today'              => 'heute',
 'week'               => 'woche',
 'month'              => 'monat',
 'year'               => 'jahr',
+'fix'                => 'fixiert',
 ) ;
 
 /* GET/SET LANG */
