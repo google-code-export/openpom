@@ -16,6 +16,8 @@
 ---------------
 
 - Nagios (http://nagios.org/) installation with a contact_name admin 
+or
+- icinga (http://www.icinga.org/)
 
 - MySQL 
 
@@ -26,7 +28,7 @@
 2) Configure NdoUtils
 ---------------------
 
-After NdoUtils install don't forget to add the broker in nagios conf (nagios.cfg)
+After NdoUtils install don't forget to add the broker in nagios or icinga conf.
 
 event_broker_options=-1
 broker_module=/usr/lib/ndoutils/ndomod-mysql-3x.o config_file=/etc/nagios3/ndomod.cfg
@@ -71,7 +73,7 @@ $SQL_PASSWD         = "my_password";
 $SQL_DB             = "ndoutils";
 
 /* NAGIOS */
-$EXEC_CMD           = "./nagios-send-order";
+$EXEC_CMD           = "./send-order";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 $LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
 
