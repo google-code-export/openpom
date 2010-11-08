@@ -95,7 +95,6 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <input type="hidden" name="stop" value="stop" id="check_1" checked />
           <?php if (isset($qfilt)) { ?>
           <input type="hidden" name="filtering" value="<?php echo $qfilt?>" />
-          <input type="hidden" name="filter" value="1" />
           <?php } ?>
           <?php if (isset($next)) { ?>
           <input type="hidden" name="next" value="<?php echo $next?>" />

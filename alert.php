@@ -98,7 +98,7 @@
             else
               $toprint = htmlspecialchars($data[$val]);
             if ( ($key == "machine") || ($key == "service") )
-              $toprint = '<a href="'.$MY_GET_NO_FILT.'&filter=1&filtering='.$data[$val].'">'.$toprint.'</a>';
+              $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">'.$toprint.'</a>';
             else if ($key == "group") {
               $groups = explode(', ',$toprint);
               $my_groups = "";
@@ -106,7 +106,7 @@
                 if (substr($group, -4) == " ...") 
                   $my_groups .= " ...";
                 else
-                  $my_groups .= '<a href="'.$MY_GET_NO_FILT.'&filter=1&filtering='.$group.'">'.$group.'</a> ';
+                  $my_groups .= '<a href="'.$MY_GET_NO_FILT.'&filtering='.$group.'">'.$group.'</a> ';
               }
               $toprint = $my_groups;
             }

@@ -89,7 +89,7 @@ $SEPARATOR       = ", ";               //SEPARATOR FOR GROUPS
 $MY_FILTER       = "%%";               //NO FILTER
 $MY_USER         = $_SESSION['USER'];  //USER VIEW
 $MY_SVCFILT      = "1,2,3";            //STATUS SVC FILTER
-$MY_HOSTFILT     = "1,2";              //STATUS HOST FILTER
+$MY_HOSTFILT     = "1";                //STATUS HOST FILTER
 $MY_SVCACKLIST   = 0;                  //SVC ACKNOWLEDGE
 $MY_HOSTACKLIST  = 0;                  //HOST ACKNOWLEDGE
 $MY_HOSTDOWNLIST = 0;                  //HOST DOWNTIME
@@ -134,32 +134,30 @@ else if ( (isset($_GET['filtering'])) && (strlen($_GET['filtering']) < 2) ) {
   unset($_GET['filtering']);
   unset($_GET['filter']);
 }
-if (isset($_GET['filter'])) {
-  if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
-    if (strlen($_GET['filtering']) > 100) 
-      die("filter too long");
-    foreach(str_split($ILLEGAL_CHAR) AS $char) {
-      $pos = strpos($_GET['filtering'], $char);
-      if ( ($pos === 0) || ($pos > 0) )
-        die("invalid char in filter");
-    }
-    if (preg_match('/^(= |not )/',$_GET['filtering'],$keyword)) {
-      if ($keyword[0] == "= ") {
-        $FILTER = $_GET['filtering'];
-        $MY_FILTER = substr($_GET['filtering'], 2);
-        $MY_LIKE = "=";
-      }
-      else if ($keyword[0] == "not ") {
-        $FILTER = $_GET['filtering'];
-        $MY_FILTER = '%'.substr($_GET['filtering'], 4).'%';
-        $MY_LIKE = "NOT LIKE";
-	$MY_ORAND = "AND";
-      }
-    }
-    else {
+if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
+  if (strlen($_GET['filtering']) > 100) 
+    die("filter too long");
+  foreach(str_split($ILLEGAL_CHAR) AS $char) {
+    $pos = strpos($_GET['filtering'], $char);
+    if ( ($pos === 0) || ($pos > 0) )
+      die("invalid char in filter");
+  }
+  if (preg_match('/^(= |not )/',$_GET['filtering'],$keyword)) {
+    if ($keyword[0] == "= ") {
       $FILTER = $_GET['filtering'];
-      $MY_FILTER = '%'.$FILTER.'%';
+      $MY_FILTER = substr($_GET['filtering'], 2);
+      $MY_LIKE = "=";
     }
+    else if ($keyword[0] == "not ") {
+      $FILTER = $_GET['filtering'];
+      $MY_FILTER = '%'.substr($_GET['filtering'], 4).'%';
+      $MY_LIKE = "NOT LIKE";
+      $MY_ORAND = "AND";
+    }
+  }
+  else {
+    $FILTER = $_GET['filtering'];
+    $MY_FILTER = '%'.$FILTER.'%';
   }
 }
 
