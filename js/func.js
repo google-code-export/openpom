@@ -44,6 +44,11 @@ function getallselectline(num,form) {
 function autorefresh() { 
   /* set next timeout */
   setTimeout(autorefresh, 1000, null);
+  /* check if search field has focus */
+  if (stoprefresh) {
+    refresh.innerHTML = '<img src="img/stop.png" border="0" />';
+    return;
+  }
   /* check if any line is checked */
   for (i=1; i<=100; i++) {
     if (document.getElementById("check_" + i) == null)

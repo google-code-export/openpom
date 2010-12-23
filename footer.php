@@ -29,5 +29,11 @@
       document.getElementById("optlink").href = "option.php";
       document.getElementById("commentlink").href = "comment.php?num=<?php echo $nb_rows?>";
     }
+    $("#filtering").focus(function() {
+      stoprefresh = true ;
+    });
+    $("#filtering").focusout(function() {
+      stoprefresh = false ;
+    });
   </script>
 </html> 

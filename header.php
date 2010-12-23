@@ -32,6 +32,7 @@
       var filter   = "<?php echo $FILTER?>";
       var cur_id;
       var it;
+      var stoprefresh = false;
     </script>
   </head>
   <body onClick='hide_data();'>
