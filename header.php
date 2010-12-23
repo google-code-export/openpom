@@ -33,6 +33,7 @@
       var cur_id;
       var it;
       var stoprefresh = false;
+      var lastChecked = null;
     </script>
   </head>
   <body onClick='hide_data();'>

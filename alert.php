@@ -65,7 +65,7 @@
           foreach($COLS AS $key => $val) { 
 
             if ($key == 'checkbox')
-              $toprint = '<input id="check_'.$line.'" name="'.$data['SVCID'].'" value="'.$data['MACHINE_NAME'].' '.$data['SERVICES'].'" type="checkbox" onclick=\'selectline('.$line.');\' />';
+              $toprint = '<input id="check_'.$line.'" class="chkbox" name="'.$data['SVCID'].'" value="'.$data['MACHINE_NAME'].' '.$data['SERVICES'].'" type="checkbox" onclick=\'selectline('.$line.');\' />';
 
             else if ($key == 'flag') {
 
