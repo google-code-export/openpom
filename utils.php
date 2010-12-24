@@ -184,9 +184,10 @@ function post_data_to_cmd($dbconn) {
 
   /* get action */
   foreach ($_POST AS $key => $val) 
-    if (preg_match('/^(ack|down|reset|disable|recheck|comment_persistent)$/',$key))
+    if (preg_match('/^(ack|down|reset|disable|recheck|comment_persistent|ena_notif|disa_notif)$/',$key))
       break; 
 
+  if (!isset($key)) return 2;
   global $EXT_CMD;
   if (!array_key_exists($key, $EXT_CMD))
     return 2;
@@ -244,6 +245,10 @@ function post_data_to_cmd($dbconn) {
     }
     
   }//end foreach
+
+  if ( ($key == "disa_notif") || ($key == "ena_notif") ) {
+    $cmd = "[$now] ".$EXT_CMD[$key]['host'][0][0]."\\n";
+  }
 
   global $CMD_FILE;
   global $EXEC_CMD;

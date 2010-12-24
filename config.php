@@ -73,7 +73,7 @@ $TRACK              = "blue";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.1.1";
+$VERSION            = "1.2.0";
 $CODENAME           = "OpenPom";
 
 /* NAGIOS AND ICINGA VARIABLES */
@@ -100,7 +100,7 @@ $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;";
 $EXT_CMD['ack']['host'][0]      = array(
 'ACKNOWLEDGE_HOST_PROBLEM',
 '$host',
-'1;1;0',
+'1;0;0',
 '$user',
 '$comment');
 
@@ -108,7 +108,7 @@ $EXT_CMD['ack']['svc'][0]       = array(
 'ACKNOWLEDGE_SVC_PROBLEM',
 '$host',
 '$svc',
-'1;1;0',
+'1;0;0',
 '$user',
 '$comment');
 
@@ -213,5 +213,12 @@ $EXT_CMD['comment_persistent']['svc'][0]  = array(
 '$user',
 '$comment');
 
+/* ENABLE GLOBAL NOTIFICATIONS */
+$EXT_CMD['ena_notif']['host'][0]  = array(
+'ENABLE_NOTIFICATIONS');
+
+/* DISABLE GLOBAL NOTIFICATIONS */
+$EXT_CMD['disa_notif']['host'][0]  = array(
+'DISABLE_NOTIFICATIONS');
 
 ?>

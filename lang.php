@@ -93,6 +93,8 @@ $LANG['en'] = array (
 'month'              => 'month',
 'year'               => 'year',
 'fix'                => 'fixed:',
+'ena_notif'          => 'enable notifications',
+'disa_notif'         => 'disable notifications',
 ) ;
 
 /* FRENCH */
@@ -174,6 +176,8 @@ $LANG['fr'] = array (
 'month'              => 'mois',
 'year'               => 'ann&eacute;e',
 'fix'                => 'fixe:',
+'ena_notif'          => 'activer les notifications',
+'disa_notif'         => 'd&eacute;sactiver les notifications',
 ) ;
 
 $LANG['de'] = array (
@@ -253,6 +257,8 @@ $LANG['de'] = array (
 'month'              => 'monat',
 'year'               => 'jahr',
 'fix'                => 'fixiert:',
+'ena_notif'          => 'enable notifications',
+'disa_notif'         => 'disable notifications',
 ) ;
 
 /* GET/SET LANG */

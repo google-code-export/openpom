@@ -21,6 +21,7 @@
       <td><input type="submit" name="disable" value="<?php echo ucfirst(lang($MYLANG, 'disable'))?>" onClick="EvalSound('sound1')" title="<?php echo ucfirst(lang($MYLANG, 'disable_title'))?>" /></td>
       <td><input type="submit" name="reset" value="<?php echo ucfirst(lang($MYLANG, 'reset'))?>" title="<?php echo ucfirst(lang($MYLANG, 'reset_title'))?>" /></td>
       <td><a class="comment" href="#" id="commentlink"><input type="button" name="comment" value="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>" /></a></td>
+      <td style="text-align:right; width:100%; white-space:nowrap;"><a class="<?php echo $global_notif; ?>" href="<?php echo $MY_GET.'&'.$global_notif;?>"><?php echo ucfirst(lang($MYLANG, $global_notif))?></a></td>
       <?php if (isset($LOG)) { ?>
       <td style="text-align:right; width:100%;"><a href="#" onClick='pop("<?php echo $LOG; ?>","nagios_log",600,500);'><?php echo ucfirst(lang($MYLANG, 'show_log'))?></a></td>
       <?php } ?>

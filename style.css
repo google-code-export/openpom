@@ -262,6 +262,15 @@ a.graph {
   margin: 1px;
 }
 
+a.ena_notif {
+  color: white;
+  background-color: red;
+  font-weight: bolder;
+}
+
+a.disa_notif {
+}
+
 div.frame {
         width: auto;
 	height: auto;
