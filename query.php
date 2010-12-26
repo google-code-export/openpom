@@ -16,6 +16,7 @@ SELECT
   sub.GROUPES                      AS GROUPE,
   sub.MACHINES                     AS MACHINES,
   sub.MACHINE_NAME                 AS MACHINE_NAME,
+  sub.ADDRESS                      AS ADDRESS,
   sub.SERVICES                     AS SERVICES,
   sub.STATUS                       AS STATUS,
   ( case sub.STATUS 
@@ -45,6 +46,7 @@ FROM (
     )                                    AS GROUPES,
     H.alias                              AS MACHINES,
     H.display_name                       AS MACHINE_NAME,
+    H.address                            AS ADDRESS,
     S.display_name                       AS SERVICES,
     SS.current_state                     AS STATUS,
     SS.servicestatus_id                  AS SVCID,
@@ -130,6 +132,7 @@ UNION
     )                                    AS GROUPES,
     H.alias                              AS MACHINES,
     H.display_name                       AS MACHINE_NAME,
+    H.address                            AS ADDRESS,
     '--host--'                           AS SERVICES,
     ( case HS.current_state 
       when 2 then 3

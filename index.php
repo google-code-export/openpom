@@ -256,8 +256,8 @@ $_SESSION['FRAME'] = $FRAME;
 
 /* SET / UNSET COLS DISPLAYED */
 if (!isset($_SESSION['COLS'])) 
-  $_SESSION['COLS'] = "";
-$no_cols = array('flag', 'duration', 'last', 'stinfo', 'group');
+  $_SESSION['COLS'] = ",IP,";
+$no_cols = array('flag', 'duration', 'last', 'stinfo', 'group', 'IP');
 foreach($no_cols AS $col) {
   $pattern = ",".$col.",";
   $no_filt_group = '/define_or_and[[:space:]]+OHG.name1[[:space:]]+define_my_like.*/'; 

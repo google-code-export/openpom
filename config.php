@@ -48,6 +48,7 @@ $COLS               = array(
 "flag"              => 'COEF, DURATION',
 "duration"          => 'DURATION',
 "machine"           => 'MACHINE_NAME',
+"IP"                => 'ADDRESS',
 "service"           => 'SERVICES' ,
 "stinfo"            => 'OUTPUT',
 "group"             => 'GROUPE',
