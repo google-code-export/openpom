@@ -145,12 +145,10 @@ select_level($LEVEL);
 
 /* FORGE FILTER */
 if (isset($_GET['clear'])) { 
-  unset($_GET['filter']);
   if (isset($_GET['filtering'])) unset($_GET['filtering']);
 }
 else if ( (isset($_GET['filtering'])) && (strlen($_GET['filtering']) < 2) ) {
   unset($_GET['filtering']);
-  unset($_GET['filter']);
 }
 if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
   if (strlen($_GET['filtering']) > 100) 
