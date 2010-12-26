@@ -253,28 +253,29 @@ else if (isset($_SESSION['FRAME']))
 $_SESSION['FRAME'] = $FRAME;
 
 /* SET / UNSET COLS DISPLAYED */
-if (!isset($_SESSION['COLS'])) 
-  $_SESSION['COLS'] = ",IP,";
-$no_cols = array('flag', 'duration', 'last', 'stinfo', 'group', 'IP');
-foreach($no_cols AS $col) {
-  $pattern = ",".$col.",";
-  $no_filt_group = '/define_or_and[[:space:]]+OHG.name1[[:space:]]+define_my_like.*/'; 
-  if (isset($_GET[$col])) {
-    unset($COLS[$col]);
-    if ($col == "group")
-      $QUERY = preg_replace($no_filt_group,' ',$QUERY);
-    if (!preg_match($pattern,$_SESSION['COLS']))
-      $_SESSION['COLS'] .= $pattern;
+if(!isset($_SESSION['NO_COLS'])) {
+  foreach($NO_COLS AS $key => $val)
+    $_SESSION[$val] = 1;
+  $_SESSION['NO_COLS'] = 1;
+}
+foreach($COLS AS $key => $val) {
+  if(isset($_GET['option'])) {
+    if(isset($_GET[$key])) {
+      unset($COLS[$key]);
+      $_SESSION[$key] = 1;
+      if (preg_match('/(machine|service|group|stinfo|IP)/',$key))
+        $QUERY = preg_replace("/.*define_my_like 'define_my_".$key."_filter'/",' ',$QUERY);
+    }
+    else if(isset($_SESSION[$key]))
+      unset($_SESSION[$key]);
   }
-  else if (isset($_GET['option']))
-    $_SESSION['COLS'] = str_replace($pattern,'',$_SESSION['COLS']);
-  else if (preg_match($pattern,$_SESSION['COLS'])) {
-    unset($COLS[$col]);
-    if ($col == "group")
-      $QUERY = preg_replace($no_filt_group,' ',$QUERY);
+  else if(isset($_SESSION[$key])) {
+    unset($COLS[$key]);
+    if (preg_match('/(machine|service|group|stinfo|IP)/',$key))
+      $QUERY = preg_replace("/.*define_my_like 'define_my_".$key."_filter'/",' ',$QUERY);
   }
 }
- 
+
 /* KEEP GET FOR FUTUR LINK */
 if (isset($_GET['n']))
   unset($_GET['n']);
@@ -301,25 +302,29 @@ $level = $LEVEL;
 while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   $query = $QUERY;
   $replacement = array (
-  'define_my_separator'    =>  mysql_real_escape_string($SEPARATOR, $dbconn),
-  'define_my_filter'       =>  mysql_real_escape_string($MY_FILTER, $dbconn),
-  'define_my_user'         =>  mysql_real_escape_string($MY_USER, $dbconn),
-  'define_my_svcfilt'      =>  mysql_real_escape_string($MY_SVCFILT, $dbconn),
-  'define_my_svcacklist'   =>  mysql_real_escape_string($MY_SVCACKLIST, $dbconn),
-  'define_my_hostacklist'  =>  mysql_real_escape_string($MY_HOSTACKLIST, $dbconn),
-  'define_my_hostdownlist' =>  mysql_real_escape_string($MY_HOSTDOWNLIST, $dbconn),
-  'define_my_svcdownlist'  =>  mysql_real_escape_string($MY_SVCDOWNLIST, $dbconn),
-  'define_my_acklist'      =>  mysql_real_escape_string($MY_ACKLIST, $dbconn),
-  'define_my_disable'      =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
-  'define_my_soft'         =>  mysql_real_escape_string($MY_SOFT, $dbconn),
-  'define_my_nosvc'        =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
-  'define_my_hostfilt'     =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
-  'define_or_and'          =>  mysql_real_escape_string($MY_ORAND, $dbconn),
-  'define_my_like'         =>  mysql_real_escape_string($MY_LIKE, $dbconn),
-  'define_sortsensfield'   =>  mysql_real_escape_string($SORTORDERFIELD, $dbconn),
-  'define_sortfield'       =>  mysql_real_escape_string($SORTFIELD, $dbconn),
-  'define_first'           =>  mysql_real_escape_string($FIRST, $dbconn),
-  'define_step'            =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
+  'define_my_separator'       =>  mysql_real_escape_string($SEPARATOR, $dbconn),
+  'define_my_machine_filter'  =>  mysql_real_escape_string($MY_FILTER, $dbconn),
+  'define_my_service_filter'  =>  mysql_real_escape_string($MY_FILTER, $dbconn),
+  'define_my_group_filter'    =>  mysql_real_escape_string($MY_FILTER, $dbconn),
+  'define_my_stinfo_filter'   =>  mysql_real_escape_string($MY_FILTER, $dbconn),
+  'define_my_IP_filter'       =>  mysql_real_escape_string($MY_FILTER, $dbconn),
+  'define_my_user'            =>  mysql_real_escape_string($MY_USER, $dbconn),
+  'define_my_svcfilt'         =>  mysql_real_escape_string($MY_SVCFILT, $dbconn),
+  'define_my_svcacklist'      =>  mysql_real_escape_string($MY_SVCACKLIST, $dbconn),
+  'define_my_hostacklist'     =>  mysql_real_escape_string($MY_HOSTACKLIST, $dbconn),
+  'define_my_hostdownlist'    =>  mysql_real_escape_string($MY_HOSTDOWNLIST, $dbconn),
+  'define_my_svcdownlist'     =>  mysql_real_escape_string($MY_SVCDOWNLIST, $dbconn),
+  'define_my_acklist'         =>  mysql_real_escape_string($MY_ACKLIST, $dbconn),
+  'define_my_disable'         =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
+  'define_my_soft'            =>  mysql_real_escape_string($MY_SOFT, $dbconn),
+  'define_my_nosvc'           =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
+  'define_my_hostfilt'        =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
+  'define_or_and'             =>  mysql_real_escape_string($MY_ORAND, $dbconn),
+  'define_my_like'            =>  mysql_real_escape_string($MY_LIKE, $dbconn),
+  'define_sortsensfield'      =>  mysql_real_escape_string($SORTORDERFIELD, $dbconn),
+  'define_sortfield'          =>  mysql_real_escape_string($SORTFIELD, $dbconn),
+  'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
+  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
   ) ;
 
   foreach($replacement AS $replace => $val)

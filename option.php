@@ -82,12 +82,9 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
       <tr>
         <td><?php echo ucfirst(lang($MYLANG, 'cols'))?></td>
         <td>
-          <?php foreach($COLS AS $key => $val) { 
-               if (preg_match('/^(flag|duration|last|stinfo|group|IP)$/', $key)) {
-                 $pattern = ",".$key.",";
-          ?>
-          <input type="checkbox" name="<?php echo $key?>" value="<?php echo $key?>" <?php echo (preg_match($pattern,$_SESSION['COLS']))?"checked":""?> /> <?php echo ucfirst(lang($MYLANG, $key))?><br />
-          <?php } } ?>
+          <?php foreach($COLS AS $key => $val) { ?>
+          <input type="checkbox" name="<?php echo $key?>" value="<?php echo $key?>" <?php echo (isset($_SESSION[$key]))?"checked":""?> /> <?php echo ucfirst(lang($MYLANG, $key))?><br />
+          <?php } ?>
         </td>
       </tr>
       <tr>

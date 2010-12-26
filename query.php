@@ -83,10 +83,11 @@ FROM (
 
   WHERE
     (
-		     H.alias        define_my_like 'define_my_filter'
-      define_or_and  H.display_name define_my_like 'define_my_filter'
-      define_or_and  S.display_name define_my_like 'define_my_filter'
-      define_or_and  OHG.name1      define_my_like 'define_my_filter'
+                     H.display_name define_my_like 'define_my_machine_filter'
+      define_or_and  S.display_name define_my_like 'define_my_service_filter'
+      define_or_and  OHG.name1      define_my_like 'define_my_group_filter'
+      define_or_and  SS.output      define_my_like 'define_my_stinfo_filter'
+      define_or_and  H.address      define_my_like 'define_my_IP_filter'
     )
     AND O.name1 = 'define_my_user'
     AND SS.current_state IN (define_my_svcfilt)
@@ -112,7 +113,7 @@ FROM (
             ORDER BY entry_time DESC
             LIMIT 1
           ) = '!'
-	) 
+        )
     AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
     AND ( SS.scheduled_downtime_depth IN (define_my_svcdownlist) AND
           HS.scheduled_downtime_depth IN (define_my_acklist) )
@@ -171,10 +172,11 @@ UNION
 
   WHERE
     (
-		     H.alias        define_my_like 'define_my_filter'
-      define_or_and  H.display_name define_my_like 'define_my_filter'
-      define_or_and  '--host--'     define_my_like 'define_my_filter'
-      define_or_and  OHG.name1      define_my_like 'define_my_filter'
+                     H.display_name define_my_like 'define_my_machine_filter'
+      define_or_and  '--host--'     define_my_like 'define_my_service_filter'
+      define_or_and  OHG.name1      define_my_like 'define_my_group_filter'
+      define_or_and  HS.output      define_my_like 'define_my_stinfo_filter'
+      define_or_and  H.address      define_my_like 'define_my_IP_filter'
     )
     AND O.name1 = 'define_my_user'
     AND HS.current_state IN (define_my_hostfilt)
@@ -194,7 +196,6 @@ UNION
     AND ( define_my_soft = 0 OR HS.state_type = 1 )
 
   GROUP BY SVCID
-
 
 ) AS sub
 

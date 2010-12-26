@@ -55,6 +55,12 @@ $COLS               = array(
 "last"              => 'LASTCHECK',
 );
 
+/* Do not display this columns by default */
+$NO_COLS            = array(
+"IP",
+"group", 
+);
+
 /* 
   ALERT COLOR  you must define the new color in style.css (tr.color) 
   red yellow orange green black
