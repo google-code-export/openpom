@@ -82,9 +82,11 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
       <tr>
         <td><?php echo ucfirst(lang($MYLANG, 'cols'))?></td>
         <td>
-          <?php foreach($COLS AS $key => $val) { ?>
+          <?php foreach($COLS AS $key => $val) { 
+            if ($key != "machine") {
+          ?>
           <input type="checkbox" name="<?php echo $key?>" value="<?php echo $key?>" <?php echo (isset($_SESSION[$key]))?"checked":""?> /> <?php echo ucfirst(lang($MYLANG, $key))?><br />
-          <?php } ?>
+          <?php } } ?>
         </td>
       </tr>
       <tr>
