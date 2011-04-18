@@ -620,7 +620,7 @@ table#popup {
  * TRACK     blue
  */
 
-.error        { background-color: #FFE5E5; }
+.error        { background-color: #FFE5E5 !important; }
 .soft         { font-style: italic; }
 
 .orange       { background: #FFE2AD; }
