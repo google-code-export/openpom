@@ -49,7 +49,8 @@ input[type="submit"] {
 }
 
 input[type="text"] { 
-  border: 1px solid #BABFBA; 
+  border: 1px solid #BABFBA;
+  background-color: #F5F8F3;
   padding: 1px; 
 }
 
@@ -102,10 +103,13 @@ table.filter th:first-child {
 
 input#filtering {
     width: 100px;
-    height: 16px;
-    background: url('img/search.png') no-repeat scroll left center;
-    padding-left: 20px;
+    height: 20px;
+    background: #F5F8F3 url('img/search.png') no-repeat scroll 1px center;
+    padding: 0px;
+    margin: 0px;
+    padding-left: 22px;
     vertical-align: middle;
+    line-height: 20px;
 }
 
 
@@ -412,10 +416,18 @@ table#top td span.count {
   padding-right: 2px;
 }
 
-table#top select {
+table#top span#metter-wrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+table#top span#metter-wrap select {
   height: 20px;
+  vertical-align: middle;
   border: 1px solid #BABFBA;
-  vertical-align: middle;     
+  background-color: #F5F8F3;
+  padding-top: 1px;
 }
 
 table#top td#margintop {
