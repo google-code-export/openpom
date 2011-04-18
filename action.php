@@ -16,7 +16,7 @@
   
     <table id="top">
       <tr>
-        <td colspan="6" id="margintop"></td>
+        <td colspan="11" id="margintop"></td>
       </tr>
       <tr>
       <td style="padding-left: 4px;">
@@ -26,7 +26,9 @@
           
           <span title="<?= ucfirst(lang($MYLANG, 'refreshing'))?>" 
                 id="refreshspan"></span>&#160;&#160;
-          
+      </td>
+
+      <td style="text-align: center;">
           <span class="icon-btn icon-ack"
                 onclick="clicked_generic_popin('ack.php');"
                 title="<?= ucfirst(lang($MYLANG, 'acknowledge'))?>"></span>&thinsp;
@@ -53,8 +55,10 @@
                 
       </td>
       
+      <td style="padding-left: 10px; padding-right: 10px;">
+      </td>
       
-      <td>
+      <td style="text-align: center;">
         <?php
           $popin = $POPIN ? 'disa_popin' : 'ena_popin';
         ?>
@@ -84,15 +88,18 @@
                 title="<?= ucfirst(lang($MYLANG, 'option'))?>"></span>
         </td>
         
+        <td style="padding-left: 10px; padding-right: 10px;">
+        </td>
+        
         <td class="filters" style="text-align: center;">
           <form method="get" class="filt" name="filt" action="?filter=1" id="filt">
             
-            <span style="position: relative; display: inline-block; vertical-align: middle;">
-              <img src="img/metter.png" style="position: absolute; top: 2px; left: 4px;" />
+            <span id="metter-wrap">
+              <img src="img/metter.png" style="position: absolute; top: 3px; left: 4px;" />
               <select name="level" onChange="this.form.submit();">
                 <? for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
                 <option value="<?= $sub_level?>" <?= ($sub_level==$LEVEL)?"selected":""?>>
-                  &#160;&#160;&#160;&#160;&#160;
+                  &#160;&#160;&#160;&#160;&#160;&#160;
                   <?= $sub_level?> - <?= ucfirst(lang($MYLANG, 'level'.$sub_level))?>
                 </option>
                 <? } ?>
@@ -111,8 +118,11 @@
             
           </form>
         </td>
+
+        <td style="padding-left: 10px; padding-right: 10px;">
+        </td>
         
-        <td style="cursor: default;" title="<?= lang($MYLANG, 'meter') ?>">
+        <td style="text-align: center; cursor: default;" title="<?= lang($MYLANG, 'meter') ?>">
           <span class="count red">C:<b>&thinsp;<?= $hit_critical ?></b></span>
           <span class="count yellow">W:<b>&thinsp;<?= $hit_warning ?></b></span>
           <span class="count orange">U:<b>&thinsp;<?= $hit_unknown ?></b></span>
@@ -121,7 +131,9 @@
           <span class="count">T:<b>&thinsp;<?= $hit_any ?></b></span>
         </td>
         
-        
+        <td style="padding-left: 10px; padding-right: 10px;">
+        </td>
+
         <td style="text-align: right; padding-right: 4px;">
           <?php if ($FIRST >= $LINE_BY_PAGE) { ?>
             <span class="icon-btn icon-prev"
@@ -140,7 +152,7 @@
 
       </tr>
       <tr>
-        <td colspan="6" id="wgrad">
+        <td colspan="11" id="wgrad">
           <div id="white"></div>
           <div id="grad"></div>
         </td>
