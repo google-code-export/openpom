@@ -21,7 +21,7 @@ require_once("lang.php");
   </div>
   
   <div class="box-content" id="down">
-    <form action="" method="post" onsubmit="return valid_down(this);">
+    <form action="" method="post" onsubmit="return valid_down(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <table>
         <tr>
           <th><?= ucfirst(lang($MYLANG, 'start_time')) ?></th>

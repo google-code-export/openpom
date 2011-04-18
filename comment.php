@@ -22,7 +22,7 @@ require_once("lang.php");
   </div>
   
   <div class="box-content" id="ack">
-    <form action="" method="post" onsubmit="return valid_comment(this);">
+    <form action="" method="post" onsubmit="return valid_comment(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <table>
         <tr>
           <th><?= ucfirst(lang($MYLANG, 'comment')) ?></th>
