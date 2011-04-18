@@ -134,11 +134,47 @@ Add your user:password with htpasswd in /etc/nagios/http-passwd
 --------
 
 You can show graph from external sources (like rrdgraph, pnp, cacti, ...)
-Edit config.php and add the url source for graph in ths variables :
+Edit config.php and add the following two arrays:
+
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
-$GRAPH_STATUS       = "";
+$GRAPH_STATUS = array(
+  'target'       => '', 
+  'p_host'       => 'host', 
+  'p_svc'        => 'service', 
+  'host_is_ping' => false
+);
+
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
-$GRAPH_POPUP        = "";
+$GRAPH_POPUP = array(
+  'target'       => '', 
+  'p_host'       => 'host', 
+  'p_svc'        => 'service', 
+  'host_is_ping' => false
+);
+
+Here is a short description of the keys present in the arrays:
+
+a) « target » corresponds to the source URL to use;
+b) « p_host » corresponds to the name of the host parameter to use in the query string;
+c) « p_svc » corresponds to the name of the service parameter to use in the query string;
+d) « host_is_ping », when true will treat --host-- as PING
+
+Example, configuration of graphs on the status popin, which is displayed when mouseovering a row in the alert table:
+
+$GRAPH_STATUS = array(
+  'target'       => '/nagios/cgi-bin/trends.cgi?createimage&backtrack=4&zoom=4',
+  'p_host'       => 'host',
+  'p_svc'        => 'service',
+  'host_is_ping' => false
+);
+
+When mouse goes over a row of type « host », the status popin will display the image available at the following URL: 
+
+/nagios/cgi-bin/trends.cgi?createimage&backtrack=4&zoom=4&host=@HOST@
+
+As we are, in this example, considering a row of type « host », if host_is_ping was to be true, the URL would become the following:
+
+/nagios/cgi-bin/trends.cgi?createimage&backtrack=4&zoom=4&host=@HOST@&service=PING
 
 6) Note
 -------
