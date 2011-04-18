@@ -109,7 +109,7 @@ $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT']);
 $COMMENT           = explode(';', $st_data['COMMENT']);
 ?>
 <?php if (isset($_GET['fix'])) { ?>
-<!DCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title><?= $HOSTNAME ?> &#160;&mdash;&#160; <?= $SERVICE ?></title>
@@ -117,7 +117,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
     <script type='text/javascript' src='js/func.js'></script>
   </head>
   <body>
