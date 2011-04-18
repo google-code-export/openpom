@@ -28,95 +28,167 @@ if (preg_match('/[?&]{1}prev=([0-9]+)/',$_SERVER['HTTP_REFERER'], $reprev))
 if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
   $level = $relevel[1];
 ?>
-  <script type='text/javascript' src='js/func.js'></script>
-
-  <div class="popact" id="popack">
-  <form action="" name="fopt" method="get" class="fopt" id="fopt">
-    <table class="popact">
-      <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'option'))?></th></tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'refreshing0'))?></td>
-        <td>
-          <input type="text" size="4" maxlength="4" name="refresh" id="refresh"
-            value="<?php echo $_SESSION['REFRESH']?>" />
-          <?php echo lang($MYLANG, 'second')?> (min 10, max 3600)
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'lang'))?></td>
-        <td><?php foreach(array_keys($LANG) AS $lang) { ?>
-          <input type="radio" name="lang" value="<?php echo $lang?>" <?php echo ($_SESSION['LANG']==$lang)?"checked":""?> /> <?php echo $lang?>
-          <?php } ?>
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'step'))?></td>
-        <td>
-          <input type="text" size="3" maxlength="3" name="step" value="<?php echo $_SESSION['STEP']?>" /> (min 1, max 999)
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'level'))?></td>
-        <td>
-          <input type="text" size="1" maxlength="1" name="defaultlevel" value="<?php echo $_SESSION['LEVEL']?>" /> 
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'maxlentd'))?></td>
-        <td>
-          <input type="text" size="3" maxlength="3" name="maxlentd" value="<?php echo $_SESSION['MAXLENTD']?>" /> (min 1, max 999)
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'fontsize'))?></td>
-        <td>
-          <input type="text" size="3" maxlength="3" name="fontsize" value="<?php echo $_SESSION['FONTSIZE']?>" /> (min 1, max 100)
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'frame'))?></td>
-        <td>
-          <input type="checkbox" name="frame" value="0" <?php echo ($_SESSION['FRAME']==0)?"checked":""?> />
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'cols'))?></td>
-        <td>
-          <?php foreach($COLS AS $key => $val) { 
-            if ($key != "machine") {
-          ?>
-          <input type="checkbox" name="<?php echo $key?>" value="<?php echo $key?>" <?php echo (isset($_SESSION[$key]))?"checked":""?> /> <?php echo ucfirst(lang($MYLANG, $key))?><br />
-          <?php } } ?>
-        </td>
-      </tr>
-      <tr>
-        <td class="submitline" colspan="2">
-          <input type="hidden" name="stop" value="stop" id="check_1" checked />
-          <?php if (isset($qfilt)) { ?>
-          <input type="hidden" name="filtering" value="<?php echo $qfilt?>" />
-          <?php } ?>
-          <?php if (isset($next)) { ?>
-          <input type="hidden" name="next" value="<?php echo $next?>" />
-          <?php } ?>
-          <?php if (isset($prev)) { ?>
-          <input type="hidden" name="prev" value="<?php echo $prev?>" />
-          <?php } ?>
-          <?php if (isset($sort)) { ?>
-          <input type="hidden" name="sort" value="<?php echo $sort?>" />
-          <?php } ?>
-          <?php if (isset($order)) { ?>
-          <input type="hidden" name="order" value="<?php echo $order?>" />
-          <?php } ?>
-          <?php if (isset($level)) { ?>
-          <input type="hidden" name="level" value="<?php echo $level?>" />
-          <?php } ?>
-          <input type="submit" name="option" value="Ok" />
-          <input type="button" name="cancel" value="<?php echo ucfirst(lang($MYLANG, 'cancel'))?>" onclick="$.fn.colorbox.close();" /> 
-          <input type="submit" name="reset" value="<?php echo ucfirst(lang($MYLANG, 'reset0'))?>" /> 
-        </td>
-      </tr>
-    </table>
+  
+  <div class="box-title box-title-default">
+    <h2><?= ucfirst(lang($MYLANG, 'option'))?></h2>
+  </div>
+  
+  <div class="box-content" id="option">
+    <form action="" method="get" onsubmit="return valid_option(this);">
+    <table>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'refreshing0')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="4" 
+                   name="refresh" id="refresh"
+                   value="<?= $_SESSION['REFRESH'] ?>" />
+            <?= lang($MYLANG, 'second')?>
+            (min 10, max 3600)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'lang')) ?>
+          </th>
+          <td colspan="2">
+            <? foreach(array_keys($LANG) AS $lang) { ?>
+              <input type="radio" name="lang" 
+                     id="<?= $lang ?>"
+                     value="<?= $lang ?>"
+                     <?= ($_SESSION['LANG'] == $lang) ? 'checked' : ''?>
+                     style="vertical-align: middle;" />
+                     
+              <label for="<?= $lang ?>" style="vertical-align: middle;">
+                <?= $lang ?>
+              </label>&#160;&#160;
+            <? } ?>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'step')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="3" name="step" 
+                   value="<?= $_SESSION['STEP'] ?>" />
+            (min 1, max 999)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'level')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="1" 
+                   name="defaultlevel" 
+                   value="<?= $_SESSION['LEVEL'] ?>" /> 
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'maxlentd')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="3" 
+                   name="maxlentd" 
+                   value="<?= $_SESSION['MAXLENTD'] ?>" />
+            (min 1, max 999)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'fontsize')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="3" 
+                   name="fontsize" 
+                   value="<?= $_SESSION['FONTSIZE'] ?>" />
+            (min 1, max 100)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?= ucfirst(lang($MYLANG, 'frame')) ?>
+          </th>
+          <td colspan="2">
+            <input type="checkbox" name="frame" value="0" 
+                   <?= ($_SESSION['FRAME'] == 0) ? 'checked' : '' ?> 
+                   style="vertical-align: middle;" />
+          </td>
+        </tr>
+        <tr>
+          <th style="vertical-align: top; padding-top: 3px;">
+            <?= ucfirst(lang($MYLANG, 'cols')) ?>
+          </th>
+          <td style="vertical-align: top; padding-top: 3px;">
+            <?php
+            $count = count($COLS)-1;
+            $i = 0;
+            foreach($COLS AS $key => $val) { 
+              if ($key != "machine") {
+                if (intval($count/2) == $i++) echo '</td><td>';
+              ?>
+              
+              <input type="checkbox" name="<?= $key ?>" id="<?= $key ?>" 
+                     value="<?= $key ?>" 
+                     style="vertical-align: middle;"
+                     <?= (isset($_SESSION[$key])) ? 'checked' : '' ?> />
+              <label for="<?= $key ?>" style="vertical-align: middle;">
+                <?= ucfirst(lang($MYLANG, $key)) ?>
+              </label>
+              <br />
+              
+              <?
+              }
+            } ?>
+          </td>
+        </tr>
+        <tr>
+          <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
+          </th>
+          <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
+            <input type="submit" name="option" value="Ok" />
+            <input type="button" name="cancel" 
+                   value="<?= ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   onclick="$.fn.colorbox.close();" />
+            &#160;&#160;&#160;
+            <input type="submit" name="reset" value="<?= ucfirst(lang($MYLANG, 'reset0')) ?>" />
+          </td>
+        </tr>
+      </table>
+      
+      <input type="hidden" name="stop" value="stop" id="check_1" checked />
+      <?php if (isset($qfilt)) { ?>
+      <input type="hidden" name="filtering" value="<?php echo $qfilt?>" />
+      <?php } ?>
+      <?php if (isset($next)) { ?>
+      <input type="hidden" name="next" value="<?php echo $next?>" />
+      <?php } ?>
+      <?php if (isset($prev)) { ?>
+      <input type="hidden" name="prev" value="<?php echo $prev?>" />
+      <?php } ?>
+      <?php if (isset($sort)) { ?>
+      <input type="hidden" name="sort" value="<?php echo $sort?>" />
+      <?php } ?>
+      <?php if (isset($order)) { ?>
+      <input type="hidden" name="order" value="<?php echo $order?>" />
+      <?php } ?>
+      <?php if (isset($level)) { ?>
+      <input type="hidden" name="level" value="<?php echo $level?>" />
+      <?php } ?>
+      
     </form>
   </div>
-  <script>setTimeout("document.getElementById('refresh').focus()", 500, null)</script>
+  
+  <script type="text/javascript">
+    setTimeout(function() { 
+      $('refresh').focus(); 
+    }, 500);
+  </script>
 
