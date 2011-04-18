@@ -26,7 +26,7 @@
     <script type='text/javascript' src="js/XMLHttpRequest-IE.js"></script>
     <script type='text/javascript' src="js/func.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
-    <script>
+    <script type="text/javascript">
       var current_data_displayed;
       var cache    = new Array();
       var popup;
@@ -37,9 +37,10 @@
       var it;
       var filtering_has_focus = false;
       var lastChecked = null;
+      document.onclick = hide_data;
     </script>
   </head>
-  <body onClick='hide_data();'>
+  <body>
     <div id="popup"><img src="img/ajax_loading.gif" /></div>
     <script>
       popup = document.getElementById("popup");
