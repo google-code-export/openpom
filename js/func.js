@@ -58,8 +58,8 @@ function autorefresh() {
   
   /* block countdown if line is checked or if filtering has focus */
   if (filtering_has_focus || line_is_checked) {
-    if (refresh.html().toLowerCase().indexOf('<img') < 0) {
-        refresh.html('<img src="img/stop.png" border="0" />');
+    if (refresh.css('text-decoration') != 'line-through') {
+      refresh.css('text-decoration', 'line-through');
     }
     return;
   }
@@ -68,6 +68,9 @@ function autorefresh() {
   var my_get = location.href.replace(/^.*[\/#\\]/g, ''); 
   if (mytime == 0)
     window.location.href = my_get;
+  if (refresh.css('text-decoration') == 'line-through') {
+    refresh.css('text-decoration', 'none');
+  }
   refresh.html(mytime);
 }
 
