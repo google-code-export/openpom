@@ -14,35 +14,39 @@ require_once("config.php");
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
-if ( (!isset($_GET['num'])) || (!is_numeric($_GET['num'])) )
-  die();
-else 
-  $nb_rows = $_GET['num'];
 ?>
-  <script type='text/javascript' src='js/func.js'></script>
-  <div class="popact" id="popack">
-  <form action="" name="comment" method="post" id="com" onSubmit='return valid_form();'>
-    <script>                                                                              
-      if (getallselectline(<?php echo $nb_rows?>,"comment") == false)
-        $.fn.colorbox.close();
-    </script>
-    <table class="popact">
-      <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'comment0'))?></th></tr>
-      <tr>
-        <td><?php echo ucfirst(lang($MYLANG, 'comment'))?></td>
-        <td>
-          <input type="text" name="comment" id="comment" />
-          <input type="hidden" name="comment_persistent" value="Ok" />
-        </td>
-      </tr>
-      <tr>
-        <td class="submitline" colspan="2">
-          <input type="submit" name="comment_persistent" value="Ok" />
-          <input type="button" name="cancel" value="<?php echo ucfirst(lang($MYLANG, 'cancel'))?>" onclick="$.fn.colorbox.close();" />
-        </td>
-      </tr>
-    </table>
+
+
+  <div class="box-title box-title-default">
+    <h2><?= ucfirst(lang($MYLANG, 'comment0')) ?></h2>
+  </div>
+  
+  <div class="box-content" id="ack">
+    <form action="" method="post" onsubmit="return valid_comment(this);">
+      <table>
+        <tr>
+          <th><?= ucfirst(lang($MYLANG, 'comment')) ?></th>
+          <td><input type="text" maxlength="64" name="comment" id="comment" /></td>
+        </tr>
+        
+        <tr>
+          <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
+          </th>
+          <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
+            <input type="submit" name="comment_persistent" value="Ok" />
+            &#160;&#160;&#160;
+            <input type="button" name="cancel" 
+                   value="<?= ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   onclick="$.fn.colorbox.close();" />
+          </td>
+        </tr>
+      </table>
     </form>
   </div>
+  
   <script>setTimeout("document.getElementById('comment').focus()", 500, null)</script>
 
