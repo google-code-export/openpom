@@ -270,4 +270,46 @@ function getmicrotime(){
   return ((float)$usec + (float)$sec);
 } 
 
+function get_graph($type, $host, $svc = null) {
+  global $GRAPH_STATUS;
+  global $GRAPH_POPUP;
+    
+  if ($type == 'status') {
+    $g =& $GRAPH_STATUS;
+  } else if ($type == 'popup') {
+    $g =& $GRAPH_POPUP;
+  } else {
+    return null;
+  }
+  
+  if (empty($g) 
+      || !isset($g['target']) 
+      || !isset($g['p_host']) 
+      || !isset($g['p_svc']) 
+      || !isset($g['host_is_ping'])) {
+    return null;
+  }
+  
+  $first_delim = (strpos($g['target'], '?') === false) ? '?' : '&';
+  $out  = $g['target'];
+  $out .= $first_delim . $g['p_host'] . '=' . $host;
+  
+  if (is_null($svc)) {
+    if ($g['host_is_ping']) {
+      $out .= '&' . $g['p_svc'] . '=PING';
+    }
+    
+  } else {
+    if ($svc == '--host--') {
+      if ($g['host_is_ping']) {
+        $out .= '&' . $g['p_svc'] . '=PING';
+      }
+    } else {
+      $out .= '&' . $g['p_svc'] . '=' . $svc;
+    }
+  }
+  
+  return $out;
+}
+
 ?>
