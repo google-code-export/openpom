@@ -63,6 +63,7 @@ require_once("lang.php");
           <td>
             <input type="text" 
                    name="comment" 
+                   maxlength="64"
                    id="comment"
                    value="" />
           </td>
