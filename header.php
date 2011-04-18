@@ -21,8 +21,11 @@
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
     <link rel="StyleSheet" href="style.css" type="text/css" />
-    <script type='text/javascript' src='js/XMLHttpRequest-IE.js'></script>
-    <script type='text/javascript' src='js/func.js'></script>
+    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.colorbox.js"></script>
+    <script type='text/javascript' src="js/XMLHttpRequest-IE.js"></script>
+    <script type='text/javascript' src="js/func.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
     <script>
       var current_data_displayed;
       var cache    = new Array();
