@@ -21,8 +21,7 @@
   <?php } ?>
   </body>
   <script>
-    refresh  = document.getElementById("refreshspan");
-    autorefresh("<?php echo $MY_GET?>");
+    autorefresh();
     if (document.getElementById("acklink") != null) {
       document.getElementById("acklink").href = "ack.php?num=<?php echo $nb_rows?>";
       document.getElementById("downlink").href = "down.php?num=<?php echo $nb_rows?>";
@@ -30,10 +29,10 @@
       document.getElementById("commentlink").href = "comment.php?num=<?php echo $nb_rows?>";
     }
     $("#filtering").focus(function() {
-      stoprefresh = true ;
+      filtering_has_focus = true ;
     });
     $("#filtering").focusout(function() {
-      stoprefresh = false ;
+      filtering_has_focus = false ;
     });
   </script>
 </html> 

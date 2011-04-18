@@ -42,27 +42,33 @@ function getallselectline(num,form) {
 }
 
 function autorefresh() { 
+  var refresh = $('#refreshspan');
+  
   /* set next timeout */
   setTimeout(autorefresh, 1000, null);
-  /* check if search field has focus */
-  if (stoprefresh) {
-    refresh.innerHTML = '<img src="img/stop.png" border="0" />';
+  
+  /* check if any line is checked */
+  var line_is_checked = false;
+  $('input[type="checkbox"].chkbox').each(function(index, element) {
+    if (element.checked) {
+      line_is_checked = true;
+      return false;
+    }
+  });
+  
+  /* block countdown if line is checked or if filtering has focus */
+  if (filtering_has_focus || line_is_checked) {
+    if (refresh.html().toLowerCase().indexOf('<img') < 0) {
+        refresh.html('<img src="img/stop.png" border="0" />');
+    }
     return;
   }
-  /* check if any line is checked */
-  for (i=1; i<=100; i++) {
-    if (document.getElementById("check_" + i) == null)
-      break;
-    if (document.getElementById("check_" + i).checked == true) {
-      refresh.innerHTML = '<img src="img/stop.png" border="0" />';
-      return;
-    }
-  }
+  
   mytime--;
   var my_get = location.href.replace(/^.*[\/#\\]/g, ''); 
   if (mytime == 0)
     window.location.href = my_get;
-  refresh.innerHTML = mytime;
+  refresh.html(mytime);
 }
 
 function XMLHttpRequestSurcouche(zeasy) { 

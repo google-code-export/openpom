@@ -35,7 +35,7 @@
       var filter   = "<?php echo $FILTER?>";
       var cur_id;
       var it;
-      var stoprefresh = false;
+      var filtering_has_focus = false;
       var lastChecked = null;
     </script>
   </head>
