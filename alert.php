@@ -118,7 +118,8 @@
         <?php } ?>
           <?php echo $toprint?>
         </td>
-        <?php } //end foreach ?>
+        <?php } //end foreach 
+        ?>
       </tr>
       <?php
           $line++;  
