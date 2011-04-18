@@ -345,9 +345,9 @@ function clicked_generic_popin(href) {
 function clicked_generic_action(action) {
   var selected = $('table#alert').find('span.checkbox span.checked');
   
-  if (selected.length) { 
+  if (selected.length) {
     var fobject = $('\
-      <form action="" method="post">\
+      <form action="" method="post" style="display: none">\
         <input type="hidden" name="' + action + '" value="" />\
       </form>\
     ');
@@ -358,6 +358,7 @@ function clicked_generic_action(action) {
       }
     });
     
+    $('body').append(fobject);
     fobject.submit();
     
   } else {
