@@ -14,47 +14,78 @@ require_once("config.php");
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
-if ( (!isset($_GET['num'])) || (!is_numeric($_GET['num'])) )
-  die();
-else
-  $nb_rows = $_GET['num'];
 ?>
-  <script type='text/javascript' src='js/func.js'></script>
-  <div class="popact" id="popack">
-    <form action="" name="down" method="post" id="down" onSubmit='return valid_form();'>
-    <script>
-     if (getallselectline(<?php echo $nb_rows?>,"down") == false)
-       $.fn.colorbox.close();
-    </script>
+
+  <div class="box-title box-title-default">
+    <h2><?= ucfirst(lang($MYLANG, 'downtime')) ?></h2>
+  </div>
+  
+  <div class="box-content" id="down">
+    <form action="" method="post" onsubmit="return valid_down(this);">
       <table>
-        <tr><th colspan="2"><?php echo ucfirst(lang($MYLANG, 'downtime'))?></th></tr>
         <tr>
-          <td><?php echo ucfirst(lang($MYLANG, 'start_time'))?></td>
-          <td><input id="start" type="text" name="start" style="width: 150px;" value="<?php echo strftime("%d-%m-%Y %H:%M", strtotime("+1 minute"))?>" /></td>
-        </tr>
-        <tr>
-          <td><?php echo ucfirst(lang($MYLANG, 'end_down'))?></td>
-          <td><input id="end" type="text" name="end" style="width: 150px;" value="<?php echo strftime("%d-%m-%Y %H:%M", strtotime("+2 hour +1 minute"))?>" /></td>
-        </tr>
-        <tr>
-          <td><?php echo ucfirst(lang($MYLANG, 'fix'))?></td>
-          <td><input id="hour" type="text" name="hour" style="width:50px;" value="" /> <?php echo ucfirst(lang($MYLANG, 'hour'))?> <input id="minute" type="text" name="minute" style="width:50px;" value="" /> <?php echo ucfirst(lang($MYLANG, 'minutes'))?></td>
-        </tr>
-        <tr>
-          <td><?php echo ucfirst(lang($MYLANG, 'comment'))?></td>
-          <input type="hidden" name="down" value="Ok" />
-          <td colspan="2"><input type="text" name="comment" id="comment" style="width:250px;" /></td>
-        </tr>
-        <tr>
-          <td class="submitline" colspan="2">
-            <input type="submit" name="down" value="Ok" />
-            <input type="button" name="cancel" value="<?php echo ucfirst(lang($MYLANG, 'cancel'))?>" onclick="$.fn.colorbox.close();" />
+          <th><?= ucfirst(lang($MYLANG, 'start_time')) ?></th>
+          <td>
+            <input id="start" 
+                   type="text" 
+                   name="start"  
+                   value="<?= strftime("%d-%m-%Y %H:%M", strtotime("+1 minute")) ?>" />
           </td>
         </tr>
         <tr>
+          <th><?= ucfirst(lang($MYLANG, 'end_down')) ?></th>
+          <td>
+            <input id="end" 
+                   type="text" 
+                   name="end"  
+                   value="<?php echo strftime("%d-%m-%Y %H:%M", strtotime("+2 hour +1 minute"))?>" />
+          </td>
+        </tr>
+        <tr>
+          <th><?= ucfirst(lang($MYLANG, 'fix')) ?></th>
+          <td>
+            <input id="hour" 
+                   type="text" 
+                   name="hour"  
+                   value="" />
+            <?= lang($MYLANG, 'hour') ?>
+            
+            &#160;&#160;&#160;
+            <input id="minute" 
+                   type="text" 
+                   name="minute"  
+                   value="" />
+            <?= lang($MYLANG, 'minutes') ?>
+          </td>
+        </tr>
+        <tr>
+          <th><?= ucfirst(lang($MYLANG, 'comment')) ?></th>
+          <td>
+            <input type="text" 
+                   name="comment" 
+                   id="comment"
+                   value="" />
+          </td>
+        </tr>
+        
+        <tr>
+          <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
+          </th>
+          <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
+            <input type="submit" name="down" value="Ok" />
+            &#160;&#160;&#160;
+            <input type="button" name="cancel" 
+                   value="<?= ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   onclick="$.fn.colorbox.close();" />
+          </td>
         </tr>
       </table>
     </form>
   </div>
+  
   <script>setTimeout("document.getElementById('comment').focus()", 500, null)</script> 
 
