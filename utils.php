@@ -176,7 +176,7 @@ function post_data_to_cmd($dbconn) {
       }//end foreach
       $comment = $_POST['comment'];
       if (isset($_POST['track']))
-        $comment = "!".$comment;
+        $comment = "!track ".$comment;
     }
     else
       return 2;
