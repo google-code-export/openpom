@@ -17,15 +17,67 @@ function selectall(object) {
   });
 }
 
-function selectline(object) {
-  /*elem = document.getElementById("check_" + i);
-  if (elem == null) return;
-  if (elem.checked == true)
-    elem.checked = false;
-  else
-    elem.checked = true;*/
-  toggleCheckbox($(object).find('span.checkbox').get(0));
+function selectline(object, event) {
+  /* try to not trigger event if the source */
+  /* element or its parent is a link */
+  if (!event) {
+    event = window.event;
+  }
+  
+  var target = null;
+  if (event.target) {
+    target = event.target;
+  } else if (event.srcElement) {
+    target = event.srcElement;
+  }
+  
+  if (target != null) {
+    if (target.nodeName.toLowerCase() == 'a') {
+      return;
+    }
+    var parent = $(target).parent();
+    if (parent.length) {
+      if (parent.get(0).nodeName.toLowerCase() == 'a') {
+        return;
+      }
+    }
+  }
+  
+  /* eventually, trigger the action */
+  var chk = $(object).find('span.checkbox');
+  if (!chk.length) { 
+    return;
+  }
+  chk = chk.get(0);
+  
+  if (typeof(event.shiftKey) != 'undefined' 
+      && event.shiftKey === true
+      && lastChecked != null) {
+    
+    var allChk = $('span.checkbox');
+    var iClicked = allChk.index(chk);
+    var iPrev = allChk.index(lastChecked);
+    var newState = !testCheckbox(allChk[iClicked]);
+    
+    for (var i=Math.min(iClicked,iPrev); i<=Math.max(iClicked,iPrev); i++) {
+      checkCheckbox(allChk[i], newState)
+    }
+    
+  } else {
+    toggleCheckbox(chk);
+  }
+  
+  /* try to remove potential text selection */
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges(); 
+  } else if (document.selection && document.selection.empty) {
+    document.selection.empty(); 
+  }
+  
+  /* keep trace of last checked */
+  lastChecked = chk;
 }
+
 
 function getallselectline(form) {
   
@@ -240,6 +292,28 @@ function valid_down(fobject) {
   return true;
 }
 
+function valid_comment(fobject) {
+  var fobject = $(fobject);
+  var com = fobject.find('#comment');
+  
+  if (com.length && com.val().length < 2) {
+    com.focus();
+    com.addClass('error');
+    return false;
+  } else {
+    com.removeClass('error');
+  }
+  
+  fobject.find('input.data').remove();
+  $('table#alert').find('span.checkbox').each(function (index, element) {
+    if (testCheckbox(element)) {
+      fobject.append($(element).find('input').clone());
+    }
+  });
+  
+  return true;
+}
+
 function valid_option(fobject) {
   return true;
 }
@@ -314,7 +388,8 @@ function blink_checkboxes() {
 }
 
 function pop(url, name, width, height) {
-  window.open(url, name, 'location=no,toolbar=no,directories=no,menubar=no,resizable=no,scrollbars=yes,status=no,width='+width+',height='+height);
+  window.open(url, name, 'location=no,toolbar=no,directories=no,menubar=no,resizable=no,scrollbars=auto,status=no,width='+width+',height='+height);
+  return false;
 }
 
 function popin(link, options) {
@@ -355,4 +430,15 @@ function toggleCheckbox(object) {
   $(object).find('span').toggleClass('checked');
 }
 
+function checkCheckbox(object, check) {
+  if (typeof(check) == 'undefined') {
+    check = true;
+  }
+  
+  if (check) {
+    $(object).find('span').addClass('checked');
+  } else {
+    $(object).find('span').removeClass('checked');
+  }
+}
 
