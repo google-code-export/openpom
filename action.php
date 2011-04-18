@@ -19,7 +19,7 @@
         <td colspan="11" id="margintop"></td>
       </tr>
       <tr>
-      <td style="padding-left: 4px;">
+      <td style="padding-left: 4px; width: 60px;">
           <span class="icon-btn icon-refesh"
                 title="<?= ucfirst(lang($MYLANG, 'refresh'))?>"
                 onclick="window.location.href='<?= $MY_GET ?>';"></span>&#160;
