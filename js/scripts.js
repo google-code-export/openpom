@@ -17,5 +17,12 @@ $(document).ready(function(){
     }
     lastChecked = this;
   });
+  
+  var first_alert_item = $('table#alert tr.alert-item:first');
+  if (first_alert_item.length) {
+    popup.css('top', (first_alert_item.offset().top - 10) + 'px');
+  }
+  
+  $('body').append(popup);
 });
 
