@@ -9,6 +9,10 @@
   $Date$
 */
 
+function regexp_escape(input) {
+  return input.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 function selectall(object) {
   /*for (i=1; i<=num; i++)
     selectline(i);*/  
@@ -226,16 +230,18 @@ function append_track(fobject) {
   }
 }
 
-function valid_ack(fobject) {
+function valid_ack(fobject, illegal) {
   var fobject = $(fobject);
   var com = fobject.find('#comment');
   
-  if (com.length && com.val().length < 2) {
+  com.removeClass('error');
+  illegal = decodeURIComponent(illegal);
+  var regexp = new RegExp('^[^' + regexp_escape(illegal) + ']{2,64}$');
+  
+  if (com.length && !regexp.test(com.val())) {
     com.focus();
     com.addClass('error');
     return false;
-  } else {
-    com.removeClass('error');
   }
   
   fobject.find('input.data').remove();
@@ -248,7 +254,7 @@ function valid_ack(fobject) {
   return true;
 } 
 
-function valid_down(fobject) {
+function valid_down(fobject, illegal) {
   var fobject = $(fobject);
   var com = fobject.find('#comment');
   var start = fobject.find('#start');
@@ -256,13 +262,11 @@ function valid_down(fobject) {
   var hour = fobject.find('#hour');
   var minute = fobject.find('#minute');
   
-  if (com.length && com.val().length < 2) {
-    com.focus();
-    com.addClass('error');
-    return false;
-  } else {
-    com.removeClass('error');
-  }
+  start.removeClass('error');
+  end.removeClass('error');
+  hour.removeClass('error');
+  minute.removeClass('error');
+  com.removeClass('error');
   
   if (start.length && start.val().length < 1
       && start.length && start.val().length < 1
@@ -275,11 +279,35 @@ function valid_down(fobject) {
     hour.addClass('error');
     minute.addClass('error');
     return false;
+  }
+  
+  if (hour.val().length < 1 && minute.val().length < 1) {
+      var regexp = /^[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}\s[0-9]{1,2}:[0-9]{1,2}$/;
+      if (!regexp.test(start.val())) {
+          start.addClass('error');
+          return false;
+      } else if (!regexp.test(end.val())) {
+          end.addClass('error');
+          return false;
+      }
+      
   } else {
-    start.removeClass('error');
-    end.removeClass('error');
-    hour.removeClass('error');
-    minute.removeClass('error');
+      if (!/^[0-9]*$/.test(hour.val())) {
+          hour.addClass('error');
+          return false;
+      } else if (!/^[0-9]*$/.test(minute.val())) {
+          minute.addClass('error');
+          return false;
+      }
+  }
+  
+  illegal = decodeURIComponent(illegal);
+  var regexp = new RegExp('^[^' + regexp_escape(illegal) + ']{2,64}$');
+  
+  if (com.length && !regexp.test(com.val())) {
+    com.focus();
+    com.addClass('error');
+    return false;
   }
   
   fobject.find('input.data').remove();
@@ -292,16 +320,18 @@ function valid_down(fobject) {
   return true;
 }
 
-function valid_comment(fobject) {
+function valid_comment(fobject, illegal) {
   var fobject = $(fobject);
   var com = fobject.find('#comment');
   
-  if (com.length && com.val().length < 2) {
+  com.removeClass('error');
+  illegal = decodeURIComponent(illegal);
+  var regexp = new RegExp('^[^' + regexp_escape(illegal) + ']{2,64}$');
+  
+  if (com.length && !regexp.test(com.val())) {
     com.focus();
     com.addClass('error');
     return false;
-  } else {
-    com.removeClass('error');
   }
   
   fobject.find('input.data').remove();
