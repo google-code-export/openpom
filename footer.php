@@ -11,10 +11,10 @@
 */
  
   if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ; ?>
-    <div align="center">
-      <?php echo $CODENAME?> - <?php echo $VERSION?> - GPL -
-      <a href="http://www.exosec.fr/" target="_blank">Exosec</a> - 2010 - 
-      <?php echo lang($MYLANG, 'querytime')?> <?php echo sprintf($str_query_time, $query_time)?>
+  <div align="center" style="margin-top: 5px;">
+      <?php echo $CODENAME?> &mdash; <?php echo $VERSION?> &mdash; GPL &mdash;
+      <a href="http://www.exosec.fr/" target="_blank">Exosec</a> &mdash; 2010-2011 &mdash; 
+      <?= ucfirst(lang($MYLANG, 'querytime')) ?> <?= sprintf($str_query_time, $query_time) ?>
     </div>
   <?php if ($_SESSION['FRAME'] == 1) { ?>
   </td></tr></table>
