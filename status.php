@@ -85,7 +85,7 @@ $ADDRESS           = $st_data['ADDRESS'];
 $HOSTNAME          = $st_data['HOSTNAME'];
 
 if (empty($st_data['SERVICE']))
-  $SERVICE         = "PING";
+  $SERVICE         = "--host--";
 else
   $SERVICE         = $st_data['SERVICE'];
 
@@ -140,9 +140,9 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         <td><?= $HOSTNAME ?> (<?= $ADDRESS ?>)</td>
         <td align="right" border="0" style="padding: 0; margin: 0;">
           <a  href="#" 
-              onClick="pop(
+              onClick="return pop(
                   'status.php?type=<?= $TYPE; ?>&id=<?= $ID; ?>&fix',
-                  '<?= $HOSTNAME ?> &#160;&mdash;&#160; <?= $SERVICE ?>',
+                  '<?= $TYPE ?><?= $ID ?>',
                   $('table#popup').parent().outerWidth(), 
                   $('table#popup').parent().outerHeight());">
             <img src="img/popup.png" 
@@ -196,7 +196,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
       <?php if ( ($ACK == 1) && (isset($ACKCOMMENT[1])) ) { ?>
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
-            <img style="display: inline-block; vertical-align: middle;" height="13" width="13" src="img/ack.gif" alt="ack comment" />
+            <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_ack.gif" alt="ack comment" />
             <span style="display: inline-block; vertical-align: middle;">(<?= $ACKCOMMENT[0]?>)</span>
           </th>
           <td colspan="2"><?= $ACKCOMMENT[1]?></td>
@@ -206,7 +206,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
       <?php if ( ($DOWN == 1) && (isset($DOWNCOMMENT[1])) ) { ?>
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
-            <img style="display: inline-block; vertical-align: middle;" height="13" width="13" src="img/downtime.gif" alt="downtime comment" />
+            <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_downtime.png" alt="downtime comment" />
             <span style="display: inline-block; vertical-align: middle;">(<?= $DOWNCOMMENT[0]?>)</span>
           </th>
           <td colspan="2"><?= $DOWNCOMMENT[1]?>, (<?= lang($MYLANG, 'end_down') ?> <?= $DOWNCOMMENT[2] ?>)</td>
@@ -216,25 +216,28 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
       <?php if (isset($COMMENT[1])) { ?>
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
-            <img style="display: inline-block; vertical-align: middle;" height="13" width="13" src="img/comment.gif" alt="ack comment" />
+            <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_comment.gif" alt="ack comment" />
             <span style="display: inline-block; vertical-align: middle;">(<?= $COMMENT[0]?>)</span>
           </th>
           <td colspan="2"><?= $COMMENT[1]?></td>
         </tr>
       <?php } ?>
+        
+      <? $g = get_graph('status', $HOSTNAME, $SERVICE); ?>
+      <? if (!is_null($g)) { ?>
       
-      <?php $pattern = '/^(SYSCHECK|BACKUP-CARBONE)/i'; ?>
-      <?php if (!preg_match($pattern, $SERVICE) ) { ?>
         <tr>
-          <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
+          <th style="height: 6px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
           <td colspan="2"></td>
         </tr>
         <tr>
           <td colspan="3" style="padding: 0; margin: 0; vertical-align: bottom; height: 100%;">
-            <img style="vertical-align: bottom; padding: 0; margin: 0;" width="500" height="180" src="rrd/g.cgi?view=graph&host=<?= $HOSTNAME?>&svc=<?= $SERVICE?>&width=400&height=80">
+            <img style="vertical-align: bottom; padding: 0; margin: 0;" src="<?= $g ?>">
           </td>
         </tr>
-      <?php } ?>
+        
+      <? } ?>
+        
     </table>
   </div>
   <!--
