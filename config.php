@@ -31,10 +31,12 @@ $SPLITAT            = 100;
 /* SHOW THE COLOR FRAME AROUND THE PAGE */
 $FRAME              = 0;
 /* FONT SIZE FOR ALERT */
-$FONT_SIZE          = 12;
+$FONT_SIZE          = 11;
+/* SHOW POPIN ON ROW MOUSE OVER */
+$POPIN              = 1;
 
 //$LEVEL              = 1; /* SHOW CRITICAL ONLY */
-$LEVEL              = 2; /* LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
+$LEVEL                = 2; /* LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
 //$LEVEL              = 3; /* LEVEL 3 SHOW CRITICAL WARNING UNKNOWN AND SOFT */
 //$LEVEL              = 4; /* SHOW LEVEL 4 AND ACK AND DOWNTIME */
 //$LEVEL              = 5; /* SHOW LEVEL 5 AND OUTAGE */
@@ -80,25 +82,35 @@ $TRACK              = "blue";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.2.0";
+$VERSION            = "1.3.0";
 $CODENAME           = "OpenPom";
 
 /* NAGIOS AND ICINGA VARIABLES */
 $EXEC_CMD           = "./send-order";
 $EXEC_PARAM         = "";
-//$SUDO_EXEC          = "/usr/bin/sudo";
-//$SUDO_PARAM         = "";
+//$SUDO_EXEC        = "/usr/bin/sudo";
+//$SUDO_PARAM       = "";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
-//$CMD_FILE           = "/var/lib/icinga/rw/icinga.cmd";
+//$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
 $LINK               = "http://".$BACKEND."/cgi-bin/extinfo.cgi";
 $LOG                = "http://".$BACKEND."/cgi-bin/showlog.cgi";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
-$GRAPH_WIDTH        = 800;
-$GRAPH_HEIGHT       = 400;
-$GRAPH_STATUS       = "http://".$BACKEND."/cgi-bin/trends.cgi?createimage&host=_HOSTNAME_&service=_SERVICE_&backtrack=4&zoom=4";
+$GRAPH_STATUS = array(
+  'target'       => 'http://'.$BACKEND.'/cgi-bin/trends.cgi?createimage&backtrack=4&zoom=4', 
+  'p_host'       => 'host', 
+  'p_svc'        => 'service', 
+  'host_is_ping' => false
+);
+
 /* SHOW GRAPH ICON ON ALERT (open a popup with external graph) */
-$GRAPH_POPUP        = "http://".$BACKEND."/cgi-bin/trends.cgi";
+$GRAPH_POPUP = array(
+  'target'       => 'graph.php?period=week', 
+  'p_host'       => 'host', 
+  'p_svc'        => 'svc', 
+  'host_is_ping' => false
+);
+
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 
