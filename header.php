@@ -20,7 +20,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
+    
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" type="text/css" href="style-ie.css" />
+    <![endif]-->
+
     <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.colorbox.js"></script>
     <script type='text/javascript' src="js/XMLHttpRequest-IE.js"></script>

@@ -1,0 +1,27 @@
+table#top span#metter-wrap {
+  border: 1px solid #BABFBA;
+  background-color: #F5F8F3;
+}
+
+table#top span#metter-wrap select {
+  height: 20px;
+  padding: 0px;
+  border: 1px solid #fff;
+  -ms-filter: 
+      "progid:DXImageTransform.Microsoft.chroma(Color=#716f64), 
+      progid:DXImageTransform.Microsoft.chroma(Color=#7f9db9), 
+      progid:DXImageTransform.Microsoft.chroma(Color=#e0dfe3), 
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),  
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),  
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff)";
+  filter: 
+      progid:DXImageTransform.Microsoft.chroma(Color=#716f64), 
+      progid:DXImageTransform.Microsoft.chroma(Color=#7f9db9), 
+      progid:DXImageTransform.Microsoft.chroma(Color=#e0dfe3), 
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff);
+}
+
