@@ -276,6 +276,18 @@ foreach($COLS AS $key => $val) {
   }
 }
 
+/* GET DO WE DISPLAY POPIN */
+if (isset($_GET['popin']) 
+    && ($_GET['popin'] === '0' || $_GET['popin'] === '1')) {
+  $POPIN = $_GET['popin'];
+  $_SESSION['POPIN'] = $POPIN;
+
+} else if (isset($_SESSION['POPIN'])) {
+  $POPIN = $_SESSION['POPIN'];
+} else {
+  $_SESSION['POPIN'] = $POPIN;
+}
+
 /* KEEP GET FOR FUTUR LINK */
 if (isset($_GET['n']))
   unset($_GET['n']);
@@ -391,7 +403,6 @@ require_once("header.php");
 if (isset($_GET['monitor'])) 
   unset($COLS['checkbox']);
 else {
-  require_once("filter.php");
   require_once("action.php");
 }
 require_once("alert.php");
