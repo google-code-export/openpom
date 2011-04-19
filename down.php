@@ -88,5 +88,6 @@ require_once("lang.php");
     </form>
   </div>
   
-  <script>setTimeout("document.getElementById('comment').focus()", 500, null)</script> 
-
+  <script type="text/javascript">
+    setTimeout(function () { $('#comment').focus(); }, 500);
+  </script>
