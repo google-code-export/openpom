@@ -22,6 +22,13 @@ require_once("lang.php");
   
   <div class="box-content" id="ack">
     <form action="" method="post" onsubmit="return valid_ack(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
+      <!-- BEGIN IE FIX -->
+      <!-- 1x text input and submit disables submit on Enter -->
+      <div style="display: none;">
+        <input type="text" name="dummy_IE_FIX" />
+      </div>
+      <!-- END IE FIX -->
+
       <table>
         <tr>
           <th><?php echo ucfirst(lang($MYLANG, 'comment')) ?></th>
