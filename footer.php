@@ -13,20 +13,20 @@
   if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ; ?>
   
   <div style="margin-top: 3px; text-align: center;">
-    <?= $CODENAME ?> <span class="ndash">&ndash;</span> 
-    <?= $VERSION ?> <span class="ndash">&ndash;</span> 
+    <?php echo $CODENAME ?> <span class="ndash">&ndash;</span> 
+    <?php echo $VERSION ?> <span class="ndash">&ndash;</span> 
     GPL <span class="ndash">&ndash;</span>
     <a href="http://www.exosec.fr/" target="_blank">Exosec</a> <span class="ndash">&ndash;</span>
     2010&thinsp;-&thinsp;2011 <span class="ndash">&ndash;</span> 
-    <?= ucfirst(lang($MYLANG, 'querytime')) ?> <?= sprintf($str_query_time, $query_time) ?>
+    <?php echo ucfirst(lang($MYLANG, 'querytime')) ?> <?php echo sprintf($str_query_time, $query_time) ?>
     
-    <? if (isset($_GET['monitor'])) { ?>
+    <?php if (isset($_GET['monitor'])) { ?>
       <span class="ndash">&ndash;</span> 
-      <?= ucfirst(lang($MYLANG, 'refreshing')) ?>
-      <b><span id="refreshspan"></span></b>&#160;<?= lang($MYLANG, 'second') ?>
+      <?php echo ucfirst(lang($MYLANG, 'refreshing')) ?>
+      <b><span id="refreshspan"></span></b>&#160;<?php echo lang($MYLANG, 'second') ?>
       <span class="ndash">&ndash;</span>
       <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a>
-    <? } ?>
+    <?php } ?>
   </div>
   
   <?php if ($_SESSION['FRAME'] == 1) { ?>

@@ -59,7 +59,7 @@ if ( ! isset($st_data['ADDRESS']) ){
 
 ?>
   <table class="popuptable">
-    <tr><th><b><?= ucfirst(lang($MYLANG, 'reload'))?></b></th></tr>
+    <tr><th><b><?php echo ucfirst(lang($MYLANG, 'reload'))?></b></th></tr>
   </table>
 <?php
   exit (0);
@@ -112,7 +112,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
-    <title><?= $HOSTNAME ?> &#160;&mdash;&#160; <?= $SERVICE ?></title>
+    <title><?php echo $HOSTNAME ?> &#160;&mdash;&#160; <?php echo $SERVICE ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
@@ -124,7 +124,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
 <?php } ?>
   
   <!--
-  <div class="<?= $COLOR ?>dark" style="padding: 1px;">
+  <div class="<?php echo $COLOR ?>dark" style="padding: 1px;">
   -->
   <div class="box-content" style="background-color: white;">
   
@@ -136,70 +136,70 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
     <?php } ?>
     
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'host')) ?></th>
-        <td><?= $HOSTNAME ?> (<?= $ADDRESS ?>)</td>
+        <th><?php echo ucfirst(lang($MYLANG, 'host')) ?></th>
+        <td><?php echo $HOSTNAME ?> (<?php echo $ADDRESS ?>)</td>
         <td align="right" border="0" style="padding: 0; margin: 0;">
           <a  href="#" 
               onClick="return pop(
-                  'status.php?type=<?= $TYPE; ?>&id=<?= $ID; ?>&fix',
-                  '<?= $TYPE ?><?= $ID ?>',
+                  'status.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>&fix',
+                  '<?php echo $TYPE ?><?php echo $ID ?>',
                   $('table#popup').parent().outerWidth(), 
                   $('table#popup').parent().outerHeight());">
             <img src="img/popup.png" 
                  border="0" 
-                 alt"<?= ucfirst(lang($MYLANG, 'fixed')) ?>" 
-                 title="<?= ucfirst(lang($MYLANG, 'fixed')) ?>" />
+                 alt"<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" 
+                 title="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" />
           </a>
         </td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'curstat')) ?></th>
+        <th><?php echo ucfirst(lang($MYLANG, 'curstat')) ?></th>
         <td colspan="2">
-          <div class="<?= $COLOR ?>">
-            <?= $STATUS ?> (for <?= $LASTCHANGEDIFF ?>)
+          <div class="<?php echo $COLOR ?>">
+            <?php echo $STATUS ?> (for <?php echo $LASTCHANGEDIFF ?>)
           </div>
         </td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'stinfo')) ?></th>
-        <td colspan="2"><?= linebreak($OUTPUT) ?></td>
+        <th><?php echo ucfirst(lang($MYLANG, 'stinfo')) ?></th>
+        <td colspan="2"><?php echo linebreak($OUTPUT) ?></td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'curat'))?></th>
-        <td colspan="2"><?= $CURATTEMP?>/<?= $MAXATTEMP?></td>
+        <th><?php echo ucfirst(lang($MYLANG, 'curat'))?></th>
+        <td colspan="2"><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?></td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'last'))?></th>
-        <td colspan="2"><?= $LASTCHECKTIME?> (<?= $LASTCHECKTIMEDIFF?>)</td>
+        <th><?php echo ucfirst(lang($MYLANG, 'last'))?></th>
+        <td colspan="2"><?php echo $LASTCHECKTIME?> (<?php echo $LASTCHECKTIMEDIFF?>)</td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'chktyp'))?></th>
-        <td colspan="2"><?= $CHKTYPE?></td>
+        <th><?php echo ucfirst(lang($MYLANG, 'chktyp'))?></th>
+        <td colspan="2"><?php echo $CHKTYPE?></td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'latency'))?> / <?= ucfirst(lang($MYLANG, 'duration'))?></th>
-        <td colspan="2"><?= $LATENCY?> / <?= $EXEC_TIME?></td>
+        <th><?php echo ucfirst(lang($MYLANG, 'latency'))?> / <?php echo ucfirst(lang($MYLANG, 'duration'))?></th>
+        <td colspan="2"><?php echo $LATENCY?> / <?php echo $EXEC_TIME?></td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'lastchange'))?></th>
-        <td colspan="2"><?= $LASTCHANGE?></td>
+        <th><?php echo ucfirst(lang($MYLANG, 'lastchange'))?></th>
+        <td colspan="2"><?php echo $LASTCHANGE?></td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'flapping'))?> ?</th>
-        <td colspan="2"><?= $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td>
+        <th><?php echo ucfirst(lang($MYLANG, 'flapping'))?> ?</th>
+        <td colspan="2"><?php echo $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% state change)"; } ?></td>
       </tr>
       <tr>
-        <th><?= ucfirst(lang($MYLANG, 'lastup'))?></th>
-        <td colspan="2"><?= $UPDATETIME?> (<?= $UPDATETIMEDIFF?> ago)</td>
+        <th><?php echo ucfirst(lang($MYLANG, 'lastup'))?></th>
+        <td colspan="2"><?php echo $UPDATETIME?> (<?php echo $UPDATETIMEDIFF?> ago)</td>
       </tr>
       
       <?php if ( ($ACK == 1) && (isset($ACKCOMMENT[1])) ) { ?>
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
             <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_ack.gif" alt="ack comment" />
-            <span style="display: inline-block; vertical-align: middle;">(<?= $ACKCOMMENT[0]?>)</span>
+            <span style="display: inline-block; vertical-align: middle;">(<?php echo $ACKCOMMENT[0]?>)</span>
           </th>
-          <td colspan="2"><?= $ACKCOMMENT[1]?></td>
+          <td colspan="2"><?php echo $ACKCOMMENT[1]?></td>
         </tr>
       <?php } ?>
       
@@ -207,9 +207,9 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
             <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_downtime.png" alt="downtime comment" />
-            <span style="display: inline-block; vertical-align: middle;">(<?= $DOWNCOMMENT[0]?>)</span>
+            <span style="display: inline-block; vertical-align: middle;">(<?php echo $DOWNCOMMENT[0]?>)</span>
           </th>
-          <td colspan="2"><?= $DOWNCOMMENT[1]?>, (<?= lang($MYLANG, 'end_down') ?> <?= $DOWNCOMMENT[2] ?>)</td>
+          <td colspan="2"><?php echo $DOWNCOMMENT[1]?>, (<?php echo lang($MYLANG, 'end_down') ?> <?php echo $DOWNCOMMENT[2] ?>)</td>
         </tr>
       <?php } ?>
       
@@ -217,14 +217,14 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
             <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_comment.gif" alt="ack comment" />
-            <span style="display: inline-block; vertical-align: middle;">(<?= $COMMENT[0]?>)</span>
+            <span style="display: inline-block; vertical-align: middle;">(<?php echo $COMMENT[0]?>)</span>
           </th>
-          <td colspan="2"><?= $COMMENT[1]?></td>
+          <td colspan="2"><?php echo $COMMENT[1]?></td>
         </tr>
       <?php } ?>
         
-      <? $g = get_graph('status', $HOSTNAME, $SERVICE); ?>
-      <? if (!is_null($g)) { ?>
+      <?php $g = get_graph('status', $HOSTNAME, $SERVICE); ?>
+      <?php if (!is_null($g)) { ?>
       
         <tr>
           <th style="height: 6px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
@@ -232,11 +232,11 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         </tr>
         <tr>
           <td colspan="3" style="padding: 0; margin: 0; vertical-align: bottom; height: 100%;">
-            <img style="vertical-align: bottom; padding: 0; margin: 0;" src="<?= $g ?>">
+            <img style="vertical-align: bottom; padding: 0; margin: 0;" src="<?php echo $g ?>">
           </td>
         </tr>
         
-      <? } ?>
+      <?php } ?>
         
     </table>
   </div>

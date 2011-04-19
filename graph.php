@@ -74,7 +74,7 @@ $graph .= '&t2=' . time();
       border: 1px solid #8A8A8A;
     }
     
-    a.<?= $period ?> {
+    a.<?php echo $period ?> {
       font-weight: bold;
     }
     </style>
@@ -89,13 +89,13 @@ $graph .= '&t2=' . time();
           }
         ?>
         
-        [ <a class="day" href="<?= $uri ?>&period=day"><?= ucfirst(lang($MYLANG, 'today')) ?></a> ]&#160;&#160; 
-        [ <a class="week" href="<?= $uri ?>&period=week"><?= ucfirst(lang($MYLANG, 'week')) ?></a> ]&#160;&#160;
-        [ <a class="month" href="<?= $uri ?>&period=month"><?= ucfirst(lang($MYLANG, 'month')) ?></a> ]&#160;&#160;
-        [ <a class="year" href="<?= $uri ?>&period=year"><?= ucfirst(lang($MYLANG, 'year')) ?></a> ]
+        [ <a class="day" href="<?php echo $uri ?>&period=day"><?php echo ucfirst(lang($MYLANG, 'today')) ?></a> ]&#160;&#160; 
+        [ <a class="week" href="<?php echo $uri ?>&period=week"><?php echo ucfirst(lang($MYLANG, 'week')) ?></a> ]&#160;&#160;
+        [ <a class="month" href="<?php echo $uri ?>&period=month"><?php echo ucfirst(lang($MYLANG, 'month')) ?></a> ]&#160;&#160;
+        [ <a class="year" href="<?php echo $uri ?>&period=year"><?php echo ucfirst(lang($MYLANG, 'year')) ?></a> ]
       </div>
       
-      <img src="<?= $graph ?>" />
+      <img src="<?php echo $graph ?>" />
     </center>
   </body>
 </html>

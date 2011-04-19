@@ -17,23 +17,23 @@ require_once("lang.php");
 ?>
 
   <div class="box-title box-title-default">
-    <h2><?= ucfirst(lang($MYLANG, 'downtime')) ?></h2>
+    <h2><?php echo ucfirst(lang($MYLANG, 'downtime')) ?></h2>
   </div>
   
   <div class="box-content" id="down">
     <form action="" method="post" onsubmit="return valid_down(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <table>
         <tr>
-          <th><?= ucfirst(lang($MYLANG, 'start_time')) ?></th>
+          <th><?php echo ucfirst(lang($MYLANG, 'start_time')) ?></th>
           <td>
             <input id="start" 
                    type="text" 
                    name="start"  
-                   value="<?= strftime("%d-%m-%Y %H:%M", strtotime("+1 minute")) ?>" />
+                   value="<?php echo strftime("%d-%m-%Y %H:%M", strtotime("+1 minute")) ?>" />
           </td>
         </tr>
         <tr>
-          <th><?= ucfirst(lang($MYLANG, 'end_down')) ?></th>
+          <th><?php echo ucfirst(lang($MYLANG, 'end_down')) ?></th>
           <td>
             <input id="end" 
                    type="text" 
@@ -42,24 +42,24 @@ require_once("lang.php");
           </td>
         </tr>
         <tr>
-          <th><?= ucfirst(lang($MYLANG, 'fix')) ?></th>
+          <th><?php echo ucfirst(lang($MYLANG, 'fix')) ?></th>
           <td>
             <input id="hour" 
                    type="text" 
                    name="hour"  
                    value="" />
-            <?= lang($MYLANG, 'hour') ?>
+            <?php echo lang($MYLANG, 'hour') ?>
             
             &#160;&#160;&#160;
             <input id="minute" 
                    type="text" 
                    name="minute"  
                    value="" />
-            <?= lang($MYLANG, 'minutes') ?>
+            <?php echo lang($MYLANG, 'minutes') ?>
           </td>
         </tr>
         <tr>
-          <th><?= ucfirst(lang($MYLANG, 'comment')) ?></th>
+          <th><?php echo ucfirst(lang($MYLANG, 'comment')) ?></th>
           <td>
             <input type="text" 
                    name="comment" 
@@ -80,7 +80,7 @@ require_once("lang.php");
             <input type="submit" name="down" value="Ok" />
             &#160;&#160;&#160;
             <input type="button" name="cancel" 
-                   value="<?= ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />
           </td>
         </tr>

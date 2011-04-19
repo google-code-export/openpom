@@ -18,14 +18,14 @@ require_once("lang.php");
 
 
   <div class="box-title box-title-default">
-    <h2><?= ucfirst(lang($MYLANG, 'comment0')) ?></h2>
+    <h2><?php echo ucfirst(lang($MYLANG, 'comment0')) ?></h2>
   </div>
   
   <div class="box-content" id="ack">
     <form action="" method="post" onsubmit="return valid_comment(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <table>
         <tr>
-          <th><?= ucfirst(lang($MYLANG, 'comment')) ?></th>
+          <th><?php echo ucfirst(lang($MYLANG, 'comment')) ?></th>
           <td><input type="text" maxlength="64" name="comment" id="comment" /></td>
         </tr>
         
@@ -40,7 +40,7 @@ require_once("lang.php");
             <input type="submit" name="comment_persistent" value="Ok" />
             &#160;&#160;&#160;
             <input type="button" name="cancel" 
-                   value="<?= ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />
           </td>
         </tr>

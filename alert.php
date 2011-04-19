@@ -18,7 +18,7 @@
 
     <style type="text/css">
       table#alert * {
-        font-size: <?= $_SESSION['FONTSIZE'] ?>px;
+        font-size: <?php echo $_SESSION['FONTSIZE'] ?>px;
       }
     </style>
     
@@ -41,7 +41,7 @@
           </span>
         </th>
         <?php } else { ?>
-          <th <?= !isset($_GET['monitor']) && $key == 'flag' ? 'style="padding-left: 5px;"' : '' ?>>
+          <th <?php echo !isset($_GET['monitor']) && $key == 'flag' ? 'style="padding-left: 5px;"' : '' ?>>
           <?php if ( ($SORTFIELD == $val) && ($SORTORDERFIELD == "ASC") ) { ?>
           <a class="col_sort_up" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=1">
           <?php } else if ($SORTFIELD == $val) { ?>
@@ -75,10 +75,10 @@
           }
       ?>
       <tr class="alert-item <?php echo $COLOR?>" id="<?php echo $data['SVCID']?>"
-        <? if ($POPIN) { ?>
-          onmouseover="to = setTimeout(function() { get_data('<?= $data['TYPE'] ?>', '<?= $data['SVCID'] ?>'); }, 500);" 
+        <?php if ($POPIN) { ?>
+          onmouseover="to = setTimeout(function() { get_data('<?php echo $data['TYPE'] ?>', '<?php echo $data['SVCID'] ?>'); }, 500);" 
           onmouseout="clearTimeout(to);"
-        <? } ?>
+        <?php } ?>
           onclick="selectline(this, event);">
         <?php 
           foreach($COLS AS $key => $val) { 
@@ -143,8 +143,8 @@
         <?php } else { ?>
         <td<?php echo ($key=="checkbox")?" class=\"".$COLOR." dark\"": ($key=="flag" ? " style=\"padding-left: 5px; text-align: left;\"":"")?>>
         <?php } ?>
-          <? if ($key != 'checkbox') $toprint = '<span>'.$toprint.'</span>'; ?> 
-          <?= $toprint ?>
+          <?php if ($key != 'checkbox') $toprint = '<span>'.$toprint.'</span>'; ?> 
+          <?php echo $toprint ?>
         </td>
         <?php } //end foreach 
         ?>
