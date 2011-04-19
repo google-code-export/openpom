@@ -509,8 +509,8 @@ table#alert td {
   border-bottom: 1px solid #888;
   
   background-image: url('img/selected.png');
-  background-repeat: repeat-x;
   background-attachment: scroll;
+  background-repeat: no-repeat;
   background-position: left -1000px;
 }
 
@@ -673,6 +673,7 @@ table#alert tr.selected * {
 }
 
 table#alert tr.selected td {
+    background-repeat: repeat;
     background-position: left center;
 }
 
