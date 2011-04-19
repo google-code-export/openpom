@@ -29,8 +29,8 @@ $LANG['en'] = array (
 'filtering'          => 'filtering',
 'help'               => 'help',
 'refresh'            => 'refresh',
-'mode'               => 'mode_monitor',
-'mode0'              => 'stop mode monitor',
+'mode'               => 'monitor mode',
+'mode0'              => 'stop monitor mode',
 'level1'             => 'criticals',
 'level2'             => 'critical/warning',
 'level3'             => 'critical/warning/soft',
@@ -93,8 +93,10 @@ $LANG['en'] = array (
 'month'              => 'month',
 'year'               => 'year',
 'fix'                => 'fixed',
-'ena_notif'          => 'enable notifications',
-'disa_notif'         => 'disable notifications',
+'ena_notif'          => 'enable global notifications',
+'disa_notif'         => 'disable global notifications',
+'ena_popin'          => 'enable status popin',
+'disa_popin'         => 'disable status popin'
 ) ;
 
 /* FRENCH */
@@ -112,8 +114,8 @@ $LANG['fr'] = array (
 'filtering'          => 'filtrage',
 'help'               => 'aide',
 'refresh'            => 'rafra&icirc;chir',
-'mode'               => 'mode_moniteur',
-'mode0'              => 'arr&ecirc;t mode moniteur',
+'mode'               => 'mode moniteur',
+'mode0'              => 'quitter le mode moniteur',
 'level1'             => 'critique',
 'level2'             => 'critique/alerte',
 'level3'             => 'critique/alerte/soft',
@@ -176,8 +178,10 @@ $LANG['fr'] = array (
 'month'              => 'mois',
 'year'               => 'ann&eacute;e',
 'fix'                => 'fixe',
-'ena_notif'          => 'activer les notifications',
-'disa_notif'         => 'd&eacute;sactiver les notifications',
+'ena_notif'          => 'activer les notifications globales',
+'disa_notif'         => 'd&eacute;sactiver les notifications globales',
+'ena_popin'          => 'activer la popin de status',
+'disa_popin'         => 'd&eacute;sactiver la popin de status'
 ) ;
 
 $LANG['de'] = array (
@@ -193,8 +197,8 @@ $LANG['de'] = array (
 'filtering'          => 'filtern',
 'help'               => 'Hilfe',
 'refresh'            => 'aktualisieren',
-'mode'               => 'mode_monitor',
-'mode0'              => 'stoppe mode monitor',
+'mode'               => 'monitor mode',
+'mode0'              => 'ausfahrt monitor mode',
 'level1'             => 'kritische',
 'level2'             => 'Kritische/Warnungen',
 'level3'             => 'Kritische/Warnungen/Weich',
@@ -257,8 +261,10 @@ $LANG['de'] = array (
 'month'              => 'monat',
 'year'               => 'jahr',
 'fix'                => 'fixiert',
-'ena_notif'          => 'Benachrichtigung aktivieren',
-'disa_notif'         => 'Benachrichtigung deaktivieren',
+'ena_notif'          => 'Benachrichtigung aktivieren (globale)',
+'disa_notif'         => 'Benachrichtigung deaktivieren (globale)',
+'ena_popin'          => 'Status popin aktivieren',
+'disa_popin'         => 'Status popin deaktivieren'
 ) ;
 
 /* GET/SET LANG */
