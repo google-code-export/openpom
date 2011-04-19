@@ -385,15 +385,10 @@ span.icon-nagios { background-image: url('img/nagios.png'); }
 span.icon-ena_popin { background-image: url('img/ena_popin.png'); }
 span.icon-disa_popin { background-image: url('img/disa_popin.png'); }
 
-span.icon-ena_notif { 
-    background-image: url('img/notify.png'); 
-    background-color: #FFE3E4 !important; 
-}
-
-span.icon-disa_notif { 
-    background-image: url('img/disa_notif.png'); 
-    background-color: #D5F4D5 !important; 
-}
+span.icon-ena_notif { background-image: url('img/notify.png'); }
+span.icon-disa_notif { background-image: url('img/disa_notif.png'); }
+span.icon-bg-ena_notif, span.icon-bg-ena_notif:hover { background-color: #FFE3E4; }
+span.icon-bg-disa_notif, span.icon-bg-disa_notif:hover { background-color: #D5F4D5; }
 
 
 /** 

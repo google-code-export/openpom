@@ -62,11 +62,11 @@
         <?php
           $popin = $POPIN ? 'disa_popin' : 'ena_popin';
         ?>
-        <span class="icon-btn icon-<?php echo $popin ?>"
+          <span class="icon-btn icon-<?php echo $popin ?>"
               title="<?php echo ucfirst(lang($MYLANG, $popin))?>"
               onclick="window.location.href='<?php echo $MY_GET.'&popin='.(($POPIN+1)%2) ?>';"></span>&thinsp;
                 
-          <span class="icon-btn icon-<?php echo $global_notif ?>"
+          <span class="icon-btn icon-<?php echo $global_notif ?> icon-bg-<?php echo $global_notif ?>"
                 title="<?php echo ucfirst(lang($MYLANG, $global_notif))?>"
                 onclick="window.location.href='<?php echo $MY_GET.'&'.$global_notif ?>';"></span>&thinsp;
                 
