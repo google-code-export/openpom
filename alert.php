@@ -109,7 +109,7 @@
                 $toprint = $toprint.'<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
 
               if ($data['NOTIF'] == "0")
-                $toprint = $toprint.'<img src="img/flag_notify.png" alt="N" title="'.ucfirst(lang($MYLANG, 'disa_notif')).'" />';
+                $toprint = $toprint.'<img src="img/flag_notify.png" alt="N" title="'.ucfirst(lang($MYLANG, 'disable_title')).'" />';
 
               if ($data['DOWNTIME'] == "1") 
                 $toprint = $toprint.'<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
