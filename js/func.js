@@ -111,8 +111,8 @@ function autorefresh() {
   
   /* check if any line is checked */
   var line_is_checked = false;
-  $('input[type="checkbox"].chkbox').each(function(index, element) {
-    if (element.checked) {
+  $('table#alert').find('span.checkbox').each(function (index, element) {
+    if (testCheckbox(element)) {
       line_is_checked = true;
       return false;
     }
