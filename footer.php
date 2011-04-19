@@ -12,23 +12,20 @@
  
   if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ; ?>
   
-  <div style="margin-top: 3px;">
-    <div style="position: absolute; text-align: center; width: 100%; padding-top: -1px;">
-      <?= $CODENAME ?> &mdash; 
-      <?= $VERSION ?> &mdash; 
-      GPL &mdash;
-      <a href="http://www.exosec.fr/" target="_blank">Exosec</a> &mdash;
-      2010&thinsp;-&thinsp;2011 &mdash; 
-      <?= ucfirst(lang($MYLANG, 'querytime')) ?> <?= sprintf($str_query_time, $query_time) ?>
-    </div>
+  <div style="margin-top: 3px; text-align: center;">
+    <?= $CODENAME ?> &mdash; 
+    <?= $VERSION ?> &mdash; 
+    GPL &mdash;
+    <a href="http://www.exosec.fr/" target="_blank">Exosec</a> &mdash;
+    2010&thinsp;-&thinsp;2011 &mdash; 
+    <?= ucfirst(lang($MYLANG, 'querytime')) ?> <?= sprintf($str_query_time, $query_time) ?>
     
     <? if (isset($_GET['monitor'])) { ?>
-      <div style="position: relative; z-index: 1; display: inline-block;">
-        <?= ucfirst(lang($MYLANG, 'refreshing')) ?>
-        <b><span id="refreshspan"></span></b>&#160;<?= lang($MYLANG, 'second') ?>
-        &mdash;
-        <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a>
-      </div>
+      &mdash; 
+      <?= ucfirst(lang($MYLANG, 'refreshing')) ?>
+      <b><span id="refreshspan"></span></b>&#160;<?= lang($MYLANG, 'second') ?>
+      &mdash;
+      <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a>
     <? } ?>
   </div>
   
