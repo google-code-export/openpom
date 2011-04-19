@@ -39,12 +39,6 @@
   
   <script>
     autorefresh();
-    /*if (document.getElementById("acklink") != null) {
-      document.getElementById("acklink").href = "ack.php?num=<?php echo $nb_rows?>";
-      document.getElementById("downlink").href = "down.php?num=<?php echo $nb_rows?>";
-      document.getElementById("optlink").href = "option.php";
-      document.getElementById("commentlink").href = "comment.php?num=<?php echo $nb_rows?>";
-    }*/
     $("#filtering").focus(function() {
       filtering_has_focus = true ;
     });
