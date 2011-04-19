@@ -669,6 +669,7 @@ table#alert tr.blue   td.dark { border-color: #80ACE8; }
  
 table#alert tr.selected * {
     color: #BA0300 !important;
+    font-style: italic !important;
 }
 
 table#alert tr.selected td {
