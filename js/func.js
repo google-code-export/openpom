@@ -17,8 +17,10 @@ function selectall(object) {
   /*for (i=1; i<=num; i++)
     selectline(i);*/  
   $(object).parents('table').find('span.checkbox').each(function (index, element) {
-    toggleCheckbox(element);
-    $(element).parents('tr').find('td').toggleClass('selected');
+    if (index > 0) {
+      toggleCheckbox(element);
+      $(element).parents('tr').toggleClass('selected');
+    }
   });
 }
 
@@ -67,15 +69,15 @@ function selectline(object, event) {
     for (var i=Math.min(iClicked,iPrev); i<=Math.max(iClicked,iPrev); i++) {
       checkCheckbox(allChk[i], newState)
       if (newState) {
-          $(allChk[i]).parents('tr').find('td').addClass('selected');
+          $(allChk[i]).parents('tr').addClass('selected');
       } else {
-          $(allChk[i]).parents('tr').find('td').removeClass('selected');
+          $(allChk[i]).parents('tr').removeClass('selected');
       }
     }
     
   } else {
     toggleCheckbox(chk);
-    $(object).find('td').toggleClass('selected');
+    $(object).toggleClass('selected');
   }
   
   /* try to remove potential text selection */
