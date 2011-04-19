@@ -638,16 +638,16 @@ table#popup {
 .blue         { background: #ADD0FF; }
 
 .orangedark, .orange .dark { background: #FFD07A; }
-.reddark,    .red    .dark { background: #FF8A8A; }
+.reddark,    .red    .dark { background: #FF8F8F; }
 .yellowdark, .yellow .dark { background: #FFF45C; }
-.greendark,  .green  .dark { background: #8FFF7A; }
-.bluedark,   .blue   .dark { background: #83B8FF; }
+.greendark,  .green  .dark { background: #87F272; }
+.bluedark,   .blue   .dark { background: #87BAFF; }
 
-table#alert tr.orange:hover { background: #FFD07A; }
-table#alert tr.red:hover    { background: #FF8A8A; }
-table#alert tr.yellow:hover { background: #FFF45C; }
-table#alert tr.green:hover  { background: #8FFF7A; }
-table#alert tr.blue:hover   { background: #83B8FF; }
+table#alert tr.orange:hover td, table#alert tr.orange td.selected { background: #FFD07A; border-color: #EEC57A; }
+table#alert tr.red:hover td, table#alert tr.red td.selected    { background: #FF8F8F; border-color: #E89292; }
+table#alert tr.yellow:hover td, table#alert tr.yellow td.selected { background: #FFF45C; border-color: #ECE258; }
+table#alert tr.green:hover td, table#alert tr.green td.selected  { background: #87F272; border-color: #86E173; }
+table#alert tr.blue:hover td, table#alert tr.blue td.selected   { background: #87BAFF; border-color: #80ACE8; }
 
 table#alert tr.orange td    { border-color: #F0D4A2; }
 table#alert tr.red    td    { border-color: #EAA1A1; }
@@ -656,10 +656,16 @@ table#alert tr.green  td    { border-color: #A9E89C; }
 table#alert tr.blue   td    { border-color: #A1C2F0; }
 
 table#alert tr.orange td.dark { border-color: #EEC57A; }
-table#alert tr.red    td.dark { border-color: #EB7F7F; }
+table#alert tr.red    td.dark { border-color: #E89292; }
 table#alert tr.yellow td.dark { border-color: #ECE258; }
-table#alert tr.green  td.dark { border-color: #A9E89C; }
-table#alert tr.blue   td.dark { border-color: #78A8E9; }
+table#alert tr.green  td.dark { border-color: #86E173; }
+table#alert tr.blue   td.dark { border-color: #80ACE8; }
+
+table#alert tr td.selected, 
+table#alert tr td.selected * {
+    color: #B10000 !important;
+    font-style: italic !important;
+}
 
 
 /**
