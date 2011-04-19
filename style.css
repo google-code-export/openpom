@@ -635,7 +635,9 @@ table#popup {
  */
 
 .error        { background-color: #FFE5E5 !important; }
-.soft         { font-style: italic; }
+
+.soft *       { font-style: italic; color: #5D5D5D; }
+.soft a       { color: #3857CE; }
 
 .orange       { background-color: #FFE2AD; }
 .red          { background-color: #FFADAD; }
