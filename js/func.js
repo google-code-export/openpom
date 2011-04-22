@@ -482,3 +482,12 @@ function checkCheckbox(object, check) {
   }
 }
 
+function blink_button(jObject) {
+  jObject.fadeToggle(
+    280, 
+    'swing', 
+    function () {
+      blink_button(jObject);
+    }
+  );
+}
