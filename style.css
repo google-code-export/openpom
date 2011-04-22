@@ -560,6 +560,16 @@ table#alert span.checkbox span.blink {
   background-color: #045FB4;
 }
 
+table#alert td#notif_warning {
+  text-align: center;
+  font-weight: bold;
+}
+
+table#alert td#notif_warning > div {
+  background-color: #FF8F8F;
+  padding: 3px 2px;
+}
+
 
 /**
  * Box popins

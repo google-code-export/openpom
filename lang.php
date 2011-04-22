@@ -96,7 +96,8 @@ $LANG['en'] = array (
 'ena_notif'          => 'enable global notifications',
 'disa_notif'         => 'disable global notifications',
 'ena_popin'          => 'enable status popin',
-'disa_popin'         => 'disable status popin'
+'disa_popin'         => 'disable status popin', 
+'notif_warning'      => 'Warning: global notifications are disabled!'
 ) ;
 
 /* FRENCH */
@@ -181,7 +182,8 @@ $LANG['fr'] = array (
 'ena_notif'          => 'activer les notifications globales',
 'disa_notif'         => 'd&eacute;sactiver les notifications globales',
 'ena_popin'          => 'activer la popin de status',
-'disa_popin'         => 'd&eacute;sactiver la popin de status'
+'disa_popin'         => 'd&eacute;sactiver la popin de status', 
+'notif_warning'      => 'Attention : les notifications globales sont désactivées !'
 ) ;
 
 $LANG['de'] = array (
@@ -264,7 +266,8 @@ $LANG['de'] = array (
 'ena_notif'          => 'Benachrichtigung aktivieren (globale)',
 'disa_notif'         => 'Benachrichtigung deaktivieren (globale)',
 'ena_popin'          => 'Status popin aktivieren',
-'disa_popin'         => 'Status popin deaktivieren'
+'disa_popin'         => 'Status popin deaktivieren', 
+'notif_warning'      => 'Warnung: Globale Benachrichtigungen sind deaktiviert!'
 ) ;
 
 /* GET/SET LANG */

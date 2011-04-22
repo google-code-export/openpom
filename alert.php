@@ -20,6 +20,13 @@
       table#alert * {
         font-size: <?php echo $_SESSION['FONTSIZE'] ?>px;
       }
+      
+      <?php if (isset($_GET['monitor'])) { ?>
+      table#alert th:first-child, 
+      table#alert td:first-child {
+        text-align: left;
+      }
+      <?php } ?>
     </style>
     
     
@@ -54,6 +61,23 @@
         </th>
         <?php } } ?>
       </tr>
+      
+      <?php if (isset($_GET['monitor']) && $global_notif == 'ena_notif') { ?>
+        <tr class="red">
+          <td id="notif_warning" class="red" colspan="<?php echo count($COLS) ?>">
+            <div>
+              <?php echo lang($MYLANG, 'notif_warning'); ?>
+            </div>
+            <script type="text/javascript">
+            var warning = $('td#notif_warning > div');
+            if (warning.length) {
+              blink_button(warning);
+            }
+            </script>
+          </td>
+        </tr>
+      <?php } ?>
+      
       <?php
         while($data = mysql_fetch_array($rep, MYSQL_ASSOC)) { 
           switch($data['STATUS']) {
