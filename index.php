@@ -24,7 +24,6 @@
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
 session_cache_limiter('nocache');
-session_set_cookie_params('864000');
 session_start();
 if (isset($_SERVER['REMOTE_USER'])) 
   $_SESSION['USER'] = strip_tags(addslashes(htmlspecialchars($_SERVER['REMOTE_USER']))) ;
