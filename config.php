@@ -113,7 +113,7 @@ $GRAPH_POPUP = array(
 
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
-$ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;"; 
+$ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;";
 
 /* ACKNOWLEDGEMENT */
 $EXT_CMD['ack']['host'][0]      = array(
