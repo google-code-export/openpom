@@ -11,8 +11,8 @@
 */
 
 /* NAGIOS or ICINGA */
-$BACKEND            = "nagios" ;
-//$BACKEND            = "icinga" ;
+$BACKEND            = "nagios";
+//$BACKEND          = "icinga";
 
 /* SQL VARIABLE */
 $SQL_HOST           = "127.0.0.1";
