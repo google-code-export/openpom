@@ -111,7 +111,6 @@ $GRAPH_POPUP = array(
   'host_is_ping' => false
 );
 
-
 /* ILLEGAL_CHAR IN POST / GET DATA */
 $ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;";
 
