@@ -92,12 +92,12 @@ $EXEC_PARAM         = "";
 //$SUDO_PARAM       = "";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
-$LINK               = "http://".$BACKEND."/cgi-bin/extinfo.cgi";
-$LOG                = "http://".$BACKEND."/cgi-bin/showlog.cgi";
+$LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
+$LOG                = "/".$BACKEND."/cgi-bin/showlog.cgi";
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE ON STATUS */
 $GRAPH_STATUS = array(
-  'target'       => 'http://'.$BACKEND.'/cgi-bin/trends.cgi?createimage&backtrack=4&zoom=4', 
+  'target'       => '/'.$BACKEND.'/cgi-bin/trends.cgi?createimage&backtrack=4&zoom=4', 
   'p_host'       => 'host', 
   'p_svc'        => 'service', 
   'host_is_ping' => false
