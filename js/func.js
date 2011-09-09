@@ -1,12 +1,9 @@
 /*
-  OpenPom $Revision$
-  $HeadURL$
+  OpenPOM
  
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
- 
-  $Date$
 */
 
 function regexp_escape(input) {
