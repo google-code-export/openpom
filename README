@@ -76,6 +76,7 @@ $SQL_DB             = "ndoutils";
 $EXEC_CMD           = "./send-order";
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 $LINK               = "/".$BACKEND."/cgi-bin/extinfo.cgi";
+$LOG                = "/".$BACKEND."/cgi-bin/showlog.cgi";
 
 !!! Check that you have the right to write in the nagios or icinga cmd file !!!
 chown :www-data /usr/local/nagios/var/rw/nagios.cmd
