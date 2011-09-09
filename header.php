@@ -23,7 +23,7 @@
         <link rel="stylesheet" type="text/css" href="style-ie.css" />
     <![endif]-->
 
-    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.colorbox.js"></script>
     <script type='text/javascript' src="js/XMLHttpRequest-IE.js"></script>
     <script type='text/javascript' src="js/func.js"></script>
