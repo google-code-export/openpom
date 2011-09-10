@@ -194,6 +194,11 @@ $EXT_CMD['down']['svc'][0]      = array(
 
 /* RECHECK */
 $EXT_CMD['recheck']['host'][0]  = array(
+'SCHEDULE_FORCED_HOST_CHECK',
+'$host',
+'$next',
+); 
+$EXT_CMD['recheck']['host'][1]  = array(
 'SCHEDULE_FORCED_HOST_SVC_CHECKS',
 '$host',
 '$next',
