@@ -50,7 +50,7 @@
           <a class="col_sort_up" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=1">
           <?php } else if ($SORTFIELD == $val) { ?>
           <a class="col_sort_down" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=0">
-	  <?php } else { ?>
+          <?php } else { ?>
           <a class="col_no_sort" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=0">
           <?php } ?>
             <?php echo ucfirst(lang($MYLANG, $key))?>
@@ -122,8 +122,13 @@
                 $toprint = '<a class="col_no_sort" target="_blank" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/flag_host.png" border="0" alt="H" title="'.ucfirst(lang($MYLANG, 'host')).'" /></a>'; 
               
               $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICES']);
-              if (!is_null($g)) {
-                $toprint .= '<a href="#" onClick="return pop(\''.$g.'\', \''.$data['SVCID'].'\', 800, 400);"><img src="img/flag_graph.png" alt="G" border="0" title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
+              if (!empty($g)) {
+                $toprint .= '<a href="#" ' 
+                  . 'onClick="return pop(\''.$g.'\', \''.$data['SVCID'].'\', ' 
+                  . $GRAPH_POPUP_WIDTH . ', ' 
+                  . $GRAPH_POPUP_HEIGHT . ');">' 
+                  . '<img src="img/flag_graph.png" alt="G" border="0" ' 
+                  . 'title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
               }
 
               if ($data['ACK'] == "1") 

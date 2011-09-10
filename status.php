@@ -221,7 +221,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
       <?php } ?>
         
       <?php $g = get_graph('status', $HOSTNAME, $SERVICE); ?>
-      <?php if (!is_null($g)) { ?>
+      <?php if (!empty($g)) { ?>
       
         <tr>
           <th style="height: 6px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>

@@ -268,45 +268,25 @@ function getmicrotime(){
 } 
 
 function get_graph($type, $host, $svc = null) {
-  global $GRAPH_STATUS;
-  global $GRAPH_POPUP;
-    
   if ($type == 'status') {
-    $g =& $GRAPH_STATUS;
+    $type = 'GRAPH';
   } else if ($type == 'popup') {
-    $g =& $GRAPH_POPUP;
+    $type = 'GRAPH_POPUP';
   } else {
     return null;
   }
-  
-  if (empty($g) 
-      || !isset($g['target']) 
-      || !isset($g['p_host']) 
-      || !isset($g['p_svc']) 
-      || !isset($g['host_is_ping'])) {
-    return null;
-  }
-  
-  $first_delim = (strpos($g['target'], '?') === false) ? '?' : '&';
-  $out  = $g['target'];
-  $out .= $first_delim . $g['p_host'] . '=' . $host;
-  
-  if (is_null($svc)) {
-    if ($g['host_is_ping']) {
-      $out .= '&' . $g['p_svc'] . '=PING';
-    }
-    
+
+  if (empty($svc) || $svc == '--host--') {
+    $type .= '_HOST';
   } else {
-    if ($svc == '--host--') {
-      if ($g['host_is_ping']) {
-        $out .= '&' . $g['p_svc'] . '=PING';
-      }
-    } else {
-      $out .= '&' . $g['p_svc'] . '=' . $svc;
-    }
+    $type .= '_SVC';
   }
-  
-  return $out;
+
+  global $$type;
+  $type = $$type;
+  $type = str_replace('@@define_host@@', $host, $type);
+  $type = str_replace('@@define_service@@', $svc, $type);
+  return $type;
 }
 
 ?>
