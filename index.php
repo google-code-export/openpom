@@ -25,7 +25,7 @@ session_start();
 if (isset($_SERVER['REMOTE_USER'])) 
   $_SESSION['USER'] = strip_tags(addslashes(htmlspecialchars($_SERVER['REMOTE_USER']))) ;
 else 
-  die("no user");
+  die_refresh("no user");
 
 require_once("config.php");
 require_once("query.php");
@@ -47,10 +47,10 @@ require_once("lang.php");
 
 /* SQL CONNECT AND SELECT DB */
 if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
-  die("cannot connect to db") ;
+  die_refresh("cannot connect to db") ;
 
 if (!mysql_select_db($SQL_DB, $dbconn)) 
-  die("cannot select db");
+  die_refresh("cannot select db");
 
 /* UNSET GET OPTIONS ON CANCEL */
 if ( (isset($_GET['option'])) && ($_GET['option'] != "Ok") ) {
@@ -148,11 +148,11 @@ else if ( (isset($_GET['filtering'])) && (strlen($_GET['filtering']) < 2) ) {
 }
 if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
   if (strlen($_GET['filtering']) > 100) 
-    die("filter too long");
+    die_refresh("filter too long");
   foreach(str_split($ILLEGAL_CHAR) AS $char) {
     $pos = strpos($_GET['filtering'], $char);
     if ( ($pos === 0) || ($pos > 0) )
-      die("invalid char in filter");
+      die_refresh("invalid char in filter");
   }
   if (preg_match('/^(= |not )/',$_GET['filtering'],$keyword)) {
     if ($keyword[0] == "= ") {
@@ -349,7 +349,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
     $errno = mysql_errno($dbconn);
     $txt_error = mysql_error($dbconn);
     error_log("invalid query : ".$errno." : ".$txt_error);
-    die("invalid query") ;
+    die_refresh("invalid query") ;
   }
   $query_time = getmicrotime() - $query_start;
   $str_query_time = '%01.4f s';

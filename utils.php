@@ -7,7 +7,6 @@
   http://www.gnu.org/licenses/
 */
 
-
 function special_char() {
   foreach ($_GET AS $key => $value) {
     $nohtml = htmlspecialchars($value) ;
@@ -287,6 +286,62 @@ function get_graph($type, $host, $svc = null) {
   $type = str_replace('@@define_host@@', $host, $type);
   $type = str_replace('@@define_service@@', $svc, $type);
   return $type;
+}
+
+function die_refresh($message, $timeout = 10, $url = null) {
+  global $CODENAME;
+  
+  if (is_null($url)) {
+    $url = $_SERVER['PHP_SELF'];
+  }
+
+  $js_timeout = json_encode($timeout);
+  $js_url = json_encode($url);
+
+  echo <<<__EOFEOF__
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+  <head>
+    <title>$CODENAME - Error</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <style type="text/css">
+      body { margin: 20px;     }
+      h1   { font-size: 16px;  }
+      div  { fonct-size: 12px; }
+    </style>
+    <script type="text/javascript">
+      var interval = null;
+      var timeout = $js_timeout;
+      var url = $js_url;
+      function refresh_countdown() {
+        if (interval == null) {
+          return;
+        }
+
+        timeout--;
+        document.getElementById('timeout').innerHTML = timeout;
+
+        if (timeout <= 0) {
+          clearInterval(interval);
+          interval = null;
+          window.location.href = url;
+        }
+      }
+    </script>
+  </head>
+  <body onload="interval = window.setInterval(refresh_countdown, 1000);">
+    <h1>An error as occurred</h1>
+    <div>Error: $message</div>
+    <div>Refresh in <span id="timeout">$timeout</span> sec.</div>
+  </body>
+</html>
+__EOFEOF__;
+
+  /* terminates here */
+  exit(1);
 }
 
 ?>
