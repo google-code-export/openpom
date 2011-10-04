@@ -106,9 +106,12 @@ $MY_SVCFILT      = "1,2,3";            //STATUS SVC FILTER
 $MY_HOSTFILT     = "1";                //STATUS HOST FILTER
 $MY_SVCACKLIST   = 0;                  //SVC ACKNOWLEDGE
 $MY_HOSTACKLIST  = 0;                  //HOST ACKNOWLEDGE
-$MY_HOSTDOWNLIST = 0;                  //HOST DOWNTIME
-$MY_SVCDOWNLIST  = 0;                  //SVC DOWNTIME
-$MY_ACKLIST      = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST
+$MY_HOSTDOWNOP   = '=';                //HOST DOWNTIME DEPTH COMPARISON OPERATOR
+$MY_HOSTDOWNVAL  = 0;                  //HOST DOWNTIME DEPTH COMPARED VALUE
+$MY_SVCDOWNOP    = '=';                //SVC DOWNTIME DEPTH COMPARISON OPERATOR
+$MY_SVCDOWNVAL   = 0;                  //SVC DOWNTIME DEPTH COMPARED VALUE
+$MY_ACKLISTOP    = '=';                //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST, COMP OP
+$MY_ACKLISTVAL   = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST, COMP VAL
 $MY_NOSVC        = 1;                  //NO SVC FOR CRITICAL HOST
 $MY_DISABLE      = 1;                  //DISABLE ALERT ARE TREATED LIKE ACK AND DOWN
 $MY_SOFT         = 0;                  //SOFT ALERTS (0 print soft alerts)
@@ -320,9 +323,12 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_my_svcfilt'         =>  mysql_real_escape_string($MY_SVCFILT, $dbconn),
   'define_my_svcacklist'      =>  mysql_real_escape_string($MY_SVCACKLIST, $dbconn),
   'define_my_hostacklist'     =>  mysql_real_escape_string($MY_HOSTACKLIST, $dbconn),
-  'define_my_hostdownlist'    =>  mysql_real_escape_string($MY_HOSTDOWNLIST, $dbconn),
-  'define_my_svcdownlist'     =>  mysql_real_escape_string($MY_SVCDOWNLIST, $dbconn),
-  'define_my_acklist'         =>  mysql_real_escape_string($MY_ACKLIST, $dbconn),
+  'define_my_hostdownop'      =>  $MY_HOSTDOWNOP,
+  'define_my_hostdownval'     =>  $MY_HOSTDOWNVAL,
+  'define_my_svcdownop'       =>  $MY_SVCDOWNOP,
+  'define_my_svcdownval'      =>  $MY_SVCDOWNVAL,
+  'define_my_acklistop'       =>  $MY_ACKLISTOP,
+  'define_my_acklistval'      =>  $MY_ACKLISTVAL,
   'define_my_disable'         =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
   'define_my_soft'            =>  mysql_real_escape_string($MY_SOFT, $dbconn),
   'define_my_nosvc'           =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
@@ -380,7 +386,7 @@ while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
     case 3: $hit_unknown++;  break;
   }
   if ($data['ACK'] == 1) $hit_ack++;
-  if ($data['DOWNTIME'] == 1) $hit_down++;
+  if ($data['DOWNTIME'] > 0) $hit_down++;
   $hit_any++;
 }
 $hit_any = $total_rows;

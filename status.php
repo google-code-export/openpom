@@ -200,7 +200,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         </tr>
       <?php } ?>
       
-      <?php if ( ($DOWN == 1) && (isset($DOWNCOMMENT[1])) ) { ?>
+      <?php if ( ($DOWN > 0) && (isset($DOWNCOMMENT[1])) ) { ?>
         <tr>
           <th style="margin: 0; padding: 1px 3px;">
             <img style="display: inline-block; vertical-align: middle;" height="12" width="12" src="img/flag_downtime.png" alt="downtime comment" />

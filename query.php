@@ -100,7 +100,7 @@ FROM (
           ) = '!'
         )
     AND ( ( SS.problem_has_been_acknowledged IN (define_my_svcacklist) AND
-          HS.problem_has_been_acknowledged IN (define_my_acklist) )
+          HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval )
       OR  ( SELECT substring( comment_data, 1 ,1) 
             FROM ".$BACKEND."_commenthistory
             WHERE object_id = S.service_object_id
@@ -111,9 +111,9 @@ FROM (
             LIMIT 1
           ) = '!'
         )
-    AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
-    AND ( SS.scheduled_downtime_depth IN (define_my_svcdownlist) AND
-          HS.scheduled_downtime_depth IN (define_my_acklist) )
+    AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
+    AND ( SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval AND
+          HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval )
     AND ( define_my_nosvc = 0 OR HS.current_state = 0 )
     AND SS.notifications_enabled IN (define_my_disable)
     AND ( define_my_soft = 0 OR SS.state_type = 1 )
@@ -177,7 +177,7 @@ UNION
     )
     AND O.name1 = 'define_my_user'
     AND HS.current_state IN (define_my_hostfilt)
-    AND HS.scheduled_downtime_depth IN (define_my_hostdownlist)
+    AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
     AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
       OR ( SELECT substring( comment_data, 1 ,1) 
             FROM ".$BACKEND."_commenthistory
