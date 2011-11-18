@@ -62,7 +62,7 @@
       document.onclick = hide_data;
     </script>
   </head>
-  <body>
+  <body<?php if (isset($_GET['monitor'])) echo ' class="monitor"'; ?>>
     <?php if ($_SESSION['FRAME'] == 1) { ?>
     <table width="100%" height="100%" class="frame" id="type_<?php echo $framecolor?>">
       <tr>
