@@ -480,11 +480,22 @@ function checkCheckbox(object, check) {
 }
 
 function blink_button(jObject) {
-  jObject.fadeToggle(
-    280, 
-    'swing', 
+  window.setTimeout(
     function () {
+      jObject.toggleClass('opacity_10');
       blink_button(jObject);
-    }
+    }, 
+    280
   );
+
+  /* following was a nice effect but consume too much
+   * cpu on a slow javascript browser, typically IE */
+
+  /* jObject.fadeToggle(
+       280, 
+       'swing', 
+       function () {
+         blink_button(jObject);
+       }
+     ); */
 }
