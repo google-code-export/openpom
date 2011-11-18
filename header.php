@@ -55,7 +55,6 @@
         '-moz-border-radius': '2px',
         '-khtml-border-radius': '2px',
         '-webkit-border-radius': '2px',
-        /*'behavior': 'url(\'PIE.htc\')',*/
         'z-index': '88888'
       });
       

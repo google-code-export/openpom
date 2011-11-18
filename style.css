@@ -157,7 +157,6 @@ span.icon-btn {
   -moz-border-radius: 2px;
   -khtml-border-radius: 2px;
   -webkit-border-radius: 2px;
-  behavior: url('js/PIE.htc');
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -359,7 +358,6 @@ table#alert span.checkbox {
   -moz-border-radius: 2px;
   -khtml-border-radius: 2px;
   -webkit-border-radius: 2px;
-  behavior: url('js/PIE.htc');
   background-color: #ECF2E8;
   cursor: pointer;
 }
@@ -550,7 +548,6 @@ table#alert tr.selected td {
   -moz-border-radius: 2px;
   -khtml-border-radius: 2px;
   -webkit-border-radius: 2px; 
-  behavior: url('js/PIE.htc');
   overflow: hidden;
 }
 #cboxContent { /*padding: 5px;*/ }
