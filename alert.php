@@ -14,38 +14,35 @@
 
 
     <style type="text/css">
-      table#alert * {
-        font-size: <?php echo $_SESSION['FONTSIZE'] ?>px;
-      }
-      
-      <?php if (isset($_GET['monitor'])) { ?>
-      table#alert th:first-child, 
-      table#alert td:first-child {
-        text-align: left;
-      }
-      <?php } ?>
+    table#alert * {
+      font-size: <?php echo $_SESSION['FONTSIZE'] ?>px;
+    }
     </style>
     
     
-    <?php
-      if (!isset($_GET['monitor'])) {
-        echo '<div style="height: 39px; width: 1px;"></div>';
-      } 
-    ?>
+    
     
     <table width="100%" id="alert">
       <tr>
         <?php 
-          foreach($COLS AS $key => $val) { 
-            if ($key == 'checkbox') {
+        /* column checkbox is not present on monitor mode */
+        foreach($COLS AS $key => $val) {
+          if ($key == 'checkbox') {
         ?>
+        
         <th class="checkall">
           <span class="checkbox" onclick="selectall(this);">
             <span></span>
           </span>
         </th>
-        <?php } else { ?>
-          <th <?php echo !isset($_GET['monitor']) && $key == 'flag' ? 'style="padding-left: 5px;"' : '' ?>>
+        
+        <?php
+          }
+          else {
+        ?>
+            
+        
+          <th class="<?php echo $key ?>">
           <?php if ( ($SORTFIELD == $val) && ($SORTORDERFIELD == "ASC") ) { ?>
           <a class="col_sort_up" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=1">
           <?php } else if ($SORTFIELD == $val) { ?>
@@ -56,12 +53,22 @@
             <?php echo ucfirst(lang($MYLANG, $key))?>
           </a>
         </th>
-        <?php } } ?>
+        
+        <?php 
+          }
+        }
+        ?>
       </tr>
-      
-      <?php if (isset($_GET['monitor']) && $global_notif == 'ena_notif') { ?>
-        <tr class="red">
-          <td id="notif_warning" class="red" colspan="<?php echo count($COLS) ?>">
+
+
+      <?php
+      /* warning message for monitor mode if global notification
+       * are disabled */
+      if (isset($_GET['monitor']) && $global_notif == 'ena_notif') {
+      ?>
+          
+      <tr>
+          <td id="notif_warning" colspan="<?php echo count($COLS) ?>">
             <div>
               <?php echo lang($MYLANG, 'notif_warning'); ?>
             </div>
@@ -73,28 +80,40 @@
             </script>
           </td>
         </tr>
-      <?php } ?>
-      
+        
       <?php
-        while($data = mysql_fetch_array($rep, MYSQL_ASSOC)) { 
-          switch($data['STATUS']) {
-            case 0: $COLOR = $OK; 
-                    break; 
-            case 1: $COLOR = $WARNING; 
-                    break;
-            case 2: $COLOR = $CRITICAL; 
-                    break;
-            case 3: $COLOR = $UNKNOWN; 
-                    break;
-          }
-          
-          if ( ($data['ACK'] == "1") && ($LEVEL < 4) ) { 
-            $COLOR = $TRACK;
-          }
-          if ($data['SVCST'] == 0) { 
-            $COLOR .= " soft"; 
-          }
+      } /* warning global notif disabled */
       ?>
+
+
+      <?php
+      /* loop on each reasult from the query */
+      while ($data = mysql_fetch_array($rep, MYSQL_ASSOC)) {
+
+        switch ($data['STATUS']) {
+          case 0:
+              $COLOR = $OK; 
+              break; 
+          case 1:
+              $COLOR = $WARNING; 
+              break;
+          case 2:
+              $COLOR = $CRITICAL; 
+              break;
+          case 3:
+              $COLOR = $UNKNOWN; 
+              break;
+        }
+
+        if ( ($data['ACK'] == "1") && ($LEVEL < 4) ) { 
+          $COLOR = $TRACK;
+        }
+        
+        if ($data['SVCST'] == 0) { 
+          $COLOR .= " soft"; 
+        }
+      ?>
+
       <tr class="alert-item <?php echo $COLOR?>" id="<?php echo $data['SVCID']?>"
         <?php if ($POPIN) { ?>
           onmouseover="to = setTimeout(function() { get_data('<?php echo $data['TYPE'] ?>', '<?php echo $data['SVCID'] ?>'); }, 500);" 
@@ -163,21 +182,27 @@
               }
               $toprint = $my_groups;
             }
-          if (isset($_GET['monitor'])) {
         ?>
-        <td<?php echo ($key=="flag" ? " class=\"".$COLOR." dark\" style=\"text-align: left;\"":"")?>>
-        <?php } else { ?>
-        <td<?php echo ($key=="checkbox")?" class=\"".$COLOR." dark\"": ($key=="flag" ? " style=\"padding-left: 5px; text-align: left;\"":"")?>>
-        <?php } ?>
-          <?php if ($key != 'checkbox') $toprint = '<span>'.$toprint.'</span>'; ?> 
-          <?php echo $toprint ?>
+
+        <td class="<?php echo $COLOR ?> <?php echo $key ?>">
+          <?php
+            /* wrap cell value around a span, except for the checkbox column */
+            if ($key != 'checkbox') {
+              $toprint = '<span>'.$toprint.'</span>';
+            }
+            echo $toprint;
+          ?>
         </td>
-        <?php } //end foreach 
+
+        <?php
+          } /* end foreach col */
         ?>
+
       </tr>
+
       <?php
           $line++;  
-        } //end while
+        } /* end while data */
       ?>
     </table>
 
