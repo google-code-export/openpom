@@ -21,7 +21,10 @@
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
 session_cache_limiter('nocache');
+ini_set('session.gc_maxlifetime', 3600*24*365);
+ini_set('session.cookie_lifetime', 3600*24*365);
 session_start();
+
 if (isset($_SERVER['REMOTE_USER'])) 
   $_SESSION['USER'] = strip_tags(addslashes(htmlspecialchars($_SERVER['REMOTE_USER']))) ;
 else 
