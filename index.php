@@ -232,16 +232,49 @@ else if (isset($_SESSION['FONTSIZE']))
 else
   $_SESSION['FONTSIZE'] = $FONT_SIZE;
 
-/* GET MAX CHARACTER PER TD */
-if ( (isset($_GET['maxlentd'])) && (is_numeric($_GET['maxlentd'])) &&
-     ($_GET['maxlentd'] > 0) && ($_GET['maxlentd'] < 1000) ) {
-  $MAX_LEN_TD = $_GET['maxlentd'];
-  $_SESSION['MAXLENTD'] = $MAX_LEN_TD;
+/* GET MAX CHARACTERS FOR STINFO COLUMN */
+if ( (isset($_GET['maxlen_stinfo'])) && (is_numeric($_GET['maxlen_stinfo'])) &&
+     ($_GET['maxlen_stinfo'] > 0) && ($_GET['maxlen_stinfo'] < 1000) ) {
+  $MAXLEN_STINFO = $_GET['maxlen_stinfo'];
+  $_SESSION['MAXLEN_STINFO'] = $MAXLEN_STINFO;
 }
-else if (isset($_SESSION['MAXLENTD']))
-  $MAX_LEN_TD = $_SESSION['MAXLENTD'];
+else if (isset($_SESSION['MAXLEN_STINFO']))
+  $MAXLEN_STINFO = $_SESSION['MAXLEN_STINFO'];
 else
-  $_SESSION['MAXLENTD'] = $MAX_LEN_TD;
+  $_SESSION['MAXLEN_STINFO'] = $MAXLEN_STINFO;
+
+/* GET MAX CHARACTERS FOR HOST/MACHINE COLUMN */
+if ( (isset($_GET['maxlen_host'])) && (is_numeric($_GET['maxlen_host'])) &&
+     ($_GET['maxlen_host'] > 0) && ($_GET['maxlen_host'] < 1000) ) {
+  $MAXLEN_HOST = $_GET['maxlen_host'];
+  $_SESSION['MAXLEN_HOST'] = $MAXLEN_HOST;
+}
+else if (isset($_SESSION['MAXLEN_HOST']))
+  $MAXLEN_HOST = $_SESSION['MAXLEN_HOST'];
+else
+  $_SESSION['MAXLEN_HOST'] = $MAXLEN_HOST;
+
+/* GET MAX CHARACTERS FOR SERVICE COLUMN */
+if ( (isset($_GET['maxlen_svc'])) && (is_numeric($_GET['maxlen_svc'])) &&
+     ($_GET['maxlen_svc'] > 0) && ($_GET['maxlen_svc'] < 1000) ) {
+  $MAXLEN_SVC = $_GET['maxlen_svc'];
+  $_SESSION['MAXLEN_SVC'] = $MAXLEN_SVC;
+}
+else if (isset($_SESSION['MAXLEN_SVC']))
+  $MAXLEN_SVC = $_SESSION['MAXLEN_SVC'];
+else
+  $_SESSION['MAXLEN_SVC'] = $MAXLEN_SVC;
+
+/* GET MAX CHARACTERS FOR GROUPS COLUMN */
+if ( (isset($_GET['maxlen_groups'])) && (is_numeric($_GET['maxlen_groups'])) &&
+     ($_GET['maxlen_groups'] > 0) && ($_GET['maxlen_groups'] < 1000) ) {
+  $MAXLEN_GROUPS = $_GET['maxlen_groups'];
+  $_SESSION['MAXLEN_GROUPS'] = $MAXLEN_GROUPS;
+}
+else if (isset($_SESSION['MAXLEN_GROUPS']))
+  $MAXLEN_GROUPS = $_SESSION['MAXLEN_GROUPS'];
+else
+  $_SESSION['MAXLEN_GROUPS'] = $MAXLEN_GROUPS;
 
 /* DISPLAY THE FRAME AROUND THE PAGE */
 if (isset($_GET['frame'])) {

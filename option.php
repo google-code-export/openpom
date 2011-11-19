@@ -85,12 +85,45 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'maxlentd')) ?>
+            <?php echo ucfirst(lang($MYLANG, 'maxlen_stinfo')) ?>
           </th>
           <td colspan="2">
             <input type="text" maxlength="3" 
-                   name="maxlentd" 
-                   value="<?php echo $_SESSION['MAXLENTD'] ?>" />
+                   name="maxlen_stinfo" 
+                   value="<?php echo $_SESSION['MAXLEN_STINFO'] ?>" />
+            (min 1, max 999)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'maxlen_host')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="3" 
+                   name="maxlen_host" 
+                   value="<?php echo $_SESSION['MAXLEN_HOST'] ?>" />
+            (min 1, max 999)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'maxlen_svc')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="3" 
+                   name="maxlen_svc" 
+                   value="<?php echo $_SESSION['MAXLEN_SVC'] ?>" />
+            (min 1, max 999)
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'maxlen_groups')) ?>
+          </th>
+          <td colspan="2">
+            <input type="text" maxlength="3" 
+                   name="maxlen_groups" 
+                   value="<?php echo $_SESSION['MAXLEN_GROUPS'] ?>" />
             (min 1, max 999)
           </td>
         </tr>

@@ -114,76 +114,135 @@
         }
       ?>
 
+
       <tr class="alert-item <?php echo $COLOR?>" id="<?php echo $data['SVCID']?>"
         <?php if ($POPIN) { ?>
-          onmouseover="to = setTimeout(function() { get_data('<?php echo $data['TYPE'] ?>', '<?php echo $data['SVCID'] ?>'); }, 500);" 
-          onmouseout="clearTimeout(to);"
+        onmouseover="to = setTimeout(function() { get_data('<?php echo $data['TYPE'] ?>', '<?php echo $data['SVCID'] ?>'); }, 500);" 
+        onmouseout="clearTimeout(to);"
         <?php } ?>
-          onclick="selectline(this, event);">
-        <?php 
-          foreach($COLS AS $key => $val) { 
+        onclick="selectline(this, event);">
 
-            if ($key == 'checkbox')
+        <?php
+        /* loop on columns to display */
+        foreach($COLS AS $key => $val) {
+          $toprint = '';
+          
+          if ($key == 'checkbox') {
+            $toprint = '
+              <span class="checkbox">
+                <input type="hidden" 
+                       class="data"
+                       name="'.$data['SVCID'].'" 
+                       value="'.$data['MACHINE_NAME'].' '.$data['SERVICES'].'" />
+                <span></span>
+              </span>';
+          }
+          
+          else if ($key == 'flag') {
+            
+            if ($data['TYPE'] == "svc") {
               $toprint = '
-                <span class="checkbox">
-                  <input type="hidden" 
-                         class="data"
-                         name="'.$data['SVCID'].'" 
-                         value="'.$data['MACHINE_NAME'].' '.$data['SERVICES'].'" />
-                  <span></span>
-                </span>';
-              
-            else if ($key == 'flag') {
-
-              if ($data['TYPE'] == "svc") 
-                $toprint = '<a target="_blank" href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"><img src="img/flag_svc.png" border="0" alt="S" title="'.ucfirst(lang($MYLANG, 'service')).'" /></a>'; 
-              else
-                $toprint = '<a class="col_no_sort" target="_blank" href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"><img src="img/flag_host.png" border="0" alt="H" title="'.ucfirst(lang($MYLANG, 'host')).'" /></a>'; 
-              
-              $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICES']);
-              if (!empty($g)) {
-                $toprint .= '<a href="#" ' 
-                  . 'onClick="return pop(\''.$g.'\', \''.$data['SVCID'].'\', ' 
-                  . $GRAPH_POPUP_WIDTH . ', ' 
-                  . $GRAPH_POPUP_HEIGHT . ');">' 
-                  . '<img src="img/flag_graph.png" alt="G" border="0" ' 
-                  . 'title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
-              }
-
-              if ($data['ACK'] == "1") 
-                $toprint = $toprint.'<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
-
-              if ($data['NOTIF'] == "0")
-                $toprint = $toprint.'<img src="img/flag_notify.png" alt="N" title="'.ucfirst(lang($MYLANG, 'disable_title')).'" />';
-
-              if ($data['DOWNTIME'] > 0)
-                $toprint = $toprint.'<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
-
-              if ($data['COMMENT'] > 0)
-                $toprint = $toprint.'<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
-
+                <a target="_blank" 
+                   href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"
+                  ><img src="img/flag_svc.png" border="0" alt="S" title="'.ucfirst(lang($MYLANG, 'service')).'"
+                /></a>'; 
+            } else if ($data['TYPE'] == "host") {
+              $toprint = '
+                <a target="_blank" 
+                   href="'.$LINK.'?type=1&host='.$data["MACHINE_NAME"].'"
+                 ><img src="img/flag_host.png" border="0" alt="H" title="'.ucfirst(lang($MYLANG, 'host')).'" 
+                /></a>'; 
             }
-            else if ( ($key == 'duration') || ($key == 'last') ) 
-              $toprint = printtime($data[$val]);
-            else if (strlen($data[$val]) > $MAX_LEN_TD) 
-              $toprint = htmlspecialchars(substr($data[$val], 0, $MAX_LEN_TD))." ...";
-            else
-              $toprint = htmlspecialchars($data[$val]);
-            if ( ($key == "machine") || ($key == "service") )
-              $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">'.$toprint.'</a>';
-            else if ($key == "group") {
-              $groups = explode(', ',$toprint);
-              $my_groups = "";
-              foreach ($groups AS $group) {
-                if (substr($group, -4) == " ...") 
-                  $my_groups .= " ...";
-                else
-                  $my_groups .= '<a href="'.$MY_GET_NO_FILT.'&filtering='.$group.'">'.$group.'</a> ';
-              }
-              $toprint = $my_groups;
+            
+            $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICES']);
+            if (!empty($g)) {
+              $toprint .= '<a href="#" ' 
+                . 'onClick="return pop(\''.$g.'\', \''.$data['SVCID'].'\', ' 
+                . $GRAPH_POPUP_WIDTH . ', ' 
+                . $GRAPH_POPUP_HEIGHT . ');">' 
+                . '<img src="img/flag_graph.png" alt="G" border="0" ' 
+                . 'title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
             }
+
+            if ($data['ACK'] == "1") 
+              $toprint = $toprint.'<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
+
+            if ($data['NOTIF'] == "0")
+              $toprint = $toprint.'<img src="img/flag_notify.png" alt="N" title="'.ucfirst(lang($MYLANG, 'disable_title')).'" />';
+
+            if ($data['DOWNTIME'] > 0)
+              $toprint = $toprint.'<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
+
+            if ($data['COMMENT'] > 0)
+              $toprint = $toprint.'<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
+
+          }
+          
+          else if ($key == 'duration' || $key == 'last') { 
+            $toprint = printtime($data[$val]);
+          }
+          
+          else if ($key == 'IP') {
+            $toprint = htmlspecialchars($data[$val]);
+          }
+          
+          else if ($key == 'machine') {
+            $toprint = strlen($data[$val]) > $MAXLEN_HOST
+              ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_HOST)) . '...'
+              : htmlspecialchars($data[$val]);
+          }
+          
+          else if ($key == 'service') {
+            $toprint = strlen($data[$val]) > $MAXLEN_SVC
+              ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_SVC)) . '...'
+              : htmlspecialchars($data[$val]);
+          }
+          
+          else if ($key == 'stinfo') {
+            $toprint = strlen($data[$val]) > $MAXLEN_STINFO
+              ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_STINFO)) . '...'
+              : htmlspecialchars($data[$val]);
+          }
+          
+          else if ($key == 'group') {
+            $size = $MAXLEN_GROUPS;
+            $groups = explode(', ', $data[$val]);
+            $truncated = false;
+            
+            while ($size > 0 && ($g = current($groups))) {
+              next($groups);
+              $l = strlen($g);
+              
+              if ($l > $size) {
+                $l = $size;
+                $truncated = true;
+              }
+              
+              $size -= $l;
+              $toprint .= (empty($toprint) ? '' : ', ')
+                       . '<a href="'.$MY_GET_NO_FILT.'&filtering='.$g.'">'
+                       .  htmlspecialchars(substr($g, 0, $l)) 
+                       .  '</a>';
+            }
+            
+            if ($truncated) {
+              $toprint .= '...';
+            }
+            
+            unset($l, $size, $groups, $g, $truncated);
+          }
+          
+          else {
+            $toprint = htmlspecialchars($data[$val]);
+          }
+          
+          /* fileter links for machine and service */
+          if ($key == 'machine' || $key == 'service') {
+            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">'.$toprint.'</a>';
+          }
         ?>
 
+        
         <td class="<?php echo $COLOR ?> <?php echo $key ?>">
           <?php
             /* wrap cell value around a span, except for the checkbox column */
@@ -194,6 +253,7 @@
           ?>
         </td>
 
+        
         <?php
           } /* end foreach col */
         ?>
