@@ -22,7 +22,7 @@
                 onclick="window.location.href='<?php echo $MY_GET ?>';"></span>&#160;
           
           <span title="<?php echo ucfirst(lang($MYLANG, 'refreshing'))?>" 
-                id="refreshspan"></span>&#160;&#160;
+                id="refreshspan"><?php echo $REFRESHTIME; ?></span>&#160;&#160;
       </td>
 
       <td style="text-align: center;">

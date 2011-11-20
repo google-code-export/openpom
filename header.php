@@ -31,9 +31,8 @@
     <script type="text/javascript">
       var current_data_displayed = null;
       var cache    = new Array();
-      var refresh; 
-      var mytime   = <?php echo ($REFRESHTIME+1)?>;
-      var filter   = "<?php echo $FILTER?>";
+      var mytime   = <?php echo $REFRESHTIME ?>;
+      var filter   = "<?php echo $FILTER ?>";
       var cur_id;
       var it = null;
       var filtering_has_focus = false;

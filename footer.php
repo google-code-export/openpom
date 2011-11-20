@@ -31,13 +31,15 @@
   <?php } ?>
   </body>
   
-  <script>
-    autorefresh();
+  <script type="text/javascript">
     $("#filtering").focus(function() {
       filtering_has_focus = true ;
     });
     $("#filtering").focusout(function() {
       filtering_has_focus = false ;
     });
+    
+    /* start refresh countdown */
+    window.setTimeout(autorefresh, 1000);
   </script>
 </html> 

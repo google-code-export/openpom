@@ -111,16 +111,14 @@ function getallselectline(form) {
 
 function autorefresh() { 
   var refresh = $('#refreshspan');
-  
-  /* set next timeout */
-  setTimeout(autorefresh, 1000);
+  var line_is_checked = false;
+  var keep_going = true;
   
   /* check if any line is checked */
-  var line_is_checked = false;
   $('table#alert').find('span.checkbox').each(function (index, element) {
     if (testCheckbox(element)) {
       line_is_checked = true;
-      return false;
+      return false; // this only breaks from the "each" loop
     }
   });
   
@@ -129,17 +127,24 @@ function autorefresh() {
     if (refresh.css('text-decoration') != 'line-through') {
       refresh.css('text-decoration', 'line-through');
     }
-    return;
+    
+  /* otherwise decrement countdown */
+  } else {
+    if (refresh.css('text-decoration') == 'line-through') {
+      refresh.css('text-decoration', 'none');
+    }
+    
+    refresh.html(--mytime);
+    if (mytime <= 0) {
+      keep_going = false;
+      window.location.href = window.location.href;
+    }
   }
   
-  mytime--;
-  var my_get = location.href.replace(/^.*[\/#\\]/g, ''); 
-  if (mytime == 0)
-    window.location.href = my_get;
-  if (refresh.css('text-decoration') == 'line-through') {
-    refresh.css('text-decoration', 'none');
+  /* set next timeout */
+  if (keep_going) {
+    window.setTimeout(autorefresh, 1000);
   }
-  refresh.html(mytime);
 }
 
 function XMLHttpRequestSurcouche(zeasy) { 
