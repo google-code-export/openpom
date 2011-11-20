@@ -55,14 +55,19 @@ FROM (
     'svc'                                AS TYPE,
     SS.scheduled_downtime_depth          AS DOWNTIME,
     SS.notifications_enabled             AS NOTIF,
-    ( SELECT count(*)
+    ( SELECT BIT_OR( IF(substring(comment_data, 1, 1) = '!', 2, 1) )
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = S.service_object_id
-      AND entry_type = 1
-      AND author_name != '(Nagios Process)'
-      AND deletion_time = '000-00-00 00:00:00'
-      ORDER BY CO.entry_time DESC
-      LIMIT 1 )                          AS COMMENT
+      AND CO.entry_type = 1
+      AND CO.comment_source = 1
+      AND CO.deletion_time = '0000-00-00 00:00:00'
+    )                                    AS COMMENT   -- comment is 0, 1, 2 or 3
+                                                      -- bit 0 is comment
+                                                      -- bit 1 is track
+                                                      -- 0: no comment, no track
+                                                      -- 1: comment only
+                                                      -- 2: track only
+                                                      -- 3: comment and track
 
   FROM
          ".$BACKEND."_hosts AS H
@@ -87,36 +92,32 @@ FROM (
       define_or_and  H.address      define_my_like 'define_my_IP_filter'
     )
     AND O.name1 = 'define_my_user'
-    AND SS.current_state IN (define_my_svcfilt)
-    AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
-      OR  ( SELECT substring( comment_data, 1 ,1) 
-            FROM ".$BACKEND."_commenthistory
-            WHERE object_id = S.service_object_id
-            AND entry_type = 4
-            AND author_name != '(Nagios Process)'
-            AND deletion_time = '000-00-00 00:00:00'
-            ORDER BY entry_time DESC
-            LIMIT 1
-          ) = '!'
+    AND ( (
+            SS.current_state IN (define_my_svcfilt)
+        AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
+        AND (
+              SS.problem_has_been_acknowledged IN (define_my_svcacklist) 
+          AND HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval
         )
-    AND ( ( SS.problem_has_been_acknowledged IN (define_my_svcacklist) AND
-          HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval )
-      OR  ( SELECT substring( comment_data, 1 ,1) 
-            FROM ".$BACKEND."_commenthistory
-            WHERE object_id = S.service_object_id
-            AND entry_type = 4
-            AND author_name != '(Nagios Process)'
-            AND deletion_time = '000-00-00 00:00:00'
-            ORDER BY entry_time DESC
-            LIMIT 1
-          ) = '!'
+        AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
+        AND (
+              SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval
+          AND HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval
         )
-    AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
-    AND ( SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval AND
-          HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval )
-    AND ( define_my_nosvc = 0 OR HS.current_state = 0 )
-    AND SS.notifications_enabled IN (define_my_disable)
-    AND ( define_my_soft = 0 OR SS.state_type = 1 )
+        AND (define_my_nosvc = 0 OR HS.current_state = 0)
+        AND SS.notifications_enabled IN (define_my_disable)
+        AND (define_my_soft = 0 OR SS.state_type = 1)
+      )
+      OR (
+        SELECT count(*) > 0
+        FROM ".$BACKEND."_commenthistory
+        WHERE object_id = S.service_object_id
+        AND entry_type = 1
+        AND comment_source = 1
+        AND deletion_time = '0000-00-00 00:00:00'
+        AND substring(comment_data, 1 ,1) = '!' 
+      )
+    )
 
   GROUP BY SVCID
 
@@ -146,15 +147,19 @@ UNION
     'host'                               AS TYPE,
     HS.scheduled_downtime_depth          AS DOWNTIME,
     HS.notifications_enabled             AS NOTIF,
-    ( SELECT count(*)
+    ( SELECT BIT_OR( IF(substring(comment_data, 1, 1) = '!', 2, 1) )
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = H.host_object_id
-      AND entry_type = 1
-      AND author_name != '(Nagios Process)'
-      AND deletion_time = '000-00-00 00:00:00'
-      ORDER BY CO.entry_time DESC
-      LIMIT 1 )                          AS COMMENT
-
+      AND CO.entry_type = 1
+      AND CO.comment_source = 1
+      AND CO.deletion_time = '0000-00-00 00:00:00'
+    )                                    AS COMMENT   -- comment is 0, 1, 2 or 3
+                                                      -- bit 0 is comment
+                                                      -- bit 1 is track
+                                                      -- 0: no comment, no track
+                                                      -- 1: comment only
+                                                      -- 2: track only
+                                                      -- 3: comment and track
   FROM
          ".$BACKEND."_hosts AS H
     JOIN ".$BACKEND."_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
@@ -176,21 +181,24 @@ UNION
       define_or_and  H.address      define_my_like 'define_my_IP_filter'
     )
     AND O.name1 = 'define_my_user'
-    AND HS.current_state IN (define_my_hostfilt)
-    AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
-    AND ( HS.problem_has_been_acknowledged IN (define_my_hostacklist)
-      OR ( SELECT substring( comment_data, 1 ,1) 
-            FROM ".$BACKEND."_commenthistory
-            WHERE object_id = H.host_object_id
-            AND entry_type = 4
-            AND author_name != '(Nagios Process)'
-            AND deletion_time = '000-00-00 00:00:00'
-            ORDER BY entry_time DESC
-            LIMIT 1
-          ) = '!'
-        )
-    AND HS.notifications_enabled IN (define_my_disable)
-    AND ( define_my_soft = 0 OR HS.state_type = 1 )
+    AND ( (
+            HS.current_state IN (define_my_hostfilt)
+        AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
+        AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
+        AND HS.notifications_enabled IN (define_my_disable)
+        AND (define_my_soft = 0 OR HS.state_type = 1)
+      )
+      OR (
+        SELECT count(*) > 0
+        FROM ".$BACKEND."_commenthistory
+        WHERE object_id = H.host_object_id
+        AND entry_type = 1
+        AND comment_source = 1
+        AND deletion_time = '0000-00-00 00:00:00'
+        AND substring(comment_data, 1 ,1) = '!' 
+      )
+    )
+    
 
   GROUP BY SVCID
 

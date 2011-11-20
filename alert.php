@@ -7,8 +7,11 @@
   http://www.gnu.org/licenses/
 */
 
-  if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die(); 
-  if (!isset($_SESSION['USER'])) die();
+if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die(); 
+if (!isset($_SESSION['USER'])) die();
+  
+define('IS_COMMENT', 0x1);
+define('IS_TRACK',   0x2);
 ?>
 
 
@@ -105,7 +108,7 @@
               break;
         }
 
-        if ( ($data['ACK'] == "1") && ($LEVEL < 4) ) { 
+        if ($data['COMMENT'] & IS_TRACK) { 
           $COLOR = $TRACK;
         }
         
@@ -173,7 +176,7 @@
             if ($data['DOWNTIME'] > 0)
               $toprint = $toprint.'<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
 
-            if ($data['COMMENT'] > 0)
+            if ($data['COMMENT'] & IS_COMMENT)
               $toprint = $toprint.'<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
 
           }
