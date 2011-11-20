@@ -208,31 +208,36 @@ define('IS_TRACK',   0x2);
           }
           
           else if ($key == 'group') {
-            $size = $MAXLEN_GROUPS;
-            $groups = explode(', ', $data[$val]);
-            $truncated = false;
-            
-            while ($size > 0 && ($g = current($groups))) {
-              next($groups);
-              $l = strlen($g);
+            if (empty($data[$val])) {
+              $toprint = '&mdash;';
               
-              if ($l > $size) {
-                $l = $size;
-                $truncated = true;
+            } else {
+              $size = $MAXLEN_GROUPS;
+              $groups = explode(', ', $data[$val]);
+              $truncated = false;
+              
+              while ($size > 0 && ($g = current($groups))) {
+                next($groups);
+                $l = strlen($g);
+                
+                if ($l > $size) {
+                  $l = $size;
+                  $truncated = true;
+                }
+                
+                $size -= $l;
+                $toprint .= (empty($toprint) ? '' : ', ')
+                         . '<a href="'.$MY_GET_NO_FILT.'&filtering='.$g.'">'
+                         .  htmlspecialchars(substr($g, 0, $l)) 
+                         .  '</a>';
               }
               
-              $size -= $l;
-              $toprint .= (empty($toprint) ? '' : ', ')
-                       . '<a href="'.$MY_GET_NO_FILT.'&filtering='.$g.'">'
-                       .  htmlspecialchars(substr($g, 0, $l)) 
-                       .  '</a>';
+              if ($truncated) {
+                $toprint .= '...';
+              }
+              
+              unset($l, $size, $groups, $g, $truncated);
             }
-            
-            if ($truncated) {
-              $toprint .= '...';
-            }
-            
-            unset($l, $size, $groups, $g, $truncated);
           }
           
           else {
