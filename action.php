@@ -29,26 +29,26 @@
           <span class="icon-btn icon-ack"
                 onclick="clicked_generic_popin('ack.php');"
                 title="<?php echo ucfirst(lang($MYLANG, 'acknowledge'))?>"></span>&thinsp;
-               
+
           <span class="icon-btn icon-down"
                 onclick="clicked_generic_popin('down.php');"
                 title="<?php echo ucfirst(lang($MYLANG, 'downtime'))?>"></span>&thinsp;
-               
-          <span class="icon-btn icon-recheck"
-                onclick="clicked_generic_action('recheck');"
-                title="<?php echo ucfirst(lang($MYLANG, 'recheck'))?>"></span>&thinsp;
-               
+
           <span class="icon-btn icon-disable"
                 onclick="clicked_generic_action('disable');"
                 title="<?php echo ucfirst(lang($MYLANG, 'disable_title'))?>"></span>&thinsp;
-          
+
+          <span class="icon-btn icon-comment"
+                onclick="clicked_generic_popin('comment.php');"
+                title="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>"></span>&thinsp;
+
           <span class="icon-btn icon-reset"
                 onclick="clicked_generic_action('reset');"
                 title="<?php echo ucfirst(lang($MYLANG, 'reset_title'))?>"></span>&thinsp;
-               
-          <span class="icon-btn icon-comment"
-                onclick="clicked_generic_popin('comment.php');"
-                title="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>"></span>
+
+          <span class="icon-btn icon-recheck"
+                onclick="clicked_generic_action('recheck');"
+                title="<?php echo ucfirst(lang($MYLANG, 'recheck'))?>"></span>
                 
       </td>
       
