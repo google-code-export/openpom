@@ -35,7 +35,7 @@
                 title="<?php echo ucfirst(lang($MYLANG, 'downtime'))?>"></span>&thinsp;
 
           <span class="icon-btn icon-disable"
-                onclick="clicked_generic_action('disable');"
+                onclick="clicked_generic_popin('disable.php');"
                 title="<?php echo ucfirst(lang($MYLANG, 'disable_title'))?>"></span>&thinsp;
 
           <span class="icon-btn icon-comment"

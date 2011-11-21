@@ -254,10 +254,25 @@ $EXT_CMD['disable']['host'][0]  = array(
 'DISABLE_HOST_NOTIFICATIONS',
 '$host');
 
+$EXT_CMD['disable']['host'][1]  = array(
+'ADD_HOST_COMMENT',
+'$host',
+'1',
+'$user',
+'$comment');
+
 $EXT_CMD['disable']['svc'][0]   = array(
 'DISABLE_SVC_NOTIFICATIONS',
 '$host',
 '$svc');
+
+$EXT_CMD['disable']['svc'][1]  = array(
+'ADD_SVC_COMMENT',
+'$host',
+'$svc',
+'1',
+'$user',
+'$comment');
 
 /* ADD COMMENT */
 $EXT_CMD['comment_persistent']['host'][0]  = array(

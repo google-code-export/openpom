@@ -444,6 +444,7 @@ div.box-content input[type="text"] {
 div#option input[type="text"] { width: 30px; }
 div#ack input[type="text"] { width: 220px; }
 div#comment input[type="text"] { width: 220px; }
+div#disable input[type="text"] { width: 220px; }
 div#down input#start { width: 220px; }
 div#down input#end { width: 220px; }
 div#down input#hour { width: 40px; }

@@ -323,16 +323,7 @@ function build_nagios_cmd__comment_persistent($action, $ts, $target, $dblink) {
  * prepare command to disable host/svc notifications nagios action
  */
 function build_nagios_cmd__disable($action, $ts, $target, $dblink) {
-  /* this action requires at least one element in target, 
-   * the host name */
-  if (count($target) < 1) {
-    return false;
-  }
-  
-  /* build command */
-  $out = get_nagios_cmd_template($action, $ts, $target);
-  $out = str_replace('$user', $_SESSION['USER'], $out);
-  return $out;
+  return build_nagios_cmd__ack($action, $ts, $target, $dblink);
 }
 
 
