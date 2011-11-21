@@ -211,10 +211,10 @@ function get_nagios_cmd_template($action, $ts, $target) {
 }
 
 
-/* validate_nagios_cmd_comment
+/* validate_comment_value
  * check if a valid comment has been posted 
  */
-function validate_nagios_cmd_comment(&$out) {
+function validate_comment_value(&$out) {
   global $ILLEGAL_CHAR;
   
   /* require comment */
@@ -231,21 +231,10 @@ function validate_nagios_cmd_comment(&$out) {
 }
 
 
-/* build_nagios_cmd__down
- * prepare command to downtime nagios action
+/* validate_downtime_range
+ * check if a valid start/end date range has been posted 
  */
-function build_nagios_cmd__down($action, $ts, $target, $dblink) {
-  /* this action requires at least one element in target, 
-   * the host name */
-  if (count($target) < 1) {
-    return false;
-  }
-  
-  /* this action requires a valid comment */
-  if (!validate_nagios_cmd_comment($c)) {
-    return false;
-  }
-  
+function validate_downtime_range(&$start, &$end) {
   /* fixed start/end dates */
   if (isset($_POST['start']) && isset($_POST['end'])) {
     $pat = '/[0-9]{1,2}[-]{1}[0-9]{1,2}[-]{1}[0-9]{4} [0-9]{1,2}:[0-9]{1,2}/';
@@ -276,7 +265,29 @@ function build_nagios_cmd__down($action, $ts, $target, $dblink) {
   
   /* check dates */
   if ($endf != 0) $end = $endf;
-  if (!isset($start) || !isset($end)) return false;
+  return isset($start) && isset($end);
+}
+
+
+/* nagios_build_cmd__down
+ * prepare command to downtime nagios action
+ */
+function nagios_build_cmd__down($action, $ts, $target, $dblink) {
+  /* this action requires at least one element in target, 
+   * the host name */
+  if (count($target) < 1) {
+    return false;
+  }
+  
+  /* this action requires a valid comment */
+  if (!validate_comment_value($c)) {
+    return false;
+  }
+  
+  /* this action requires a valid start/end date range */
+  if (!validate_downtime_range($start, $end)) {
+    return false;
+  }
   
   /* build command */
   $out = get_nagios_cmd_template($action, $ts, $target);
@@ -287,10 +298,10 @@ function build_nagios_cmd__down($action, $ts, $target, $dblink) {
 }
 
 
-/* build_nagios_cmd__ack
+/* nagios_build_cmd__ack
  * prepare command to acknowledge nagios action
  */
-function build_nagios_cmd__ack($action, $ts, $target, $dblink) {
+function nagios_build_cmd__ack($action, $ts, $target, $dblink) {
   /* this action requires at least one element in target, 
    * the host name */
   if (count($target) < 1) {
@@ -298,7 +309,7 @@ function build_nagios_cmd__ack($action, $ts, $target, $dblink) {
   }
   
   /* this action requires a valid comment */
-  if (!validate_nagios_cmd_comment($c)) {
+  if (!validate_comment_value($c)) {
     return false;
   }
   
@@ -311,54 +322,54 @@ function build_nagios_cmd__ack($action, $ts, $target, $dblink) {
 }
 
 
-/* build_nagios_cmd__comment_persistent
+/* nagios_build_cmd__comment_persistent
  * prepare command to persistent comment nagios action
  */
-function build_nagios_cmd__comment_persistent($action, $ts, $target, $dblink) {
-  return build_nagios_cmd__ack($action, $ts, $target, $dblink);
+function nagios_build_cmd__comment_persistent($action, $ts, $target, $dblink) {
+  return nagios_build_cmd__ack($action, $ts, $target, $dblink);
 }
 
 
-/* build_nagios_cmd__disable
+/* nagios_build_cmd__disable
  * prepare command to disable host/svc notifications nagios action
  */
-function build_nagios_cmd__disable($action, $ts, $target, $dblink) {
-  return build_nagios_cmd__ack($action, $ts, $target, $dblink);
+function nagios_build_cmd__disable($action, $ts, $target, $dblink) {
+  return nagios_build_cmd__ack($action, $ts, $target, $dblink);
 }
 
 
-/* build_nagios_cmd__ena_notif
+/* nagios_build_cmd__ena_notif
  * prepare command to enable global notifications nagios action
  */
-function build_nagios_cmd__ena_notif($action, $ts, $target, $dblink) {
+function nagios_build_cmd__ena_notif($action, $ts, $target, $dblink) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   return $out;
 }
 
 
-/* build_nagios_cmd__disa_notif
+/* nagios_build_cmd__disa_notif
  * prepare command to disable global notifications nagios action
  */
-function build_nagios_cmd__disa_notif($action, $ts, $target, $dblink) {
+function nagios_build_cmd__disa_notif($action, $ts, $target, $dblink) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   return $out;
 }
 
 
-/* build_nagios_cmd__recheck
+/* nagios_build_cmd__recheck
  * prepare command to force recheck host/svc nagios action
  */
-function build_nagios_cmd__recheck($action, $ts, $target, $dblink) {
+function nagios_build_cmd__recheck($action, $ts, $target, $dblink) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   $out = str_replace('$next', $ts+5, $out);
   return $out;
 }
 
 
-/* build_nagios_cmd__reset
+/* nagios_build_cmd__reset
  * prepare command to reset host/svc nagios action
  */
-function build_nagios_cmd__reset($action, $ts, $target, $dblink) {
+function nagios_build_cmd__reset($action, $ts, $target, $dblink) {
   global $QUERY_DOWNTIME_SVC_ID;
   global $QUERY_DOWNTIME_HOST_ID;
   
@@ -372,8 +383,6 @@ function build_nagios_cmd__reset($action, $ts, $target, $dblink) {
   } else {
     return false;
   }
-  
-  
   
   /* get partial commands template */
   $out = get_nagios_cmd_template($action, $ts, $target);
@@ -436,8 +445,8 @@ function handle_action($dblink) {
     if ($t[0] == 'nagios') {
       array_shift($t);
       
-      if (function_exists('build_nagios_cmd__' . $_POST['action'])) {
-        $ret = call_user_func('build_nagios_cmd__' . $_POST['action'], 
+      if (function_exists('nagios_build_cmd__' . $_POST['action'])) {
+        $ret = call_user_func('nagios_build_cmd__' . $_POST['action'], 
           $_POST['action'], 
           $ts, 
           $t, 
