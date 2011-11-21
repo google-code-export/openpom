@@ -64,9 +64,18 @@ $QUERY_SVC = "
       WHERE CO.object_id = SS.service_object_id
       AND entry_type = 1
       AND author_name != '(Nagios Process)'
-      AND deletion_time = '000-00-00 00:00:00' 
+      AND deletion_time = '000-00-00 00:00:00'
+      AND substring(comment_data, 1, 1) != '!'
       ORDER BY CO.entry_time DESC
-      LIMIT 1 )                           AS COMMENT
+      LIMIT 1 )                            AS COMMENT, 
+    ( SELECT count(*) > 0
+      FROM ".$BACKEND."_commenthistory AS CTR
+      WHERE CTR.object_id = SS.service_object_id
+      AND CTR.entry_type = 1
+      AND CTR.comment_source = 1
+      AND CTR.deletion_time = '0000-00-00 00:00:00'
+      AND substring(CTR.comment_data, 1, 1) = '!' )
+                                           AS TRACKED
 
   FROM
     ".$BACKEND."_servicestatus AS SS
@@ -135,9 +144,18 @@ $QUERY_HOST = "
       WHERE CO.object_id = HS.host_object_id
       AND entry_type = 1
       AND author_name != '(Nagios Process)'
-      AND deletion_time = '000-00-00 00:00:00' 
+      AND deletion_time = '000-00-00 00:00:00'
+      AND substring(comment_data, 1, 1) != '!'
       ORDER BY CO.entry_time DESC
-      LIMIT 1 )                            AS COMMENT
+      LIMIT 1 )                            AS COMMENT, 
+    ( SELECT count(*) > 0
+      FROM ".$BACKEND."_commenthistory AS CTR
+      WHERE CTR.object_id = HS.host_object_id
+      AND CTR.entry_type = 1
+      AND CTR.comment_source = 1
+      AND CTR.deletion_time = '0000-00-00 00:00:00'
+      AND substring(CTR.comment_data, 1, 1) = '!' )
+                                           AS TRACKED
 
   FROM
     ".$BACKEND."_hoststatus AS HS

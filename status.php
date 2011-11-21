@@ -101,6 +101,7 @@ $UPDATETIMEDIFF    = $st_data['UPDATETIMEDIFF'];
 $UPDATETIME        = $st_data['UPDATETIME'];
 $ACK               = $st_data['ACK'];
 $DOWN              = $st_data['DOWNTIME'];
+$TRACKED           = $st_data['TRACKED'];
 $ACKCOMMENT        = explode(';', $st_data['ACKCOMMENT']);
 $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT']);
 $COMMENT           = explode(';', $st_data['COMMENT']);
@@ -188,6 +189,10 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'lastup'))?></th>
         <td colspan="2"><?php echo $UPDATETIME?> (<?php echo $UPDATETIMEDIFF?> ago)</td>
+      </tr>
+      <tr>
+        <th><?php echo ucfirst(lang($MYLANG, 'istrack'))?></th>
+        <td colspan="2"><?php echo $TRACKED ? 'YES' : 'NO' ?></td>
       </tr>
       
       <?php if ( ($ACK == 1) && (isset($ACKCOMMENT[1])) ) { ?>
