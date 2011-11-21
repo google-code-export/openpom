@@ -17,7 +17,7 @@ require_once("lang.php");
     <h2><?php echo ucfirst(lang($MYLANG, 'downtime')) ?></h2>
   </div>
   
-  <div class="box-content" id="down">
+  <div class="box-content" id="box-down">
     <form action="" method="post" onsubmit="return valid_down(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <table>
         <tr>

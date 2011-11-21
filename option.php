@@ -30,7 +30,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
     <h2><?php echo ucfirst(lang($MYLANG, 'option'))?></h2>
   </div>
   
-  <div class="box-content" id="option">
+  <div class="box-content" id="box-option">
     <form action="" method="get" onsubmit="return valid_option(this);">
     <table>
         <tr>

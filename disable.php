@@ -18,7 +18,7 @@ require_once("lang.php");
     <h2><?php echo ucfirst(lang($MYLANG, 'disable_title')) ?></h2>
   </div>
   
-  <div class="box-content" id="disable">
+  <div class="box-content" id="box-disable">
     <form action="" method="post" onsubmit="return valid_disable(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <!-- BEGIN IE FIX -->
       <!-- 1x text input and submit disables submit on Enter -->

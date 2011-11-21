@@ -18,7 +18,7 @@ require_once("lang.php");
     <h2><?php echo ucfirst(lang($MYLANG, 'comment0')) ?></h2>
   </div>
   
-  <div class="box-content" id="comment">
+  <div class="box-content" id="box-comment">
     <form action="" method="post" onsubmit="return valid_comment(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <!-- BEGIN IE FIX -->
       <!-- 1x text input and submit disables submit on Enter -->

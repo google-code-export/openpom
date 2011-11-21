@@ -441,15 +441,15 @@ div.box-content input[type="text"] {
   border: 1px solid #E9EBE1;
 }
 
-div#option input[type="text"] { width: 30px; }
-div#ack input[type="text"] { width: 220px; }
-div#comment input[type="text"] { width: 220px; }
-div#disable input[type="text"] { width: 220px; }
-div#down input#start { width: 220px; }
-div#down input#end { width: 220px; }
-div#down input#hour { width: 40px; }
-div#down input#minute { width: 40px; }
-div#down input#comment { width: 220px; }
+div#box-option input[type="text"] { width: 30px; }
+div#box-ack input[type="text"] { width: 220px; }
+div#box-comment input[type="text"] { width: 220px; }
+div#box-disable input[type="text"] { width: 220px; }
+div#box-down input#start { width: 220px; }
+div#box-down input#end { width: 220px; }
+div#box-down input#hour { width: 40px; }
+div#box-down input#minute { width: 40px; }
+div#box-down input#comment { width: 220px; }
 
 
 /** 
