@@ -135,8 +135,8 @@ define('IS_TRACK',   0x2);
               <span class="checkbox">
                 <input type="hidden" 
                        class="data"
-                       name="'.$data['SVCID'].'" 
-                       value="'.$data['MACHINE_NAME'].' '.$data['SERVICES'].'" />
+                       name="target[]" 
+                       value="nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICES'].'" />
                 <span></span>
               </span>';
           }

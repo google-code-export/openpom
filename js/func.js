@@ -234,12 +234,12 @@ function hide_data() {
   my_form.appendChild(el);
 }*/
 
-function append_track(fobject) {
+/*function append_track(fobject) {
   fobject = $(fobject);
   if (!fobject.find('#track').length) {
     fobject.append('<input type="hidden" id="track" name="track" value="" />');
   }
-}
+}*/
 
 function valid_ack(fobject, illegal) {
   var fobject = $(fobject);
@@ -383,28 +383,39 @@ function clicked_generic_popin(href) {
   }
 }
 
-function clicked_generic_action(action) {
-  var selected = $('table#alert').find('span.checkbox span.checked');
-  
-  if (selected.length) {
-    var fobject = $('\
-      <form action="" method="post" style="display: none">\
-        <input type="hidden" name="' + action + '" value="" />\
-      </form>\
-    ');
-    
-    $('table#alert').find('span.checkbox').each(function (index, element) {
-      if (testCheckbox(element)) {
-        fobject.append($(element).find('input').clone());
-      }
-    });
-    
-    $('body').append(fobject);
-    fobject.submit();
-    
-  } else {
-    blink_checkboxes();
+function clicked_generic_action(action, require_items, extra_target) {
+  if (typeof(require_items) == 'undefined') {
+    require_items = true;
   }
+  
+  var fobject = $('\
+    <form action="" method="post" style="display: none">\
+      <input type="hidden" name="action" value="' + action + '" />\
+    </form>\
+  ');
+  
+  if (require_items) {
+    var selected = $('table#alert').find('span.checkbox span.checked');
+    
+    if (selected.length) {
+      $('table#alert').find('span.checkbox').each(function (index, element) {
+        if (testCheckbox(element)) {
+          fobject.append($(element).find('input').clone());
+        }
+      });
+      
+    } else {
+      blink_checkboxes();
+      return;
+    }
+  }
+  
+  if (typeof(extra_target) == 'string') {
+    fobject.append('<input type="hidden" name="target[]" value="' + extra_target + '" />');
+  }
+  
+  $('body').append(fobject);
+  fobject.submit();
 }
 
 function blink_checkboxes() {

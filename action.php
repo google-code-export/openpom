@@ -65,7 +65,7 @@
                 
           <span class="icon-btn icon-<?php echo $global_notif ?> icon-bg-<?php echo $global_notif ?>"
                 title="<?php echo ucfirst(lang($MYLANG, $global_notif))?>"
-                onclick="window.location.href='<?php echo $MY_GET.'&'.$global_notif ?>';"></span>&thinsp;
+                onclick="clicked_generic_action('<?php echo $global_notif ?>', false, 'nagios');"></span>&thinsp;
           
           <?php if ($global_notif == 'ena_notif') { ?>
           <!-- blink global notification button -->
