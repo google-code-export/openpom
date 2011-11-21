@@ -218,7 +218,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
   
   <script type="text/javascript">
     setTimeout(function() { 
-      $('refresh').focus(); 
+      $('#refresh').focus(); 
     }, 500);
   </script>
 
