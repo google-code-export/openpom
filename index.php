@@ -57,12 +57,15 @@ if (!mysql_select_db($SQL_DB, $dbconn))
   die_refresh("cannot select db");
 
 /* UNSET GET OPTIONS ON CANCEL */
-if ( (isset($_GET['option'])) && ($_GET['option'] != "Ok") ) {
+if ( (isset($_GET['option'])) && ($_GET['option'] != "OK") ) {
   unset($_GET['refresh']);
   unset($_GET['lang']);
   unset($_GET['step']);
   unset($_GET['defaultlevel']);
-  unset($_GET['maxlentd']);
+  unset($_GET['maxlen_stinfo']);
+  unset($_GET['maxlen_host']);
+  unset($_GET['maxlen_svc']);
+  unset($_GET['maxlen_groups']);
   unset($_GET['frame']);
   unset($_GET['option']);
 }
