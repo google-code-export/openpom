@@ -32,6 +32,7 @@ else
 
 require_once("config.php");
 require_once("query.php");
+require_once("query-downtime.php");
 require_once("utils.php");
 special_char(); 
 
@@ -81,25 +82,12 @@ $row_global_notif = mysql_fetch_row($res_global_notif);
 if ($row_global_notif[0] == 0) $global_notif = "ena_notif" ;
 else $global_notif = "disa_notif";
 
-if (isset($_GET['ena_notif'])) {
-  $_POST['ena_notif'] = 1;
-  unset($_GET['ena_notif']);
-}
-if (isset($_GET['disa_notif'])) {
-  $_POST['disa_notif'] = 1;
-  unset($_GET['disa_notif']);
-}
-
 /* PROCESS POST DATA AND SEND CMD TO NAGIOS OR ICINGA */
-if ( (isset($_POST['ack']))     ||
-     (isset($_POST['down']))    ||
-     (isset($_POST['recheck'])) ||
-     (isset($_POST['disable'])) ||
-     (isset($_POST['reset']))   ||
-     (isset($_POST['ena_notif']))   ||
-     (isset($_POST['disa_notif']))  ||
-     (isset($_POST['comment_persistent'])) )
-  post_data_to_cmd($dbconn);
+if (isset($_POST['action']) 
+      && isset($_POST['target']) 
+      && is_array($_POST['target'])) {
+  handle_action($dbconn);
+}
 
 /* INIT DEFAULT VALUES (see config.php for other) */
 $SEPARATOR       = ", ";               //SEPARATOR FOR GROUPS

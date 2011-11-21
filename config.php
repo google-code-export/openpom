@@ -79,10 +79,11 @@ $VERSION            = "1.3.0";
 $CODENAME           = "OpenPOM";
 
 /* NAGIOS AND ICINGA VARIABLES */
+/* escapeshellarg() is called on each element of $*_PARMS arrays */
 $EXEC_CMD           = "./send-order";
-$EXEC_PARAM         = "";
+$EXEC_PARAM         = array();
 //$SUDO_EXEC        = "/usr/bin/sudo";
-//$SUDO_PARAM       = "";
+//$SUDO_PARAM       = array();
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
 $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
@@ -279,5 +280,21 @@ $EXT_CMD['ena_notif']['host'][0]  = array(
 /* DISABLE GLOBAL NOTIFICATIONS */
 $EXT_CMD['disa_notif']['host'][0]  = array(
 'DISABLE_NOTIFICATIONS');
+
+/* TRACK ENTRY */
+$EXT_CMD['track']['host'][0]  = array(
+'ADD_HOST_COMMENT',
+'$host',
+'1',
+'$user',
+'!This host is beeing tracked');
+
+$EXT_CMD['track']['svc'][0]  = array(
+'ADD_SVC_COMMENT',
+'$host',
+'$svc',
+'1',
+'$user',
+'!This service is beeing tracked');
 
 ?>

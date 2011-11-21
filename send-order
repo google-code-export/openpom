@@ -13,7 +13,8 @@
 # This bash script is just an exemple,
 # you must improve it for you needs
 #
-# exec("\"$EXEC_CMD\" \"$CMD_FILE\" \"$cmd\" &");
+# called as: "$EXEC_CMD" "$CMD_FILE" "$cmd" &
+# $cmd is multilined
 #
 
 # uncomment for debug
@@ -24,7 +25,6 @@
 
 [ $# -ne 2 ] && exit 2
 
-echo -e $2 > $1
-
+echo "$2" > $1
 exit $? 
 

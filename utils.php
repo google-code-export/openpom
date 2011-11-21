@@ -7,25 +7,42 @@
   http://www.gnu.org/licenses/
 */
 
+/* special_char functions
+ * fix data, in particular if magic_quotes is on
+ * 
+ * we choose here to replace special html characters by their html  
+ * entities in both keys and values
+ */
+function special_char_array(&$in) {
+  $keys = array_keys($in);
+  
+  foreach ($keys as $k) {
+    $v = $in[$k];
+    unset($in[$k]);
+    
+    $k = htmlspecialchars($k);
+    if (get_magic_quotes_gpc()) {
+      $k = stripslashes($k);
+    }
+    
+    if (is_array($v)) {
+      special_char_array($v);
+      
+    } else {
+      $v = htmlspecialchars($v);
+      if (get_magic_quotes_gpc()) {
+        $v = stripslashes($v);
+      }
+    }
+    
+    $in[$k] = $v;
+  }
+  reset($in);
+}
+
 function special_char() {
-  foreach ($_GET AS $key => $value) {
-    $nohtml = htmlspecialchars($value) ;
-    $addslashe = addslashes($nohtml) ;
-    $_GET[$key] = strip_tags($addslashe) ;
-  }
-  unset ($key) ;
-  unset ($value) ;
-  unset ($nohtml) ;
-  unset ($addslashe) ;
-  foreach ($_POST AS $key => $value) {
-    $nohtml = htmlspecialchars($value) ;
-    $addslashe = addslashes($nohtml) ;
-    $_POST[$key] = strip_tags($addslashe) ;
-  }
-  unset ($key) ;
-  unset ($value) ;
-  unset ($nohtml) ;
-  unset ($addslashe) ;
+  special_char_array($_GET);
+  special_char_array($_POST);
 }
 
 function printtime($t) {
@@ -147,133 +164,337 @@ function select_level($LEVEL) {
   }
 }
 
-function post_data_to_cmd($dbconn) {
-  if (isset($_POST['down'])) {
-    if ( (isset($_POST['start'])) && (isset($_POST['end'])) ) {
-      $pat = '/[0-9]{1,2}[-]{1}[0-9]{1,2}[-]{1}[0-9]{4} [0-9]{1,2}:[0-9]{1,2}/';
-      if ( (preg_match($pat, $_POST['start'])) && (preg_match($pat, $_POST['end'])) ) {
-        $start = strtotime($_POST['start']);
-        $end = strtotime($_POST['end']);
-      }
-    }
-    if ( (isset($_POST['hour'])) || (isset($_POST['minute'])) ) {
-      $endf = 0;
-      if (is_numeric($_POST['hour'])) { 
-        $start = time();
-        $endf = $start + ($_POST['hour'] * 3600) ;
-      }
-      if (is_numeric($_POST['minute'])) {
-        $start = time();
-        if ($endf != 0)
-          $endf = $endf + ($_POST['minute'] * 60) ;
-        else
-          $endf = $start + ($_POST['minute'] * 60) ;
-      }
-    }
-    if ($endf != 0) $end = $endf;
-    if ( (!isset($start)) || (!isset($end)) ) return 2;
-  }
 
-  global $ILLEGAL_CHAR;
-  if ( (isset($_POST['ack']))  || 
-       (isset($_POST['down'])) ||
-       (isset($_POST['comment_persistent'])) ) {
-    if ( (isset($_POST['comment'])) && (!empty($_POST['comment'])) ) {
-      foreach(str_split($ILLEGAL_CHAR) AS $char) {
-        $pos = strpos($_POST['comment'], $char);
-        if ( ($pos === 0) || ($pos > 0) )
-          return 2;
-      }//end foreach
-      $comment = $_POST['comment'];
-      if (isset($_POST['track']))
-        $comment = "!track ".$comment;
-    }
-    else
-      return 2;
-  }
-
-  /* get action */
-  foreach ($_POST AS $key => $val) 
-    if (preg_match('/^(ack|down|reset|disable|recheck|comment_persistent|ena_notif|disa_notif)$/',$key))
-      break; 
-
-  if (!isset($key)) return 2;
+/* get_nagios_cmd_template
+ * return nagios command template with replaced target host/svc values
+ */
+function get_nagios_cmd_template($action, $ts, $target) {
   global $EXT_CMD;
-  if (!array_key_exists($key, $EXT_CMD))
-    return 2;
-
-  $cmds = array();
-  $cmd = "";
-  $now = time();
-  $next = ($now + 15);
-  foreach ($_POST AS $name => $value) {
-    if (!is_numeric($name)) 
-      continue;
-    $host_svc = explode(" ",$value, 2);
-    if ( (empty($host_svc[0])) || (empty($host_svc[1])) || (count($host_svc) != 2) )
-      continue;
-
-    if ($host_svc[1] == "--host--") 
-      foreach($EXT_CMD[$key]['host'] AS $n => $array )
-        $cmd .= "[$now] ".implode(';', $array)."\\n";
-    else
-      foreach($EXT_CMD[$key]['svc'] AS $n => $array) 
-        $cmd .= "[$now] ".implode(';', $array)."\\n";
-
-    if ($key == 'reset') {
-      global $BACKEND ;
-      require_once("query-downtime.php");
-      if ($host_svc[1] == "--host--") 
-        $query = str_replace('define_mhost', $host_svc[0], $QUERY_DOWNTIME_HOST_ID);
-      else {
-        $query = str_replace('define_mhost', $host_svc[0], $QUERY_DOWNTIME_SVC_ID);
-        $query = str_replace('define_msvc', $host_svc[1], $query);
+  $out = '';
+  
+  if (isset($EXT_CMD[$action])) {
+    /* the key host is inappropriate, don't modify that and
+     * keep it for backward compatibility of config variables */
+    if (empty($target) 
+          && isset($EXT_CMD[$action]['host'])) {
+      
+      foreach($EXT_CMD[$action]['host'] AS $n => $array ) {
+        $out .= "[$ts] " . implode(';', $array) . "\n";
       }
-      if (!($rep_down = mysql_query($query, $dbconn))) 
-        return 2;
-      if (mysql_num_rows($rep_down) == 1) {
-        $row = mysql_fetch_row($rep_down);
-        $cmd = str_replace('$downtime_id', $row[2], $cmd);
-      }
-      else {
-        $cmd = str_replace("[$now] DEL_HOST_DOWNTIME;", '', $cmd);
-        $cmd = str_replace("[$now] DEL_SVC_DOWNTIME;", '', $cmd);
-      }
-      mysql_free_result($rep_down);
-    }
-
-    $cmd = str_replace('$host', $host_svc[0], $cmd);
-    $cmd = str_replace('$svc', $host_svc[1], $cmd);
-    $cmd = str_replace('$user', $_SESSION['USER'], $cmd);
-    $cmd = str_replace('$next', $next, $cmd);
-    $cmd = str_replace('$now', $now, $cmd);
-    if (isset($comment))
-      $cmd = str_replace('$comment', $comment, $cmd);
-    if (isset($start)) {
-      $cmd = str_replace('$start_time', $start, $cmd);
-      $cmd = str_replace('$end_time', $end, $cmd);
     }
     
-  }//end foreach
-
-  if ( ($key == "disa_notif") || ($key == "ena_notif") ) {
-    $cmd = "[$now] ".$EXT_CMD[$key]['host'][0][0]."\\n";
+    else if (count($target) > 1 
+              && !empty($target[1]) 
+              && $target[1] != '--host--'
+              && isset($EXT_CMD[$action]['svc'])) {
+      
+      foreach($EXT_CMD[$action]['svc'] AS $n => $array ) {
+        $out .= "[$ts] " . str_replace(
+                              array('$host', '$svc'), 
+                              array($target[0], $target[1]),
+                              implode(';', $array)) . "\n";
+      }
+    }
+    
+    else if (count($target) > 0
+              && isset($EXT_CMD[$action]['host'])) {
+      
+      foreach($EXT_CMD[$action]['host'] AS $n => $array ) {
+        $out .= "[$ts] " . str_replace(
+                              '$host', $target[0], implode(';', $array)) . "\n";
+      }
+      
+    }
   }
+  
+  return $out;
+}
 
+
+/* validate_nagios_cmd_comment
+ * check if a valid comment has been posted 
+ */
+function validate_nagios_cmd_comment() {
+  global $ILLEGAL_CHAR;
+  
+  return (
+    isset($_POST['comment'])
+      && !empty($_POST['comment'])
+      && strcspn($_POST['comment'], $ILLEGAL_CHAR) == strlen($_POST['comment']));
+}
+
+
+/* build_nagios_cmd__down
+ * prepare command to downtime nagios action
+ */
+function build_nagios_cmd__down($action, $ts, $target, $dblink) {
+  /* this action requires at least one element in target, 
+   * the host name */
+  if (count($target) < 1) {
+    return false;
+  }
+  
+  /* this action requires a valid comment */
+  if (!validate_nagios_cmd_comment()) {
+    return false;
+  }
+  
+  /* fixed start/end dates */
+  if (isset($_POST['start']) && isset($_POST['end'])) {
+    $pat = '/[0-9]{1,2}[-]{1}[0-9]{1,2}[-]{1}[0-9]{4} [0-9]{1,2}:[0-9]{1,2}/';
+    if (preg_match($pat, $_POST['start']) && preg_match($pat, $_POST['end'])) {
+      $start = strtotime($_POST['start']);
+      $end = strtotime($_POST['end']);
+    }
+  }
+  
+  /* flexible time */
+  $endf = 0;
+  if (isset($_POST['hour']) || isset($_POST['minute'])) {
+    if (is_numeric($_POST['hour'])) {
+      $start = time();
+      $endf = $start + ($_POST['hour'] * 3600);
+    }
+    
+    if (is_numeric($_POST['minute'])) {
+      $start = time();
+      
+      if ($endf != 0) {
+        $endf = $endf + $_POST['minute'] * 60;
+      } else {
+        $endf = $start + $_POST['minute'] * 60;
+      }
+    }
+  }
+  
+  /* check dates */
+  if ($endf != 0) $end = $endf;
+  if (!isset($start) || !isset($end)) return false;
+  
+  /* build command */
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  return str_replace(
+    array('$start_time', '$end_time', '$user', '$comment'), 
+    array($start, $end, $_SESSION['USER'], $_POST['comment']), 
+    $out);
+}
+
+
+/* build_nagios_cmd__ack
+ * prepare command to acknowledge nagios action
+ */
+function build_nagios_cmd__ack($action, $ts, $target, $dblink) {
+  /* this action requires at least one element in target, 
+   * the host name */
+  if (count($target) < 1) {
+    return false;
+  }
+  
+  /* this action requires a valid comment */
+  if (!validate_nagios_cmd_comment()) {
+    return false;
+  }
+  
+  /* build command */
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  return str_replace(
+    array('$user', '$comment'), 
+    array($_SESSION['USER'], $_POST['comment']), 
+    $out);
+}
+
+
+/* build_nagios_cmd__comment_persistent
+ * prepare command to persistent comment nagios action
+ */
+function build_nagios_cmd__comment_persistent($action, $ts, $target, $dblink) {
+  return build_nagios_cmd__ack($action, $ts, $target, $dblink);
+}
+
+
+/* build_nagios_cmd__disable
+ * prepare command to disable host/svc notifications nagios action
+ */
+function build_nagios_cmd__disable($action, $ts, $target, $dblink) {
+  /* this action requires at least one element in target, 
+   * the host name */
+  if (count($target) < 1) {
+    return false;
+  }
+  
+  /* build command */
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  $out = str_replace('$user', $_SESSION['USER'], $out);
+  return $out;
+}
+
+
+/* build_nagios_cmd__ena_notif
+ * prepare command to enable global notifications nagios action
+ */
+function build_nagios_cmd__ena_notif($action, $ts, $target, $dblink) {
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  return $out;
+}
+
+
+/* build_nagios_cmd__disa_notif
+ * prepare command to disable global notifications nagios action
+ */
+function build_nagios_cmd__disa_notif($action, $ts, $target, $dblink) {
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  return $out;
+}
+
+
+/* build_nagios_cmd__recheck
+ * prepare command to force recheck host/svc nagios action
+ */
+function build_nagios_cmd__recheck($action, $ts, $target, $dblink) {
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  $out = str_replace('$next', $ts+5, $out);
+  return $out;
+}
+
+
+/* build_nagios_cmd__reset
+ * prepare command to reset host/svc nagios action
+ */
+function build_nagios_cmd__reset($action, $ts, $target, $dblink) {
+  global $QUERY_DOWNTIME_SVC_ID;
+  global $QUERY_DOWNTIME_HOST_ID;
+  
+  /* ugly hack for resetting downtime 
+   * downtime can be > 1 (there can be multiple downtime scheduled) */
+  if (count($target) > 1 && !empty($target[1]) && $target[1] != '--host--') {
+    $query = str_replace('define_mhost', $target[0], $QUERY_DOWNTIME_SVC_ID);
+    $query = str_replace('define_msvc', $target[1], $query);
+  } else if (count($target) > 0) {
+    $query = str_replace('define_mhost', $target[0], $QUERY_DOWNTIME_HOST_ID);
+  } else {
+    return false;
+  }
+  
+  
+  
+  /* get partial commands template */
+  $out = get_nagios_cmd_template($action, $ts, $target);
+  
+  /* fetch downtime ids from database */
+  if (!($rep_down = mysql_query($query, $dblink))) {
+    return false;
+  }
+  
+  /* extract the part to be repeated for each scheduled downtime */
+  if (!preg_match('/^(.+DOWNTIME;\$downtime_id)$/m', $out, $capture)) {
+    return false;
+  }
+  
+  /* prepare downtime delete commands */
+  $dt_cmds = '';
+  while (($row = mysql_fetch_row($rep_down))) {
+    $dt_cmds .= str_replace('$downtime_id', $row[2], $capture[1]) . "\n";
+  }
+  mysql_free_result($rep_down);
+  
+  /* replace in the partial template */
+  $out = str_replace($capture[1] . "\n", $dt_cmds, $out);
+  return $out;
+}
+
+
+/* handle_action
+ * process requested action, send a command to nagios pipe
+ * in most of the cases
+ * 
+ * preconditions: 
+ * isset($_POST['action']) 
+ * isset($_POST['target']) 
+ * is_array($_POST['target'])
+ */
+function handle_action($dblink) {
   global $CMD_FILE;
   global $EXEC_CMD;
   global $EXEC_PARAM;
   global $SUDO_EXEC;
   global $SUDO_PARAM;
-  if (!empty($cmd)) {
-    if (isset($SUDO_EXEC)) 
-      exec("\"$SUDO_EXEC\" $SUDO_PARAM \"$EXEC_CMD\" $EXEC_PARAM \"$CMD_FILE\" \"$cmd\" &");
-    else
-      exec("\"$EXEC_CMD\" $EXEC_PARAM \"$CMD_FILE\" \"$cmd\" &");
-    unset($cmd);
+  
+  /* list of commands to be sent to nagios 
+   * this is for target of type nagios */
+  $nagios_cmds = '';
+  $ts = time();
+  
+  /* loop on targets */
+  foreach ($_POST['target'] as $t) {
+    
+    /* field 0: type (required)
+     * field 1: host (optional)
+     * field 2: svc  (optional) */
+    $t = explode(';', $t);
+    if (count($t) < 1) {
+      continue;
+    }
+    
+    if ($t[0] == 'nagios') {
+      array_shift($t);
+      
+      if (function_exists('build_nagios_cmd__' . $_POST['action'])) {
+        $ret = call_user_func('build_nagios_cmd__' . $_POST['action'], 
+          $_POST['action'], 
+          $ts, 
+          $t, 
+          $dblink);
+        
+        if ($ret !== false) {
+          /* put the track command first so it appear faster */
+          if (isset($_POST['track'])) {
+            $track = get_nagios_cmd_template('track', $ts, $t);
+            $track = str_replace('$user', $_SESSION['USER'], $track);
+            $nagios_cmds .= $track;
+          }
+          
+          /* append action commands */
+          $nagios_cmds .= $ret;
+        }
+      }
+    }
   }
-  return 0;
+  
+  /* process nagios */
+  if (!empty($nagios_cmds) && !empty($EXEC_CMD)) {
+    $args = array();
+    
+    /* sudo command path, if set */
+    if (isset($SUDO_EXEC)) {
+      $args[] = escapeshellarg($SUDO_EXEC);
+    }
+    
+    /* sudo parameters, if any */
+    if (isset($SUDO_PARAM) && is_array($SUDO_PARAM)) {
+      foreach ($SUDO_PARAM as $p) {
+        $args[] = escapeshellarg($p);
+      }
+    }
+    
+    /* actual command path to execute */
+    $args[] = escapeshellarg($EXEC_CMD);
+    
+    /* script parameters, if any */
+    if (isset($EXEC_PARAM) && is_array($EXEC_PARAM)) {
+      foreach ($EXEC_PARAM as $p) {
+        $args[] = escapeshellarg($p);
+      }
+    }
+    
+    $args[] = escapeshellarg($CMD_FILE);
+    $args[] = escapeshellarg($nagios_cmds);
+    $args[] = '&';
+    
+    /* execute */
+    exec(implode(' ', $args));
+  }
 }
+
 
 function getmicrotime(){
   list($usec, $sec) = explode(" ",microtime());
