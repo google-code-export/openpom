@@ -65,7 +65,8 @@ $WARNING            = "yellow";
 $OK                 = "green";
 $UNKNOWN            = "orange";
 $OTHER              = "white";
-$TRACK              = "blue";
+$TRACK_ERROR        = "blue";
+$TRACK_OK           = "bluegreen";
 
 /*
   set default lang (supported lang are en, fr and de)                                     

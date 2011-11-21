@@ -462,11 +462,12 @@ table#popup {
 
 
 /**
- * UNKNOWN   orange
- * CRITICAL  red
- * WARNING   yellow
- * OK        green
- * TRACK     blue
+ * UNKNOWN      orange
+ * CRITICAL     red
+ * WARNING      yellow
+ * OK           green
+ * TRACK_ERROR  blue
+ * TRACK_OK     bluegreen
  */
 
 .error        { background-color: #FFE5E5 !important; }
@@ -479,12 +480,14 @@ table#popup {
 .yellow       { background-color: #FFFC9E; }
 .green        { background-color: #BAFFAD; }
 .blue         { background-color: #ADD0FF; }
+.bluegreen    { background-color: #ADFFE4; }
 
-table#alert tr.orange td    { border-color: #F0D4A2; }
-table#alert tr.red    td    { border-color: #EAA1A1; }
-table#alert tr.yellow td    { border-color: #EAEA9A; }
-table#alert tr.green  td    { border-color: #A9E89C; }
-table#alert tr.blue   td    { border-color: #A1C2F0; }
+table#alert tr.orange    td    { border-color: #F0D4A2; }
+table#alert tr.red       td    { border-color: #EAA1A1; }
+table#alert tr.yellow    td    { border-color: #EAEA9A; }
+table#alert tr.green     td    { border-color: #A9E89C; }
+table#alert tr.blue      td    { border-color: #A1C2F0; }
+table#alert tr.bluegreen td    { border-color: #9FE8C5; }
 
 table#alert tr.orange:hover td, 
 table#alert tr.orange td:first-child { 
@@ -514,6 +517,12 @@ table#alert tr.blue:hover td,
 table#alert tr.blue td:first-child {
   background-color: #87BAFF;
   border-color: #80ACE8;
+}
+
+table#alert tr.bluegreen:hover td, 
+table#alert tr.bluegreen td:first-child {
+  background-color: #76F0C8;
+  border-color: #61E1B8;
 }
 
 table#alert tr.selected * {

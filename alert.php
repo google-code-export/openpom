@@ -108,8 +108,12 @@ define('IS_TRACK',   0x2);
               break;
         }
 
-        if ($data['COMMENT'] & IS_TRACK) { 
-          $COLOR = $TRACK;
+        if ($data['COMMENT'] & IS_TRACK) {
+          if ($data['STATUS'] > 0) {
+            $COLOR = $TRACK_ERROR;
+          } else {
+            $COLOR = $TRACK_OK;
+          }
         }
         
         if ($data['SVCST'] == 0) { 
