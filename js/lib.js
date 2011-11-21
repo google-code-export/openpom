@@ -6,6 +6,39 @@
   http://www.gnu.org/licenses/
 */
 
+
+/*******************************************************************************
+ * ON LOAD
+ ******************************************************************************/
+
+$(document).ready(function(){
+
+  /* put the status popin at right place */
+  var first_alert_item = $('table#alert tr.alert-item:first');
+  if (first_alert_item.length) {
+    popup.css('top', (first_alert_item.offset().top - 10) + 'px');
+  }
+  
+  /* add the status popin to document */
+  $('body').append(popup);
+});
+
+
+
+/*******************************************************************************
+ * IE SPECIFIC
+ ******************************************************************************/
+
+/*@cc_on @if (@_win32 && @_jscript_version >= 5) if (!window.XMLHttpRequest)
+window.XMLHttpRequest = function() { return new ActiveXObject('Microsoft.XMLHTTP') }
+@end @*/
+
+
+
+/*******************************************************************************
+ * FUNCTIONS
+ ******************************************************************************/
+
 function regexp_escape(input) {
   return input.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }

@@ -25,9 +25,7 @@
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.colorbox.js"></script>
-    <script type='text/javascript' src="js/XMLHttpRequest-IE.js"></script>
-    <script type='text/javascript' src="js/func.js"></script>
-    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type='text/javascript' src="js/lib.js"></script>
     <script type="text/javascript">
       var current_data_displayed = null;
       var cache    = new Array();
