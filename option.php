@@ -183,7 +183,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
           </th>
           <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
-            <input type="submit" name="option" value="Ok" />
+            <input type="submit" name="option" value="OK" />
             <input type="button" name="cancel" 
                    value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />

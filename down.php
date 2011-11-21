@@ -74,7 +74,8 @@ require_once("lang.php");
           <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
           </th>
           <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
-            <input type="submit" name="down" value="Ok" />
+            <input type="submit" name="down"
+                   value="<?php echo ucfirst(lang($MYLANG, 'downtime')) ?>" />
             &#160;&#160;&#160;
             <input type="button" name="cancel" 
                    value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
