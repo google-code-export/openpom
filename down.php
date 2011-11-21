@@ -39,7 +39,7 @@ require_once("lang.php");
           </td>
         </tr>
         <tr>
-          <th><?php echo ucfirst(lang($MYLANG, 'fix')) ?></th>
+          <th><?php echo ucfirst(lang($MYLANG, 'durationnow')) ?></th>
           <td>
             <input id="hour" 
                    type="text" 
