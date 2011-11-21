@@ -194,15 +194,25 @@ define('IS_TRACK',   0x2);
           }
           
           else if ($key == 'machine') {
-            $toprint = strlen($data[$val]) > $MAXLEN_HOST
-              ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_HOST)) . '...'
-              : htmlspecialchars($data[$val]);
+            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">';
+            if (strlen($data[$val]) > $MAXLEN_HOST) {
+              $toprint .= htmlspecialchars(substr($data[$val], 0, $MAXLEN_HOST));
+              $toprint .= '</a>...';
+            } else {
+              $toprint .= htmlspecialchars($data[$val]);
+              $toprint .= '</a>';
+            }
           }
           
           else if ($key == 'service') {
-            $toprint = strlen($data[$val]) > $MAXLEN_SVC
-              ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_SVC)) . '...'
-              : htmlspecialchars($data[$val]);
+            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">';
+            if (strlen($data[$val]) > $MAXLEN_SVC) {
+              $toprint .= htmlspecialchars(substr($data[$val], 0, $MAXLEN_SVC));
+              $toprint .= '</a>...';
+            } else {
+              $toprint .= htmlspecialchars($data[$val]);
+              $toprint .= '</a>';
+            }
           }
           
           else if ($key == 'stinfo') {
@@ -246,11 +256,6 @@ define('IS_TRACK',   0x2);
           
           else {
             $toprint = htmlspecialchars($data[$val]);
-          }
-          
-          /* fileter links for machine and service */
-          if ($key == 'machine' || $key == 'service') {
-            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">'.$toprint.'</a>';
           }
         ?>
 
