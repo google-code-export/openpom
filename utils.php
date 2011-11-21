@@ -255,7 +255,7 @@ function build_nagios_cmd__down($action, $ts, $target, $dblink) {
     }
   }
   
-  /* flexible time */
+  /* fixed from now */
   $endf = 0;
   if (isset($_POST['hour']) || isset($_POST['minute'])) {
     if (is_numeric($_POST['hour'])) {
