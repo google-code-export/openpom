@@ -149,7 +149,9 @@ $GRAPH_POPUP_PARAM_END = 't2';
 
 
 /* ILLEGAL_CHAR IN POST / GET DATA */
-$ILLEGAL_CHAR       = "`~!$%^&*|'\"<>?(),;";
+/* semicolon ";" should always be included as this is the field separator
+ * used by Nagios in commands */
+$ILLEGAL_CHAR       = '`~$;%^*|<>';
 
 /* ACKNOWLEDGEMENT */
 $EXT_CMD['ack']['host'][0]      = array(

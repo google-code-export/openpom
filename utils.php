@@ -214,13 +214,20 @@ function get_nagios_cmd_template($action, $ts, $target) {
 /* validate_nagios_cmd_comment
  * check if a valid comment has been posted 
  */
-function validate_nagios_cmd_comment() {
+function validate_nagios_cmd_comment(&$out) {
   global $ILLEGAL_CHAR;
   
-  return (
-    isset($_POST['comment'])
-      && !empty($_POST['comment'])
-      && strcspn($_POST['comment'], $ILLEGAL_CHAR) == strlen($_POST['comment']));
+  /* require comment */
+  if (!isset($_POST['comment'])) {
+    return false;
+  }
+  
+  /* this has to do with function special_char calling 
+   * htmlspecialchars */
+  $out = html_entity_decode($_POST['comment'], ENT_QUOTES);
+  
+  return !empty($out) 
+    && !preg_match('/' . preg_quote($ILLEGAL_CHAR) . '/', $out);
 }
 
 
@@ -235,7 +242,7 @@ function build_nagios_cmd__down($action, $ts, $target, $dblink) {
   }
   
   /* this action requires a valid comment */
-  if (!validate_nagios_cmd_comment()) {
+  if (!validate_nagios_cmd_comment($c)) {
     return false;
   }
   
@@ -275,7 +282,7 @@ function build_nagios_cmd__down($action, $ts, $target, $dblink) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   return str_replace(
     array('$start_time', '$end_time', '$user', '$comment'), 
-    array($start, $end, $_SESSION['USER'], $_POST['comment']), 
+    array($start, $end, $_SESSION['USER'], $c), 
     $out);
 }
 
@@ -291,7 +298,7 @@ function build_nagios_cmd__ack($action, $ts, $target, $dblink) {
   }
   
   /* this action requires a valid comment */
-  if (!validate_nagios_cmd_comment()) {
+  if (!validate_nagios_cmd_comment($c)) {
     return false;
   }
   
@@ -299,7 +306,7 @@ function build_nagios_cmd__ack($action, $ts, $target, $dblink) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   return str_replace(
     array('$user', '$comment'), 
-    array($_SESSION['USER'], $_POST['comment']), 
+    array($_SESSION['USER'], $c), 
     $out);
 }
 
