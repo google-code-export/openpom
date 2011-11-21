@@ -65,6 +65,15 @@ require_once("lang.php");
                    value="" />
           </td>
         </tr>
+        <tr>
+          <th><?php echo ucfirst(lang($MYLANG, 'track')) ?></th>
+          <td>
+            <input type="checkbox" name="track" id="track" 
+                     value="1" 
+                     style="vertical-align: middle;" />
+            <label for="track" style="vertical-align: middle;">Yes</label>
+          </td>
+        </tr>
         
         <tr>
           <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
@@ -74,10 +83,11 @@ require_once("lang.php");
           <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
           </th>
           <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
-            <input type="submit" name="down"
+            <input type="hidden" name="action" value="down" />
+            <input type="submit"  
                    value="<?php echo ucfirst(lang($MYLANG, 'downtime')) ?>" />
-            &#160;&#160;&#160;
-            <input type="button" name="cancel" 
+            &#160;
+            <input type="button" 
                    value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />
           </td>
