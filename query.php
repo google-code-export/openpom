@@ -57,7 +57,9 @@ FROM (
     'svc'                                AS TYPE,
     SS.scheduled_downtime_depth          AS DOWNTIME,
     SS.notifications_enabled             AS NOTIF,
-    ( SELECT BIT_OR( IF(substring(comment_data, 1, 1) = '!', 2, 1) )
+    ( SELECT BIT_OR(
+        IF(substring(comment_data, 1, 1) = '!', 2, 
+          IF(SS.notifications_enabled, 1, 0) ))
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = S.service_object_id
       AND CO.entry_type = 1
@@ -150,7 +152,9 @@ UNION
     'host'                               AS TYPE,
     HS.scheduled_downtime_depth          AS DOWNTIME,
     HS.notifications_enabled             AS NOTIF,
-    ( SELECT BIT_OR( IF(substring(comment_data, 1, 1) = '!', 2, 1) )
+    ( SELECT BIT_OR(
+        IF(substring(comment_data, 1, 1) = '!', 2, 
+          IF(HS.notifications_enabled, 1, 0) ))
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = H.host_object_id
       AND CO.entry_type = 1
