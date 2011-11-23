@@ -52,15 +52,6 @@ if (!$st_rep)
 
 $st_data = mysql_fetch_array($st_rep, MYSQL_ASSOC);
 
-if ( ! isset($st_data['ADDRESS']) ){
-
-?>
-  <table class="popuptable">
-    <tr><th><b><?php echo ucfirst(lang($MYLANG, 'reload'))?></b></th></tr>
-  </table>
-<?php
-  exit (0);
-}
 
 switch($st_data['STATE']) {
   case 0: $STATUS = "OK";       $COLOR = $OK;        break;
@@ -115,17 +106,13 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
-    <script type='text/javascript' src='js/func.js'></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/lib.js"></script>
   </head>
   <body>
 <?php } ?>
   
-  <!--
-  <div class="<?php echo $COLOR ?>dark" style="padding: 1px;">
-  -->
-  <div class="box-content" style="background-color: white;">
-  
+  <div class="box-content">
   
     <?php if (isset($_GET['fix'])) { ?>
       <table id="popup">
@@ -137,6 +124,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         <th><?php echo ucfirst(lang($MYLANG, 'host')) ?></th>
         <td><?php echo $HOSTNAME ?> (<?php echo $ADDRESS ?>)</td>
         <td align="right" border="0" style="padding: 0; margin: 0;">
+        <?php if (!isset($_GET['fix'])) { ?>
           <a  href="#" 
               onClick="return pop(
                   'status.php?type=<?php echo $TYPE; ?>&id=<?php echo $ID; ?>&fix',
@@ -148,6 +136,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
                  alt"<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" 
                  title="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" />
           </a>
+        <?php } ?>
         </td>
       </tr>
       <tr>
@@ -234,7 +223,7 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         </tr>
         <tr>
           <td colspan="3" style="padding: 0; margin: 0; vertical-align: bottom; height: 100%;">
-            <img style="vertical-align: bottom; padding: 0; margin: 0;" src="<?php echo $g ?>">
+            <img style="vertical-align: bottom; padding: 0; margin: 0;" src="<?php echo $g ?>" />
           </td>
         </tr>
         
@@ -242,9 +231,6 @@ $COMMENT           = explode(';', $st_data['COMMENT']);
         
     </table>
   </div>
-  <!--
-  </div>
-  -->
   
 <?php if (isset($_GET['fix'])) { ?>
   </body>

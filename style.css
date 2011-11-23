@@ -452,13 +452,6 @@ div#box-down input#minute { width: 40px; }
 div#box-down input#comment { width: 220px; }
 
 
-/** 
- * Popup table
- */
-
-table#popup {
-  /*width: 100%;*/
-}
 
 
 /**

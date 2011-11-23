@@ -16,11 +16,11 @@ $(document).ready(function(){
   /* put the status popin at right place */
   var first_alert_item = $('table#alert tr.alert-item:first');
   if (first_alert_item.length) {
-    popup.css('top', (first_alert_item.offset().top - 10) + 'px');
+    jpopin.css('top', (first_alert_item.offset().top - 10) + 'px');
   }
   
   /* add the status popin to document */
-  $('body').append(popup);
+  $('body').append(jpopin);
 });
 
 
@@ -121,27 +121,6 @@ function selectline(object, event) {
   lastChecked = chk;
 }
 
-
-function getallselectline(form) {
-  
-  /*
-  var check = false ;
-  for (i=1; i<=num; i++) {
-    if (document.getElementById("check_" + i).checked == true) {
-      var name = document.getElementById("check_" + i).name;
-      var value = document.getElementById("check_" + i).value;
-      var my_form = document.getElementById(form);
-      var el = document.createElement('input');
-      el.type = 'hidden'; 
-      el.name = name;
-      el.value = value;
-      my_form.appendChild(el);
-      check = true ;
-    }
-  }
-  return check ;*/
-}
-
 function autorefresh() { 
   var refresh = $('#refreshspan');
   var line_is_checked = false;
@@ -193,9 +172,7 @@ function XMLHttpRequestSurcouche(zeasy) {
       cache[zeasy] = myrq.responseText;
       if (current_data_displayed == zeasy) {
         it = setTimeout(hide_data, 5000);
-        //popup.fadeOut(150, function () {
-          popup.html(myrq.responseText).fadeIn(150); 
-        //});
+        jpopin.html(myrq.responseText).fadeIn(150); 
       }
     }
   };
@@ -210,14 +187,12 @@ function get_data(type, id) {
     clearTimeout(it);
   }
   
-  popup.fadeOut(150, function () {
+  jpopin.fadeOut(150, function () {
     current_data_displayed = type + ":" + id;
     
     if (typeof(cache[current_data_displayed]) != 'undefined') {
       it = setTimeout(hide_data, 5000);
-      //popup.fadeOut(150, function () {
-        popup.html(cache[current_data_displayed]).fadeIn(150);
-      //});
+      jpopin.html(cache[current_data_displayed]).fadeIn(150);
       return;
       
     } else {
@@ -228,51 +203,12 @@ function get_data(type, id) {
   }); 
 }
 
-/*function WhereMouse(e) {
-  var x;
-  var y;
-  if (e) {
-    x = e.pageX + 5;
-    y = e.pageY + 5;
-    if (popup.clientWidth + x > window.innerWidth)
-      x = x - popup.clientWidth - 10;
-    if (popup.clientHeight - window.scrollY + y > window.innerHeight)
-      y = y - popup.clientHeight - 10;
-  }
-  else {
-    x = event.x + document.body.scrollLeft + 5;
-    y = event.y + document.body.scrollTop + 5;
-    if (popup.clientWidth + x > window.innerWidth)
-      x = x - popup.clientWidth - 10;
-    if (popup.clientHeight - document.body.scrollTop + y > window.innerHeight)
-      y = y - popup.clientHeight - 10;
-  }
-  popup.style.left = document.body.clientWidth - 600 + "px";
-  popup.style.top = document.body.scrollTop + 30 + "px";
-}*/
-
 function hide_data() {
   if (it != null) {
     clearTimeout(it);
   }
-  popup.fadeOut(150);
+  jpopin.fadeOut(150);
 }
-
-/*function add_input(name, form) {
-  var my_form = document.getElementById(form);
-  var el = document.createElement('input');
-  el.type = 'hidden';
-  el.name = name;
-  el.value = 1;
-  my_form.appendChild(el);
-}*/
-
-/*function append_track(fobject) {
-  fobject = $(fobject);
-  if (!fobject.find('#track').length) {
-    fobject.append('<input type="hidden" id="track" name="track" value="" />');
-  }
-}*/
 
 function valid_ack(fobject, illegal) {
   var fobject = $(fobject);

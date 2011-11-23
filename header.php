@@ -25,7 +25,7 @@
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.colorbox.js"></script>
-    <script type='text/javascript' src="js/lib.js"></script>
+    <script type="text/javascript" src="js/lib.js"></script>
     <script type="text/javascript">
       var current_data_displayed = null;
       var cache    = new Array();
@@ -37,7 +37,7 @@
       var lastChecked = null;
       var accept_action = true;
       
-      var popup = $('\
+      var jpopin = $('\
         <div>\
           <img style="margin: 20px;" src="img/loading.gif" />\
         </div>\
