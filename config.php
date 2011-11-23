@@ -212,43 +212,43 @@ $EXT_CMD['recheck']['svc'][0]   = array(
 
 /* RESET STATE */
 $EXT_CMD['reset']['host'][0]    = array(
-'REMOVE_HOST_ACKNOWLEDGEMENT',
-'$host');
-
-$EXT_CMD['reset']['host'][1]    = array(
-'ENABLE_HOST_NOTIFICATIONS',
-'$host');
-
-$EXT_CMD['reset']['host'][2]    = array(
-'ENABLE_HOST_SVC_NOTIFICATIONS',
-'$host');
-
-$EXT_CMD['reset']['host'][3]    = array(
-'DEL_HOST_DOWNTIME',
-'$downtime_id');
-
-$EXT_CMD['reset']['host'][4]    = array(
 'DEL_ALL_HOST_COMMENTS',
 '$host');
 
-$EXT_CMD['reset']['svc'][0]     = array(
-'REMOVE_SVC_ACKNOWLEDGEMENT',
+$EXT_CMD['reset']['host'][1]    = array(
+'REMOVE_HOST_ACKNOWLEDGEMENT',
+'$host');
+
+$EXT_CMD['reset']['host'][2]    = array(
+'ENABLE_HOST_NOTIFICATIONS',
+'$host');
+
+$EXT_CMD['reset']['host'][3]    = array(
+'ENABLE_HOST_SVC_NOTIFICATIONS',
+'$host');
+
+$EXT_CMD['reset']['host'][4]    = array(
+'DEL_HOST_DOWNTIME',
+'$downtime_id');
+
+$EXT_CMD['reset']['svc'][0]    = array(
+'DEL_ALL_SVC_COMMENTS',
 '$host',
 '$svc');
 
 $EXT_CMD['reset']['svc'][1]     = array(
+'REMOVE_SVC_ACKNOWLEDGEMENT',
+'$host',
+'$svc');
+
+$EXT_CMD['reset']['svc'][2]     = array(
 'ENABLE_SVC_NOTIFICATIONS',
 '$host',
 '$svc');
 
-$EXT_CMD['reset']['svc'][2]    = array(
+$EXT_CMD['reset']['svc'][3]    = array(
 'DEL_SVC_DOWNTIME',
 '$downtime_id');
-
-$EXT_CMD['reset']['svc'][3]    = array(
-'DEL_ALL_SVC_COMMENTS',
-'$host',
-'$svc');
 
 /* DISABLE NOTIFICATION */
 $EXT_CMD['disable']['host'][0]  = array(
