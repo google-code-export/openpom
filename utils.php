@@ -203,7 +203,7 @@ function validate_downtime_range(&$start, &$end) {
 /* get_nagios_cmd_template
  * return "nagios" command template
  */
-function get_nagios_cmd_template($action, $ts, $target, $recurse = false) {
+function get_nagios_cmd_template($action, $ts, $target, $ignore_track = false) {
   global $EXT_CMD;
   $out = '';
   
@@ -246,7 +246,7 @@ function get_nagios_cmd_template($action, $ts, $target, $recurse = false) {
     
     /* handle track option here
      * put the track before the actual commands so it appear faster */
-    if (!$recurse && !empty($out) && isset($_POST['track'])) {
+    if (!$ignore_track && !empty($out) && isset($_POST['track'])) {
       $out = get_nagios_cmd_template('track', $ts, $target, true) . $out;
     }
   }
@@ -349,7 +349,7 @@ function prepare_action_nagios__disa_notif($action, $ts, $target) {
  * prepare command for "nagios" action "recheck"
  */
 function prepare_action_nagios__recheck($action, $ts, $target) {
-  $out = get_nagios_cmd_template($action, $ts, $target);
+  $out = get_nagios_cmd_template($action, $ts, $target, true);
   $out = str_replace('$next', $ts, $out);
   return $out;
 }
