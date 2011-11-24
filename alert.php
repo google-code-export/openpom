@@ -33,7 +33,7 @@ define('HAS_TRACK',   0x2);
           if ($key == 'checkbox') {
         ?>
         
-        <th class="checkall">
+        <th class="<?php echo $key ?>">
           <span class="checkbox" onclick="selectall(this);">
             <span></span>
           </span>

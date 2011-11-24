@@ -326,16 +326,11 @@ table#alert td {
   background-position: left -1000px;
 }
 
-table#alert th:first-child, 
-table#alert td:first-child {
+table#alert th.checkbox, 
+table#alert td.checkbox {
   border-left: none;
   text-align: center;
-}
-
-body.monitor table#alert th:first-child, 
-body.monitor table#alert td:first-child {
-  text-align: left;
-  padding-left: 3px;
+  width: 15px;
 }
 
 table#alert th a {
@@ -482,38 +477,44 @@ table#alert tr.green     td    { border-color: #A9E89C; }
 table#alert tr.blue      td    { border-color: #A1C2F0; }
 table#alert tr.bluegreen td    { border-color: #9FE8C5; }
 
-table#alert tr.orange:hover td, 
-table#alert tr.orange td:first-child { 
+             table#alert tr.orange:hover td, 
+             table#alert tr.orange td.checkbox, 
+body.monitor table#alert tr.orange td.flag { 
   background-color: #FFD07A;
   border-color: #EEC57A;
 }
 
-table#alert tr.red:hover td, 
-table#alert tr.red td:first-child { 
+             table#alert tr.red:hover td, 
+             table#alert tr.red td.checkbox, 
+body.monitor table#alert tr.red td.flag { 
   background-color: #FF8F8F;
   border-color: #E89292;
 }
 
-table#alert tr.yellow:hover td, 
-table#alert tr.yellow td:first-child { 
+             table#alert tr.yellow:hover td, 
+             table#alert tr.yellow td.checkbox, 
+body.monitor table#alert tr.yellow td.flag { 
   background-color: #FFF45C;
   border-color: #ECE258;
 }
 
-table#alert tr.green:hover td, 
-table#alert tr.green td:first-child {
+             table#alert tr.green:hover td, 
+             table#alert tr.green td.checkbox, 
+body.monitor table#alert tr.green td.flag {
   background-color: #87F272;
   border-color: #86E173;
 }
 
-table#alert tr.blue:hover td, 
-table#alert tr.blue td:first-child {
+             table#alert tr.blue:hover td, 
+             table#alert tr.blue td.checkbox, 
+body.monitor table#alert tr.blue td.flag {
   background-color: #87BAFF;
   border-color: #80ACE8;
 }
 
-table#alert tr.bluegreen:hover td, 
-table#alert tr.bluegreen td:first-child {
+             table#alert tr.bluegreen:hover td, 
+             table#alert tr.bluegreen td.checkbox, 
+body.monitor table#alert tr.bluegreen td.flag {
   background-color: #76F0C8;
   border-color: #61E1B8;
 }
