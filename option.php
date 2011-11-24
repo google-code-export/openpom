@@ -37,7 +37,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'refreshing0')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="4" 
                    name="refresh" id="refresh"
                    value="<?php echo $_SESSION['REFRESH'] ?>" />
@@ -49,7 +49,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'lang')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <?php foreach(array_keys($LANG) AS $lang) { ?>
               <input type="radio" name="lang" 
                      id="<?php echo $lang ?>"
@@ -67,7 +67,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'step')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="3" name="step" 
                    value="<?php echo $_SESSION['STEP'] ?>" />
             &#160;(min 1, max 999)
@@ -77,7 +77,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'level')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="1" 
                    name="defaultlevel" 
                    value="<?php echo $_SESSION['LEVEL'] ?>" /> 
@@ -87,7 +87,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'maxlen_stinfo')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="3" 
                    name="maxlen_stinfo" 
                    value="<?php echo $_SESSION['MAXLEN_STINFO'] ?>" />
@@ -98,7 +98,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'maxlen_host')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="3" 
                    name="maxlen_host" 
                    value="<?php echo $_SESSION['MAXLEN_HOST'] ?>" />
@@ -109,7 +109,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'maxlen_svc')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="3" 
                    name="maxlen_svc" 
                    value="<?php echo $_SESSION['MAXLEN_SVC'] ?>" />
@@ -120,7 +120,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'maxlen_groups')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="3" 
                    name="maxlen_groups" 
                    value="<?php echo $_SESSION['MAXLEN_GROUPS'] ?>" />
@@ -131,7 +131,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'fontsize')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="text" maxlength="3" 
                    name="fontsize" 
                    value="<?php echo $_SESSION['FONTSIZE'] ?>" />
@@ -142,23 +142,23 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <th>
             <?php echo ucfirst(lang($MYLANG, 'frame')) ?>
           </th>
-          <td colspan="2">
+          <td colspan="3">
             <input type="checkbox" name="frame" value="0" 
                    <?php echo ($_SESSION['FRAME'] == 0) ? 'checked' : '' ?> 
                    style="vertical-align: middle;" />
           </td>
         </tr>
         <tr>
-          <th style="vertical-align: top; padding-top: 3px;">
+          <th>
             <?php echo ucfirst(lang($MYLANG, 'cols')) ?>
           </th>
-          <td style="vertical-align: top; padding-top: 3px;">
+          <td>
             <?php
             $count = count($COLS)-1;
             $i = 0;
             foreach($COLS AS $key => $val) { 
               if ($key != "machine") {
-                if (intval($count/2) == $i++) echo '</td><td>';
+                if (intval($count/2) == $i++) echo '</td><td colspan="2">';
               ?>
               
               <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
@@ -172,19 +172,25 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             } ?>
           </td>
         </tr>
+        
+        
         <tr>
-          <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
-          <td colspan="2"></td>
+          <td class="height-14"></td>
+          <td class="height-14"></td>
+          <td class="height-14"></td>
+          <td class="height-14"></td>
         </tr>
+        
+        
         <tr>
-          <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
-          </th>
-          <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
-            <input type="submit" name="option" value="OK" />
+          <td></td>
+          <td colspan="2">
+            <input type="submit" name="option" value="OK" />&#160;
             <input type="button" name="cancel" 
                    value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
-                   onclick="$.fn.colorbox.close();" />
-            &#160;&#160;&#160;
+                   onclick="$.fn.colorbox.close();" />&#160;
+          </td>
+          <td align="right">
             <input type="submit" name="reset" value="<?php echo ucfirst(lang($MYLANG, 'reset0')) ?>" />
           </td>
         </tr>

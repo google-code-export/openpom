@@ -28,3 +28,7 @@ table#top span#metter-wrap select {
 input {
   margin: -1px;
 }
+
+input[type=radio] {
+  margin: -3px;
+}

@@ -87,6 +87,9 @@ th a.col_no_sort {
     color: #000000;
 }
 
+td.height-14 {
+  height: 14px;
+}
 
 table.action {
   display: none;
@@ -418,6 +421,7 @@ div.box-content {
 div.box-content td, 
 div.box-content th {
   padding: 2px 3px;
+  vertical-align: top;
 }
 
 div.box-content th {
@@ -436,15 +440,16 @@ div.box-content input[type="text"] {
   border: 1px solid #E9EBE1;
 }
 
+div#box-option td { white-space: nowrap; }
 div#box-option input[type="text"] { width: 30px; }
-div#box-ack input[type="text"] { width: 220px; }
-div#box-comment input[type="text"] { width: 220px; }
-div#box-disable input[type="text"] { width: 220px; }
-div#box-down input#start { width: 220px; }
-div#box-down input#end { width: 220px; }
+div#box-ack input[type="text"] { width: 240px; }
+div#box-comment input[type="text"] { width: 240px; }
+div#box-disable input[type="text"] { width: 240px; }
+div#box-down input#start { width: 240px; }
+div#box-down input#end { width: 240px; }
 div#box-down input#hour { width: 40px; }
 div#box-down input#minute { width: 40px; }
-div#box-down input#comment { width: 220px; }
+div#box-down input#comment { width: 240px; }
 
 
 

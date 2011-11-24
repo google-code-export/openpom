@@ -22,7 +22,7 @@ require_once("lang.php");
       <table>
         <tr>
           <th><?php echo ucfirst(lang($MYLANG, 'start_time')) ?></th>
-          <td>
+          <td colspan="2">
             <input id="start" 
                    type="text" 
                    name="start"  
@@ -31,7 +31,7 @@ require_once("lang.php");
         </tr>
         <tr>
           <th><?php echo ucfirst(lang($MYLANG, 'end_down')) ?></th>
-          <td>
+          <td colspan="2">
             <input id="end" 
                    type="text" 
                    name="end"  
@@ -40,7 +40,7 @@ require_once("lang.php");
         </tr>
         <tr>
           <th><?php echo ucfirst(lang($MYLANG, 'durationnow')) ?></th>
-          <td>
+          <td colspan="2">
             <input id="hour" 
                    type="text" 
                    name="hour"  
@@ -57,7 +57,7 @@ require_once("lang.php");
         </tr>
         <tr>
           <th><?php echo ucfirst(lang($MYLANG, 'comment')) ?></th>
-          <td>
+          <td colspan="2">
             <input type="text" 
                    name="comment" 
                    maxlength="64"
@@ -65,28 +65,25 @@ require_once("lang.php");
                    value="" />
           </td>
         </tr>
-        <tr>
-          <th><?php echo ucfirst(lang($MYLANG, 'track')) ?></th>
-          <td>
-            <input type="checkbox" name="track" id="track" 
-                     value="1" 
-                     style="vertical-align: middle;" />
-            <label for="track" style="vertical-align: middle;">Yes</label>
-          </td>
-        </tr>
+        
         
         <tr>
-          <th style="height: 14px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
-          <td colspan="2"></td>
+          <td class="height-14"></td>
+          <td class="height-14"></td>
+          <td class="height-14"></td>
         </tr>
+        
+        
         <tr>
-          <th style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-top: 6px;">
-          </th>
-          <td colspan="2" style="border: none; border-top: 1px solid #E0E5D3; background: none; padding-bottom: 0; padding-top: 6px;">
+          <td></td>
+          <td>
             <input type="hidden" name="action" value="down" />
-            <input type="submit"  
-                   value="<?php echo ucfirst(lang($MYLANG, 'downtime')) ?>" />
-            &#160;
+            <input type="submit" value="OK" />&#160;
+            <input type="submit" 
+                   value="<?php echo ucfirst(lang($MYLANG, 'track')) ?>"
+                   onclick="append_track(this.form);" />&#160;
+          </td>
+          <td align="right">
             <input type="button" 
                    value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />

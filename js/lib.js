@@ -235,6 +235,13 @@ function hide_data() {
   jpopin.fadeOut(150);
 }
 
+function append_track(fobject) {
+  fobject = $(fobject);
+  if (!fobject.find('#track').length) {
+    fobject.append('<input type="hidden" id="track" name="track" value="1" />');
+  }
+}
+
 function valid_ack(fobject, illegal) {
   var fobject = $(fobject);
   var com = fobject.find('#comment');
