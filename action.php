@@ -17,12 +17,14 @@
       </tr>
       <tr>
       <td style="padding-left: 4px; width: 60px;">
+        <nobr>
           <span class="icon-btn icon-refesh"
                 title="<?php echo ucfirst(lang($MYLANG, 'refresh'))?>"
                 onclick="window.location.href='<?php echo $MY_GET ?>';"></span>&#160;
           
           <span title="<?php echo ucfirst(lang($MYLANG, 'refreshing'))?>" 
                 id="refreshspan"><?php echo $REFRESHTIME; ?></span>&#160;&#160;
+        </nobr>
       </td>
 
       <td style="text-align: center;">
