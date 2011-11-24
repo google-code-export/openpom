@@ -289,18 +289,18 @@ if(!isset($_SESSION['NO_COLS'])) {
 }
 foreach($COLS AS $key => $val) {
   if(isset($_GET['option'])) {
-    if(isset($_GET[$key])) {
+    if(!isset($_GET[$key]) && $key != 'machine') {
       unset($COLS[$key]);
       $_SESSION[$key] = 1;
-      if (preg_match('/(machine|service|group|stinfo|IP)/',$key))
+      if (preg_match('/(service|group|stinfo|IP)/',$key))
         $QUERY = preg_replace("/.*define_my_like 'define_my_".$key."_filter'/",' ',$QUERY);
     }
     else if(isset($_SESSION[$key]))
       unset($_SESSION[$key]);
   }
-  else if(isset($_SESSION[$key])) {
+  else if(isset($_SESSION[$key]) && $key != 'machine') {
     unset($COLS[$key]);
-    if (preg_match('/(machine|service|group|stinfo|IP)/',$key))
+    if (preg_match('/(service|group|stinfo|IP)/',$key))
       $QUERY = preg_replace("/.*define_my_like 'define_my_".$key."_filter'/",' ',$QUERY);
   }
 }

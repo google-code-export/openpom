@@ -162,9 +162,9 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
               ?>
               
               <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
-                     value="<?php echo $key ?>" 
+                     value="1" 
                      style="vertical-align: middle;"
-                     <?php echo (isset($_SESSION[$key])) ? 'checked' : '' ?> />
+                     <?php echo (!isset($_SESSION[$key])) ? 'checked' : '' ?> />
               <label for="<?php echo $key ?>" style="vertical-align: middle;">
                 <?php echo ucfirst(lang($MYLANG, $key)) ?>
               </label>
@@ -193,7 +193,6 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
         </tr>
       </table>
       
-      <input type="hidden" name="stop" value="stop" id="check_1" checked />
       <?php if (isset($qfilt)) { ?>
       <input type="hidden" name="filtering" value="<?php echo $qfilt?>" />
       <?php } ?>
