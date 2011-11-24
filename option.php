@@ -41,7 +41,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <input type="text" maxlength="4" 
                    name="refresh" id="refresh"
                    value="<?php echo $_SESSION['REFRESH'] ?>" />
-            <?php echo lang($MYLANG, 'second')?>
+            &#160;<?php echo lang($MYLANG, 'second')?>
             (min 10, max 3600)
           </td>
         </tr>
@@ -70,7 +70,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           <td colspan="2">
             <input type="text" maxlength="3" name="step" 
                    value="<?php echo $_SESSION['STEP'] ?>" />
-            (min 1, max 999)
+            &#160;(min 1, max 999)
           </td>
         </tr>
         <tr>
@@ -91,7 +91,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <input type="text" maxlength="3" 
                    name="maxlen_stinfo" 
                    value="<?php echo $_SESSION['MAXLEN_STINFO'] ?>" />
-            (min 1, max 999)
+            &#160;(min 1, max 999)
           </td>
         </tr>
         <tr>
@@ -102,7 +102,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <input type="text" maxlength="3" 
                    name="maxlen_host" 
                    value="<?php echo $_SESSION['MAXLEN_HOST'] ?>" />
-            (min 1, max 999)
+            &#160;(min 1, max 999)
           </td>
         </tr>
         <tr>
@@ -113,7 +113,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <input type="text" maxlength="3" 
                    name="maxlen_svc" 
                    value="<?php echo $_SESSION['MAXLEN_SVC'] ?>" />
-            (min 1, max 999)
+            &#160;(min 1, max 999)
           </td>
         </tr>
         <tr>
@@ -124,7 +124,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <input type="text" maxlength="3" 
                    name="maxlen_groups" 
                    value="<?php echo $_SESSION['MAXLEN_GROUPS'] ?>" />
-            (min 1, max 999)
+            &#160;(min 1, max 999)
           </td>
         </tr>
         <tr>
@@ -135,7 +135,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <input type="text" maxlength="3" 
                    name="fontsize" 
                    value="<?php echo $_SESSION['FONTSIZE'] ?>" />
-            (min 1, max 100)
+            &#160;(min 1, max 100)
           </td>
         </tr>
         <tr>
@@ -165,10 +165,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
                      value="1" 
                      style="vertical-align: middle;"
                      <?php echo (!isset($_SESSION[$key])) ? 'checked' : '' ?> />
-              <label for="<?php echo $key ?>" style="vertical-align: middle;">
-                <?php echo ucfirst(lang($MYLANG, $key)) ?>
-              </label>
-              <br />
+              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
               
               <?php
               }
