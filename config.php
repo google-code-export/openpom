@@ -156,6 +156,12 @@ $GRAPH_POPUP_PARAM_END = 't2';
  */
 $ILLEGAL_CHAR       = '`~$;%^*|<>';
 
+
+/* POPIN WIDTH RESTRICTION */
+$POPIN_INITIAL_WIDTH = 492;
+$POPIN_FIT_TO_GRAPH_WIDTH = true;
+
+
 /* ACKNOWLEDGEMENT */
 $EXT_CMD['ack']['host'][0]      = array(
 'ACKNOWLEDGE_HOST_PROBLEM',

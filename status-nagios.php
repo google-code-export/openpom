@@ -241,7 +241,11 @@ if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $
         </tr>
         <tr>
           <td colspan="3" style="padding: 0; margin: 0; vertical-align: bottom; height: 100%;">
-            <img style="vertical-align: bottom; padding: 0; margin: 0;" src="<?php echo $g ?>" />
+            <img style="vertical-align: bottom; padding: 0; margin: 0;"
+                 <?php if ($POPIN_FIT_TO_GRAPH_WIDTH && !isset($_GET['fix'])) { ?>
+                 onload="status_popin_resize($(this).outerWidth() + 12);"
+                 <?php } ?>
+                 src="<?php echo $g ?>" />
           </td>
         </tr>
         

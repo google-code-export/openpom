@@ -29,13 +29,14 @@
     <script type="text/javascript">
       var current_data_displayed = null;
       var cache    = new Array();
-      var mytime   = <?php echo $REFRESHTIME ?>;
+      var mytime   = <?php echo intval($REFRESHTIME) ?>;
       var filter   = "<?php echo $FILTER ?>";
       var cur_id;
       var it = null;
       var filtering_has_focus = false;
       var lastChecked = null;
       var accept_action = true;
+      var popin_initial_width = <?php echo intval($POPIN_INITIAL_WIDTH) ?>;
       
       var jpopin = $('\
         <div>\

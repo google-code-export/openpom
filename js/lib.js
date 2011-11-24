@@ -161,6 +161,25 @@ function autorefresh() {
   }
 }
 
+/* global variables:
+ * - popin_initial_width
+ * - jpopin
+ */
+function status_popin_resize(wpx) {
+  var width = 'auto';
+  
+  if (typeof(wpx) != 'undefined' 
+        && !isNaN(wpx) && wpx > 100) {
+    width = wpx + 'px';
+  
+  } else if (typeof(popin_initial_width) != 'undefined'
+        && !isNaN(popin_initial_width)) {
+    width = popin_initial_width + 'px';
+  }
+  
+  jpopin.css('width', width);
+}
+
 function XMLHttpRequestSurcouche(zeasy) { 
   /* objet XMLHttpRequest */ 
   this.rq;
@@ -174,7 +193,9 @@ function XMLHttpRequestSurcouche(zeasy) {
       cache[zeasy] = myrq.responseText;
       if (current_data_displayed == zeasy) {
         it = setTimeout(hide_data, 5000);
-        jpopin.html(myrq.responseText).fadeIn(150); 
+        jpopin.html(myrq.responseText);
+        status_popin_resize();
+        jpopin.fadeIn(150); 
       }
     }
   };
@@ -194,7 +215,9 @@ function get_data(type, arg1, arg2) {
     
     if (typeof(cache[current_data_displayed]) != 'undefined') {
       it = setTimeout(hide_data, 5000);
-      jpopin.html(cache[current_data_displayed]).fadeIn(150);
+      jpopin.html(cache[current_data_displayed]);
+      status_popin_resize();
+      jpopin.fadeIn(150);
       return;
       
     } else {
