@@ -232,10 +232,6 @@ $EXT_CMD['reset']['host'][2]    = array(
 '$host');
 
 $EXT_CMD['reset']['host'][3]    = array(
-'ENABLE_HOST_SVC_NOTIFICATIONS',
-'$host');
-
-$EXT_CMD['reset']['host'][4]    = array(
 'DEL_HOST_DOWNTIME',
 '$downtime_id');
 
