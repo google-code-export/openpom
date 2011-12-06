@@ -41,9 +41,9 @@ $LANG['en'] = array (
 'refreshing0'        => 'refreshing every',
 'flag'               => 'flags',
 'track'              => 'Enable tracking',
-'istrack'            => 'Tracking is enabled',
 'machine'            => 'equipment',
 'service'            => 'service',
+'on'                 => 'on',
 'group'              => 'groups',
 'stinfo'             => 'status information',
 'last'               => 'last check',
@@ -83,7 +83,8 @@ $LANG['en'] = array (
 'fontsize'           => 'Font size alert',
 'search'             => 'search (keywords are : not something / = something)',
 'querytime'          => 'query in',
-'end_down'           => 'end time', 
+'end_down'           => 'end time',
+'end'                => 'end', 
 'graph_icon'         => 'show graph',
 'fixed'              => 'Fix popup',
 'start_time'         => 'start time',
@@ -99,7 +100,11 @@ $LANG['en'] = array (
 'disa_notif'         => 'disable global notifications',
 'ena_popin'          => 'enable status popin',
 'disa_popin'         => 'disable status popin', 
-'notif_warning'      => 'Warning: global notifications are disabled!'
+'notif_warning'      => 'Warning: global notifications are disabled!', 
+'yes'                => 'yes', 
+'no'                 => 'no', 
+'state_change'       => 'state change', 
+'disabled_since'     => 'disabled since'
 ) ;
 
 /* FRENCH */
@@ -132,9 +137,9 @@ $LANG['fr'] = array (
 'refreshing0'        => 'rafra&icirc;chissement toutes les',
 'flag'               => 'statut',
 'track'              => 'Activer le suivi',
-'istrack'            => 'Le suivi est activé',
 'machine'            => 'equipement',
 'service'            => 'service',
+'on'                 => 'sur',
 'group'              => 'groupes',
 'stinfo'             => 'Information',
 'last'               => 'dernier test',
@@ -149,7 +154,7 @@ $LANG['fr'] = array (
 'chktyp'             => 'type de test',
 'latency'            => 'latence',
 'lastchange'         => 'dernier changement d\'&eacute;tat',
-'flapping'           => 'le service change d\'&eacute;tat trop souvent',
+'flapping'           => 'change d\'&eacute;tat trop souvent',
 'lastup'             => 'derni&egrave;re mise &agrave; jour',
 'cancel'             => 'annuler',
 'clear'              => 'effacer',
@@ -175,6 +180,7 @@ $LANG['fr'] = array (
 'search'             => 'Recherche (mots cl&eacute;s : not ma_recherche / = ma_recherche)',
 'querytime'          => 'requ&ecirc;te en',
 'end_down'           => 'fin pr&eacute;vue',
+'end'                => 'fin',
 'graph_icon'         => 'affiche les graphes',
 'fixed'              => 'Fixer en popup',
 'start_time'         => 'd&eacute;but',
@@ -190,7 +196,11 @@ $LANG['fr'] = array (
 'disa_notif'         => 'd&eacute;sactiver les notifications globales',
 'ena_popin'          => 'activer la popin de status',
 'disa_popin'         => 'd&eacute;sactiver la popin de status', 
-'notif_warning'      => 'Attention : les notifications globales sont d&eacute;sactiv&eacute;es !'
+'notif_warning'      => 'Attention : les notifications globales sont d&eacute;sactiv&eacute;es !', 
+'yes'                => 'oui', 
+'no'                 => 'non', 
+'state_change'       => 'changement d\'&eacute;tat', 
+'disabled_since'     => 'd&eacute;sactiv&eacute;es depuis'
 ) ;
 
 $LANG['de'] = array (
@@ -221,9 +231,9 @@ $LANG['de'] = array (
 'refreshing0'        => 'aktualisiere alle',
 'flag'               => 'markieren',
 'track'              => 'Aktivieren Tracking',
-'istrack'            => 'Tracking aktiviert ist',
 'machine'            => 'Ger&auml;te',
 'service'            => 'Dienste',
+'on'                 => 'an',
 'group'              => 'Gruppen',
 'stinfo'             => 'status-informationen',
 'last'               => 'letzter Check',
@@ -238,7 +248,7 @@ $LANG['de'] = array (
 'chktyp'             => 'pr&uuml;fe Typ',
 'latency'            => 'pr&uuml;fe Latenz',
 'lastchange'         => 'letzte Status&auml;nderung',
-'flapping'           => 'dieser Dienst "flattert"',
+'flapping'           => 'dieser Dienst &quot;flattert&quot;',
 'lastup'             => 'letztes Aenderung',
 'cancel'             => 'abbrechen',
 'clear'              => 'leeren',
@@ -264,6 +274,7 @@ $LANG['de'] = array (
 'search'             => 'Suche (keywords are : not something / = something)',
 'querytime'          => 'Suche in',
 'end_down'           => 'endet',
+'end'                => 'endet',
 'graph_icon'         => 'zeige Grafik',
 'fixed'              => 'Fix popup',
 'start_time'         => 'startzeit',
@@ -279,7 +290,11 @@ $LANG['de'] = array (
 'disa_notif'         => 'Benachrichtigung deaktivieren (globale)',
 'ena_popin'          => 'Status popin aktivieren',
 'disa_popin'         => 'Status popin deaktivieren', 
-'notif_warning'      => 'Warnung: Globale Benachrichtigungen sind deaktiviert!'
+'notif_warning'      => 'Warnung: Globale Benachrichtigungen sind deaktiviert!', 
+'yes'                => 'ja', 
+'no'                 => 'nein', 
+'state_change'       => 'Zustands&auml;nderung', 
+'disabled_since'     => 'Deaktiviert seit'
 ) ;
 
 /* GET/SET LANG */

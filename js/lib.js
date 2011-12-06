@@ -12,15 +12,17 @@
  ******************************************************************************/
 
 $(document).ready(function(){
-
-  /* put the status popin at right place */
-  var first_alert_item = $('table#alert tr.alert-item:first');
-  if (first_alert_item.length) {
-    jpopin.css('top', (first_alert_item.offset().top - 10) + 'px');
+  if (typeof(jpopin) != 'undefined') {
+    
+    /* put the status popin at right place */
+    var first_alert_item = $('table#alert tr.alert-item:first');
+    if (first_alert_item.length) {
+      jpopin.css('top', (first_alert_item.offset().top - 10) + 'px');
+    }
+    
+    /* add the status popin to document */
+    $('body').append(jpopin);
   }
-  
-  /* add the status popin to document */
-  $('body').append(jpopin);
 });
 
 
@@ -182,13 +184,13 @@ function XMLHttpRequestSurcouche(zeasy) {
   this.rq = myrq;
 }
 
-function get_data(type, id) {
+function get_data(type, arg1, arg2) {
   if (it != null) {
     clearTimeout(it);
   }
   
   jpopin.fadeOut(150, function () {
-    current_data_displayed = type + ":" + id;
+    current_data_displayed = type + ':' + arg1 + ':' + arg2;
     
     if (typeof(cache[current_data_displayed]) != 'undefined') {
       it = setTimeout(hide_data, 5000);
@@ -197,7 +199,7 @@ function get_data(type, id) {
       
     } else {
       var xhr = new XMLHttpRequestSurcouche(current_data_displayed);
-      xhr.rq.open("GET", "status.php?type="+type+"&id="+id,  true);
+      xhr.rq.open('GET', 'status-' + type + '.php?arg1=' + arg1 + '&arg2=' + arg2, true);
       xhr.rq.send(null);
     }
   }); 

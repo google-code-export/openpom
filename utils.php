@@ -60,37 +60,6 @@ function printtime($t) {
     return sprintf("%dd %02dh", $day, $hour);
 }
 
-function linebreak($t) {
-  global $SPLITAT;
-  $nbcarmax = $SPLITAT + 1;
-  $i = 0; 
-  $last_space = -1; 
-  $next_break = $nbcarmax;
-  $start = 0;
-  $out = "";
-  $len = strlen($t);
-  for ($i=0; $i<$len; $i++) {
-    if ($t[$i] == ' ' || $t[$i] == '\t')
-      $last_space = $i;
-    if ($i == $next_break) {
-      if ($last_space == -1) {
-        $out .= substr($t, $start, $i - $start);
-        $next_break = $i + $nbcarmax;
-        $start = $i;
-      }
-      else {
-        $out .= substr($t, $start, $last_space - $start);
-        $next_break = $last_space + $nbcarmax;
-        $start = $last_space;
-      }
-      $last_space = -1;
-      $out .= "<br />";
-    }
-  }
-  $out .= substr($t, $start);
-  return $out;
-}
-
 function select_level($LEVEL) {
   global $MY_HOSTFILT;
   global $MY_SVCFILT;

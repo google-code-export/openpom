@@ -10,8 +10,8 @@
 if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die(); 
 if (!isset($_SESSION['USER'])) die();
   
-define('IS_COMMENT', 0x1);
-define('IS_TRACK',   0x2);
+define('HAS_COMMENT', 0x1);
+define('HAS_TRACK',   0x2);
 ?>
 
 
@@ -45,7 +45,7 @@ define('IS_TRACK',   0x2);
         ?>
             
         
-          <th class="<?php echo $key ?>">
+        <th class="<?php echo $key ?>">
           <?php if ( ($SORTFIELD == $val) && ($SORTORDERFIELD == "ASC") ) { ?>
           <a class="col_sort_up" href="<?php echo $MY_GET_NO_SORT?>&sort=<?php echo $key?>&order=1">
           <?php } else if ($SORTFIELD == $val) { ?>
@@ -108,7 +108,7 @@ define('IS_TRACK',   0x2);
               break;
         }
 
-        if ($data['COMMENT'] & IS_TRACK) {
+        if ($data['COMMENT'] & HAS_TRACK) {
           if ($data['STATUS'] > 0) {
             $COLOR = $TRACK_ERROR;
           } else {
@@ -119,12 +119,15 @@ define('IS_TRACK',   0x2);
         if ($data['SVCST'] == 0) { 
           $COLOR .= " soft"; 
         }
+        
+        $ACTION_TARGET = 'nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICES'];
+        $GET_DATA = "get_data('nagios', '".$data['TYPE']."', '".$data['SVCID']."');";
       ?>
 
 
       <tr class="alert-item <?php echo $COLOR?>" id="<?php echo $data['SVCID']?>"
         <?php if ($POPIN) { ?>
-        onmouseover="to = setTimeout(function() { get_data('<?php echo $data['TYPE'] ?>', '<?php echo $data['SVCID'] ?>'); }, 500);" 
+        onmouseover="to = setTimeout(function() { <?php echo $GET_DATA ?> }, 500);" 
         onmouseout="clearTimeout(to);"
         <?php } ?>
         onclick="selectline(this, event);">
@@ -135,14 +138,12 @@ define('IS_TRACK',   0x2);
           $toprint = '';
           
           if ($key == 'checkbox') {
-            $actiontype = 'nagios';
-            $actionarg2 = $data['SERVICES'];
             $toprint = '
               <span class="checkbox">
                 <input type="hidden" 
                        class="data"
                        name="target[]" 
-                       value="'.$actiontype.';'.$data['MACHINE_NAME'].';'.$actionarg2.'" />
+                       value="'.$ACTION_TARGET.'" />
                 <span></span>
               </span>';
           }
@@ -152,7 +153,7 @@ define('IS_TRACK',   0x2);
             if ($data['TYPE'] == "svc") {
               $toprint = '
                 <a target="_blank" 
-                   href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"
+                   href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data['SERVICES'].'"
                   ><img src="img/flag_svc.png" border="0" alt="S" title="'.ucfirst(lang($MYLANG, 'service')).'"
                 /></a>'; 
                 
@@ -165,16 +166,18 @@ define('IS_TRACK',   0x2);
             }
             
             $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICES']);
-            
             if (!empty($g)) {
+              
               $toprint .= '<a href="#" ' 
                 . 'onClick="return pop(\''.$g.'\', \''.$data['SVCID'].'\', ' 
                 . $GRAPH_POPUP_WIDTH . ', ' 
                 . $GRAPH_POPUP_HEIGHT . ');">' 
-                . '<img src="img/flag_graph.png" alt="G" border="0" ' 
-                . 'title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
+                . '<img src="img/flag_graph.png" 
+                        alt="G" 
+                        border="0" 
+                        title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" 
+                   /></a>';
             }
-            unset($g);
 
             if ($data['ACK'] == "1") 
               $toprint = $toprint.'<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
@@ -185,7 +188,7 @@ define('IS_TRACK',   0x2);
             if ($data['DOWNTIME'] > 0)
               $toprint = $toprint.'<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
 
-            if ($data['COMMENT'] & IS_COMMENT)
+            if ($data['COMMENT'] & HAS_COMMENT)
               $toprint = $toprint.'<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
 
           }

@@ -23,7 +23,6 @@ $MAXLEN_STINFO      = 50;   /* MAX CHARACTERS ON STINFO COLUMN  */
 $MAXLEN_HOST        = 30;   /* MAX CHARACTERS ON HOST COLUMN */
 $MAXLEN_SVC         = 30;   /* MAX CHARACTERS ON SVC COLUMN */
 $MAXLEN_GROUPS      = 40;   /* MAX CHARACTERS ON GROUPS COLUMN */
-$SPLITAT            = 100;  /* NUMBER OF CARACTERS MAX FOR OUTPUT */
 $FRAME              = 0;    /* SHOW THE COLOR FRAME AROUND THE PAGE */
 $FONT_SIZE          = 11;   /* FONT SIZE FOR ALERT */
 $POPIN              = 1;    /* SHOW POPIN ON ROW MOUSE OVER */
@@ -149,9 +148,12 @@ $GRAPH_POPUP_PARAM_START = 't1';
 $GRAPH_POPUP_PARAM_END = 't2';
 
 
-/* ILLEGAL_CHAR IN POST / GET DATA */
-/* semicolon ";" should always be included as this is the field separator
- * used by Nagios in commands */
+/* ILLEGAL_CHAR IN POST / GET DATA 
+ * 
+ * the following characters should always be included:
+ * - semicolon ";" field separator used by Nagios in commands 
+ * - tild "~" special comment prefix used for disable and track 
+ */
 $ILLEGAL_CHAR       = '`~$;%^*|<>';
 
 /* ACKNOWLEDGEMENT */
@@ -260,7 +262,7 @@ $EXT_CMD['disable']['host'][1]  = array(
 '$host',
 '1',
 '$user',
-'$comment');
+'~disable:$comment');
 
 $EXT_CMD['disable']['svc'][0]   = array(
 'DISABLE_SVC_NOTIFICATIONS',
@@ -273,7 +275,7 @@ $EXT_CMD['disable']['svc'][1]  = array(
 '$svc',
 '1',
 '$user',
-'$comment');
+'~disable:$comment');
 
 /* ADD COMMENT */
 $EXT_CMD['comment_persistent']['host'][0]  = array(
@@ -305,7 +307,7 @@ $EXT_CMD['track']['host'][0]  = array(
 '$host',
 '1',
 '$user',
-'!This host is beeing tracked');
+'~track:This host is beeing tracked');
 
 $EXT_CMD['track']['svc'][0]  = array(
 'ADD_SVC_COMMENT',
@@ -313,6 +315,6 @@ $EXT_CMD['track']['svc'][0]  = array(
 '$svc',
 '1',
 '$user',
-'!This service is beeing tracked');
+'~track:This service is beeing tracked');
 
 ?>

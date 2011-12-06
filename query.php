@@ -58,8 +58,8 @@ FROM (
     SS.scheduled_downtime_depth          AS DOWNTIME,
     SS.notifications_enabled             AS NOTIF,
     ( SELECT BIT_OR(
-        IF(substring(comment_data, 1, 1) = '!', 2, 
-          IF(SS.notifications_enabled, 1, 0) ))
+        IF(substring_index(comment_data, ':', 1) = '~track', 2, 
+          IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = S.service_object_id
       AND CO.entry_type = 1
@@ -119,7 +119,7 @@ FROM (
         AND entry_type = 1
         AND comment_source = 1
         AND deletion_time = '0000-00-00 00:00:00'
-        AND substring(comment_data, 1 ,1) = '!' 
+        AND substring_index(comment_data, ':', 1) = '~track'
       )
     )
 
@@ -153,8 +153,8 @@ UNION
     HS.scheduled_downtime_depth          AS DOWNTIME,
     HS.notifications_enabled             AS NOTIF,
     ( SELECT BIT_OR(
-        IF(substring(comment_data, 1, 1) = '!', 2, 
-          IF(HS.notifications_enabled, 1, 0) ))
+        IF(substring_index(comment_data, ':', 1) = '~track', 2, 
+          IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = H.host_object_id
       AND CO.entry_type = 1
@@ -202,7 +202,7 @@ UNION
         AND entry_type = 1
         AND comment_source = 1
         AND deletion_time = '0000-00-00 00:00:00'
-        AND substring(comment_data, 1 ,1) = '!' 
+        AND substring_index(comment_data, ':', 1) = '~track' 
       )
     )
     

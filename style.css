@@ -529,6 +529,35 @@ table#alert tr.selected td {
 }
 
 
+/**
+ * Status popin/popup
+ */
+
+table#popup {
+  width: 100%;
+}
+
+table#popup .inline-middle {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+table#popup tr th:first-child, 
+table#popup tr td:first-child {
+  white-space: nowrap;
+}
+
+table#popup tr th, 
+table#popup tr td {
+  vertical-align: top;
+}
+
+div#box-popup a#fix {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
 
 /**
  * ColorBox
