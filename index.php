@@ -34,7 +34,7 @@ require_once("config.php");
 require_once("query.php");
 require_once("query-downtime.php");
 require_once("utils.php");
-special_char(); 
+special_char();
 
 /* RESET BUTTON ON OPTION */
 if (isset($_GET['reset'])) {
