@@ -110,6 +110,7 @@ if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/lib.js"></script>
   </head>
   <body>
 <?php } ?>
