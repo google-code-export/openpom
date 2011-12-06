@@ -8,21 +8,15 @@
 */
 
 
-$QUERY_DOWNTIME_HOST_ID = "
-  SELECT o.name1,o.name2,d.internal_downtime_id
+$QUERY_DOWNTIME_MIXED_ID = "
+  SELECT 
+    d.internal_downtime_id as id, 
+    if(d.downtime_type = 1, 'svc', 'host') as type
   FROM ".$BACKEND."_scheduleddowntime AS d
-  JOIN ".$BACKEND."_objects AS o
-  ON o.object_id = d.object_id WHERE downtime_type = 2
-  AND o.name1 = 'define_mhost'
-";
-
-$QUERY_DOWNTIME_SVC_ID = "
-  SELECT o.name1,o.name2,d.internal_downtime_id
-  FROM ".$BACKEND."_scheduleddowntime AS d
-  JOIN ".$BACKEND."_objects AS o
-  ON o.object_id = d.object_id WHERE downtime_type = 1
-  AND o.name1 = 'define_mhost'
-  AND o.name2 = 'define_msvc'
+  JOIN ".$BACKEND."_objects AS o ON o.object_id = d.object_id
+  WHERE o.name1 = define_host
+  AND o.name2 = define_svc
+  AND d.downtime_type IN (1, 2)
 ";
 
 ?>
