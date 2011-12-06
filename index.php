@@ -89,7 +89,10 @@ else $global_notif = "disa_notif";
 if (isset($_POST['action']) 
       && isset($_POST['target']) 
       && is_array($_POST['target'])) {
-  handle_action($dbconn);
+  
+  handle_action(
+    $_POST['action'], 
+    $_POST['target']);
 }
 
 /* INIT DEFAULT VALUES (see config.php for other) */

@@ -135,12 +135,14 @@ define('IS_TRACK',   0x2);
           $toprint = '';
           
           if ($key == 'checkbox') {
+            $actiontype = 'nagios';
+            $actionarg2 = $data['SERVICES'];
             $toprint = '
               <span class="checkbox">
                 <input type="hidden" 
                        class="data"
                        name="target[]" 
-                       value="nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICES'].'" />
+                       value="'.$actiontype.';'.$data['MACHINE_NAME'].';'.$actionarg2.'" />
                 <span></span>
               </span>';
           }

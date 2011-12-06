@@ -165,51 +165,9 @@ function select_level($LEVEL) {
 }
 
 
-/* get_nagios_cmd_template
- * return nagios command template with replaced target host/svc values
- */
-function get_nagios_cmd_template($action, $ts, $target) {
-  global $EXT_CMD;
-  $out = '';
-  
-  if (isset($EXT_CMD[$action])) {
-    /* the key host is inappropriate, don't modify that and
-     * keep it for backward compatibility of config variables */
-    if (empty($target) 
-          && isset($EXT_CMD[$action]['host'])) {
-      
-      foreach($EXT_CMD[$action]['host'] AS $n => $array ) {
-        $out .= "[$ts] " . implode(';', $array) . "\n";
-      }
-    }
-    
-    else if (count($target) > 1 
-              && !empty($target[1]) 
-              && $target[1] != '--host--'
-              && isset($EXT_CMD[$action]['svc'])) {
-      
-      foreach($EXT_CMD[$action]['svc'] AS $n => $array ) {
-        $out .= "[$ts] " . str_replace(
-                              array('$host', '$svc'), 
-                              array($target[0], $target[1]),
-                              implode(';', $array)) . "\n";
-      }
-    }
-    
-    else if (count($target) > 0
-              && isset($EXT_CMD[$action]['host'])) {
-      
-      foreach($EXT_CMD[$action]['host'] AS $n => $array ) {
-        $out .= "[$ts] " . str_replace(
-                              '$host', $target[0], implode(';', $array)) . "\n";
-      }
-      
-    }
-  }
-  
-  return $out;
-}
-
+/*******************************************************************************
+ * ACTIONS ON EVENTS: common utility functions (any action type) 
+ ******************************************************************************/
 
 /* validate_comment_value
  * check if a valid comment has been posted 
@@ -269,10 +227,73 @@ function validate_downtime_range(&$start, &$end) {
 }
 
 
-/* nagios_build_cmd__down
- * prepare command to downtime nagios action
+/*******************************************************************************
+ * ACTIONS ON EVENTS: function to get per-type action templates 
+ ******************************************************************************/
+
+/* get_nagios_cmd_template
+ * return "nagios" command template
  */
-function nagios_build_cmd__down($action, $ts, $target, $dblink) {
+function get_nagios_cmd_template($action, $ts, $target, $recurse = false) {
+  global $EXT_CMD;
+  $out = '';
+  
+  if (isset($EXT_CMD[$action])) {
+    
+    /* the key host is inappropriate, don't modify that and
+     * keep it for backward compatibility of config variables */
+    if (empty($target) 
+          && isset($EXT_CMD[$action]['host'])) {
+      
+      foreach ($EXT_CMD[$action]['host'] AS $n => $array ) {
+        $out .= "[$ts] " . implode(';', $array) . "\n";
+      }
+    }
+    
+    /* target has 2+ elements, host and svc are present and svc is
+     * not denoting a host, so this is a service template */
+    else if (count($target) > 1 
+              && !empty($target[1]) 
+              && $target[1] != '--host--'
+              && isset($EXT_CMD[$action]['svc'])) {
+      
+      foreach ($EXT_CMD[$action]['svc'] AS $n => $array ) {
+        $out .= "[$ts] " . str_replace(
+                              array('$host', '$svc'), 
+                              array($target[0], $target[1]),
+                              implode(';', $array)) . "\n";
+      }
+    }
+    
+    /* otherwise if target has 1+ element, this is a host template */
+    else if (count($target) > 0
+              && isset($EXT_CMD[$action]['host'])) {
+      
+      foreach ($EXT_CMD[$action]['host'] AS $n => $array ) {
+        $out .= "[$ts] " . str_replace(
+                              '$host', $target[0], implode(';', $array)) . "\n";
+      }
+    }
+    
+    /* handle track option here
+     * put the track before the actual commands so it appear faster */
+    if (!$recurse && !empty($out) && isset($_POST['track'])) {
+      $out = get_nagios_cmd_template('track', $ts, $target, true) . $out;
+    }
+  }
+  
+  return $out;
+}
+
+
+/*******************************************************************************
+ * ACTIONS ON EVENTS: prepare action function for type "nagios" 
+ ******************************************************************************/
+
+/* prepare_action_nagios__down
+ * prepare command for "nagios" action "downtime"
+ */
+function prepare_action_nagios__down($action, $ts, $target) {
   /* this action requires at least one element in target, 
    * the host name */
   if (count($target) < 1) {
@@ -298,10 +319,10 @@ function nagios_build_cmd__down($action, $ts, $target, $dblink) {
 }
 
 
-/* nagios_build_cmd__ack
- * prepare command to acknowledge nagios action
+/* prepare_action_nagios__ack
+ * prepare command for "nagios" action "acknowledge"
  */
-function nagios_build_cmd__ack($action, $ts, $target, $dblink) {
+function prepare_action_nagios__ack($action, $ts, $target) {
   /* this action requires at least one element in target, 
    * the host name */
   if (count($target) < 1) {
@@ -322,56 +343,56 @@ function nagios_build_cmd__ack($action, $ts, $target, $dblink) {
 }
 
 
-/* nagios_build_cmd__comment_persistent
- * prepare command to persistent comment nagios action
+/* prepare_action_nagios__comment_persistent
+ * prepare command for "nagios" action "comment_persistent"
  */
-function nagios_build_cmd__comment_persistent($action, $ts, $target, $dblink) {
-  return nagios_build_cmd__ack($action, $ts, $target, $dblink);
+function prepare_action_nagios__comment_persistent($action, $ts, $target) {
+  return prepare_action_nagios__ack($action, $ts, $target);
 }
 
 
-/* nagios_build_cmd__disable
- * prepare command to disable host/svc notifications nagios action
+/* prepare_action_nagios__disable
+ * prepare command for "nagios" action "disable"
  */
-function nagios_build_cmd__disable($action, $ts, $target, $dblink) {
-  return nagios_build_cmd__ack($action, $ts, $target, $dblink);
+function prepare_action_nagios__disable($action, $ts, $target) {
+  return prepare_action_nagios__ack($action, $ts, $target);
 }
 
 
-/* nagios_build_cmd__ena_notif
- * prepare command to enable global notifications nagios action
+/* prepare_action_nagios__ena_notif
+ * prepare command for "nagios" action "ena_notif" (global)
  */
-function nagios_build_cmd__ena_notif($action, $ts, $target, $dblink) {
+function prepare_action_nagios__ena_notif($action, $ts, $target) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   return $out;
 }
 
 
-/* nagios_build_cmd__disa_notif
- * prepare command to disable global notifications nagios action
+/* prepare_action_nagios__disa_notif
+ * prepare command for "nagios" action "disa_notif" (global)
  */
-function nagios_build_cmd__disa_notif($action, $ts, $target, $dblink) {
+function prepare_action_nagios__disa_notif($action, $ts, $target) {
+  return prepare_action_nagios__ena_notif($action, $ts, $target);
+}
+
+
+/* prepare_action_nagios__recheck
+ * prepare command for "nagios" action "recheck"
+ */
+function prepare_action_nagios__recheck($action, $ts, $target) {
   $out = get_nagios_cmd_template($action, $ts, $target);
+  $out = str_replace('$next', $ts, $out);
   return $out;
 }
 
 
-/* nagios_build_cmd__recheck
- * prepare command to force recheck host/svc nagios action
+/* prepare_action_nagios__reset
+ * prepare command for "nagios" action "reset"
  */
-function nagios_build_cmd__recheck($action, $ts, $target, $dblink) {
-  $out = get_nagios_cmd_template($action, $ts, $target);
-  $out = str_replace('$next', $ts+5, $out);
-  return $out;
-}
-
-
-/* nagios_build_cmd__reset
- * prepare command to reset host/svc nagios action
- */
-function nagios_build_cmd__reset($action, $ts, $target, $dblink) {
+function prepare_action_nagios__reset($action, $ts, $target) {
   global $QUERY_DOWNTIME_SVC_ID;
   global $QUERY_DOWNTIME_HOST_ID;
+  global $dbconn;
   
   /* ugly hack for resetting downtime 
    * downtime can be > 1 (there can be multiple downtime scheduled) */
@@ -388,7 +409,7 @@ function nagios_build_cmd__reset($action, $ts, $target, $dblink) {
   $out = get_nagios_cmd_template($action, $ts, $target);
   
   /* fetch downtime ids from database */
-  if (!($rep_down = mysql_query($query, $dblink))) {
+  if (!($rep_down = mysql_query($query, $dbconn))) {
     return false;
   }
   
@@ -410,65 +431,41 @@ function nagios_build_cmd__reset($action, $ts, $target, $dblink) {
 }
 
 
-/* handle_action
- * process requested action, send a command to nagios pipe
- * in most of the cases
- * 
- * preconditions: 
- * isset($_POST['action']) 
- * isset($_POST['target']) 
- * is_array($_POST['target'])
+/*******************************************************************************
+ * ACTIONS ON EVENTS: functions for caching prepared action
+ ******************************************************************************/
+
+/* cache_action_nagios
+ * append a pepared "nagios" action to the cache
  */
-function handle_action($dblink) {
+function cache_action_nagios($type, $prepared, &$cache) {
+  /* init cache */
+  if (!isset($cache[$type])) {
+    $cache[$type] = '';
+  }
+  
+  /* add prepared action if not already present */
+  if (!strstr($cache[$type], $prepared)) {
+    $cache[$type] .= $prepared;
+  }
+}
+
+
+/*******************************************************************************
+ * ACTIONS ON EVENTS: functions for executing prepared actions
+ ******************************************************************************/
+
+/* execute_prepared_actions_nagios
+ * execute prepared actions of type "nagios" 
+ */
+function execute_prepared_actions_nagios($actions) {
   global $CMD_FILE;
   global $EXEC_CMD;
   global $EXEC_PARAM;
   global $SUDO_EXEC;
   global $SUDO_PARAM;
   
-  /* list of commands to be sent to nagios 
-   * this is for target of type nagios */
-  $nagios_cmds = '';
-  $ts = time();
-  
-  /* loop on targets */
-  foreach ($_POST['target'] as $t) {
-    
-    /* field 0: type (required)
-     * field 1: host (optional)
-     * field 2: svc  (optional) */
-    $t = explode(';', $t);
-    if (count($t) < 1) {
-      continue;
-    }
-    
-    if ($t[0] == 'nagios') {
-      array_shift($t);
-      
-      if (function_exists('nagios_build_cmd__' . $_POST['action'])) {
-        $ret = call_user_func('nagios_build_cmd__' . $_POST['action'], 
-          $_POST['action'], 
-          $ts, 
-          $t, 
-          $dblink);
-        
-        if ($ret !== false) {
-          /* put the track command first so it appear faster */
-          if (isset($_POST['track'])) {
-            $track = get_nagios_cmd_template('track', $ts, $t);
-            $track = str_replace('$user', $_SESSION['USER'], $track);
-            $nagios_cmds .= $track;
-          }
-          
-          /* append action commands */
-          $nagios_cmds .= $ret;
-        }
-      }
-    }
-  }
-  
-  /* process nagios */
-  if (!empty($nagios_cmds) && !empty($EXEC_CMD)) {
+  if (!empty($actions) && !empty($EXEC_CMD)) {
     $args = array();
     
     /* sudo command path, if set */
@@ -494,11 +491,67 @@ function handle_action($dblink) {
     }
     
     $args[] = escapeshellarg($CMD_FILE);
-    $args[] = escapeshellarg($nagios_cmds);
+    $args[] = escapeshellarg($actions);
     $args[] = '&';
     
     /* execute */
     exec(implode(' ', $args));
+  }
+}
+
+
+/*******************************************************************************
+ * ACTIONS ON EVENTS: main handling function
+ ******************************************************************************/
+
+/* handle_action
+ * process requested action, send a command to nagios pipe
+ * in most of the cases
+ */
+function handle_action($action, $target) {
+  
+  /* cache_action
+   * prepared actions cached in an array indexed per action type
+   * 
+   * prepact['nagios']      string of Nagios commands, one per line
+   */
+  $cache_action = array();
+  $ts = time();
+  
+  /* loop on targets */
+  foreach ($target as $t) {
+    
+    /* field 0: type (required)
+     * field 1: host (optional)
+     * field 2: svc  (optional) */
+    $t = explode(';', $t);
+    
+    if (count($t) > 0) {
+      $type = $t[0];
+      $fct = 'prepare_action_' . $type . '__' . $action;
+      array_shift($t);
+      
+      if (function_exists($fct)) {
+        $ret = call_user_func($fct, $action, $ts, $t);
+        $fct = 'cache_action_' . $type;
+        
+        if ($ret && function_exists($fct)) {
+          
+          /* argument 3 should be declared as a reference in
+           * function definition, otherwise cache would never
+           * be updated */
+          call_user_func_array($fct, array($type, $ret, &$cache_action));
+        }
+      }
+    }
+  }
+  
+  /* execute cached actions */
+  foreach ($cache_action as $type => $actions) {
+    $fct = 'execute_prepared_actions_' . $type;
+    if (function_exists($fct)) {
+      call_user_func($fct, $actions);
+    }
   }
 }
 
