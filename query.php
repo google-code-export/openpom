@@ -15,6 +15,7 @@ SELECT
   sub.MACHINE_NAME                 AS MACHINE_NAME,
   sub.ADDRESS                      AS ADDRESS,
   sub.SERVICES                     AS SERVICES,
+  sub.SUBSERVICE                   AS SUBSERVICE, 
   sub.STATUS                       AS STATUS,
   ( case sub.STATUS 
       when 3 then 1 
@@ -45,6 +46,7 @@ FROM (
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
     S.display_name                       AS SERVICES,
+    null                                 AS SUBSERVICE, 
     SS.current_state                     AS STATUS,
     SS.servicestatus_id                  AS SVCID,
     SS.output                            AS OUTPUT,
@@ -133,6 +135,7 @@ UNION
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
     '--host--'                           AS SERVICES,
+    null                                 AS SUBSERVICE, 
     ( case HS.current_state 
       when 2 then 3
       when 1 then 2
