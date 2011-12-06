@@ -153,6 +153,7 @@ define('IS_TRACK',   0x2);
                    href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data["SERVICES"].'"
                   ><img src="img/flag_svc.png" border="0" alt="S" title="'.ucfirst(lang($MYLANG, 'service')).'"
                 /></a>'; 
+                
             } else if ($data['TYPE'] == "host") {
               $toprint = '
                 <a target="_blank" 
@@ -162,6 +163,7 @@ define('IS_TRACK',   0x2);
             }
             
             $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICES']);
+            
             if (!empty($g)) {
               $toprint .= '<a href="#" ' 
                 . 'onClick="return pop(\''.$g.'\', \''.$data['SVCID'].'\', ' 
@@ -170,6 +172,7 @@ define('IS_TRACK',   0x2);
                 . '<img src="img/flag_graph.png" alt="G" border="0" ' 
                 . 'title="'.ucfirst(lang($MYLANG, 'graph_icon')).'" /></a>';
             }
+            unset($g);
 
             if ($data['ACK'] == "1") 
               $toprint = $toprint.'<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
@@ -190,7 +193,11 @@ define('IS_TRACK',   0x2);
           }
           
           else if ($key == 'IP') {
-            $toprint = htmlspecialchars($data[$val]);
+            if (empty($data[$val])) {
+              $toprint = '&mdash;';
+            } else {
+              $toprint = htmlspecialchars($data[$val]);
+            }
           }
           
           else if ($key == 'machine') {
@@ -216,9 +223,14 @@ define('IS_TRACK',   0x2);
           }
           
           else if ($key == 'stinfo') {
-            $toprint = strlen($data[$val]) > $MAXLEN_STINFO
-              ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_STINFO)) . '...'
-              : htmlspecialchars($data[$val]);
+            if (empty($data[$val])) {
+              $toprint = '&mdash;';
+              
+            } else {
+              $toprint = strlen($data[$val]) > $MAXLEN_STINFO
+                ? htmlspecialchars(substr($data[$val], 0, $MAXLEN_STINFO)) . '...'
+                : htmlspecialchars($data[$val]);
+            }
           }
           
           else if ($key == 'group') {

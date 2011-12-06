@@ -365,7 +365,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_sortsensfield'      =>  mysql_real_escape_string($SORTORDERFIELD, $dbconn),
   'define_sortfield'          =>  mysql_real_escape_string($SORTFIELD, $dbconn),
   'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
-  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
+  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn)
   ) ;
 
   foreach($replacement AS $replace => $val)
