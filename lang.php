@@ -108,6 +108,21 @@ $LANG['en'] = array (
 'state_change'       => 'state change', 
 'disabled_since'     => 'disabled since'
 'next_check'         => 'next check',
+'show_history'       => 'view full history',
+'history'            => 'history',
+'ack'                => 'acknowledgement',
+'down'               => 'downtime',
+'com'                => 'comments',
+'state'              => 'state',
+'notify'             => 'notify',
+'entry_time'         => 'date',
+'author_name'        => 'author',
+'comment_data'       => 'comment',
+'scheduled_start_time' => 'start',
+'scheduled_end_time' => 'end',
+'contact_name'       => 'Contact',
+'output'             => 'data',
+'nohistory'          => 'no history',
 ) ;
 
 /* FRENCH */
@@ -207,6 +222,21 @@ $LANG['fr'] = array (
 'state_change'       => 'changement d\'&eacute;tat', 
 'disabled_since'     => 'd&eacute;sactiv&eacute;es depuis'
 'next_check'         => 'Prochain test',
+'show_history'       => 'voir l\'historique compl&egrave;te',
+'history'            => 'historique',
+'ack'                => 'acquittement',
+'down'               => 'arr&ecirc;t pr&eacute;vu',
+'com'                => 'commentaires',
+'state'              => 'etat',
+'notify'             => 'notifications',
+'entry_time'         => 'date',
+'author_name'        => 'auteur',
+'comment_data'       => 'commentaire',
+'scheduled_start_time' => 'd&eacute;but',
+'scheduled_end_time' => 'fin',
+'contact_name'       => 'Contact',
+'output'             => 'donn&eacute;es',
+'nohistory'          => 'pas d\'historique',
 ) ;
 
 $LANG['de'] = array (
@@ -304,6 +334,21 @@ $LANG['de'] = array (
 'state_change'       => 'Zustands&auml;nderung', 
 'disabled_since'     => 'Deaktiviert seit'
 'next_check'         => 'nachste check',
+'show_history'       => 'blick in voller geschichte',
+'history'            => 'geschichte',
+'ack'                => 'best&auml;tigen',
+'down'               => 'ausfallzeit',
+'com'                => 'kommentar',
+'state'              => 'zustand',
+'notify'             => 'benachrichtigen',
+'entry_time'         => 'datume',
+'author_name'        => 'autor',
+'comment_data'       => 'kommentar',
+'scheduled_start_time' => 'geplanten startzeit',
+'scheduled_end_time' => 'geplanten endzeit',
+'contact_name'       => 'kontakt',
+'output'             => 'daten',
+'nohistory'          => 'keine geschichte',
 ) ;
 
 /* GET/SET LANG */
