@@ -176,7 +176,7 @@ if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $
       </tr>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'next_check'))?></th>
-        <td><?php if ($NEXTCHECKTIME < date('Y-m-d H-i-s') ) echo "N/A" ; else { echo $NEXTCHECKTIME ; echo " (".printtime($NEXTCHECKTIMEDIFF).")" ; } ?></td>
+        <td><?php if (printtime($NEXTCHECKTIMEDIFF) < 0) echo "N/A" ; else { echo $NEXTCHECKTIME ; echo " (".printtime($NEXTCHECKTIMEDIFF).")" ; } ?></td>
       </tr>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'chktyp'))?></th>
