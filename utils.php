@@ -20,7 +20,7 @@ function special_char_array(&$in) {
     $v = $in[$k];
     unset($in[$k]);
     
-    $k = htmlspecialchars($k);
+    //$k = htmlspecialchars($k);
     if (get_magic_quotes_gpc()) {
       $k = stripslashes($k);
     }
@@ -29,7 +29,7 @@ function special_char_array(&$in) {
       special_char_array($v);
       
     } else {
-      $v = htmlspecialchars($v);
+      //$v = htmlspecialchars($v);
       if (get_magic_quotes_gpc()) {
         $v = stripslashes($v);
       }

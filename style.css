@@ -60,7 +60,7 @@ h2 {
 
 
 input#filtering {
-    width: 100px;
+    width: 200px;
     height: 20px;
     background: #F5F8F3 url('img/search.png') no-repeat scroll 1px center;
     padding: 0px;
@@ -619,3 +619,5 @@ span.ndash {
     padding-left: 1px;
     padding-right: 1px;
 }
+
+table#alert th .sub { font-size: 9px; font-weight:normal; color:#FFFFFF; }

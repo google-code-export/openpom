@@ -55,6 +55,11 @@ define('HAS_TRACK',   0x2);
           <?php } ?>
             <?php echo ucfirst(lang($MYLANG, $key))?>
           </a>
+          <?php if ($key == 'machine') { ?><span class="sub">(h)</span><?php }
+           else if ($key == 'service') { ?><span class="sub">(s)</span><?php }
+           else if ($key == 'IP') { ?><span class="sub">(i)</span><?php }
+           else if ($key == 'stinfo') { ?><span class="sub">(o)</span><?php }
+           else if ($key == 'group') { ?><span class="sub">(g)</span><?php } ?>
         </th>
         
         <?php 
@@ -201,12 +206,14 @@ define('HAS_TRACK',   0x2);
             if (empty($data[$val])) {
               $toprint = '&mdash;';
             } else {
-              $toprint = htmlspecialchars($data[$val]);
+              $toprint  = '<a href="'.$MY_GET_NO_FILT.'&filtering=i:'.htmlspecialchars($data[$val]).'">';
+              $toprint .= htmlspecialchars($data[$val]) ;
+              $toprint .= '</a>' ;
             }
           }
           
           else if ($key == 'machine') {
-            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">';
+            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering=h:'.$data[$val].'">';
             if (strlen($data[$val]) > $MAXLEN_HOST) {
               $toprint .= htmlspecialchars(substr($data[$val], 0, $MAXLEN_HOST));
               $toprint .= '</a>...';
@@ -217,7 +224,7 @@ define('HAS_TRACK',   0x2);
           }
           
           else if ($key == 'service') {
-            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">';
+            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering=s:'.$data[$val].'">';
             if (strlen($data[$val]) > $MAXLEN_SVC) {
               $toprint .= htmlspecialchars(substr($data[$val], 0, $MAXLEN_SVC));
               $toprint .= '</a>...';
@@ -258,7 +265,7 @@ define('HAS_TRACK',   0x2);
                 
                 $size -= $l;
                 $toprint .= (empty($toprint) ? '' : ', ')
-                         . '<a href="'.$MY_GET_NO_FILT.'&filtering='.$g.'">'
+                         . '<a href="'.$MY_GET_NO_FILT.'&filtering=g:'.$g.'">'
                          .  htmlspecialchars(substr($g, 0, $l)) 
                          .  '</a>';
               }

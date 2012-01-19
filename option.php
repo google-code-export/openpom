@@ -12,7 +12,7 @@ session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
 if (preg_match('/[?&]{1}filtering=([^&]+)/',$_SERVER['HTTP_REFERER'], $refilt))
-  $qfilt = $refilt[1];
+  $qfilt = urldecode($refilt[1]);
 if (preg_match('/[?&]{1}sort=([^&]+)/',$_SERVER['HTTP_REFERER'], $resort)) {
   if (preg_match('/[?&]{1}order=([01]+)/',$_SERVER['HTTP_REFERER'], $reorder))
     $order = $reorder[1];

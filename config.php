@@ -67,6 +67,23 @@ $OTHER              = "white";
 $TRACK_ERROR        = "blue";
 $TRACK_OK           = "bluegreen";
 
+/* Search filtering */
+$SFILTER['svc'] = array (
+  'H.display_name' => "h:", 
+  "S.display_name" => "s:", 
+  "H.address"      => "i:", 
+  "OHG.name1"      => "g:",
+  "SS.output"       => "o:"
+) ;
+
+$SFILTER['host'] = array (
+  'H.display_name' => "h:",
+  "'--host--'"     => "s:",
+  "H.address"      => "i:",
+  "OHG.name1"      => "g:",
+  "HS.output"       => "o:"
+) ;
+
 /*
   set default lang (supported lang are en, fr and de)                                     
   default lang is "english" or 
@@ -153,7 +170,7 @@ $GRAPH_POPUP_PARAM_END = 't2';
  * - semicolon ";" field separator used by Nagios in commands 
  * - tild "~" special comment prefix used for disable and track 
  */
-$ILLEGAL_CHAR       = '`~$;%^*|<>';
+$ILLEGAL_CHAR       = '`~$^<>';
 
 
 /* POPIN WIDTH RESTRICTION */

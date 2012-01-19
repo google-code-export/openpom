@@ -88,14 +88,8 @@ FROM (
     LEFT JOIN ".$BACKEND."_objects AS OHG          ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
-    (
-                     H.display_name define_my_like 'define_my_machine_filter'
-      define_or_and  S.display_name define_my_like 'define_my_service_filter'
-      define_or_and  OHG.name1      define_my_like 'define_my_group_filter'
-      define_or_and  SS.output      define_my_like 'define_my_stinfo_filter'
-      define_or_and  H.address      define_my_like 'define_my_IP_filter'
-    )
-    AND O.name1 = 'define_my_user'
+    define_my_svc_search
+    O.name1 = 'define_my_user'
     AND ( (
             SS.current_state IN (define_my_svcfilt)
         AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
@@ -180,14 +174,8 @@ UNION
     LEFT JOIN ".$BACKEND."_objects AS OHG         ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
-    (
-                     H.display_name define_my_like 'define_my_machine_filter'
-      define_or_and  '--host--'     define_my_like 'define_my_service_filter'
-      define_or_and  OHG.name1      define_my_like 'define_my_group_filter'
-      define_or_and  HS.output      define_my_like 'define_my_stinfo_filter'
-      define_or_and  H.address      define_my_like 'define_my_IP_filter'
-    )
-    AND O.name1 = 'define_my_user'
+    define_my_host_search
+    O.name1 = 'define_my_user'
     AND ( (
             HS.current_state IN (define_my_hostfilt)
         AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
