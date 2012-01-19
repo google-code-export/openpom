@@ -14,7 +14,7 @@
   echo "</pre>";
   echo "<pre>";
   echo "GET : ";
-  print_r($_SERVER);
+  print_r($_GET);
   echo "</pre>";
 */
 
