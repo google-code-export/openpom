@@ -188,6 +188,7 @@ span.icon-ack { background-image: url('img/ack.gif'); }
 span.icon-down { background-image: url('img/downtime.png'); }
 span.icon-recheck { background-image: url('img/recheck.png'); }
 span.icon-disable { background-image: url('img/notify.png'); }
+span.icon-disablecheck { background-image: url('img/disablecheck.png'); }
 span.icon-reset { background-image: url('img/reset.png'); }
 span.icon-comment { background-image: url('img/comment.gif'); }
 span.icon-refesh { background-image: url('img/refresh.png'); }

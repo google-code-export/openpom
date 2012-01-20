@@ -27,6 +27,8 @@ $QUERY_STATUS['svc'] = "
     SS.problem_has_been_acknowledged       AS ACK,
     SS.scheduled_downtime_depth            AS DOWNTIME,
     SS.notifications_enabled               AS NOTIF,
+    SS.active_checks_enabled               AS DISABLECHECK,
+    SS.check_type                          AS CHECKTYPE,
     IF (
       SS.flap_detection_enabled = 1,
       is_flapping,
@@ -70,6 +72,16 @@ $QUERY_STATUS['svc'] = "
       ORDER BY NCO.entry_time DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
+      concat_ws(';', DCCO.author_name, DCCO.comment_data)
+      FROM ".$BACKEND."_commenthistory AS DCCO
+      WHERE DCCO.object_id = SS.service_object_id
+      AND DCCO.entry_type = 1
+      AND DCCO.comment_source = 1
+      AND DCCO.deletion_time = '0000-00-00 00:00:00'
+      AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
+      ORDER BY DCCO.entry_time DESC
+      LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
+    ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = SS.service_object_id
@@ -111,6 +123,8 @@ $QUERY_STATUS['host'] = "
     HS.problem_has_been_acknowledged       AS ACK,
     HS.scheduled_downtime_depth            AS DOWNTIME,
     HS.notifications_enabled               AS NOTIF,
+    HS.active_checks_enabled               AS DISABLECHECK,
+    HS.check_type                          AS CHECKTYPE,
     IF (
       HS.flap_detection_enabled = 1,
       is_flapping,
@@ -152,6 +166,16 @@ $QUERY_STATUS['host'] = "
       AND substring_index(NCO.comment_data, ':', 1) = '~disable'
       ORDER BY NCO.entry_time DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
+    ( SELECT 
+      concat_ws(';', DCCO.author_name, DCCO.comment_data)
+      FROM ".$BACKEND."_commenthistory AS DCCO
+      WHERE DCCO.object_id = HS.host_object_id
+      AND DCCO.entry_type = 1
+      AND DCCO.comment_source = 1
+      AND DCCO.deletion_time = '0000-00-00 00:00:00'
+      AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
+      ORDER BY DCCO.entry_time DESC
+      LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
     ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ".$BACKEND."_commenthistory AS CO

@@ -251,6 +251,10 @@ $EXT_CMD['reset']['host'][3]    = array(
 'DEL_HOST_DOWNTIME',
 '$downtime_id');
 
+$EXT_CMD['reset']['host'][4]  = array(
+'ENABLE_HOST_CHECK',
+'$host');
+
 $EXT_CMD['reset']['svc'][0]    = array(
 'DEL_ALL_SVC_COMMENTS',
 '$host',
@@ -269,6 +273,11 @@ $EXT_CMD['reset']['svc'][2]     = array(
 $EXT_CMD['reset']['svc'][3]    = array(
 'DEL_SVC_DOWNTIME',
 '$downtime_id');
+
+$EXT_CMD['reset']['svc'][4]  = array(
+'ENABLE_SVC_CHECK',
+'$host',
+'$svc');
 
 /* DISABLE NOTIFICATION */
 $EXT_CMD['disable']['host'][0]  = array(
@@ -310,6 +319,31 @@ $EXT_CMD['comment_persistent']['svc'][0]  = array(
 '1',
 '$user',
 '$comment');
+
+/* DISABLE CHECK */
+$EXT_CMD['disablecheck']['host'][0]  = array(
+'DISABLE_HOST_CHECK',
+'$host');
+
+$EXT_CMD['disablecheck']['host'][1]  = array(
+'ADD_HOST_COMMENT',
+'$host',
+'1',
+'$user',
+'~disablecheck:$comment');
+
+$EXT_CMD['disablecheck']['svc'][0]   = array(
+'DISABLE_SVC_CHECK',
+'$host',
+'$svc');
+
+$EXT_CMD['disablecheck']['svc'][1]  = array(
+'ADD_SVC_COMMENT',
+'$host',
+'$svc',
+'1',
+'$user',
+'~disablecheck:$comment');
 
 /* ENABLE GLOBAL NOTIFICATIONS */
 $EXT_CMD['ena_notif']['host'][0]  = array(

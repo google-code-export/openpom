@@ -91,13 +91,19 @@ $UPDATETIMEDIFF    = $st_data['UPDATETIMEDIFF'];
 $UPDATETIME        = $st_data['UPDATETIME'];
 $ACK               = $st_data['ACK'];
 $DOWNTIME          = $st_data['DOWNTIME'];
+$DISABLECHECK      = $st_data['DISABLECHECK'] ;
 $ACKCOMMENT        = explode(';', $st_data['ACKCOMMENT'], 2);
 $DOWNCOMMENT       = explode(';', $st_data['DOWNCOMMENT'], 3);
 $NOTIFCOMMENT      = explode(';', $st_data['NOTIFCOMMENT'], 2);
 $COMMENT           = explode(';', $st_data['COMMENT'], 2);
+$DISABLECHECKCOMMENT = explode(';', $st_data['DISABLECHECKCOMMENT'], 2);
+
 
 if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $cap)) {
   $NOTIFCOMMENT[1] = $cap[1];
+}
+if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHECKCOMMENT[1], $cap)) {
+  $DISABLECHECKCOMMENT[1] = $cap[1];
 }
 
 
@@ -226,6 +232,16 @@ if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $
             <span class="inline-middle" >(<?php echo $NOTIFCOMMENT[0]?>)</span>
           </th>
           <td><?php echo $NOTIFCOMMENT[1]?></td>
+        </tr>
+      <?php } ?>
+
+      <?php if ( ($DISABLECHECK == 0) && ($CHECKTYPE == 0) ) { ?>
+        <tr>
+          <th>
+            <img class="inline-middle" src="img/flag_disablecheck.png" />
+            <span class="inline-middle" >(<?php echo $DISABLECHECKCOMMENT[0]?>)</span>
+          </th>
+          <td><?php echo $DISABLECHECKCOMMENT[1]?></td>
         </tr>
       <?php } ?>
       

@@ -32,7 +32,9 @@ SELECT
   sub.ACK                          AS ACK,
   sub.DOWNTIME                     AS DOWNTIME,
   sub.NOTIF                        AS NOTIF,
-  sub.COMMENT                      AS COMMENT
+  sub.COMMENT                      AS COMMENT,
+  sub.DISABLECHECK                 AS DISABLECHECK,
+  sub.CHECKTYPE                    AS CHECKTYPE
 
 FROM (
 
@@ -52,6 +54,8 @@ FROM (
     SS.output                            AS OUTPUT,
     SS.state_type                        AS SVCST,
     SS.problem_has_been_acknowledged     AS ACK,
+    SS.active_checks_enabled             AS DISABLECHECK,
+    SS.check_type                        AS CHECKTYPE,
     UNIX_TIMESTAMP(SS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(SS.last_state_change) AS DURATION,
     'svc'                                AS TYPE,
@@ -141,6 +145,8 @@ UNION
     HS.output                            AS OUTPUT,
     HS.state_type                        AS SVCST,
     HS.problem_has_been_acknowledged     AS ACK,
+    HS.active_checks_enabled             AS DISABLECHECK,
+    HS.check_type                        AS CHECKTYPE,
     UNIX_TIMESTAMP(HS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(HS.last_state_change) AS DURATION,
     'host'                               AS TYPE,

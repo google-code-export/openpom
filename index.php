@@ -442,6 +442,8 @@ $hit_critical  = 0;
 $hit_unknown   = 0;
 $hit_down      = 0;
 $hit_ack       = 0;
+$hit_notify    = 0;
+$hit_disacheck = 0;
 $hit_any       = 0;
 $line          = 1;
 
@@ -454,6 +456,8 @@ while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   }
   if ($data['ACK'] == 1) $hit_ack++;
   if ($data['DOWNTIME'] > 0) $hit_down++;
+  if ($data['NOTIF'] == 0) $hit_notify++;
+  if ( ($data['DISABLECHECK'] == 0) && ($data['CHECKTYPE'] == 0) ) $hit_disacheck++;
   $hit_any++;
 }
 $hit_any = $total_rows;

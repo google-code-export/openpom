@@ -360,6 +360,10 @@ function valid_disable(fobject, illegal) {
   return valid_comment(fobject, illegal);
 }
 
+function valid_disablecheck(fobject, illegal) {
+  return valid_comment(fobject, illegal);
+}
+
 function valid_option(fobject) {
   return true;
 }

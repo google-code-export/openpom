@@ -196,6 +196,9 @@ define('HAS_TRACK',   0x2);
             if ($data['COMMENT'] & HAS_COMMENT)
               $toprint = $toprint.'<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
 
+            if ( ($data['DISABLECHECK'] == "0") && ($data['CHECKTYPE'] == "0") )
+              $toprint = $toprint.'<img src="img/flag_disablecheck.png" alt="C" title="'.ucfirst(lang($MYLANG, 'disablecheck')).'" />';
+
           }
           
           else if ($key == 'duration' || $key == 'last') { 
