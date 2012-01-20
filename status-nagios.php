@@ -257,7 +257,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
       
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'history')) ?></th>
-        <td><a href="#" onClick="return pop('history.php?id=<?php echo $id?>&type=<?php echo $type ?>', 'history-<?php echo $id?>', '500', '600')"><?php echo ucfirst(lang($MYLANG, 'show_history')) ?></a></td>
+        <td><a href="#" onClick="return pop('history.php?id=<?php echo $id?>&type=<?php echo $type ?>&host=<?php echo $HOSTNAME ?>&svc=<?php echo $SERVICE ?>', 'history-<?php echo $id?>', '<?php echo $HISTORY_POPUP_WIDTH ?>', '<?php echo $HISTORY_POPUP_HEIGHT ?>')"><?php echo ucfirst(lang($MYLANG, 'show_history')) ?></a></td>
       </tr>
       
       <?php $g = get_graph('status', $HOSTNAME, $SERVICE); ?>

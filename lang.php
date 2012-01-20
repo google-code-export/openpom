@@ -110,6 +110,7 @@ $LANG['en'] = array (
 'next_check'         => 'next check',
 'show_history'       => 'view full history',
 'history'            => 'history',
+'historyfor'         => 'history for',
 'ack'                => 'acknowledgement',
 'down'               => 'downtime',
 'com'                => 'comments',
@@ -123,6 +124,8 @@ $LANG['en'] = array (
 'contact_name'       => 'Contact',
 'output'             => 'data',
 'nohistory'          => 'no history',
+'flap'               => 'flapping',
+'flap_type'          => 'flapping type',
 ) ;
 
 /* FRENCH */
@@ -224,6 +227,7 @@ $LANG['fr'] = array (
 'next_check'         => 'Prochain test',
 'show_history'       => 'voir l\'historique compl&egrave;te',
 'history'            => 'historique',
+'historyfor'         => 'history pour',
 'ack'                => 'acquittement',
 'down'               => 'arr&ecirc;t pr&eacute;vu',
 'com'                => 'commentaires',
@@ -237,6 +241,8 @@ $LANG['fr'] = array (
 'contact_name'       => 'Contact',
 'output'             => 'donn&eacute;es',
 'nohistory'          => 'pas d\'historique',
+'flap'               => 'change d\'&eacute;tat trop souvent',
+'flap_type'          => 'genre',
 ) ;
 
 $LANG['de'] = array (
@@ -336,6 +342,7 @@ $LANG['de'] = array (
 'next_check'         => 'nachste check',
 'show_history'       => 'blick in voller geschichte',
 'history'            => 'geschichte',
+'historyfor'         => 'geschichte f&uuml;r',
 'ack'                => 'best&auml;tigen',
 'down'               => 'ausfallzeit',
 'com'                => 'kommentar',
@@ -349,6 +356,8 @@ $LANG['de'] = array (
 'contact_name'       => 'kontakt',
 'output'             => 'daten',
 'nohistory'          => 'keine geschichte',
+'flap'               => 'flattert',
+'flap_type'          => 'typ',
 ) ;
 
 /* GET/SET LANG */

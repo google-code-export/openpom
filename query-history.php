@@ -95,36 +95,32 @@ $QUERY_HISTORY['com']['host'] = "
 
 $QUERY_HISTORY['notify']['svc'] = "
   SELECT
-    NOF.start_time AS entry_time,
-    CO.alias AS contact,
-    NOF.output   
-  FROM ".$BACKEND."_notifications AS NOF
-    JOIN ".$BACKEND."_servicestatus AS SS ON NOF.object_id = SS.service_object_id
-    JOIN ".$BACKEND."_contactnotifications CNO ON NOF.object_id = CNO.notification_id
-    JOIN ".$BACKEND."_contacts CO ON CNO.contact_object_id = CO.contact_object_id
+    N.state AS color,
+    N.end_time AS entry_time,
+    N.output   
+  FROM ".$BACKEND."_notifications AS N
+    JOIN ".$BACKEND."_servicestatus AS SS ON N.object_id = SS.service_object_id
   WHERE SS.servicestatus_id = define_my_id
-  ORDER BY NOF.start_time DESC
+  ORDER BY N.end_time DESC
   LIMIT 100;
 " ;
 
 $QUERY_HISTORY['notify']['host'] = "
   SELECT
-    NOF.start_time AS entry_time,
-    CO.alias AS contact,
-    NOF.output   
-  FROM ".$BACKEND."_notifications AS NOF
-    JOIN ".$BACKEND."_hoststatus AS HS ON NOF.object_id = HS.host_object_id
-    JOIN ".$BACKEND."_contactnotifications CNO ON NOF.object_id = CNO.notification_id
-    JOIN ".$BACKEND."_contacts CO ON CNO.contact_object_id = CO.contact_object_id
-  WHERE HS.hoststatus_id = NOF.object_id
-  ORDER BY NOF.start_time DESC
+    N.state AS color,
+    N.end_time AS entry_time,
+    N.output   
+  FROM ".$BACKEND."_notifications AS N
+    JOIN ".$BACKEND."_hoststatus AS HS ON N.object_id = HS.host_object_id
+  WHERE HS.hoststatus_id = define_my_id
+  ORDER BY N.end_time DESC
   LIMIT 100;
 " ;
 
 $QUERY_HISTORY['state']['svc'] = "
   SELECT
+    STH.state AS color,
     STH.state_time AS entry_time,
-    ( CASE STH.state when 3 then 'unknown' when 2 then 'critical' when 1 then 'warning' else 'ok' end ) AS state,
     STH.output
   FROM ".$BACKEND."_servicestatus AS SS 
     JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = SS.service_object_id
@@ -135,13 +131,35 @@ $QUERY_HISTORY['state']['svc'] = "
 
 $QUERY_HISTORY['state']['host'] = "
   SELECT
+    STH.state AS color,
     STH.state_time AS entry_time,
-    ( CASE STH.state when 3 then 'unknown' when 2 then 'critical' when 1 then 'warning' else 'ok' end ) AS state,
     STH.output
   FROM ".$BACKEND."_hoststatus AS HS
     JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = HS.host_object_id
   WHERE HS.hoststatus_id = define_my_id
   ORDER BY STH.state_time DESC
+  LIMIT 100;
+" ;
+
+$QUERY_HISTORY['flap']['svc'] = "
+  SELECT
+    F.event_time AS entry_time,
+    ( CASE F.event_type WHEN 1000 then 'start' when 1001 then 'stop' end ) AS flap_type
+  FROM ".$BACKEND."_flappinghistory AS F
+    JOIN ".$BACKEND."_servicestatus AS SS ON SS.service_object_id = F.object_id
+  WHERE SS.servicestatus_id = define_my_id
+  ORDER BY F.event_time DESC
+  LIMIT 100;
+" ;
+
+$QUERY_HISTORY['flap']['host'] = "
+  SELECT
+    F.event_time AS entry_time,
+    ( CASE F.event_type WHEN 1000 then 'start_flap' when 1001 then 'stop_flap' end ) AS flap_type
+  FROM ".$BACKEND."_flappinghistory AS F
+    JOIN ".$BACKEND."_hoststatus AS HS ON HS.host_object_id = F.object_id
+  WHERE HS.hoststatus_id = define_my_id
+  ORDER BY F.event_time DESC
   LIMIT 100;
 " ;
 

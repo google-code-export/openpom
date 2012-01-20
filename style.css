@@ -484,6 +484,8 @@ table#alert tr.green     td    { border-color: #A9E89C; }
 table#alert tr.blue      td    { border-color: #A1C2F0; }
 table#alert tr.bluegreen td    { border-color: #9FE8C5; }
 
+th.white { color: white; }
+
              table#alert tr.orange:hover td, 
              table#alert tr.orange td.checkbox, 
 body.monitor table#alert tr.orange td.flag { 
