@@ -25,7 +25,8 @@ $type = $_GET['type'] ;
 $host = $_GET['host'] ;
 $svc  = $_GET['svc'] ;
 
-$history = array( 'ack', 'down', 'com', 'notify', 'state', 'flap' ) ;
+$history  = array( 'ack', 'down', 'com', 'notify', 'state', 'flap' ) ;
+$hist_len = count($history) ;
 
 if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
   die('cannot connect to db');
@@ -47,11 +48,12 @@ $quoted_id = mysql_real_escape_string($id, $dbconn);
   <body>
 <?php
 echo "<center><h1>".ucfirst(lang($MYLANG, 'historyfor'))." ".$host." : ".$svc."</center></h1>" ;
-echo "<table border='0' width='100%'><tr>" ;
-foreach ($history AS $hist) {
-  echo "<th> <a href='#".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a> </th>" ;
+echo "&nbsp;" ;
+foreach ($history AS $i => $hist) {
+  echo " <a href='#".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a> " ;
+  if ($i < $hist_len - 1 ) echo "&nbsp; - &nbsp;" ;
 }
-echo "</tr></table>" ;
+echo "<br />" ;
 
 foreach ($history AS $hist) {
   /* find query */
@@ -65,14 +67,15 @@ foreach ($history AS $hist) {
   if (!($rep = mysql_query($query, $dbconn)))
     die('query failed: ' . mysql_error($dbconn));
   if (!($head = mysql_fetch_array($rep, MYSQL_ASSOC))) {
-    echo "<br>".ucfirst(lang($MYLANG, 'nohistory'))." ".lang($MYLANG, $hist) ;
+    //echo "<br>".ucfirst(lang($MYLANG, 'nohistory'))." ".lang($MYLANG, $hist) ;
     continue ;
   }
   else {
-    echo "<br><center><b><a name='".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a></b></center><table id='alert' border=1><tr>" ;
+    echo "<br />&nbsp;<b><a name='".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a></b><table id='history' border=1><tr>" ;
     $first_line = "" ;
     $class = "" ;
     foreach ($head AS $k => $v) {
+      $style = "" ;
       if ( ($k == "color") && (is_numeric($v)) ) { 
         if ( ($type == "svc") && ($v == 2) ) $class = "red";
         else if ( ($type == "svc") && ($v == 1) ) $class = "yellow";
@@ -83,14 +86,19 @@ foreach ($history AS $hist) {
         else $class = "" ;
         continue ;
       }
-      echo "<th class='white'>".ucfirst(lang($MYLANG, $k))."</th>" ;
-      $first_line .= "<td class='".$class."'>".$v."</td>" ;
-    }
+      else if ($k == "entry_time") $style = "style='white-space: nowrap;'" ;
+      else if ( ($k == "comment_data") && (preg_match('/^~[^:]+:(.*)$/', $v, $cap)) ) {
+        $v = $cap[1] ;
+      }
+      echo "<th>".ucfirst(lang($MYLANG, $k))."</th>" ;
+      $first_line .= "<td ".$style." class='".$class."'>".$v."</td>" ;
+    } //end foreach
     echo "</tr><tr>".$first_line."</tr>" ;
     while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
       $class = "" ;
       echo "<tr>" ;
       foreach ($row AS $k => $v) {
+        $style = "" ;
         if ( ($k == "color") && (is_numeric($v)) ) { 
           if ( ($type == "svc") && ($v == 2) ) $class = "red";
           else if ( ($type == "svc") && ($v == 1) ) $class = "yellow";
@@ -101,7 +109,11 @@ foreach ($history AS $hist) {
           else $class = "" ;
           continue ;
         }
-        echo "<td class='".$class."'>".$v."</td>" ;
+      else if ($k == "entry_time") $style = "style='white-space: nowrap;'" ;
+      else if ( ($k == "comment_data") && (preg_match('/^~[^:]+:(.*)$/', $v, $cap)) ) {
+        $v = $cap[1] ;
+      }
+        echo "<td ".$style." class='".$class."'>".$v."</td>" ;
       } //end foreach
       echo "</tr>" ;
     } //end while
