@@ -87,6 +87,7 @@ $LATENCY           = $st_data['LATENCY'];
 $EXEC_TIME         = $st_data['EXEC_TIME'];
 $NOTIF             = $st_data['NOTIF'];
 $PERCENT           = $st_data['PERCENT'];
+$GROUPS            = $st_data['GROUPES'] ;
 $UPDATETIMEDIFF    = $st_data['UPDATETIMEDIFF'];
 $UPDATETIME        = $st_data['UPDATETIME'];
 $ACK               = $st_data['ACK'];
@@ -255,6 +256,9 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
         </tr>
       <?php } ?>
       
+      <tr>
+        <th><?php echo ucfirst(lang($MYLANG, 'group')) ?></th>
+        <td><?php echo $GROUPS ?></td>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'history')) ?></th>
         <td><a href="#" onClick="return pop('history.php?id=<?php echo $id?>&type=<?php echo $type ?>&host=<?php echo $HOSTNAME ?>&svc=<?php echo $SERVICE ?>', 'history-<?php echo $id?>', '<?php echo $HISTORY_POPUP_WIDTH ?>', '<?php echo $HISTORY_POPUP_HEIGHT ?>')"><?php echo ucfirst(lang($MYLANG, 'show_history')) ?></a></td>

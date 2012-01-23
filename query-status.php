@@ -44,6 +44,11 @@ $QUERY_STATUS['svc'] = "
     SS.next_check                          AS NEXTCHECKTIME,
     unix_timestamp(SS.next_check) - unix_timestamp()
                                            AS NEXTCHECKTIMEDIFF,
+    GROUP_CONCAT(
+      DISTINCT OHG.name1
+      ORDER BY OHG.name1
+      DESC SEPARATOR ', ')
+                                           AS GROUPES,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ".$BACKEND."_commenthistory AS ACO
@@ -96,8 +101,13 @@ $QUERY_STATUS['svc'] = "
     ".$BACKEND."_servicestatus AS SS
     INNER JOIN ".$BACKEND."_services AS S      ON S.service_object_id = SS.service_object_id
     INNER JOIN ".$BACKEND."_hosts AS H         ON H.host_object_id = S.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroups AS HG    ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT  JOIN ".$BACKEND."_objects AS OHG     ON HG.hostgroup_object_id = OHG.object_id
   WHERE
     SS.servicestatus_id = define_my_id
+  GROUP BY 
+    SS.servicestatus_id
 " ;
 
 $QUERY_STATUS['host'] = "
@@ -139,6 +149,11 @@ $QUERY_STATUS['host'] = "
     HS.next_check                          AS NEXTCHECKTIME,
     unix_timestamp(HS.next_check) - unix_timestamp()
                                            AS NEXTCHECKTIMEDIFF,
+    GROUP_CONCAT(
+      DISTINCT OHG.name1
+      ORDER BY OHG.name1
+      DESC SEPARATOR ', ')
+                                           AS GROUPES,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ".$BACKEND."_commenthistory AS ACO
@@ -190,8 +205,13 @@ $QUERY_STATUS['host'] = "
   FROM
     ".$BACKEND."_hoststatus AS HS
     INNER JOIN ".$BACKEND."_hosts AS H      ON H.host_object_id = HS.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroups AS HG    ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT  JOIN ".$BACKEND."_objects AS OHG     ON HG.hostgroup_object_id = OHG.object_id
   WHERE
     HS.hoststatus_id = define_my_id
+  GROUP BY 
+    HS.hoststatus_id
 " ;
 
 ?>
