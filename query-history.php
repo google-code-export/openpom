@@ -82,8 +82,7 @@ $QUERY_HISTORY['com']['host'] = "
   SELECT 
     COM.entry_time,
     COM.author_name,
-    COM.comment_data,
-    COM.entry_type
+    COM.comment_data
   FROM ".$BACKEND."_commenthistory AS COM
     JOIN ".$BACKEND."_hoststatus AS HS ON COM.object_id = HS.host_object_id
   WHERE HS.hoststatus_id = define_my_id
