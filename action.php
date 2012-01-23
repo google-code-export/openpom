@@ -139,14 +139,16 @@
         </td>
         
         <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
-          <span class="count red">C:<b>&thinsp;<?php echo $hit_critical ?></b></span>
-          <span class="count yellow">W:<b>&thinsp;<?php echo $hit_warning ?></b></span>
-          <span class="count orange">U:<b>&thinsp;<?php echo $hit_unknown ?></b></span>
-          <span class="count"><img src="img/flag_downtime.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_down ?></b></span>
-          <span class="count"><img src="img/flag_ack.gif" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ack ?></b></span>
-          <span class="count"><img src="img/flag_notify.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_notify ?></b></span>
-          <span class="count"><img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_disacheck ?></b></span>
-          <span class="count">T:<b>&thinsp;<?php echo $hit_any ?></b></span>
+          <span class="count">
+            <img src="img/flag_critical.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_critical ?></b>
+            <img src="img/flag_warning.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_warning ?></b>
+            <img src="img/flag_unknown.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_unknown ?></b>
+            <img src="img/flag_ok.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ok ?></b>
+            <img src="img/flag_downtime.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_down ?></b>
+            <img src="img/flag_ack.gif" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ack ?></b>
+            <img src="img/flag_notify.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_notify ?></b>
+            <img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_disacheck ?></b>
+          </span>
         </td>
         
         <td style="padding-left: 10px; padding-right: 10px;">
