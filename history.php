@@ -76,14 +76,14 @@ foreach ($history AS $hist) {
     $class = "" ;
     foreach ($head AS $k => $v) {
       $style = "" ;
-      if ( ($k == "color") && (is_numeric($v)) ) { 
+      if ($k == "color") { 
         if ( ($type == "svc") && ($v == 2) ) $class = "red";
         else if ( ($type == "svc") && ($v == 1) ) $class = "yellow";
         else if ( ($type == "svc") && ($v == 3) ) $class = "orange";
         else if ($type == "svc") $class = "green" ;
         else if ( ($type == "host") && ( ($v == 2) || ($v == 1) ) ) $class = "red";
         else if ($type == "host") $class = "green" ;
-        else $class = "" ;
+        else $class = "green" ;
         continue ;
       }
       else if ($k == "entry_time") $style = "style='white-space: nowrap;'" ;
@@ -99,14 +99,14 @@ foreach ($history AS $hist) {
       echo "<tr>" ;
       foreach ($row AS $k => $v) {
         $style = "" ;
-        if ( ($k == "color") && (is_numeric($v)) ) { 
+        if ($k == "color") { 
           if ( ($type == "svc") && ($v == 2) ) $class = "red";
           else if ( ($type == "svc") && ($v == 1) ) $class = "yellow";
           else if ( ($type == "svc") && ($v == 3) ) $class = "orange";
           else if ($type == "svc") $class = "green" ;
           else if ( ($type == "host") && ( ($v == 2) || ($v == 1) ) ) $class = "red";
           else if ($type == "host") $class = "green" ;
-          else $class = "" ;
+          else $class = "green" ;
           continue ;
         }
       else if ($k == "entry_time") $style = "style='white-space: nowrap;'" ;
