@@ -181,6 +181,7 @@ span.icon-btn:active {
 }
 
 span.icon-clear { background-image: url('img/clear.png'); }
+span.icon-vsearch { background-image: url('img/vsearch.png'); }
 span.icon-monitor { background-image: url('img/monitor.png'); }
 span.icon-options { background-image: url('img/options.png'); }
 span.icon-ack { background-image: url('img/ack.gif'); }

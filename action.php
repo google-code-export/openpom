@@ -121,6 +121,9 @@
                    id="filtering" 
                    title="<?php echo ucfirst(lang($MYLANG, 'search'))?>"/>
                    
+            <span class="icon-btn icon-vsearch"
+                  title="<?php echo ucfirst(lang($MYLANG, 'vsearch'))?>"
+                  onclick="$('#filt').submit();"></span>
             <span class="icon-btn icon-clear"
                   title="<?php echo ucfirst(lang($MYLANG, 'clear'))?>"
                   onclick="$('#filtering').val(''); $('#filt').submit();"></span>
