@@ -78,9 +78,12 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <?php echo ucfirst(lang($MYLANG, 'level')) ?>
           </th>
           <td colspan="3">
-            <input type="text" maxlength="1" 
-                   name="defaultlevel" 
-                   value="<?php echo $_SESSION['LEVEL'] ?>" /> 
+            <select name="defaultlevel">
+            <?php for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
+              <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$_SESSION['LEVEL'])?"selected":""?>>
+              <?php echo $sub_level?> - <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?></option>
+            <?php } ?>
+            </select>
           </td>
         </tr>
         <tr>
