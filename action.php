@@ -111,11 +111,16 @@
               <img src="img/metter.png" style="position: absolute; top: 3px; left: 4px;" />
               <select name="level" onChange="this.form.submit();">
                 <?php for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
-                <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$LEVEL)?"selected":""?>>
-                  &#160;&#160;&#160;&#160;&#160;&#160;
-                  <?php echo $sub_level?> - <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?>
-                </option>
+                <?php if ($sub_level == 8) { ?>
+                <optgroup label="&nbsp;&nbsp;&nbsp;---------------------------------">
                 <?php } ?>
+                  <option value="<?php echo $sub_level?>" title="<?php echo lang($MYLANG, 'title'.$sub_level) ?>"
+                  <?php echo ($sub_level==$LEVEL)?"selected":""?>>
+                  &#160;&#160;&#160;&#160; <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; ?>
+                  <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?>
+                  </option>
+                <?php } ?>
+                </optgroup>
               </select>
             </span>&thinsp;
             

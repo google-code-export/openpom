@@ -82,6 +82,7 @@ if (isset($_GET['monitor'])) {
     if ( ($key != "monitor") && ($key != "sort") && ($key != "order") )
       unset($_GET[$key]);
   unset($_POST);
+  $MAXLEVEL = 7 ;
 }
 
 /* GLOBAL NOTIF */
@@ -122,14 +123,15 @@ $SORTORDERFIELD    = "ASC";              //SORT ORDER
 $FIRST             = "0";                //FIRST GET ROW 
 $MY_SEARCH['host'] = '';                 //SEARCH HOST PARAMETER
 $MY_SEARCH['svc']  = '';                 //SEARCH SVC PARAMETER
-$FILTER            = '';                 //FILTER BY DEFAULT
+$FILTER            = '';                 //NO FILTER
+$MY_TRACK_ANY      = 0 ;                 //TRACK ANYTHING
 
 /* PROCESS GET DATA */
 
 /* GET DEFAULT LEVEL */
 if ( (isset($_GET['defaultlevel'])) && (is_numeric($_GET['defaultlevel'])) &&
      ($_GET['defaultlevel'] > 0) && ($_GET['defaultlevel'] <= $MAXLEVEL) ) {
-  $LEVEL = substr($_GET['defaultlevel'], 0, 1);
+  $LEVEL = $_GET['defaultlevel'] ;
   $_SESSION['LEVEL'] = $LEVEL;
 }
 else if (isset($_SESSION['LEVEL']))
@@ -140,7 +142,7 @@ else
 /* SELECT LEVEL */
 if ( (isset($_GET['level'])) && (is_numeric($_GET['level'])) &&
   ($_GET['level'] > 0) && ($_GET['level'] <= $MAXLEVEL) ) 
-  $LEVEL = substr($_GET['level'], 0, 1);
+  $LEVEL = $_GET['level'] ;
 
 select_level($LEVEL);
 
@@ -404,7 +406,8 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_sortsensfield'      =>  mysql_real_escape_string($SORTORDERFIELD, $dbconn),
   'define_sortfield'          =>  mysql_real_escape_string($SORTFIELD, $dbconn),
   'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
-  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn)
+  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
+  'define_track_anything'     => $MY_TRACK_ANY,
   ) ;
 
   foreach($replacement AS $replace => $val)

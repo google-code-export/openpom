@@ -96,12 +96,10 @@ FROM (
     O.name1 = 'define_my_user'
     AND ( (
             SS.current_state IN (define_my_svcfilt)
-        AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
         AND (
               SS.problem_has_been_acknowledged IN (define_my_svcacklist) 
           AND HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval
         )
-        AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
         AND (
               SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval
           AND HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval
@@ -118,6 +116,7 @@ FROM (
         AND comment_source = 1
         AND deletion_time = '0000-00-00 00:00:00'
         AND substring_index(comment_data, ':', 1) = '~track'
+        AND ( define_track_anything = 0 )
       )
     )
 

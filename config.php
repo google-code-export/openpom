@@ -34,7 +34,14 @@ $LEVEL                = 2; /* LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
 //$LEVEL              = 5; /* SHOW LEVEL 5 AND OUTAGE */
 //$LEVEL              = 6; /* SHOW LEVEL 6 AND SVC FOR ACK/DOWNTIME HOST */
 //$LEVEL              = 7; /* LEVEL 7 SHOW ALL */
-$MAXLEVEL             = 7;
+//$LEVEL              = 8; /* LEVEL 8 SHOW ONLY ACKNOWLEDGE */
+//$LEVEL              = 9; /* LEVEL 9 SHOW ONLY DOWNTIME */
+//$LEVEL              = 10; /* LEVEL 10 SHOW ONLY DISABLE NOTIFICATION */
+//$LEVEL              = 11; /* LEVEL 11 SHOW ONLY DISABLE CHECK */
+//$LEVEL              = 12; /* LEVEL 12 SHOW ONLY WARNING */
+//$LEVEL              = 13; /* LEVEL 13 SHOW ONLY UNKNOWN */
+//$LEVEL              = 14; /* LEVEL 14 SHOW ONLY OK */
+$MAXLEVEL             = 14;
 
 /* TABLE ALERT COLUMNS ORDER */
 $COLS               = array(

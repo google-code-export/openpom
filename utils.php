@@ -74,6 +74,7 @@ function select_level($LEVEL) {
   global $MY_DISABLE;
   global $MY_NOSVC;
   global $MY_SOFT;
+  global $MY_TRACK_ANY;
 
   if ($LEVEL == 1) { 
     $MY_SVCFILT       = "2";
@@ -130,6 +131,111 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
+  }
+  else if ($LEVEL == 8) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "1";
+    $MY_SVCACKLIST    = "1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 9) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 10) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 11) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 12) {
+    $MY_SVCFILT       = "1";
+    $MY_HOSTFILT      = "10";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 13) {
+    $MY_SVCFILT       = "3";
+    $MY_HOSTFILT      = "10";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 14) {
+    $MY_SVCFILT       = "0";
+    $MY_HOSTFILT      = "0";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
   }
 }
 
