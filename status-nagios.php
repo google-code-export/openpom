@@ -120,6 +120,17 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
   $DISABLECHECKCOMMENT[1] = $cap[1];
 }
 
+if ( (! isset($ACKCOMMENT[0]) ) || (empty($ACKCOMMENT[0])) ) $ACKCOMMENT[0] = "N/A" ;
+if (! isset($ACKCOMMENT[1]) ) $ACKCOMMENT[1] = "N/A" ;
+if ( (! isset($DOWNCOMMENT[0]) ) || (empty($DOWNCOMMENT[0])) ) $DOWNCOMMENT[0] = "N/A" ;
+if (! isset($DOWNCOMMENT[1]) ) $DOWNCOMMENT[1] = "N/A" ;
+if (! isset($DOWNCOMMENT[2]) ) $DOWNCOMMENT[2] = "N/A" ;
+if ( (! isset($NOTIFCOMMENT[0]) ) || (empty($NOTIFCOMMENT[0])) ) $NOTIFCOMMENT[0] = "N/A" ;
+if (! isset($NOTIFCOMMENT[1]) ) $NOTIFCOMMENT[1] = "N/A" ;
+if ( (! isset($DISABLECHECKCOMMENT[0]) ) || (empty($DISABLECHECKCOMMENT[0])) ) $DISABLECHECKCOMMENT[0] = "N/A" ;
+if (! isset($DISABLECHECKCOMMENT[1]) ) $DISABLECHECKCOMMENT[1] = "N/A" ;
+if ( (! isset($COMMENT[0]) ) || (empty($COMMENT[0])) ) $COMMENT[0] = "N/A" ;
+if (! isset($COMMENT[1]) ) $COMMENT[1] = "N/A" ;
 
 ?>
 <?php if (isset($_GET['fix'])) { ?>
