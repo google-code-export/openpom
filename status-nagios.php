@@ -106,7 +106,6 @@ $NEXTTIMENOTIFY       = $st_data['NEXTTIMENOTIFY'];
 $CHECKNAME            = $st_data['CHECKNAME'];
 $ACK                  = $st_data['ACK'];
 $DOWNTIME             = $st_data['DOWNTIME'];
-$DISABLECHECK         = $st_data['DISABLECHECK'] ;
 $ACKCOMMENT           = explode(';', $st_data['ACKCOMMENT'], 2);
 $DOWNCOMMENT          = explode(';', $st_data['DOWNCOMMENT'], 3);
 $NOTIFCOMMENT         = explode(';', $st_data['NOTIFCOMMENT'], 2);
@@ -293,7 +292,7 @@ if (! isset($COMMENT[1]) ) $COMMENT[1] = "N/A" ;
         </tr>
       <?php } ?>
 
-      <?php if ( ($STATUSPOPIN['disacheck'] == 1) && (isset($_SESSION['STATUS']['disacheck'])) && ($DISABLECHECK == 0) ) { ?>
+      <?php if ( ($STATUSPOPIN['disacheck'] == 1) && (isset($_SESSION['STATUS']['disacheck'])) && ($CHECKENABLE == "disabled") ) { ?>
         <tr>
           <th>
             <img class="inline-middle" src="img/flag_disablecheck.png" />

@@ -36,7 +36,6 @@ $QUERY_STATUS['svc'] = "
     SS.problem_has_been_acknowledged       AS ACK,
     SS.scheduled_downtime_depth            AS DOWNTIME,
     SS.notifications_enabled               AS NOTIF,
-    SS.active_checks_enabled               AS DISABLECHECK,
     SS.check_type                          AS CHECKTYPE,
     IF (
       SS.flap_detection_enabled = 1,
@@ -169,7 +168,6 @@ $QUERY_STATUS['host'] = "
     HS.problem_has_been_acknowledged       AS ACK,
     HS.scheduled_downtime_depth            AS DOWNTIME,
     HS.notifications_enabled               AS NOTIF,
-    HS.active_checks_enabled               AS DISABLECHECK,
     HS.check_type                          AS CHECKTYPE,
     IF (
       HS.flap_detection_enabled = 1,
