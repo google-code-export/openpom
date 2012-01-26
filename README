@@ -221,12 +221,13 @@ Supported Navigators :
   - Opera >= 10
   - Chrome
 
-There are 2 keywords that you can use in the search filter :
-
-not something_to_search : inverse the search filter
-
-= something_to_search   : exact match your search
-
+Advanced filtering :
+search by column h:host_name s:service_name i:ip_address o:output g:group_name
+operators : 
+ ! negation
+ * wildcard
+ & and
+ | or
 
 7) Contributors
 ---------------
