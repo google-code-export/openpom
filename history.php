@@ -25,8 +25,7 @@ $type = $_GET['type'] ;
 $host = $_GET['host'] ;
 $svc  = $_GET['svc'] ;
 
-$history  = array( 'ack', 'down', 'com', 'notify', 'state', 'flap' ) ;
-$hist_len = count($history) ;
+$hist_len = count($HISTORY) ;
 
 if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
   die('cannot connect to db');
@@ -38,7 +37,7 @@ $quoted_id = mysql_real_escape_string($id, $dbconn);
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title><?php echo ucfirst(lang($MYLANG, 'history')) ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -49,13 +48,18 @@ $quoted_id = mysql_real_escape_string($id, $dbconn);
 <?php
 echo "<center><h1>".ucfirst(lang($MYLANG, 'historyfor'))." ".$host." : ".$svc."</center></h1>" ;
 echo "&nbsp;" ;
-foreach ($history AS $i => $hist) {
-  echo " <a href='#".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a> " ;
-  if ($i < $hist_len - 1 ) echo "&nbsp; - &nbsp;" ;
+$menu = "" ;
+foreach ($HISTORY AS $hist => $v) {
+  /* display or not */
+  if ( ( $v == 0 ) || ( ! isset($_SESSION['HISTORY'][$hist]) ) ) continue ;
+  $menu .= " <a href='#".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a>&nbsp; - &nbsp; " ;
 }
+echo substr($menu, 0 , -9) ;
 echo "<br />" ;
 
-foreach ($history AS $hist) {
+foreach ($HISTORY AS $hist => $v) {
+  /* display or not */
+  if ( ( $v == 0 ) || ( ! isset($_SESSION['HISTORY'][$hist]) ) ) continue ;
   /* find query */
   if (!isset($QUERY_HISTORY[$hist][$type])) {
     die('no query');
@@ -67,7 +71,8 @@ foreach ($history AS $hist) {
   if (!($rep = mysql_query($query, $dbconn)))
     die('query failed: ' . mysql_error($dbconn));
   if (!($head = mysql_fetch_array($rep, MYSQL_ASSOC))) {
-    //echo "<br>".ucfirst(lang($MYLANG, 'nohistory'))." ".lang($MYLANG, $hist) ;
+    echo "<br />&nbsp;<b><a name='".$hist."'>".ucfirst(lang($MYLANG, $hist))."</a></b>" ;
+    echo "<br />&nbsp;N/A<br />" ;
     continue ;
   }
   else {

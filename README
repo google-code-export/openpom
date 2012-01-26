@@ -34,6 +34,26 @@ mysql> flush privileges;
 
 For performance reason you have to set up index on some ndoutils tables.
 Connect to your mysql server and use the correct database then inject these lines :
+ALTER TABLE `nagios_commenthistory` ADD INDEX ( `comment_source` );
+ALTER TABLE `nagios_hosts` ADD INDEX ( `display_name` );
+ALTER TABLE `nagios_hosts` ADD INDEX ( `address` );
+ALTER TABLE `nagios_services` ADD INDEX ( `display_name` );
+ALTER TABLE `nagios_notifications` ADD INDEX ( `object_id` );
+ALTER TABLE `nagios_notifications` ADD INDEX ( `start_time` );
+ALTER TABLE `nagios_notifications` ADD INDEX ( `end_time` );
+ALTER TABLE `nagios_downtimehistory` ADD INDEX ( `object_id` );
+ALTER TABLE `nagios_downtimehistory` ADD INDEX ( `scheduled_end_time` );
+ALTER TABLE `nagios_downtimehistory` ADD INDEX ( `entry_time` );
+ALTER TABLE `nagios_acknowledgements` ADD INDEX ( `object_id` );
+ALTER TABLE `nagios_acknowledgements` ADD INDEX ( `entry_time` );
+ALTER TABLE `nagios_statehistory` ADD INDEX ( `object_id` );
+ALTER TABLE `nagios_statehistory` ADD INDEX ( `state_time` );
+ALTER TABLE `nagios_contactnotifications` ADD INDEX ( `notification_id` );
+ALTER TABLE `nagios_contactnotifications` ADD INDEX ( `contact_object_id` );
+ALTER TABLE `nagios_flappinghistory` ADD INDEX ( `event_time` );
+ALTER TABLE `nagios_flappinghistory` ADD INDEX ( `object_id` );
+ALTER TABLE `nagios_scheduleddowntime` ADD INDEX ( `object_id` );
+
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `object_id` );
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `entry_time` );
 ALTER TABLE `nagios_commenthistory` ADD INDEX ( `author_name` );
@@ -54,6 +74,7 @@ ALTER TABLE `nagios_scheduleddowntime` ADD INDEX ( `downtime_type` );
 ALTER TABLE `nagios_service_contactgroups` ADD INDEX ( `service_id` );
 ALTER TABLE `nagios_service_contactgroups` ADD INDEX ( `contactgroup_object_id` );
 ALTER TABLE `nagios_services` ADD INDEX ( `host_object_id` );
+
 
 
 3) Configure OpenPom
@@ -195,9 +216,9 @@ $GRAPH_POPUP_PARAM_END = 't2';
 -------
 
 Supported Navigators :
-  - Firefox 3.X
+  - Firefox >= 3.X
   - IE > 6
-  - Opera 10
+  - Opera >= 10
   - Chrome
 
 There are 2 keywords that you can use in the search filter :

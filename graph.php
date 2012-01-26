@@ -68,7 +68,7 @@ $graph .= (strpos($graph, '?') === false ? '?' : '&')
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
   <title><?php echo $host; if (!empty($service)) { echo " &#160;&mdash;&#160; ".$service; } ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
     <link rel="StyleSheet" href="style.css" type="text/css" />

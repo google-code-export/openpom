@@ -54,8 +54,11 @@ FROM (
     SS.output                            AS OUTPUT,
     SS.state_type                        AS SVCST,
     SS.problem_has_been_acknowledged     AS ACK,
-    SS.active_checks_enabled             AS DISABLECHECK,
     SS.check_type                        AS CHECKTYPE,
+    ( CASE SS.check_type
+        WHEN 0 THEN SS.active_checks_enabled 
+        WHEN 1 THEN SS.passive_checks_enabled
+      END )                              AS DISABLECHECK,
     UNIX_TIMESTAMP(SS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(SS.last_state_change) AS DURATION,
     'svc'                                AS TYPE,
@@ -107,6 +110,10 @@ FROM (
         AND (define_my_nosvc = 0 OR HS.current_state = 0)
         AND SS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR SS.state_type = 1)
+        AND ( 
+              ( SS.check_type = 0 AND SS.active_checks_enabled IN (define_my_check_disable) ) OR
+              ( SS.check_type = 1 AND SS.passive_checks_enabled IN (define_my_check_disable) )
+            )
       )
       OR (
         SELECT count(*) > 0
@@ -144,8 +151,11 @@ UNION
     HS.output                            AS OUTPUT,
     HS.state_type                        AS SVCST,
     HS.problem_has_been_acknowledged     AS ACK,
-    HS.active_checks_enabled             AS DISABLECHECK,
     HS.check_type                        AS CHECKTYPE,
+    ( CASE HS.check_type
+        WHEN 0 THEN HS.active_checks_enabled 
+        WHEN 1 THEN HS.passive_checks_enabled
+      END )                              AS DISABLECHECK,
     UNIX_TIMESTAMP(HS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(HS.last_state_change) AS DURATION,
     'host'                               AS TYPE,
@@ -187,6 +197,14 @@ UNION
         AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
         AND HS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR HS.state_type = 1)
+        AND ( 
+              HS.active_checks_enabled IN (define_my_check_disable) OR
+              HS.passive_checks_enabled IN (define_my_check_disable) 
+        )
+        AND ( 
+              ( HS.check_type = 0 AND HS.active_checks_enabled IN (define_my_check_disable) ) OR
+              ( HS.check_type = 1 AND HS.passive_checks_enabled IN (define_my_check_disable) )
+            )
       )
       OR (
         SELECT count(*) > 0

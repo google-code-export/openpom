@@ -81,7 +81,8 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <select name="defaultlevel">
             <?php for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
               <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$_SESSION['LEVEL'])?"selected":""?>>
-              <?php echo $sub_level?> - <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?></option>
+              <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; else echo "&nbsp;&nbsp;&nbsp;&nbsp;" ; ?> 
+              <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?></option>
             <?php } ?>
             </select>
           </td>
@@ -143,6 +144,17 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
         </tr>
         <tr>
           <th>
+            <?php echo ucfirst(lang($MYLANG, 'quicksearch')) ?>
+          </th>
+          <td colspan="3">
+            <input type="checkbox" name="quicksearch" value="0" 
+                   <?php echo ($_SESSION['QUICKSEARCH'] == 1) ? 'checked' : '' ?> 
+                   style="vertical-align: middle;" />
+          </td>
+        </tr>
+        
+        <tr>
+          <th>
             <?php echo ucfirst(lang($MYLANG, 'frame')) ?>
           </th>
           <td colspan="3">
@@ -175,7 +187,60 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             } ?>
           </td>
         </tr>
-        
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'historydisplay')) ?>
+          </th>
+          <td>
+            <?php
+            $count = count($HISTORY)-1;
+            $i = 0;
+            foreach($HISTORY AS $key => $val) { 
+              if ($val == 0) {
+                $count -= 1;
+                continue ;
+              }
+              ?>
+              
+              <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
+                     value="1" 
+                     style="vertical-align: middle;"
+                     <?php echo (isset($_SESSION['HISTORY'][$key])) ? 'checked' : '' ?> />
+              <label for="<?php echo $val ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+              
+              <?php
+              if ($i == (int) ($count / 2) ) echo '</td><td colspan="2">';
+              $i++ ;
+            } ?>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'statuspopin')) ?>
+          </th>
+          <td>
+            <?php
+            $count = count($STATUSPOPIN)-1;
+            $i = 0;
+            foreach($STATUSPOPIN AS $key => $val) { 
+              if ($val == 0) {
+                $count -= 1;
+                continue ;
+              }
+              ?>
+              
+              <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
+                     value="1" 
+                     style="vertical-align: middle;"
+                     <?php echo (isset($_SESSION['STATUS'][$key])) ? 'checked' : '' ?> />
+              <label for="<?php echo $val ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+              
+              <?php
+              if ($i == (int) ($count / 2) ) echo '</td><td colspan="2">';
+              $i++ ;
+            } ?>
+          </td>
+        </tr>
         
         <tr>
           <td class="height-14"></td>

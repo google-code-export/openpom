@@ -14,7 +14,7 @@
     <?php echo $VERSION ?> <span class="ndash">&ndash;</span> 
     GPL <span class="ndash">&ndash;</span>
     <a href="http://www.exosec.fr/" target="_blank">Exosec</a> <span class="ndash">&ndash;</span>
-    2010&thinsp;-&thinsp;2011 <span class="ndash">&ndash;</span> 
+    2010&thinsp;-&thinsp;<?php echo date('Y') ?> <span class="ndash">&ndash;</span> 
     <?php echo ucfirst(lang($MYLANG, 'querytime')) ?> <?php echo sprintf($str_query_time, $query_time) ?>
     
     <?php if (isset($_GET['monitor'])) { ?>

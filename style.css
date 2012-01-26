@@ -60,7 +60,7 @@ h2 {
 
 
 input#filtering {
-    width: 200px;
+    width: 130px;
     height: 20px;
     background: #F5F8F3 url('img/search.png') no-repeat scroll 1px center;
     padding: 0px;

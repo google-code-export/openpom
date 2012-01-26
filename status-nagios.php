@@ -57,8 +57,8 @@ switch($st_data['STATE']) {
   case 3: $STATUS = "UNKNOWN";  $COLOR = $UNKNOWN;   break;
 }
 switch ($st_data['CHKTYPE']) {
-  case 0: $CHKTYPE = "ACTIVE";  break;
-  case 1: $CHKTYPE = "PASSIVE"; break;
+  case 0: $CHKTYPE = "Active";  break;
+  case 1: $CHKTYPE = "Passive"; break;
 }
 switch ($st_data['CHECKENABLE']) {
   case 0: $CHECKENABLE = "disabled";  break;
@@ -78,40 +78,40 @@ if (empty($st_data['SERVICE']))
 else
   $SERVICE         = $st_data['SERVICE'];
 
-$LASTCHANGEDIFF     = $st_data['LASTCHANGEDIFF'];
-$LASTCHANGE         = $st_data['LASTCHANGE'];
-$LASTCHECKTIMEDIFF  = $st_data['LASTCHECKTIMEDIFF'];
-$LASTCHECKTIME      = $st_data['LASTCHECKTIME'];
-$LASTTIMEOKDIFF     = $st_data['LASTTIMEOKDIFF'];
-$LASTTIMEOK         = $st_data['LASTTIMEOK'];
-$NEXTCHECKTIME      = $st_data['NEXTCHECKTIME'];
-$NEXTCHECKTIMEDIFF  = $st_data['NEXTCHECKTIMEDIFF'];
-$OUTPUT             = $st_data['OUTPUT'];
-$CURATTEMP          = $st_data['CURATTEMP'];
-$MAXATTEMP          = $st_data['MAXATTEMP'];
-$NORMALINTERVAL     = $st_data['NORMALINTERVAL'];
-$RETRYINTERVAL      = $st_data['RETRYINTERVAL'];
-$LATENCY            = $st_data['LATENCY'];
-$EXEC_TIME          = $st_data['EXEC_TIME'];
-$NOTIF              = $st_data['NOTIF'];
-$PERCENT            = $st_data['PERCENT'];
-$GROUPS             = $st_data['GROUPES'] ;
-$CONTACTGROUP       = $st_data['CONTACTGROUP'] ;
-$UPDATETIMEDIFF     = $st_data['UPDATETIMEDIFF'];
-$UPDATETIME         = $st_data['UPDATETIME'];
-$LASTNOTIFY         = $st_data['LASTNOTIFY'];
-$COUNTNOTIFY        = $st_data['COUNTNOTIFY'];
-$NEXTTIMENOTIFYDIFF = $st_data['NEXTTIMENOTIFYDIFF'];
-$NEXTTIMENOTIFY     = $st_data['NEXTTIMENOTIFY'];
-$CHECKNAME          = $st_data['CHECKNAME'];
-$ACK                = $st_data['ACK'];
-$DOWNTIME           = $st_data['DOWNTIME'];
-$DISABLECHECK       = $st_data['DISABLECHECK'] ;
-$ACKCOMMENT         = explode(';', $st_data['ACKCOMMENT'], 2);
-$DOWNCOMMENT        = explode(';', $st_data['DOWNCOMMENT'], 3);
-$NOTIFCOMMENT       = explode(';', $st_data['NOTIFCOMMENT'], 2);
-$COMMENT            = explode(';', $st_data['COMMENT'], 2);
-$DISABLECHECKCOMMENT = explode(';', $st_data['DISABLECHECKCOMMENT'], 2);
+$LASTCHANGEDIFF       = $st_data['LASTCHANGEDIFF'];
+$LASTCHANGE           = $st_data['LASTCHANGE'];
+$LASTCHECKTIMEDIFF    = $st_data['LASTCHECKTIMEDIFF'];
+$LASTCHECKTIME        = $st_data['LASTCHECKTIME'];
+$LASTTIMEOKDIFF       = $st_data['LASTTIMEOKDIFF'];
+$LASTTIMEOK           = $st_data['LASTTIMEOK'];
+$NEXTCHECKTIME        = $st_data['NEXTCHECKTIME'];
+$NEXTCHECKTIMEDIFF    = $st_data['NEXTCHECKTIMEDIFF'];
+$OUTPUT               = $st_data['OUTPUT'];
+$CURATTEMP            = $st_data['CURATTEMP'];
+$MAXATTEMP            = $st_data['MAXATTEMP'];
+$NORMALINTERVAL       = $st_data['NORMALINTERVAL'];
+$RETRYINTERVAL        = $st_data['RETRYINTERVAL'];
+$LATENCY              = $st_data['LATENCY'];
+$EXEC_TIME            = $st_data['EXEC_TIME'];
+$NOTIF                = $st_data['NOTIF'];
+$PERCENT              = $st_data['PERCENT'];
+$GROUPS               = $st_data['GROUPES'] ;
+$CONTACTGROUP         = $st_data['CONTACTGROUP'] ;
+$UPDATETIMEDIFF       = $st_data['UPDATETIMEDIFF'];
+$UPDATETIME           = $st_data['UPDATETIME'];
+$LASTNOTIFY           = $st_data['LASTNOTIFY'];
+$COUNTNOTIFY          = $st_data['COUNTNOTIFY'];
+$NEXTTIMENOTIFYDIFF   = $st_data['NEXTTIMENOTIFYDIFF'];
+$NEXTTIMENOTIFY       = $st_data['NEXTTIMENOTIFY'];
+$CHECKNAME            = $st_data['CHECKNAME'];
+$ACK                  = $st_data['ACK'];
+$DOWNTIME             = $st_data['DOWNTIME'];
+$DISABLECHECK         = $st_data['DISABLECHECK'] ;
+$ACKCOMMENT           = explode(';', $st_data['ACKCOMMENT'], 2);
+$DOWNCOMMENT          = explode(';', $st_data['DOWNCOMMENT'], 3);
+$NOTIFCOMMENT         = explode(';', $st_data['NOTIFCOMMENT'], 2);
+$DISABLECHECKCOMMENT  = explode(';', $st_data['DISABLECHECKCOMMENT'], 2);
+$COMMENT              = explode(';', $st_data['COMMENT'], 2);
 
 if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $cap)) {
   $NOTIFCOMMENT[1] = $cap[1];
@@ -127,7 +127,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title><?php echo "$SERVICE " . lang($MYLANG, 'on') . " $HOSTNAME" ?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -163,8 +163,8 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
     
       <tr>
         <th>
-          <?php echo ucfirst(lang($MYLANG, 'service')) ?> /
-          <?php echo ucfirst(lang($MYLANG, 'machine')) ?>
+          <?php echo ucfirst(lang($MYLANG, 'machine')) ?> |
+          <?php echo ucfirst(lang($MYLANG, 'service')) ?>
         </th>
         <td>
           <div <?php if (!isset($_GET['fix'])) { ?> style="padding-right: 20px;" <?php } ?>>
@@ -174,6 +174,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
           </div>
         </td>
       </tr>
+      <?php if ( ($STATUSPOPIN['curstat'] == 1) && (isset($_SESSION['STATUS']['curstat'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'curstat')) ?></th>
         <td>
@@ -182,56 +183,76 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
           </div>
         </td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['outputstatus'] == 1) && (isset($_SESSION['STATUS']['outputstatus'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'stinfo')) ?></th>
         <td><?php echo $OUTPUT ?></td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['checkstatus'] == 1) && (isset($_SESSION['STATUS']['checkstatus'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'checkstatus'))?></th>
         <td><?php echo $CURATTEMP?>/<?php echo $MAXATTEMP?> 
           | <?php echo $NORMALINTERVAL ?>m/<?php echo $RETRYINTERVAL ?>m | 
           <?php echo printtime($LASTCHECKTIMEDIFF) ?></td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['lastok'] == 1) && (isset($_SESSION['STATUS']['lastok'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'lastok')) ?></th>
           <td><?php if ( (substr($LASTTIMEOK, 0, 4) == "1970") || ($STATUS == "OK") ) echo "N/A" ;
                   else echo $LASTTIMEOK." (".printtime($LASTTIMEOKDIFF).")"; ?>
         </td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['nextcheck'] == 1) && (isset($_SESSION['STATUS']['nextcheck'])) ) { ?>
       <tr>
-        <th><?php echo ucfirst(lang($MYLANG, 'next_check'))?></th>
+        <th><?php echo ucfirst(lang($MYLANG, 'nextcheck'))?></th>
         <td><?php if (printtime($NEXTCHECKTIMEDIFF) < 0) echo "N/A" ; else { echo $NEXTCHECKTIME ; echo " (".printtime($NEXTCHECKTIMEDIFF).")" ; } ?></td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['checkinfo'] == 1) && (isset($_SESSION['STATUS']['checkinfo'])) ) { ?>
       <tr>
-        <th><?php echo ucfirst(lang($MYLANG, 'chktyp'))?></th>
-        <td><?php echo $CHKTYPE?></td>
-      </tr>
         <th><?php echo ucfirst(lang($MYLANG, 'chktyp')) ?> | <?php echo ucfirst(lang($MYLANG, 'checkname')) ?></th>
         <td><?php echo $CHKTYPE." (".lang($MYLANG, $CHECKENABLE).")"?> | <?php echo $CHECKNAME ?></td>
+      </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['checktime'] == 1) && (isset($_SESSION['STATUS']['checktime'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'latency'))?> | <?php echo lang($MYLANG, 'duration') ?></th>
         <td><?php echo $LATENCY?> | <?php echo $EXEC_TIME?></td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['laststatus'] == 1) && (isset($_SESSION['STATUS']['laststatus'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'lastchange'))?> | <?php echo ucfirst(lang($MYLANG, 'lastup'))?></th>
         <td><?php echo printtime($LASTCHANGEDIFF) ?> | <?php echo printtime($UPDATETIMEDIFF) ?></td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['flapping'] == 1) && (isset($_SESSION['STATUS']['flapping'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'flapping'))?> ?</th>
         <td><?php echo $FLAPPING?><?php if ($st_data['FLAPPING'] != 2) { echo " ($PERCENT% ".lang($MYLANG, 'state_change').")"; } ?></td>
       </tr>
+      <?php } ?>
+      <tr>
+      <?php if ( ($STATUSPOPIN['groupstatus'] == 1) && (isset($_SESSION['STATUS']['groupstatus'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'groupstatus')) ?></th>
         <td><?php echo $GROUPS ?> | <?php echo $CONTACTGROUP ?></td>
       <tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['notifystatus'] == 1) && (isset($_SESSION['STATUS']['notifystatus'])) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'notifystatus')) ?></th>
         <td><?php if ($COUNTNOTIFY == 0) echo "N/A (0)" ; else echo $LASTNOTIFY." (".$COUNTNOTIFY.") " ; ?> | 
             <?php if ($NEXTTIMENOTIFYDIFF <= 0) echo "N/A"; else echo printtime($NEXTTIMENOTIFYDIFF) ; ?>
         </td>
       <tr>
+      <?php } ?>
       
-      <?php if ($ACK && count($ACKCOMMENT) > 1) { ?>
+      <?php if ( ($STATUSPOPIN['ackstatus'] == 1) && (isset($_SESSION['STATUS']['ackstatus'])) && ($ACK && count($ACKCOMMENT) > 1) ) { ?>
         <tr>
           <th>
             <img class="inline-middle" src="img/flag_ack.gif" />
@@ -241,7 +262,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
         </tr>
       <?php } ?>
       
-      <?php if ($DOWNTIME && count($DOWNCOMMENT) > 2) { ?>
+      <?php if ( ($STATUSPOPIN['downstatus'] == 1) && (isset($_SESSION['STATUS']['downstatus'])) && ($DOWNTIME && count($DOWNCOMMENT) > 2) ) { ?>
         <tr>
           <th>
             <img class="inline-middle" src="img/flag_downtime.png" />
@@ -251,7 +272,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
         </tr>
       <?php } ?>
       
-      <?php if (!$NOTIF && count($NOTIFCOMMENT) > 1) { ?>
+      <?php if ( ($STATUSPOPIN['notifystatus'] == 1) && (isset($_SESSION['STATUS']['notifystatus'])) && (!$NOTIF && count($NOTIFCOMMENT) > 1) ) { ?>
         <tr>
           <th>
             <img class="inline-middle" src="img/flag_notify.png" />
@@ -261,7 +282,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
         </tr>
       <?php } ?>
 
-      <?php if ( ($DISABLECHECK == 0) && ($CHECKTYPE == 0) ) { ?>
+      <?php if ( ($STATUSPOPIN['disacheck'] == 1) && (isset($_SESSION['STATUS']['disacheck'])) && ($DISABLECHECK == 0) ) { ?>
         <tr>
           <th>
             <img class="inline-middle" src="img/flag_disablecheck.png" />
@@ -271,7 +292,7 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
         </tr>
       <?php } ?>
       
-      <?php if (count($COMMENT) > 1) { ?>
+      <?php if ( ($STATUSPOPIN['comment'] == 1) && (isset($_SESSION['STATUS']['comment'])) && (count($COMMENT) > 1) ) { ?>
         <tr>
           <th>
             <img class="inline-middle" src="img/flag_comment.gif" />
@@ -285,12 +306,15 @@ if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHEC
         <th><?php echo ucfirst(lang($MYLANG, 'group')) ?></th>
         <td><?php echo $GROUPS ?></td>
       </tr>
+      <?php } ?>
+      <?php if ( ($STATUSPOPIN['history'] == 1) && (isset($_SESSION['STATUS']['history'])) && ( count($_SESSION['HISTORY']) > 0 ) ) { ?>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'history')) ?></th>
         <td><a href="#" onClick="return pop('history.php?id=<?php echo $id?>&type=<?php echo $type ?>&host=<?php echo $HOSTNAME ?>&svc=<?php echo $SERVICE ?>', 'history-<?php echo $id?>', '<?php echo $HISTORY_POPUP_WIDTH ?>', '<?php echo $HISTORY_POPUP_HEIGHT ?>')"><?php echo ucfirst(lang($MYLANG, 'show_history')) ?></a></td>
       </tr>
+      <?php } ?>
       
-      <?php $g = get_graph('status', $HOSTNAME, $SERVICE); ?>
+      <?php if ( ($STATUSPOPIN['graph'] == 1) && ( isset($_SESSION['STATUS']['graph']) ) ) $g = get_graph('status', $HOSTNAME, $SERVICE); ?>
       <?php if (!empty($g)) { ?>
       
         <tr>

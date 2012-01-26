@@ -7,7 +7,7 @@
   http://www.gnu.org/licenses/
 */
 
-/*
+  /*
   echo "<pre>";
   echo "POST : ";
   print_r($_POST);
@@ -16,7 +16,7 @@
   echo "GET : ";
   print_r($_GET);
   echo "</pre>";
-*/
+  */
 
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
@@ -123,8 +123,27 @@ $SORTORDERFIELD    = "ASC";              //SORT ORDER
 $FIRST             = "0";                //FIRST GET ROW 
 $MY_SEARCH['host'] = '';                 //SEARCH HOST PARAMETER
 $MY_SEARCH['svc']  = '';                 //SEARCH SVC PARAMETER
-$FILTER            = '';                 //NO FILTER
+$FILTER            = '';                 //FILTER BY DEFAULT
+$MY_CHECK_DISABLE  = "0,1";              //DISABLED CHECK
 $MY_TRACK_ANY      = 0 ;                 //TRACK ANYTHING
+
+/* Search filtering */
+$SFILTER['svc'] = array (
+  'H.display_name' => "h:",
+  "S.display_name" => "s:",
+  "H.address"      => "i:",
+  "OHG.name1"      => "g:",
+  "SS.output"      => "o:"
+) ;
+
+$SFILTER['host'] = array (
+  'H.display_name' => "h:",
+  "'--host--'"     => "s:",
+  "H.address"      => "i:",
+  "OHG.name1"      => "g:",
+  "HS.output"      => "o:"
+) ;
+
 
 /* PROCESS GET DATA */
 
@@ -309,6 +328,17 @@ else if (isset($_SESSION['MAXLEN_GROUPS']))
 else
   $_SESSION['MAXLEN_GROUPS'] = $MAXLEN_GROUPS;
 
+/* ENABLE/DISABLE QUICK SEARCH */
+if (isset($_GET['quicksearch'])) {
+  $QUICKSEARCH = 1;
+}
+else if (isset($_GET['option'])) {
+  $QUICKSEARCH = 0;
+}
+else if (isset($_SESSION['QUICKSEARCH']))
+  $QUICKSEARCH = $_SESSION['QUICKSEARCH'];
+$_SESSION['QUICKSEARCH'] = $QUICKSEARCH ;
+
 /* DISPLAY THE FRAME AROUND THE PAGE */
 if (isset($_GET['frame'])) {
   $FRAME = 0;
@@ -346,6 +376,36 @@ foreach($COLS AS $key => $val) {
       $MY_SEARCH['host'] = str_replace($sub_cols_in_search['host'][$key], ' ', $MY_SEARCH['host']) ;
     }
   }
+}
+
+/* HISTORY TO DISPLAY */
+if(isset($_GET['option'])) {
+  foreach($HISTORY AS $key => $val) {
+    if ( ( ! isset($_GET[$key]) ) && ( isset($_SESSION['HISTORY'][$key]) ) )
+      unset($_SESSION['HISTORY'][$key]) ;
+    else if ( isset($_GET[$key]) )
+      $_SESSION['HISTORY'][$key] = 1 ;
+  } //end foreach
+}
+else if (!isset($_SESSION['HISTORY'])) {
+  foreach($HISTORY AS $key => $val) {
+    if ( $val == 1 ) $_SESSION['HISTORY'][$key] = 1 ;
+  } //end foreach
+}
+
+/* INFORMATION ON STATUS POPIN TO DISPLAY */
+if(isset($_GET['option'])) {
+  foreach($STATUSPOPIN AS $key => $val) {
+    if ( ( ! isset($_GET[$key]) ) && ( isset($_SESSION['STATUS'][$key]) ) )
+      unset($_SESSION['STATUS'][$key]) ;
+    else if ( isset($_GET[$key]) )
+      $_SESSION['STATUS'][$key] = 1 ;
+  } //end foreach
+}
+else if (!isset($_SESSION['STATUS'])) {
+  foreach($STATUSPOPIN AS $key => $val) {
+    if ( $val == 1 ) $_SESSION['STATUS'][$key] = 1 ;
+  } //end foreach
 }
 
 /* GET DO WE DISPLAY POPIN */
@@ -407,6 +467,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_sortfield'          =>  mysql_real_escape_string($SORTFIELD, $dbconn),
   'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
   'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
+  'define_my_check_disable'   =>  mysql_real_escape_string($MY_CHECK_DISABLE, $dbconn),
   'define_track_anything'     => $MY_TRACK_ANY,
   ) ;
 

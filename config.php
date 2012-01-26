@@ -38,10 +38,11 @@ $LEVEL                = 2; /* LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
 //$LEVEL              = 9; /* LEVEL 9 SHOW ONLY DOWNTIME */
 //$LEVEL              = 10; /* LEVEL 10 SHOW ONLY DISABLE NOTIFICATION */
 //$LEVEL              = 11; /* LEVEL 11 SHOW ONLY DISABLE CHECK */
-//$LEVEL              = 12; /* LEVEL 12 SHOW ONLY WARNING */
-//$LEVEL              = 13; /* LEVEL 13 SHOW ONLY UNKNOWN */
+//$LEVEL              = 12; /* LEVEL 12 SHOW ONLY CRITICAL HOST AND SERVICE SOFT AND HARD */
+//$LEVEL              = 12; /* LEVEL 12 SHOW ONLY WARNING SERVICE SOFT AND HARD */
+//$LEVEL              = 13; /* LEVEL 13 SHOW ONLY UNKNOWN SERVICE SOFT AND HARD */
 //$LEVEL              = 14; /* LEVEL 14 SHOW ONLY OK */
-$MAXLEVEL             = 14;
+$MAXLEVEL             = 15;
 
 /* TABLE ALERT COLUMNS ORDER */
 $COLS               = array(
@@ -74,23 +75,6 @@ $OTHER              = "white";
 $TRACK_ERROR        = "blue";
 $TRACK_OK           = "bluegreen";
 
-/* Search filtering */
-$SFILTER['svc'] = array (
-  'H.display_name' => "h:", 
-  "S.display_name" => "s:", 
-  "H.address"      => "i:", 
-  "OHG.name1"      => "g:",
-  "SS.output"       => "o:"
-) ;
-
-$SFILTER['host'] = array (
-  'H.display_name' => "h:",
-  "'--host--'"     => "s:",
-  "H.address"      => "i:",
-  "OHG.name1"      => "g:",
-  "HS.output"       => "o:"
-) ;
-
 /*
   set default lang (supported lang are en, fr and de)                                     
   default lang is "english" or 
@@ -99,8 +83,9 @@ $SFILTER['host'] = array (
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.3.0";
+$VERSION            = "1.5.0";
 $CODENAME           = "OpenPOM";
+$ENCODING           = "ISO-8859-1"; 
 
 /* NAGIOS AND ICINGA VARIABLES */
 /* escapeshellarg() is called on each element of $*_PARMS arrays */
@@ -112,6 +97,9 @@ $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
 $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
 $LOG                = "/" . $BACKEND . "/cgi-bin/showlog.cgi";
+
+/* SEARCH FILTERING */
+$QUICKSEARCH = 0 ;  //disabled direct search on click
 
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE
@@ -184,9 +172,41 @@ $ILLEGAL_CHAR       = '`~$^<>';
 $POPIN_INITIAL_WIDTH = 500;
 $POPIN_FIT_TO_GRAPH_WIDTH = true;
 
-/*POPUP HISTORY*/
+/* ELEMENT SHOWED ON STATUS POPIN 0 => DO NOT DISPLAY*/
+$STATUSPOPIN = array (
+  'curstat'      => 1,
+  'outputstatus' => 1,
+  'checkstatus'  => 1,
+  'lastok'       => 1,
+  'nextcheck'    => 1,
+  'checkinfo'    => 1,
+  'checktime'    => 1,
+  'laststatus'   => 1,
+  'flapping'     => 1,
+  'groupstatus'  => 1,
+  'notifystatus' => 1,
+  'ackstatus'    => 1,
+  'downstatus'   => 1,
+  'notifystatus' => 1,
+  'disacheck'    => 1,
+  'comment'      => 1,
+  'history'      => 1,
+  'graph'        => 1,
+) ;
+
+/* POPUP HISTORY SIZE */
 $HISTORY_POPUP_WIDTH  = 600 ;
 $HISTORY_POPUP_HEIGHT = 700 ;
+
+/* ELEMENT SHOWED IN HISTORY AND ORDER 0 => DO NOT DISPLAY */
+$HISTORY = array(
+'ack'    => 1,
+'down'   => 1,
+'com'    => 1,
+'notify' => 1,
+'state'  => 1,
+'flap'   => 1,
+) ;
 
 /* ACKNOWLEDGEMENT */
 $EXT_CMD['ack']['host'][0]      = array(

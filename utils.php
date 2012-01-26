@@ -74,6 +74,7 @@ function select_level($LEVEL) {
   global $MY_DISABLE;
   global $MY_NOSVC;
   global $MY_SOFT;
+  global $MY_CHECK_DISABLE;
   global $MY_TRACK_ANY;
 
   if ($LEVEL == 1) { 
@@ -190,9 +191,25 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
+    $MY_CHECK_DISABLE = "0";
     $MY_TRACK_ANY     = 1;
   }
   else if ($LEVEL == 12) {
+    $MY_SVCFILT       = "2";
+    $MY_HOSTFILT      = "1";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 13) {
     $MY_SVCFILT       = "1";
     $MY_HOSTFILT      = "10";
     $MY_HOSTACKLIST   = "0,1";
@@ -207,7 +224,7 @@ function select_level($LEVEL) {
     $MY_DISABLE       = "0,1";
     $MY_TRACK_ANY     = 1;
   }
-  else if ($LEVEL == 13) {
+  else if ($LEVEL == 14) {
     $MY_SVCFILT       = "3";
     $MY_HOSTFILT      = "10";
     $MY_HOSTACKLIST   = "0,1";
@@ -222,7 +239,7 @@ function select_level($LEVEL) {
     $MY_DISABLE       = "0,1";
     $MY_TRACK_ANY     = 1;
   }
-  else if ($LEVEL == 14) {
+  else if ($LEVEL == 15) {
     $MY_SVCFILT       = "0";
     $MY_HOSTFILT      = "0";
     $MY_HOSTACKLIST   = "0,1";
@@ -634,6 +651,7 @@ function execute_prepared_actions_nagios($actions) {
   global $EXEC_PARAM;
   global $SUDO_EXEC;
   global $SUDO_PARAM;
+  global $ENCODING;
   
   if (!empty($actions) && !empty($EXEC_CMD)) {
     $args = array();
@@ -661,7 +679,7 @@ function execute_prepared_actions_nagios($actions) {
     }
     
     $args[] = escapeshellarg($CMD_FILE);
-    setlocale(LC_CTYPE, "en_US.ISO-8859-1"); /* DON'T REMOVE ACCENTS ! */
+    setlocale(LC_CTYPE, "en_US.".$ENCODING); /* DON'T REMOVE ACCENTS ! */
     $args[] = escapeshellarg($actions);
     $args[] = '&';
     
@@ -752,6 +770,7 @@ function get_graph($type, $host, $svc = null) {
 
 function die_refresh($message, $timeout = 10, $url = null) {
   global $CODENAME;
+  global $ENCODING;
   
   if (is_null($url)) {
     $url = $_SERVER['PHP_SELF'];
@@ -765,7 +784,7 @@ function die_refresh($message, $timeout = 10, $url = null) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title>$CODENAME - Error</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=$ENCODING" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
     <link rel="stylesheet" type="text/css" href="style.css" />
