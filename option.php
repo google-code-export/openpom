@@ -206,7 +206,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
                      value="1" 
                      style="vertical-align: middle;"
                      <?php echo (isset($_SESSION['HISTORY'][$key])) ? 'checked' : '' ?> />
-              <label for="<?php echo $val ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
               
               <?php
               if ($i == (int) ($count / 2) ) echo '</td><td colspan="2">';
@@ -233,7 +233,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
                      value="1" 
                      style="vertical-align: middle;"
                      <?php echo (isset($_SESSION['STATUS'][$key])) ? 'checked' : '' ?> />
-              <label for="<?php echo $val ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
               
               <?php
               if ($i == (int) ($count / 2) ) echo '</td><td colspan="2">';
