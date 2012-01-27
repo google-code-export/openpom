@@ -116,7 +116,7 @@
                 <?php } ?>
                   <option value="<?php echo $sub_level?>" title="<?php echo lang($MYLANG, 'title'.$sub_level) ?>"
                   <?php echo ($sub_level==$LEVEL)?"selected":""?>>
-                  &#160;&#160;&#160;&#160; <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; ?>
+                  &#160;&#160;&#160;&#160;&#160; <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; ?>
                   <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?>
                   </option>
                 <?php } ?>
