@@ -681,7 +681,7 @@ function execute_prepared_actions_nagios($actions) {
     $args[] = escapeshellarg($CMD_FILE);
     setlocale(LC_CTYPE, "en_US.".$ENCODING); /* DON'T REMOVE ACCENTS ! */
     $args[] = escapeshellarg($actions);
-    $args[] = '&';
+    $args[] = '>/dev/null 2>&1 &';
     
     /* execute */
     exec(implode(' ', $args));
