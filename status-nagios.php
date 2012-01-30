@@ -233,8 +233,8 @@ else $g = "" ;
                 if ($val == 0) continue ;
                 if ( (!isset($STATUSDATA[$key])) || (empty($STATUSDATA[$key])) )
                   continue ;
-                if ( (!isset($_GET['fix'])) && (!isset($STATUSHEAD[$key])) && (isset($SHOWSTATUSALL)) && 
-                     ($SHOWSTATUSALL == 0) && (!isset($_SESSION['STATUS']['all'])) && 
+                if ( (!isset($_GET['fix'])) && (!isset($STATUSHEAD[$key])) &&
+                     (!isset($_SESSION['STATUS']['all'])) && 
                      ($i > $_SESSION['STATUS']['limit']) ) {
                   $more = 1 ;
                   continue ;
