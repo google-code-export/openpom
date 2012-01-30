@@ -170,9 +170,7 @@ $STATUSHEAD = array (
 'commentcur' => '<img class="inline-middle" src="img/flag_comment.gif" /><span class="inline-middle">('.$COMMENT[0].')</span>',
 ) ;
 
-if ( (isset($_GET['fix'])) || 
-     ( (isset($SHOWSTATUSGRAPH)) &&
-     ($SHOWSTATUSGRAPH == 1) && ( isset($_SESSION['STATUS']['graph']) ) ) )
+if ( (isset($_GET['fix'])) || (isset($_SESSION['STATUS']['graph'])) )
   $g = get_graph('status', $HOSTNAME, $SERVICE); 
 else $g = "" ;
 
