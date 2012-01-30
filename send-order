@@ -36,7 +36,7 @@ IFS=$oIFS
 
 c=0
 for ((i=1; i<="${#orders[@]}"; i++)) ; do
-  if [ $c -gt 0 -a $(expr $c % $MAX_EXTCMD) == 0 ] ; then
+  if [ $c -gt 0 -a $(($c%$MAX_EXTCMD)) -eq 0 ] ; then
       sleep $SLEEP_TIME
   fi
   cat > "${orders[0]}" <<< "${orders[$i]}"
