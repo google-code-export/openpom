@@ -395,6 +395,12 @@ else if (!isset($_SESSION['HISTORY'])) {
 
 /* INFORMATION ON STATUS POPIN TO DISPLAY */
 if(isset($_GET['option'])) {
+  if (isset($_GET['showgraph'])) $_SESSION['STATUS']['graph'] = 1;
+  else if (isset($_SESSION['STATUS']['graph'])) unset($_SESSION['STATUS']['graph']) ;
+  if (isset($_GET['showall']))   $_SESSION['STATUS']['all']   = 1;
+  else if (isset($_SESSION['STATUS']['all']))   unset($_SESSION['STATUS']['all']) ;
+  if ( (isset($_GET['showlimit'])) && (is_numeric($_GET['showlimit'])) ) 
+    $_SESSION['STATUS']['limit'] = $_GET['showlimit'];
   foreach($STATUSPOPIN AS $key => $val) {
     if ( ( ! isset($_GET[$key]) ) && ( isset($_SESSION['STATUS'][$key]) ) )
       unset($_SESSION['STATUS'][$key]) ;
@@ -403,6 +409,9 @@ if(isset($_GET['option'])) {
   } //end foreach
 }
 else if (!isset($_SESSION['STATUS'])) {
+  if ($SHOWSTATUSGRAPH == 1) $_SESSION['STATUS']['graph'] = $SHOWSTATUSGRAPH ;
+  if ($SHOWSTATUSALL == 1)   $_SESSION['STATUS']['all']   = $SHOWSTATUSALL ;
+  $_SESSION['STATUS']['limit'] = $SHOWSTATUSLIMIT ;
   foreach($STATUSPOPIN AS $key => $val) {
     if ( $val == 1 ) $_SESSION['STATUS'][$key] = 1 ;
   } //end foreach

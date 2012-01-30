@@ -172,7 +172,15 @@ $ILLEGAL_CHAR       = '`~$^<>';
 $POPIN_INITIAL_WIDTH = 500;
 $POPIN_FIT_TO_GRAPH_WIDTH = true;
 
+/* POPUP STATUS SIZE */
+$STATUS_POPUP_WIDTH  = 600 ;
+$STATUS_POPUP_HEIGHT = 600 ;
+
 /* ELEMENT SHOWED ON STATUS POPIN 0 => DO NOT DISPLAY*/
+$SHOWSTATUSGRAPH   = 1 ; /*SHOW GRAPH*/
+$SHOWSTATUSALL     = 0 ; /*SHOW ELEMENT*/
+$SHOWSTATUSLIMIT   = 5 ; /*SHOW NB ELEMENT*/
+
 $STATUSPOPIN = array (
   'curstat'      => 1,
   'outputstatus' => 1,
@@ -185,13 +193,12 @@ $STATUSPOPIN = array (
   'flapping'     => 1,
   'groupstatus'  => 1,
   'notifystatus' => 1,
-  'ackstatus'    => 1,
-  'downstatus'   => 1,
-  'notifystatus' => 1,
-  'disacheck'    => 1,
-  'comment'      => 1,
+  'ackcur'       => 1,
+  'downcur'      => 1,
+  'notifycur'    => 1,
+  'disacur'      => 1,
+  'commentcur'   => 1,
   'history'      => 1,
-  'graph'        => 1,
 ) ;
 
 /* POPUP HISTORY SIZE */
