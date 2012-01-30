@@ -92,9 +92,10 @@ $ENCODING           = "ISO-8859-1";
 $EXEC_CMD           = "./send-order";
 $EXEC_PARAM         = array();
 //$SUDO_EXEC        = "/usr/bin/sudo";
-//$SUDO_PARAM       = array();
+//$SUDO_PARAM         = array('-u', 'admin');
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
+$BASE_URL           = "" ;
 $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
 $LOG                = "/" . $BACKEND . "/cgi-bin/showlog.cgi";
 
