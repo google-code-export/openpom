@@ -182,7 +182,7 @@ $SHOWSTATUSGRAPH   = 1 ; /*SHOW GRAPH*/
 $SHOWSTATUSALL     = 1 ; /*SHOW ELEMENT*/
 $SHOWSTATUSLIMIT   = 5 ; /*SHOW NB ELEMENT*/
 
-/* 0 => HIDE , 1 => HIDE OR SHOWED, 2 ALWAYS SHOWED */
+/* 0 => HIDE , 1 => HIDE OR SHOWED (SEE LIMIT), 2 => ALWAYS SHOWED */
 $STATUSPOPIN = array (
   'curstat'      => 1,
   'outputstatus' => 1,
