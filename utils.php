@@ -20,7 +20,7 @@ function special_char_array(&$in) {
     $v = $in[$k];
     unset($in[$k]);
     
-    $k = htmlspecialchars($k);
+    //$k = htmlspecialchars($k);
     if (get_magic_quotes_gpc()) {
       $k = stripslashes($k);
     }
@@ -29,7 +29,7 @@ function special_char_array(&$in) {
       special_char_array($v);
       
     } else {
-      $v = htmlspecialchars($v);
+      //$v = htmlspecialchars($v);
       if (get_magic_quotes_gpc()) {
         $v = stripslashes($v);
       }
@@ -74,6 +74,8 @@ function select_level($LEVEL) {
   global $MY_DISABLE;
   global $MY_NOSVC;
   global $MY_SOFT;
+  global $MY_CHECK_DISABLE;
+  global $MY_TRACK_ANY;
 
   if ($LEVEL == 1) { 
     $MY_SVCFILT       = "2";
@@ -130,6 +132,127 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
+  }
+  else if ($LEVEL == 8) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "1";
+    $MY_SVCACKLIST    = "1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 9) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 10) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 11) {
+    $MY_SVCFILT       = "0,1,2,3";
+    $MY_HOSTFILT      = "0,1,2";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_CHECK_DISABLE = "0";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 12) {
+    $MY_SVCFILT       = "2";
+    $MY_HOSTFILT      = "1";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 13) {
+    $MY_SVCFILT       = "1";
+    $MY_HOSTFILT      = "10";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 14) {
+    $MY_SVCFILT       = "3";
+    $MY_HOSTFILT      = "10";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
+  }
+  else if ($LEVEL == 15) {
+    $MY_SVCFILT       = "0";
+    $MY_HOSTFILT      = "0";
+    $MY_HOSTACKLIST   = "0,1";
+    $MY_SVCACKLIST    = "0,1";
+    $MY_HOSTDOWNOP    = '>=';
+    $MY_HOSTDOWNVAL   = 0;
+    $MY_SVCDOWNOP     = '>=';
+    $MY_SVCDOWNVAL    = 0;
+    $MY_ACKLISTOP     = '>=';
+    $MY_ACKLISTVAL    = 0;
+    $MY_NOSVC         = "0";
+    $MY_DISABLE       = "0,1";
+    $MY_TRACK_ANY     = 1;
   }
 }
 
@@ -363,6 +486,26 @@ function prepare_action_nagios__disable($ts, $target) {
   return cache_action_nagios($prepared);
 }
 
+function prepare_action_nagios__disablecheck($ts, $target) {
+  /* this action requires at least one element in target, the host name */
+  if (count($target) < 1) {
+    return false;
+  }
+  
+  /* this action requires a valid comment */
+  if (!validate_comment_value($c)) {
+    return false;
+  }
+  
+  /* build command */
+  $prepared = str_replace(
+    array('$user', '$comment'), 
+    array($_SESSION['USER'], $c), 
+    get_nagios_cmd_template('disablecheck', $ts, $target));
+  
+  return cache_action_nagios($prepared);
+}
+
 
 /* prepare_action_nagios__ena_notif
  * prepare command for "nagios" action "ena_notif" (global)
@@ -508,6 +651,7 @@ function execute_prepared_actions_nagios($actions) {
   global $EXEC_PARAM;
   global $SUDO_EXEC;
   global $SUDO_PARAM;
+  global $ENCODING;
   
   if (!empty($actions) && !empty($EXEC_CMD)) {
     $args = array();
@@ -535,8 +679,9 @@ function execute_prepared_actions_nagios($actions) {
     }
     
     $args[] = escapeshellarg($CMD_FILE);
+    setlocale(LC_CTYPE, "en_US.".$ENCODING); /* DON'T REMOVE ACCENTS ! */
     $args[] = escapeshellarg($actions);
-    $args[] = '&';
+    $args[] = '>/dev/null 2>&1 &';
     
     /* execute */
     exec(implode(' ', $args));
@@ -625,6 +770,7 @@ function get_graph($type, $host, $svc = null) {
 
 function die_refresh($message, $timeout = 10, $url = null) {
   global $CODENAME;
+  global $ENCODING;
   
   if (is_null($url)) {
     $url = $_SERVER['PHP_SELF'];
@@ -638,7 +784,7 @@ function die_refresh($message, $timeout = 10, $url = null) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title>$CODENAME - Error</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=$ENCODING" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
     <link rel="stylesheet" type="text/css" href="style.css" />

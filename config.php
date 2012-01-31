@@ -34,7 +34,15 @@ $LEVEL                = 2; /* LEVEL 2 SHOW CRITICAL WARNING AND UNKNOWN */
 //$LEVEL              = 5; /* SHOW LEVEL 5 AND OUTAGE */
 //$LEVEL              = 6; /* SHOW LEVEL 6 AND SVC FOR ACK/DOWNTIME HOST */
 //$LEVEL              = 7; /* LEVEL 7 SHOW ALL */
-$MAXLEVEL             = 7;
+//$LEVEL              = 8; /* LEVEL 8 SHOW ONLY ACKNOWLEDGE */
+//$LEVEL              = 9; /* LEVEL 9 SHOW ONLY DOWNTIME */
+//$LEVEL              = 10; /* LEVEL 10 SHOW ONLY DISABLE NOTIFICATION */
+//$LEVEL              = 11; /* LEVEL 11 SHOW ONLY DISABLE CHECK */
+//$LEVEL              = 12; /* LEVEL 12 SHOW ONLY CRITICAL HOST AND SERVICE SOFT AND HARD */
+//$LEVEL              = 12; /* LEVEL 12 SHOW ONLY WARNING SERVICE SOFT AND HARD */
+//$LEVEL              = 13; /* LEVEL 13 SHOW ONLY UNKNOWN SERVICE SOFT AND HARD */
+//$LEVEL              = 14; /* LEVEL 14 SHOW ONLY OK */
+$MAXLEVEL             = 15;
 
 /* TABLE ALERT COLUMNS ORDER */
 $COLS               = array(
@@ -75,19 +83,24 @@ $TRACK_OK           = "bluegreen";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.3.0";
+$VERSION            = "1.5.0";
 $CODENAME           = "OpenPOM";
+$ENCODING           = "ISO-8859-1"; 
 
 /* NAGIOS AND ICINGA VARIABLES */
 /* escapeshellarg() is called on each element of $*_PARMS arrays */
 $EXEC_CMD           = "./send-order";
 $EXEC_PARAM         = array();
 //$SUDO_EXEC        = "/usr/bin/sudo";
-//$SUDO_PARAM       = array();
+//$SUDO_PARAM         = array('-u', 'admin');
 $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
+$BASE_URL           = "" ;
 $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
 $LOG                = "/" . $BACKEND . "/cgi-bin/showlog.cgi";
+
+/* SEARCH FILTERING */
+$QUICKSEARCH = 0 ;  //disabled direct search on click
 
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE
@@ -153,13 +166,56 @@ $GRAPH_POPUP_PARAM_END = 't2';
  * - semicolon ";" field separator used by Nagios in commands 
  * - tild "~" special comment prefix used for disable and track 
  */
-$ILLEGAL_CHAR       = '`~$;%^*|<>';
+$ILLEGAL_CHAR       = '`~$^<>';
 
 
 /* POPIN WIDTH RESTRICTION */
-$POPIN_INITIAL_WIDTH = 492;
+$POPIN_INITIAL_WIDTH = 500;
 $POPIN_FIT_TO_GRAPH_WIDTH = true;
 
+/* POPUP STATUS SIZE */
+$STATUS_POPUP_WIDTH  = 600 ;
+$STATUS_POPUP_HEIGHT = 600 ;
+
+/* ELEMENT SHOWED ON STATUS POPIN 0 => DO NOT DISPLAY*/
+$SHOWSTATUSGRAPH   = 1 ; /*SHOW GRAPH*/
+$SHOWSTATUSALL     = 1 ; /*SHOW ELEMENT*/
+$SHOWSTATUSLIMIT   = 5 ; /*SHOW NB ELEMENT*/
+
+/* 0 => HIDE , 1 => HIDE OR SHOWED (SEE LIMIT), 2 => ALWAYS SHOWED */
+$STATUSPOPIN = array (
+  'curstat'      => 1,
+  'outputstatus' => 1,
+  'checkstatus'  => 1,
+  'lastok'       => 1,
+  'nextcheck'    => 1,
+  'checkinfo'    => 1,
+  'checktime'    => 1,
+  'laststatus'   => 1,
+  'flapping'     => 1,
+  'groupstatus'  => 1,
+  'notifystatus' => 1,
+  'ackcur'       => 2,
+  'downcur'      => 2,
+  'notifycur'    => 2,
+  'disacur'      => 2,
+  'commentcur'   => 2,
+  'history'      => 2,
+) ;
+
+/* POPUP HISTORY SIZE */
+$HISTORY_POPUP_WIDTH  = 600 ;
+$HISTORY_POPUP_HEIGHT = 700 ;
+
+/* ELEMENT SHOWED IN HISTORY AND ORDER 0 => DO NOT DISPLAY */
+$HISTORY = array(
+'ack'    => 1,
+'down'   => 1,
+'com'    => 1,
+'notify' => 1,
+'state'  => 1,
+'flap'   => 1,
+) ;
 
 /* ACKNOWLEDGEMENT */
 $EXT_CMD['ack']['host'][0]      = array(
@@ -234,6 +290,10 @@ $EXT_CMD['reset']['host'][3]    = array(
 'DEL_HOST_DOWNTIME',
 '$downtime_id');
 
+$EXT_CMD['reset']['host'][4]  = array(
+'ENABLE_HOST_CHECK',
+'$host');
+
 $EXT_CMD['reset']['svc'][0]    = array(
 'DEL_ALL_SVC_COMMENTS',
 '$host',
@@ -252,6 +312,11 @@ $EXT_CMD['reset']['svc'][2]     = array(
 $EXT_CMD['reset']['svc'][3]    = array(
 'DEL_SVC_DOWNTIME',
 '$downtime_id');
+
+$EXT_CMD['reset']['svc'][4]  = array(
+'ENABLE_SVC_CHECK',
+'$host',
+'$svc');
 
 /* DISABLE NOTIFICATION */
 $EXT_CMD['disable']['host'][0]  = array(
@@ -293,6 +358,31 @@ $EXT_CMD['comment_persistent']['svc'][0]  = array(
 '1',
 '$user',
 '$comment');
+
+/* DISABLE CHECK */
+$EXT_CMD['disablecheck']['host'][0]  = array(
+'DISABLE_HOST_CHECK',
+'$host');
+
+$EXT_CMD['disablecheck']['host'][1]  = array(
+'ADD_HOST_COMMENT',
+'$host',
+'1',
+'$user',
+'~disablecheck:$comment');
+
+$EXT_CMD['disablecheck']['svc'][0]   = array(
+'DISABLE_SVC_CHECK',
+'$host',
+'$svc');
+
+$EXT_CMD['disablecheck']['svc'][1]  = array(
+'ADD_SVC_COMMENT',
+'$host',
+'$svc',
+'1',
+'$user',
+'~disablecheck:$comment');
 
 /* ENABLE GLOBAL NOTIFICATIONS */
 $EXT_CMD['ena_notif']['host'][0]  = array(

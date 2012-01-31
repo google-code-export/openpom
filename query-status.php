@@ -17,16 +17,26 @@ $QUERY_STATUS['svc'] = "
     unix_timestamp() - unix_timestamp(SS.last_check)
                                            AS LASTCHECKTIMEDIFF,
     SS.last_check                          AS LASTCHECKTIME,
+    unix_timestamp() - unix_timestamp(SS.last_time_ok)
+                                           AS LASTTIMEOKDIFF,
+    SS.last_time_ok                        AS LASTTIMEOK,
     SS.output                              AS OUTPUT,
     SS.current_check_attempt               AS CURATTEMP,
     SS.max_check_attempts                  AS MAXATTEMP,
+    SS.normal_check_interval               AS NORMALINTERVAL,
+    SS.retry_check_interval                AS RETRYINTERVAL,
     SS.check_type                          AS CHKTYPE,
+    ( CASE SS.check_type 
+        WHEN 0 THEN SS.active_checks_enabled
+        WHEN 1 THEN SS.passive_checks_enabled
+      END )                                AS CHECKENABLE,
     SS.perfdata                            AS PERFDATA,
     SS.latency                             AS LATENCY,
     SS.execution_time                      AS EXEC_TIME,
     SS.problem_has_been_acknowledged       AS ACK,
     SS.scheduled_downtime_depth            AS DOWNTIME,
     SS.notifications_enabled               AS NOTIF,
+    SS.check_type                          AS CHECKTYPE,
     IF (
       SS.flap_detection_enabled = 1,
       is_flapping,
@@ -39,6 +49,30 @@ $QUERY_STATUS['svc'] = "
     H.address                              AS ADDRESS,
     H.display_name                         AS HOSTNAME,
     S.display_name                         AS SERVICE,
+    SS.next_check                          AS NEXTCHECKTIME,
+    unix_timestamp(SS.next_check) - unix_timestamp()
+                                           AS NEXTCHECKTIMEDIFF,
+    GROUP_CONCAT(
+      DISTINCT OHG.name1
+      ORDER BY OHG.name1
+      DESC SEPARATOR ', ')
+                                           AS GROUPES,
+    GROUP_CONCAT(
+      DISTINCT OCG.name1
+      ORDER BY OCG.name1
+      ASC SEPARATOR ', ')
+                                           AS CONTACTGROUP,
+    ( SELECT N.start_time 
+      FROM ".$BACKEND."_notifications AS N
+        WHERE N.object_id = SS.service_object_id
+      GROUP BY N.start_time DESC
+      LIMIT 1 )                            AS LASTNOTIFY,
+    unix_timestamp(SS.next_notification) - unix_timestamp()
+                                           AS NEXTTIMENOTIFYDIFF,
+    SS.next_notification                   AS NEXTTIMENOTIFY,
+    SS.current_notification_number         AS COUNTNOTIFY,
+    SUBSTRING_INDEX(SS.check_command,'!',1)
+                                           AS CHECKNAME,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ".$BACKEND."_commenthistory AS ACO
@@ -67,6 +101,16 @@ $QUERY_STATUS['svc'] = "
       ORDER BY NCO.entry_time DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
+      concat_ws(';', DCCO.author_name, DCCO.comment_data)
+      FROM ".$BACKEND."_commenthistory AS DCCO
+      WHERE DCCO.object_id = SS.service_object_id
+      AND DCCO.entry_type = 1
+      AND DCCO.comment_source = 1
+      AND DCCO.deletion_time = '0000-00-00 00:00:00'
+      AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
+      ORDER BY DCCO.entry_time DESC
+      LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
+    ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = SS.service_object_id
@@ -79,10 +123,17 @@ $QUERY_STATUS['svc'] = "
 
   FROM
     ".$BACKEND."_servicestatus AS SS
-    INNER JOIN ".$BACKEND."_services AS S      ON S.service_object_id = SS.service_object_id
-    INNER JOIN ".$BACKEND."_hosts AS H         ON H.host_object_id = S.host_object_id
+    INNER JOIN ".$BACKEND."_services AS S                 ON S.service_object_id = SS.service_object_id
+    INNER JOIN ".$BACKEND."_hosts AS H                    ON H.host_object_id = S.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroup_members AS HGM      ON H.host_object_id = HGM.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroups AS HG              ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT  JOIN ".$BACKEND."_objects AS OHG                ON HG.hostgroup_object_id = OHG.object_id
+    LEFT  JOIN ".$BACKEND."_service_contactgroups AS SCG  ON SS.servicestatus_id = SCG.service_id
+    LEFT  JOIN ".$BACKEND."_objects AS OCG                ON SCG.contactgroup_object_id = OCG.object_id
   WHERE
     SS.servicestatus_id = define_my_id
+  GROUP BY 
+    SS.servicestatus_id
 " ;
 
 $QUERY_STATUS['host'] = "
@@ -98,16 +149,26 @@ $QUERY_STATUS['host'] = "
     unix_timestamp() - unix_timestamp(HS.last_check)
                                            AS LASTCHECKTIMEDIFF,
     HS.last_check                          AS LASTCHECKTIME,
+    unix_timestamp() - unix_timestamp(HS.last_time_up)
+                                           AS LASTTIMEOKDIFF,
+    HS.last_time_up                        AS LASTTIMEOK,
     HS.output                              AS OUTPUT,
     HS.current_check_attempt               AS CURATTEMP,
     HS.max_check_attempts                  AS MAXATTEMP,
+    HS.normal_check_interval               AS NORMALINTERVAL,
+    HS.retry_check_interval                AS RETRYINTERVAL,
     HS.check_type                          AS CHKTYPE,
+    ( CASE HS.check_type 
+        WHEN 0 THEN HS.active_checks_enabled
+        WHEN 1 THEN HS.passive_checks_enabled
+      END )                                AS CHECKENABLE,
     HS.perfdata                            AS PERFDATA,
     HS.latency                             AS LATENCY,
     HS.execution_time                      AS EXEC_TIME,
     HS.problem_has_been_acknowledged       AS ACK,
     HS.scheduled_downtime_depth            AS DOWNTIME,
     HS.notifications_enabled               AS NOTIF,
+    HS.check_type                          AS CHECKTYPE,
     IF (
       HS.flap_detection_enabled = 1,
       is_flapping,
@@ -119,6 +180,30 @@ $QUERY_STATUS['host'] = "
     HS.status_update_time                  AS UPDATETIME,
     H.address                              AS ADDRESS,
     H.display_name                         AS HOSTNAME,
+    HS.next_check                          AS NEXTCHECKTIME,
+    unix_timestamp(HS.next_check) - unix_timestamp()
+                                           AS NEXTCHECKTIMEDIFF,
+    GROUP_CONCAT(
+      DISTINCT OHG.name1
+      ORDER BY OHG.name1
+      DESC SEPARATOR ', ')
+                                           AS GROUPES,
+    GROUP_CONCAT(
+      DISTINCT OCG.name1
+      ORDER BY OCG.name1
+      ASC SEPARATOR ', ')
+                                           AS CONTACTGROUP,
+    ( SELECT N.start_time 
+      FROM ".$BACKEND."_notifications AS N
+        WHERE N.object_id = HS.host_object_id
+      GROUP BY N.start_time DESC
+      LIMIT 1 )                            AS LASTNOTIFY,
+    unix_timestamp(HS.next_notification) - unix_timestamp()
+                                           AS NEXTTIMENOTIFYDIFF,
+    HS.next_notification                   AS NEXTTIMENOTIFY,
+    HS.current_notification_number         AS COUNTNOTIFY,
+    SUBSTRING_INDEX(HS.check_command,'!',1)
+                                           AS CHECKNAME,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ".$BACKEND."_commenthistory AS ACO
@@ -147,6 +232,16 @@ $QUERY_STATUS['host'] = "
       ORDER BY NCO.entry_time DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
+      concat_ws(';', DCCO.author_name, DCCO.comment_data)
+      FROM ".$BACKEND."_commenthistory AS DCCO
+      WHERE DCCO.object_id = HS.host_object_id
+      AND DCCO.entry_type = 1
+      AND DCCO.comment_source = 1
+      AND DCCO.deletion_time = '0000-00-00 00:00:00'
+      AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
+      ORDER BY DCCO.entry_time DESC
+      LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
+    ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = HS.host_object_id
@@ -159,9 +254,16 @@ $QUERY_STATUS['host'] = "
 
   FROM
     ".$BACKEND."_hoststatus AS HS
-    INNER JOIN ".$BACKEND."_hosts AS H      ON H.host_object_id = HS.host_object_id
+    INNER JOIN ".$BACKEND."_hosts AS H                    ON H.host_object_id = HS.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroup_members AS HGM      ON H.host_object_id = HGM.host_object_id
+    LEFT  JOIN ".$BACKEND."_hostgroups AS HG              ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT  JOIN ".$BACKEND."_objects AS OHG                ON HG.hostgroup_object_id = OHG.object_id
+    LEFT  JOIN ".$BACKEND."_host_contactgroups AS HCG     ON HS.hoststatus_id = HCG.host_id
+    LEFT  JOIN ".$BACKEND."_objects AS OCG                ON HCG.contactgroup_object_id = OCG.object_id
   WHERE
     HS.hoststatus_id = define_my_id
+  GROUP BY 
+    HS.hoststatus_id
 " ;
 
 ?>

@@ -12,7 +12,7 @@ session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
 if (preg_match('/[?&]{1}filtering=([^&]+)/',$_SERVER['HTTP_REFERER'], $refilt))
-  $qfilt = $refilt[1];
+  $qfilt = urldecode($refilt[1]);
 if (preg_match('/[?&]{1}sort=([^&]+)/',$_SERVER['HTTP_REFERER'], $resort)) {
   if (preg_match('/[?&]{1}order=([01]+)/',$_SERVER['HTTP_REFERER'], $reorder))
     $order = $reorder[1];
@@ -78,9 +78,13 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <?php echo ucfirst(lang($MYLANG, 'level')) ?>
           </th>
           <td colspan="3">
-            <input type="text" maxlength="1" 
-                   name="defaultlevel" 
-                   value="<?php echo $_SESSION['LEVEL'] ?>" /> 
+            <select name="defaultlevel">
+            <?php for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
+              <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$_SESSION['LEVEL'])?"selected":""?>>
+              <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; else echo "&nbsp;&nbsp;&nbsp;&nbsp;" ; ?> 
+              <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?></option>
+            <?php } ?>
+            </select>
           </td>
         </tr>
         <tr>
@@ -140,6 +144,44 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
         </tr>
         <tr>
           <th>
+            <?php echo ucfirst(lang($MYLANG, 'quicksearch')) ?>
+          </th>
+          <td colspan="3">
+            <input type="checkbox" name="quicksearch" value="0" 
+                   <?php echo ($_SESSION['QUICKSEARCH'] == 1) ? 'checked' : '' ?> 
+                   style="vertical-align: middle;" />
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'statuspopin')) ?>
+          </th>
+          <td colspan="3">
+            <?php echo ucfirst(lang($MYLANG, 'statusall')) ?>
+            <input type="checkbox" name="showall" value="1" 
+                   <?php echo (isset($_SESSION['STATUS']['all'])) ? 'checked' : '' ?> 
+                   style="vertical-align: middle;" 
+                   onclick="if (this.checked) {
+                              document.getElementById('showlimit').readOnly=true; 
+                              document.getElementById('showlimit').className='readonly'; 
+                            }
+                            else {
+                              document.getElementById('showlimit').readOnly=false;
+                              document.getElementById('showlimit').className=''; 
+                            };" />
+            &nbsp;&nbsp; <?php echo ucfirst(lang($MYLANG, 'statuslimit')) ?>
+            <input type="text" maxlength="2" 
+                   name="showlimit" id="showlimit"
+                   value="<?php echo $_SESSION['STATUS']['limit'] ?>" <?php if (isset($_SESSION['STATUS']['all'])) echo "readonly='readonly' class='readonly' " ; ?>/>
+            &nbsp;&nbsp; <?php echo ucfirst(lang($MYLANG, 'showgraph')) ?>
+            <input type="checkbox" name="showgraph" value="1" 
+                   <?php echo (isset($_SESSION['STATUS']['graph'])) ? 'checked' : '' ?> 
+                   style="vertical-align: middle;" />
+          </td>
+        </tr>
+        
+        <tr>
+          <th>
             <?php echo ucfirst(lang($MYLANG, 'frame')) ?>
           </th>
           <td colspan="3">
@@ -172,7 +214,33 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             } ?>
           </td>
         </tr>
-        
+        <tr>
+          <th>
+            <?php echo ucfirst(lang($MYLANG, 'historydisplay')) ?>
+          </th>
+          <td>
+            <?php
+            $count = count($HISTORY)-1;
+            $i = 0;
+            foreach($HISTORY AS $key => $val) { 
+              if ($val == 0) {
+                $count -= 1;
+                continue ;
+              }
+              ?>
+              
+              <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
+                     value="1" 
+                     style="vertical-align: middle;"
+                     <?php echo (isset($_SESSION['HISTORY'][$key])) ? 'checked' : '' ?> />
+              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+              
+              <?php
+              if ($i == (int) ($count / 2) ) echo '</td><td colspan="2">';
+              $i++ ;
+            } ?>
+          </td>
+        </tr>
         
         <tr>
           <td class="height-14"></td>

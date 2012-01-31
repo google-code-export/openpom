@@ -55,6 +55,11 @@ define('HAS_TRACK',   0x2);
           <?php } ?>
             <?php echo ucfirst(lang($MYLANG, $key))?>
           </a>
+          <?php if ($key == 'machine') { ?><span class="sub">(h)</span><?php }
+           else if ($key == 'service') { ?><span class="sub">(s)</span><?php }
+           else if ($key == 'IP') { ?><span class="sub">(i)</span><?php }
+           else if ($key == 'stinfo') { ?><span class="sub">(o)</span><?php }
+           else if ($key == 'group') { ?><span class="sub">(g)</span><?php } ?>
         </th>
         
         <?php 
@@ -191,22 +196,27 @@ define('HAS_TRACK',   0x2);
             if ($data['COMMENT'] & HAS_COMMENT)
               $toprint = $toprint.'<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
 
+            if ( ($data['DISABLECHECK'] == "0") && ($data['CHECKTYPE'] == "0") )
+              $toprint = $toprint.'<img src="img/flag_disablecheck.png" alt="C" title="'.ucfirst(lang($MYLANG, 'disablecheck')).'" />';
+
           }
           
           else if ($key == 'duration' || $key == 'last') { 
             $toprint = printtime($data[$val]);
           }
           
-          else if ($key == 'IP') {
-            if (empty($data[$val])) {
-              $toprint = '&mdash;';
-            } else {
-              $toprint = htmlspecialchars($data[$val]);
-            }
-          }
-          
           else if ($key == 'machine') {
-            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">';
+            if ($QUICKSEARCH == 0) {
+              $toprint = '<a href="#"
+                onclick="if ( $(\'#filtering\').val() == \'\' ) $(\'#filtering\').val(\'h:'.$data[$val].'\')
+                         else if ( $(\'#filtering\').val().substr(0,2) == \'h:\' ) 
+                              $(\'#filtering\').val($(\'#filtering\').val()+\' | h:'.$data[$val].'\')
+                         else $(\'#filtering\').val($(\'#filtering\').val()+\' & h:'.$data[$val].'\')
+                          ">' ;
+            }
+            else {
+              $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering=h:'.$data[$val].'">';
+            }
             if (strlen($data[$val]) > $MAXLEN_HOST) {
               $toprint .= htmlspecialchars(substr($data[$val], 0, $MAXLEN_HOST));
               $toprint .= '</a>...';
@@ -216,8 +226,38 @@ define('HAS_TRACK',   0x2);
             }
           }
           
+          else if ($key == 'IP') {
+            if (empty($data[$val])) {
+              $toprint = '&mdash;';
+            } else {
+              if ($QUICKSEARCH == 0) {
+                $toprint = '<a href="#"
+                  onclick="if ( $(\'#filtering\').val() == \'\' ) $(\'#filtering\').val(\'i:'.$data[$val].'\')
+                           else if ( $(\'#filtering\').val().substr(0,2) == \'i:\' ) 
+                                $(\'#filtering\').val($(\'#filtering\').val()+\' | i:'.$data[$val].'\')
+                           else $(\'#filtering\').val($(\'#filtering\').val()+\' & i:'.$data[$val].'\')
+                            ">' ;
+              }
+              else {
+                $toprint  = '<a href="'.$MY_GET_NO_FILT.'&filtering=i:'.htmlspecialchars($data[$val]).'">';
+              }
+              $toprint .= htmlspecialchars($data[$val]) ;
+              $toprint .= '</a>' ;
+            }
+          }
+          
           else if ($key == 'service') {
-            $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering='.$data[$val].'">';
+            if ($QUICKSEARCH == 0) {
+              $toprint = '<a href="#"
+                onclick="if ( $(\'#filtering\').val() == \'\' ) $(\'#filtering\').val(\'s:'.$data[$val].'\')
+                         else if ( $(\'#filtering\').val().substr(0,2) == \'s:\' ) 
+                              $(\'#filtering\').val($(\'#filtering\').val()+\' | s:'.$data[$val].'\')
+                         else $(\'#filtering\').val($(\'#filtering\').val()+\' & s:'.$data[$val].'\')
+                          ">' ;
+            }
+            else {
+              $toprint = '<a href="'.$MY_GET_NO_FILT.'&filtering=s:'.$data[$val].'">';
+            }
             if (strlen($data[$val]) > $MAXLEN_SVC) {
               $toprint .= htmlspecialchars(substr($data[$val], 0, $MAXLEN_SVC));
               $toprint .= '</a>...';
@@ -257,10 +297,23 @@ define('HAS_TRACK',   0x2);
                 }
                 
                 $size -= $l;
-                $toprint .= (empty($toprint) ? '' : ', ')
-                         . '<a href="'.$MY_GET_NO_FILT.'&filtering='.$g.'">'
-                         .  htmlspecialchars(substr($g, 0, $l)) 
-                         .  '</a>';
+                if ($QUICKSEARCH == 0) {
+                  $toprint .= (empty($toprint) ? '' : ', ')
+                           .  '<a href="#"
+                    onclick="if ( $(\'#filtering\').val() == \'\' ) $(\'#filtering\').val(\'g:'.$g.'\')
+                             else if ( $(\'#filtering\').val().substr(0,2) == \'g:\' ) 
+                                  $(\'#filtering\').val($(\'#filtering\').val()+\' | g:'.$g.'\')
+                             else $(\'#filtering\').val($(\'#filtering\').val()+\' & g:'.$g.'\')
+                              ">' 
+                            . htmlspecialchars(substr($g, 0, $l))
+                            . '</a>';
+                }
+                else {
+                  $toprint .= (empty($toprint) ? '' : ', ')
+                            .'<a href="'.$MY_GET_NO_FILT.'&filtering=g:'.$g.'">' 
+                            .  htmlspecialchars(substr($g, 0, $l)) 
+                            .  '</a>';
+                }
               }
               
               if ($truncated) {

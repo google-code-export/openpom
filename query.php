@@ -32,7 +32,9 @@ SELECT
   sub.ACK                          AS ACK,
   sub.DOWNTIME                     AS DOWNTIME,
   sub.NOTIF                        AS NOTIF,
-  sub.COMMENT                      AS COMMENT
+  sub.COMMENT                      AS COMMENT,
+  sub.DISABLECHECK                 AS DISABLECHECK,
+  sub.CHECKTYPE                    AS CHECKTYPE
 
 FROM (
 
@@ -52,6 +54,11 @@ FROM (
     SS.output                            AS OUTPUT,
     SS.state_type                        AS SVCST,
     SS.problem_has_been_acknowledged     AS ACK,
+    SS.check_type                        AS CHECKTYPE,
+    ( CASE SS.check_type
+        WHEN 0 THEN SS.active_checks_enabled 
+        WHEN 1 THEN SS.passive_checks_enabled
+      END )                              AS DISABLECHECK,
     UNIX_TIMESTAMP(SS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(SS.last_state_change) AS DURATION,
     'svc'                                AS TYPE,
@@ -88,22 +95,14 @@ FROM (
     LEFT JOIN ".$BACKEND."_objects AS OHG          ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
-    (
-                     H.display_name define_my_like 'define_my_machine_filter'
-      define_or_and  S.display_name define_my_like 'define_my_service_filter'
-      define_or_and  OHG.name1      define_my_like 'define_my_group_filter'
-      define_or_and  SS.output      define_my_like 'define_my_stinfo_filter'
-      define_or_and  H.address      define_my_like 'define_my_IP_filter'
-    )
-    AND O.name1 = 'define_my_user'
+    define_my_svc_search
+    O.name1 = 'define_my_user'
     AND ( (
             SS.current_state IN (define_my_svcfilt)
-        AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
         AND (
               SS.problem_has_been_acknowledged IN (define_my_svcacklist) 
           AND HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval
         )
-        AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
         AND (
               SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval
           AND HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval
@@ -111,6 +110,10 @@ FROM (
         AND (define_my_nosvc = 0 OR HS.current_state = 0)
         AND SS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR SS.state_type = 1)
+        AND ( 
+              ( SS.check_type = 0 AND SS.active_checks_enabled IN (define_my_check_disable) ) OR
+              ( SS.check_type = 1 AND SS.passive_checks_enabled IN (define_my_check_disable) )
+            )
       )
       OR (
         SELECT count(*) > 0
@@ -120,6 +123,7 @@ FROM (
         AND comment_source = 1
         AND deletion_time = '0000-00-00 00:00:00'
         AND substring_index(comment_data, ':', 1) = '~track'
+        AND ( define_track_anything = 0 )
       )
     )
 
@@ -147,6 +151,11 @@ UNION
     HS.output                            AS OUTPUT,
     HS.state_type                        AS SVCST,
     HS.problem_has_been_acknowledged     AS ACK,
+    HS.check_type                        AS CHECKTYPE,
+    ( CASE HS.check_type
+        WHEN 0 THEN HS.active_checks_enabled 
+        WHEN 1 THEN HS.passive_checks_enabled
+      END )                              AS DISABLECHECK,
     UNIX_TIMESTAMP(HS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(HS.last_state_change) AS DURATION,
     'host'                               AS TYPE,
@@ -180,20 +189,22 @@ UNION
     LEFT JOIN ".$BACKEND."_objects AS OHG         ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
-    (
-                     H.display_name define_my_like 'define_my_machine_filter'
-      define_or_and  '--host--'     define_my_like 'define_my_service_filter'
-      define_or_and  OHG.name1      define_my_like 'define_my_group_filter'
-      define_or_and  HS.output      define_my_like 'define_my_stinfo_filter'
-      define_or_and  H.address      define_my_like 'define_my_IP_filter'
-    )
-    AND O.name1 = 'define_my_user'
+    define_my_host_search
+    O.name1 = 'define_my_user'
     AND ( (
             HS.current_state IN (define_my_hostfilt)
         AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
         AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
         AND HS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR HS.state_type = 1)
+        AND ( 
+              HS.active_checks_enabled IN (define_my_check_disable) OR
+              HS.passive_checks_enabled IN (define_my_check_disable) 
+        )
+        AND ( 
+              ( HS.check_type = 0 AND HS.active_checks_enabled IN (define_my_check_disable) ) OR
+              ( HS.check_type = 1 AND HS.passive_checks_enabled IN (define_my_check_disable) )
+            )
       )
       OR (
         SELECT count(*) > 0

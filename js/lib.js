@@ -360,6 +360,10 @@ function valid_disable(fobject, illegal) {
   return valid_comment(fobject, illegal);
 }
 
+function valid_disablecheck(fobject, illegal) {
+  return valid_comment(fobject, illegal);
+}
+
 function valid_option(fobject) {
   return true;
 }
@@ -446,7 +450,7 @@ function blink_checkboxes() {
 }
 
 function pop(url, name, width, height) {
-  window.open(url, name, 'location=no,toolbar=no,directories=no,menubar=no,resizable=no,scrollbars=auto,status=no,width='+width+',height='+height);
+  window.open(url, name, 'location=no,toolbar=no,directories=no,menubar=no,resizable=no,scrollbars=yes,status=no,width='+width+',height='+height);
   return false;
 }
 

@@ -14,7 +14,7 @@
     <title>
       <?php echo $CODENAME?> E=<?php echo $hit_critical?> W=<?php echo $hit_warning?> U=<?php echo $hit_unknown?> T=<?php echo $hit_any?>
     </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" /> 
     

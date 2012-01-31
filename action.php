@@ -44,6 +44,10 @@
                 onclick="clicked_generic_popin('comment.php');"
                 title="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>"></span>&thinsp;
 
+          <span class="icon-btn icon-disablecheck"
+                onclick="clicked_generic_popin('disablecheck.php');"
+                title="<?php echo ucfirst(lang($MYLANG, 'disablecheck'))?>"></span>&thinsp;
+
           <span class="icon-btn icon-reset"
                 onclick="clicked_generic_action('reset');"
                 title="<?php echo ucfirst(lang($MYLANG, 'reset_title'))?>"></span>&thinsp;
@@ -107,11 +111,16 @@
               <img src="img/metter.png" style="position: absolute; top: 3px; left: 4px;" />
               <select name="level" onChange="this.form.submit();">
                 <?php for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
-                <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$LEVEL)?"selected":""?>>
-                  &#160;&#160;&#160;&#160;&#160;&#160;
-                  <?php echo $sub_level?> - <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?>
-                </option>
+                <?php if ($sub_level == 8) { ?>
+                <optgroup label="&nbsp;&nbsp;&nbsp;---------------------------------">
                 <?php } ?>
+                  <option value="<?php echo $sub_level?>" title="<?php echo lang($MYLANG, 'title'.$sub_level) ?>"
+                  <?php echo ($sub_level==$LEVEL)?"selected":""?>>
+                  &#160;&#160;&#160;&#160;&#160; <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; ?>
+                  <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?>
+                  </option>
+                <?php } ?>
+                </optgroup>
               </select>
             </span>&thinsp;
             
@@ -121,6 +130,9 @@
                    id="filtering" 
                    title="<?php echo ucfirst(lang($MYLANG, 'search'))?>"/>
                    
+            <span class="icon-btn icon-vsearch"
+                  title="<?php echo ucfirst(lang($MYLANG, 'vsearch'))?>"
+                  onclick="$('#filt').submit();"></span>
             <span class="icon-btn icon-clear"
                   title="<?php echo ucfirst(lang($MYLANG, 'clear'))?>"
                   onclick="$('#filtering').val(''); $('#filt').submit();"></span>
@@ -132,12 +144,16 @@
         </td>
         
         <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
-          <span class="count red">C:<b>&thinsp;<?php echo $hit_critical ?></b></span>
-          <span class="count yellow">W:<b>&thinsp;<?php echo $hit_warning ?></b></span>
-          <span class="count orange">U:<b>&thinsp;<?php echo $hit_unknown ?></b></span>
-          <span class="count" style="background-color: #D7E6AD;">D:<b>&thinsp;<?php echo $hit_down ?></b></span>
-          <span class="count" style="background-color: #D7E6AD;">A:<b>&thinsp;<?php echo $hit_ack ?></b></span>
-          <span class="count">T:<b>&thinsp;<?php echo $hit_any ?></b></span>
+          <span class="count">
+            <img src="img/flag_critical.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_critical ?></b>
+            <img src="img/flag_warning.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_warning ?></b>
+            <img src="img/flag_unknown.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_unknown ?></b>
+            <img src="img/flag_ok.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ok ?></b>
+            <img src="img/flag_downtime.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_down ?></b>
+            <img src="img/flag_ack.gif" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ack ?></b>
+            <img src="img/flag_notify.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_notify ?></b>
+            <img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_disacheck ?></b>
+          </span>
         </td>
         
         <td style="padding-left: 10px; padding-right: 10px;">
