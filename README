@@ -98,7 +98,9 @@ $LOG                = "/" . $BACKEND . "/cgi-bin/showlog.cgi";
 chown :www-data /usr/local/nagios/var/rw/nagios.cmd
 chmod g+w /usr/local/nagios/var/rw/nagios.cmd
 or with sudo add this to your sudoers :
-www-data  ALL=(ALL) NOPASSWD: PATH/nagios-send-order
+www-data  ALL=(ALL) NOPASSWD: PATH/send-order
+
+Configure the queue in send-order script : MAX_EXTCMD=10 (default) it allow to send 10 external commands to nagios max before a sleep of 5 seconds
 
 
 4) Configure Apache2
