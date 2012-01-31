@@ -163,11 +163,11 @@ $STATUSDATA = array (
 ) ;
 
 $STATUSHEAD = array (
-'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >('.$ACKCOMMENT[0].'</span>', 
-'downcur'    => '<img class="inline-middle" src="img/flag_downtime.png" /><span class="inline-middle" >('.$DOWNCOMMENT[0].')</span>',
-'notifycur'  => '<img class="inline-middle" src="img/flag_notify.png" /><span class="inline-middle" >('.$NOTIFCOMMENT[0].')</span>',
-'disacur'    => '<img class="inline-middle" src="img/flag_disablecheck.png" /><span class="inline-middle" >('.$DISABLECHECKCOMMENT[0].')</span>',
-'commentcur' => '<img class="inline-middle" src="img/flag_comment.gif" /><span class="inline-middle">('.$COMMENT[0].')</span>',
+'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >&nbsp;('.$ACKCOMMENT[0].')</span>', 
+'downcur'    => '<img class="inline-middle" src="img/flag_downtime.png" /><span class="inline-middle" >&nbsp;('.$DOWNCOMMENT[0].')</span>',
+'notifycur'  => '<img class="inline-middle" src="img/flag_notify.png" /><span class="inline-middle" >&nbsp;('.$NOTIFCOMMENT[0].')</span>',
+'disacur'    => '<img class="inline-middle" src="img/flag_disablecheck.png" /><span class="inline-middle" >&nbsp;('.$DISABLECHECKCOMMENT[0].')</span>',
+'commentcur' => '<img class="inline-middle" src="img/flag_comment.gif" /><span class="inline-middle">&nbsp;('.$COMMENT[0].')</span>',
 ) ;
 
 if ( (isset($_GET['fix'])) || (isset($_SESSION['STATUS']['graph'])) )
