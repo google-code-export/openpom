@@ -535,6 +535,7 @@ function execute_prepared_actions_nagios($actions) {
     }
     
     $args[] = escapeshellarg($CMD_FILE);
+    setlocale(LC_CTYPE, "en_US.ISO-8859-1"); /* DON'T REMOVE ACCENTS ! */
     $args[] = escapeshellarg($actions);
     $args[] = '&';
     
