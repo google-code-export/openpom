@@ -105,6 +105,7 @@ $LANG['en'] = array (
 'no'                 => 'no', 
 'state_change'       => 'state change', 
 'disabled_since'     => 'disabled since'
+'next_check'         => 'next check',
 ) ;
 
 /* FRENCH */
@@ -201,6 +202,7 @@ $LANG['fr'] = array (
 'no'                 => 'non', 
 'state_change'       => 'changement d\'&eacute;tat', 
 'disabled_since'     => 'd&eacute;sactiv&eacute;es depuis'
+'next_check'         => 'Prochain test',
 ) ;
 
 $LANG['de'] = array (
@@ -295,6 +297,7 @@ $LANG['de'] = array (
 'no'                 => 'nein', 
 'state_change'       => 'Zustands&auml;nderung', 
 'disabled_since'     => 'Deaktiviert seit'
+'next_check'         => 'nachste check',
 ) ;
 
 /* GET/SET LANG */

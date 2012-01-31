@@ -78,6 +78,8 @@ $LASTCHANGEDIFF    = $st_data['LASTCHANGEDIFF'];
 $LASTCHANGE        = $st_data['LASTCHANGE'];
 $LASTCHECKTIMEDIFF = $st_data['LASTCHECKTIMEDIFF'];
 $LASTCHECKTIME     = $st_data['LASTCHECKTIME'];
+$NEXTCHECKTIME     = $st_data['NEXTCHECKTIME'];
+$NEXTCHECKTIMEDIFF = $st_data['NEXTCHECKTIMEDIFF'];
 $OUTPUT            = $st_data['OUTPUT'];
 $CURATTEMP         = $st_data['CURATTEMP'];
 $MAXATTEMP         = $st_data['MAXATTEMP'];
@@ -171,6 +173,10 @@ if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'last'))?></th>
         <td><?php echo $LASTCHECKTIME?> (<?php echo printtime($LASTCHECKTIMEDIFF) ?>)</td>
+      </tr>
+      <tr>
+        <th><?php echo ucfirst(lang($MYLANG, 'next_check'))?></th>
+        <td><?php if ($NEXTCHECKTIME < date('Y-m-d H-i-s') ) echo "N/A" ; else { echo $NEXTCHECKTIME ; echo " (".printtime($NEXTCHECKTIMEDIFF).")" ; } ?></td>
       </tr>
       <tr>
         <th><?php echo ucfirst(lang($MYLANG, 'chktyp'))?></th>

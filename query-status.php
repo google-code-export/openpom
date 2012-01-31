@@ -39,6 +39,9 @@ $QUERY_STATUS['svc'] = "
     H.address                              AS ADDRESS,
     H.display_name                         AS HOSTNAME,
     S.display_name                         AS SERVICE,
+    SS.next_check                          AS NEXTCHECKTIME,
+    unix_timestamp(SS.next_check) - unix_timestamp()
+                                           AS NEXTCHECKTIMEDIFF,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ".$BACKEND."_commenthistory AS ACO
@@ -119,6 +122,9 @@ $QUERY_STATUS['host'] = "
     HS.status_update_time                  AS UPDATETIME,
     H.address                              AS ADDRESS,
     H.display_name                         AS HOSTNAME,
+    HS.next_check                          AS NEXTCHECKTIME,
+    unix_timestamp(HS.next_check) - unix_timestamp()
+                                           AS NEXTCHECKTIMEDIFF,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ".$BACKEND."_commenthistory AS ACO
