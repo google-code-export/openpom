@@ -182,6 +182,7 @@ $SHOWSTATUSGRAPH   = 1 ; /*SHOW GRAPH*/
 $SHOWSTATUSALL     = 1 ; /*SHOW ELEMENT*/
 $SHOWSTATUSLIMIT   = 5 ; /*SHOW NB ELEMENT*/
 
+/* 0 => HIDE , 1 => HIDE OR SHOWED, 2 ALWAYS SHOWED */
 $STATUSPOPIN = array (
   'curstat'      => 1,
   'outputstatus' => 1,
@@ -194,12 +195,12 @@ $STATUSPOPIN = array (
   'flapping'     => 1,
   'groupstatus'  => 1,
   'notifystatus' => 1,
-  'ackcur'       => 1,
-  'downcur'      => 1,
-  'notifycur'    => 1,
-  'disacur'      => 1,
-  'commentcur'   => 1,
-  'history'      => 1,
+  'ackcur'       => 2,
+  'downcur'      => 2,
+  'notifycur'    => 2,
+  'disacur'      => 2,
+  'commentcur'   => 2,
+  'history'      => 2,
 ) ;
 
 /* POPUP HISTORY SIZE */
