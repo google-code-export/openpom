@@ -123,7 +123,7 @@ Configure the queue in send-order script : MAX_EXTCMD=10 (default) it allow to s
      Require groupe nagios
      Satisfy Any
 
-     SetEnv REMOTE_USER root
+     SetEnv REMOTE_USER admin
   </Directory>
 
 !!! The REMOTE_USER user name must match a contact_name in nagios or icinga contact.cfg !!!
@@ -150,7 +150,45 @@ Add your user:password with htpasswd in /etc/nagios/http-passwd
 !!! The user name must match a contact_name in nagios or icinga contact.cfg !!!
 
 
-5) Graph
+5) Minimum Nagios Configuration
+-------------------------------
+
+I assume you have already nagios running with few hosts and services configured.
+
+Check the following points :
+
+Add a hostgroup that includes every host :
+
+define hostgroup {
+  hostgroup_name       all
+  members              *
+}
+
+
+Add a contact name that matches the REMOTE_USER in apache conf.
+
+define contact {
+  contact_name                    admin
+  alias                           Nagios admin
+  service_notification_period     24x7
+  host_notification_period        24x7
+  service_notification_options    w,u,c,r
+  host_notification_options       d,r,u
+  service_notification_commands   notify-service-by-email
+  host_notification_commands      notify-host-by-email
+  contactgroups   *
+  email                           nagios@localhost
+}
+
+
+If you use local authentification method in apache (or another method), 
+you must have a nagios contact name that matches the user name (valid-user).
+
+
+OpenPOM allows you to see only host and service for your contact name !
+
+
+6) Graph
 --------
 
 You can show graph from external sources (like rrdgraph, pnp, cacti, ...)
@@ -214,7 +252,7 @@ $GRAPH_POPUP_PARAM_START = 't1';
 $GRAPH_POPUP_PARAM_END = 't2';
 
 
-6) Note
+7) Note
 -------
 
 Supported Navigators :
@@ -231,7 +269,8 @@ operators :
  & and
  | or
 
-7) Contributors
+
+8) Contributors
 ---------------
 
 Sylvain Choisnard  - schoisnard@exosec.fr
