@@ -24,8 +24,8 @@ FROM (
     count(scheduled_downtime_depth)		AS c_down,
     notifications_enabled			AS notif,
     count(notifications_enabled)		AS c_notif,
-    active_checks_enabled			AS check_ena,
-    count(active_checks_enabled)		AS c_check_ena
+    '1' 					AS check_ena,
+    'O' 					AS c_check_ena
 
   FROM
     ".$BACKEND."_servicestatus
@@ -35,6 +35,29 @@ FROM (
     problem_has_been_acknowledged, 
     scheduled_downtime_depth, 
     notifications_enabled,
+    active_checks_enabled
+
+UNION 
+  
+  SELECT
+    '10'		AS state,
+    '0'			AS c_state,
+    '10'		AS ack,
+    '0'			AS c_ack,
+    '10'		AS down,
+    '0'			AS c_down,
+    '10'		AS notif,
+    '0'					AS c_notif,
+    active_checks_enabled		AS check_ena,
+    count(active_checks_enabled)	AS c_check_ena
+
+  FROM 
+    ".$BACKEND."_servicestatus
+
+  WHERE 
+    check_type = 0
+
+  GROUP BY
     active_checks_enabled
 
 UNION 
@@ -52,17 +75,39 @@ UNION
     count(scheduled_downtime_depth)		AS c_down,
     notifications_enabled			AS notif,
     count(notifications_enabled)		AS c_notif,
-    active_checks_enabled			AS check_ena,
-    count(active_checks_enabled)		AS c_check_ena
+    '1' 					AS check_ena,
+    'O' 					AS c_check_ena
 
   FROM
     ".$BACKEND."_hoststatus
+
+  WHERE 
+    check_type = 0
 
   GROUP BY 
     current_state,
     problem_has_been_acknowledged, 
     scheduled_downtime_depth, 
-    notifications_enabled,
+    notifications_enabled
+
+UNION 
+  
+  SELECT
+    '10'		AS state,
+    '0'			AS c_state,
+    '10'		AS ack,
+    '0'			AS c_ack,
+    '10'		AS down,
+    '0'			AS c_down,
+    '10'		AS notif,
+    '0'					AS c_notif,
+    active_checks_enabled		AS check_ena,
+    count(active_checks_enabled)	AS c_check_ena
+
+  FROM 
+    ".$BACKEND."_hoststatus
+
+  GROUP BY
     active_checks_enabled
 
 ) AS sub
