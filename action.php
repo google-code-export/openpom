@@ -136,6 +136,14 @@
             <span class="icon-btn icon-clear"
                   title="<?php echo ucfirst(lang($MYLANG, 'clear'))?>"
                   onclick="$('#filtering').val(''); $('#filt').submit();"></span>
+
+           <?php if (isset($_GET['sort'])) { ?>
+           <input type="hidden" name="sort" value="<?php echo $_GET['sort'] ; ?>" />
+           <?php } ?>
+
+           <?php if (isset($_GET['order'])) { ?>
+           <input type="hidden" name="order" value="<?php echo $_GET['order'] ; ?>" />
+           <?php } ?>
             
           </form>
         </td>
