@@ -28,6 +28,7 @@ session_start();
 require_once("config.php");
 require_once("query.php");
 require_once("query-downtime.php");
+require_once("query-globalcount.php");
 require_once("utils.php");
 
 
@@ -449,6 +450,34 @@ $MY_GET_NO_FILT = preg_replace('/[?&]{1}filter=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}filtering=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_FILT);
 
+/* QUERY AND SET GLOBAL COUNTER */
+if (!($rep_glob = mysql_query($QUERY_GLOBAL_COUNT, $dbconn))) {
+  $errno = mysql_errno($dbconn);
+  $txt_error = mysql_error($dbconn);
+  error_log("invalid query : ".$errno." : ".$txt_error);
+  die_refresh("invalid query") ;
+}
+$glob_ok       = 0;
+$glob_warning  = 0; 
+$glob_critical = 0;
+$glob_unknown  = 0;
+$glob_ack      = 0;
+$glob_down     = 0;
+$glob_notif    = 0;
+$glob_check    = 0;
+$glob_any      = 0;
+
+while ($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC) ) {
+  if      ( $glob_counter['STATE']  == 3 ) $glob_unknown  += $glob_counter['NSTATE'] ;
+  else if ( $glob_counter['STATE']  == 2 ) $glob_critical += $glob_counter['NSTATE'] ;
+  else if ( $glob_counter['STATE']  == 1 ) $glob_warning  += $glob_counter['NSTATE'] ;
+  else if ( $glob_counter['STATE']  == 0 ) $glob_ok       += $glob_counter['NSTATE'] ;
+  if      ( $glob_counter['ACK']    == 1 ) $glob_ack      += $glob_counter['NACK'] ;
+  if      ( $glob_counter['DOWN']   == 1 ) $glob_down     += $glob_counter['NDOWN'] ;
+  if      ( $glob_counter['NOTIF']  == 0 ) $glob_notif    += $glob_counter['NNOTIF'] ;
+  if      ( $glob_counter['SCHECK'] == 0 ) $glob_check    += $glob_counter['NCHECK'] ;
+}
+
 /* FORGE QUERY (AUTO CHANGE LEVEL IN MONITOR MODE) */
 $nb_rows = 0;
 $level = $LEVEL;
@@ -509,37 +538,13 @@ $array_total_rows = mysql_fetch_row( mysql_query( "SELECT FOUND_ROWS( )", $dbcon
 $total_rows       = $array_total_rows[0];
 
 /* PREPARE DISPLAY */
-$hit_ok        = 0;
-$hit_warning   = 0; 
-$hit_critical  = 0;
-$hit_unknown   = 0;
-$hit_down      = 0;
-$hit_ack       = 0;
-$hit_notify    = 0;
-$hit_disacheck = 0;
-$hit_any       = 0;
 $line          = 1;
 
-while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
-  switch($data['STATUS']) {
-    case 0: $hit_ok++;       break;
-    case 1: $hit_warning++;  break;
-    case 2: $hit_critical++; break;                                                      
-    case 3: $hit_unknown++;  break;
-  }
-  if ($data['ACK'] == 1) $hit_ack++;
-  if ($data['DOWNTIME'] > 0) $hit_down++;
-  if ($data['NOTIF'] == 0) $hit_notify++;
-  if ( ($data['DISABLECHECK'] == 0) && ($data['CHECKTYPE'] == 0) ) $hit_disacheck++;
-  $hit_any++;
-}
-$hit_any = $total_rows;
-
-if      ($hit_critical > 0) $framecolor = $CRITICAL;
-else if ($hit_warning > 0)  $framecolor = $WARNING;
-else if ($hit_unknown > 0)  $framecolor = $UNKNOWN;
-else if ($hit_ok > 0)       $framecolor = $OK;
-else                        $framecolor = $OTHER;
+if      ($glob_critical > 0) $framecolor = $CRITICAL;
+else if ($glob_warning > 0)  $framecolor = $WARNING;
+else if ($glob_unknown > 0)  $framecolor = $UNKNOWN;
+else if ($glob_ok > 0)       $framecolor = $OK;
+else                         $framecolor = $OTHER;
 
 if ($nb_rows > 0)
   mysql_data_seek($rep, 0);

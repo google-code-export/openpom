@@ -145,14 +145,14 @@
         
         <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
           <span class="count">
-            <img src="img/flag_critical.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_critical ?></b>
-            <img src="img/flag_warning.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_warning ?></b>
-            <img src="img/flag_unknown.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_unknown ?></b>
-            <img src="img/flag_ok.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ok ?></b>
-            <img src="img/flag_downtime.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_down ?></b>
-            <img src="img/flag_ack.gif" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ack ?></b>
-            <img src="img/flag_notify.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_notify ?></b>
-            <img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_disacheck ?></b>
+            <img src="img/flag_critical.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_critical ?></b>
+            <img src="img/flag_warning.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_warning ?></b>
+            <img src="img/flag_unknown.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_unknown ?></b>
+            <img src="img/flag_ok.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_ok ?></b>
+            <img src="img/flag_downtime.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_down ?></b>
+            <img src="img/flag_ack.gif" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_ack ?></b>
+            <img src="img/flag_notify.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_notif ?></b>
+            <img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_check ?></b>
           </span>
         </td>
         
@@ -166,7 +166,7 @@
                   title="<?php echo ucfirst(lang($MYLANG, 'prev'))?>"></span>
           <?php } ?>
           
-          <span><?php echo $FIRST."-".($FIRST+$nb_rows)."&thinsp;<b>/".$hit_any."</b>" ?></span>
+          <span><?php echo $FIRST."-".($FIRST+$nb_rows)."&thinsp;<b>/".$total_rows."</b>" ?></span>
           
           <?php if ($nb_rows >= $LINE_BY_PAGE) { ?>
             <span class="icon-btn icon-next"
