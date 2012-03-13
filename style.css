@@ -398,33 +398,6 @@ table#alert td#notif_warning > div {
 }
 
 /**
- * History table
- */
-
-table#history {
-  margin: 0 2px 0 2px ;
-  width: 99%;
-  border: none;
-  background-color: #fff;
-  cursor: default;
-}
-
-table#history th {
-  white-space: nowrap;
-  background-color: #C0C0C0;
-  text-align: left;
-  padding: 3px 2px;
-  color: #FFFFFF;
-  border: 1px solid #C0C0C0;
-}
-
-table#history td {
-  text-align: left;
-  padding: 0px 2px;
-  border: 1px solid #C0C0C0;
-}
-
-/**
  * Box popins
  */
 
