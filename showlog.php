@@ -130,15 +130,15 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
         $tmptd .= "<img src='img/command.png' width='12px' height='12px' />" ;
       if ( preg_match('/ FLAPPING ALERT: /' ,$v) )
         $tmptd .= "<img src='img/flapping.gif' width='12px' height='12px' />" ;
-      if ( preg_match('/[_ ]{1}DOWNTIME/' ,$v) )
+      if ( preg_match('/(SCHEDULE_(HOST|SVC)_DOWNTIME| DOWNTIME )/' ,$v) )
         $tmptd .= "<img src='img/flag_downtime.png' width='12px' height='12px' />" ;
-      if ( preg_match('/ACKNOWLEDGE/' ,$v) )
+      if ( preg_match('/ACKNOWLEDGE_/' ,$v) )
         $tmptd .= "<img src='img/flag_ack.gif' width='12px' height='12px' />" ;
-      if ( preg_match('/_NOTIFICATIONS/' ,$v) )
+      if ( preg_match('/DISABLE_(SVC|HOST)_NOTIFICATIONS/' ,$v) )
         $tmptd .= "<img src='img/flag_notify.png' width='12px' height='12px' />" ;
-      if ( preg_match('/_COMMENT/' ,$v) )
+      if ( preg_match('/ADD_(SVC|HOST)_COMMENT/' ,$v) )
         $tmptd .= "<img src='img/flag_comment.gif' width='12px' height='12px' />" ;
-      if ( preg_match('/(SVC|HOST)_CHECK/' ,$v) )
+      if ( preg_match('/DISABLE_(SVC|HOST)_CHECK/' ,$v) )
         $tmptd .= "<img src='img/flag_disablecheck.png' width='12px' height='12px' />" ;
       if ( preg_match('/(HOST|SERVICE) NOTIFICATION: /' ,$v) )
         $tmptd .= "<img src='img/disa_notif.png' width='12px' height='12px' />" ;
