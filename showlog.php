@@ -11,23 +11,13 @@ session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("config.php");
 require_once("lang.php");
-require_once("query-history.php");
+require_once("query-logs.php");
 require_once("utils.php");
 special_char();
 
-if ( (!isset($_GET['id'])) || (!is_numeric($_GET['id'])) ||
-     (!isset($_GET['type'])) || (!isset($_GET['host'])) || (!isset($_GET['svc'])) 
-   ) 
-  die('bad arguments');
-
-$id     = $_GET['id'];
-$type   = $_GET['type'] ;
-$host   = $_GET['host'] ;
-$svc    = $_GET['svc'] ;
-$MY_GET = "&id=".$id."&type=".$type."&host=".$host."&svc=".$svc ;
-
-if ( (isset($_GET['sort'])) &&
-   ( ($_GET['sort'] == "type") || ($_GET['sort'] == 'outputstatus') ) )
+$MY_GET = "" ;
+if ( (isset($_GET['sort'])) && 
+   ( ($_GET['sort'] == 'type') || ($_GET['sort'] == 'outputstatus') ) )
   $MY_SORT = $_GET['sort'] ;
 else unset ($_GET['sort']) ;
 if (isset($_GET['order'])) {
@@ -49,26 +39,14 @@ if ( ! isset($_GET['order']) ) {
 $MY_GET_SORT = $MY_GET."&sort=".$MY_SORT ;
 if ( isset($_GET['order']) ) $MY_GET_SORT .= "&order=1" ;
 
-if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
+if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD)))
   die('cannot connect to db');
-if (!mysql_select_db($SQL_DB, $dbconn)) 
+if (!mysql_select_db($SQL_DB, $dbconn))
   die('cannot select db');
-$quoted_id = mysql_real_escape_string($id, $dbconn);
-$query = str_replace('define_my_id',    $quoted_id, $QUERY_HISTORY[$type]);
+$query = str_replace('define_my_first', $MY_FIRST, $QUERY_LOGS) ;
+$query = str_replace('define_my_step',  $MY_STEP, $query) ;
 $query = str_replace('define_my_sort',  $MY_SORT,  $query) ;
 $query = str_replace('define_my_order', $MY_ORDER, $query) ;
-$query = str_replace('define_my_first', $MY_FIRST, $query) ;
-$query = str_replace('define_my_step',  $MY_STEP, $query) ;
-foreach ($HISTORY AS $h => $v) {
-  if ( isset($_SESSION['HISTORY'][$h]) )
-    $query = str_replace('define_my_'.$h, $v, $query) ;
-  else 
-    $query = str_replace('define_my_'.$h, 0, $query) ;
-}
-    
-//echo "<pre>" ;
-//echo $query ;
-//echo "</pre>" ;
 
 $first_line = 0 ;
 if (!($rep = mysql_query($query, $dbconn)))
@@ -78,22 +56,23 @@ $total_rows       = $array_total_rows[0] ;
 $nb_rows = mysql_num_rows($rep) ;
 
 $cnext = $MY_FIRST + $MY_STEP ;
-if ( ($nb_rows < $total_rows) && ($cnext < $total_rows) ) 
+if ( ($nb_rows < $total_rows) && ($cnext < $total_rows) )
   $next = '<span class="icon-btn icon-next"
           onclick="window.location.href=\'?'.$MY_GET_SORT.'&next='.$cnext.'\'"
                   title="'.ucfirst(lang($MYLANG, 'next')).'"></span>' ;
 else $next = "" ;
 $cprev = $MY_FIRST - $MY_STEP ;
-if ($cprev >= 0) 
+if ($cprev >= 0)
   $prev = '<span class="icon-btn icon-prev"
           onclick="window.location.href=\'?'.$MY_GET_SORT.'&prev='.$cprev.'\'"
                   title="'.ucfirst(lang($MYLANG, 'prev')).'"></span>' ;
 else $prev = "" ;
 if ( ($total_rows % $MY_STEP) == 0 )
 $nb_pages = (int) ($total_rows / $MY_STEP) ;
-else 
+else
 $nb_pages = (int) ($total_rows / $MY_STEP) + 1 ;
 $cur_page = (int) ($MY_FIRST / $MY_STEP) + 1 ;
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -108,7 +87,7 @@ $cur_page = (int) ($MY_FIRST / $MY_STEP) + 1 ;
   </head>
   <body>
     <center>
-      <h1><?php echo ucfirst(lang($MYLANG, 'historyfor'))." ".$host." : ".$svc ; ?></h1>
+      <h1>Nagios <?php echo ucfirst(lang($MYLANG, 'history')); ?></h1>
       <div style="display: inline; text-align: left; margin:0; padding: 0;"><?php echo $prev ; ?> &nbsp; </div>
       <?php if ($nb_pages > 1) echo $cur_page." / ".$nb_pages ; ?>
       <div style="display: inline; text-align: right; margin:0; padding: 0;"> &nbsp; <?php echo $next ; ?></div>
@@ -122,12 +101,11 @@ if ($nb_rows < 1) {
   echo "</html>" ;
   die() ;
 }
+$style = "style='white-space: nowrap;'" ;
 while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
-  //print_r($row) ;
   echo "<tr>" ;
   if ($first_line == 0) {
     foreach ($row AS $kh => $vh) {
-      if ( ($kh == "state_type") || ($kh == "color") || ($kh == "author_name") ) continue ;
       if ($MY_SORT == $kh)
         echo "<th><a ".$classorder." href='?".$MY_GET."&sort=".$kh.$order."'>".ucfirst(lang($MYLANG, $kh))."</a></th>";
       else
@@ -136,60 +114,56 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
     echo "</tr>" ;
     $first_line = 1 ;
   } //end foreach
-  $class = "" ;
   $tds = array() ;
-  $author = "" ;
-  $style = "style='white-space: nowrap;'" ;
   foreach ($row AS $k => $v) {
-    if ($k == "author_name") { $author = $v ; continue ; }
-    if ($k == "color") { 
-      if ( ($type == "svc") && ($v == 2) ) $class = "red";
-      else if ( ($type == "svc") && ($v == 1) ) $class = "yellow";
-      else if ( ($type == "svc") && ($v == 3) ) $class = "orange";
-      else if ($type == "svc") $class = "green" ;
-      else if ( ($type == "host") && ( ($v == 2) || ($v == 1) ) ) $class = "red";
-      else if ($type == "host") $class = "green" ;
-      else $class = "green" ;
-      continue ;
+    if ($k == "type") {
+      if ( ($v == 2) || ($v == 6) || ($v == 64) )
+        $v = "<img src='img/info.png' width='12px' height='12px' />" ;
+      else if ($v == 512) 
+        $v = "<img src='img/command.png' width='12px' height='12px' />" ;
+      else 
+        $v = "<img src='img/info.png' width='12px' height='12px' />" ;
     }
-    else if ($k == "state_type") {
-      if ($v == 0) $class .= " soft" ;
-      continue ;
-    }
-    else if ($k == "type") {
-      if ( ($v == 'ack') || ($v == "comment") )
-        $v = "<img src='img/flag_".$v.".gif' width='12px' height='12px' />" ;
-      else if ($v == "downtime")
-        $v = "<img src='img/flag_".$v.".png' width='12px' height='12px' />" ;
-      else if ($v == "notify")
-        $v = "<img src='img/disa_notif.png' width='12px' height='12px' />" ;
-      else if ($v == 'statehistory') {
-        if      (substr($class, 0, 3) == "red") $v = "<img src='img/flag_critical.png' width='12px' height='12px' />" ;
-        else if (substr($class, 0, 6) == "yellow") $v = "<img src='img/flag_warning.png' width='12px' height='12px' />" ;
-        else if (substr($class, 0, 6) == "orange") $v = "<img src='img/flag_unknown.png' width='12px' height='12px' />" ;
-        else if (substr($class, 0, 5) == "green") $v = "<img src='img/flag_ok.png' width='12px' height='12px' />" ;
-        else $v = "" ;
-      }
-      else if ($v == "flapping")
-        $v = "<img src='img/flapping.gif' width='12px' height='12px' />" ;
-      else $v = "" ;
-    }
-    else if ( ($k == "outputstatus") && (preg_match('/^(~[^:]+):(.*)$/', $v, $cap)) ) {
-      $v = $cap[2] ;
-      if ($cap[1] == "~disable") 
-        $tds[0] = "<td ".$style.">
-          <img src='img/flag_notify.png' width='12px' height='12px' /></td>" ;
-      else if ($cap[1] == "~disablecheck") 
-        $tds[0] = "<td ".$style.">
-          <img src='img/flag_disablecheck.png' width='12px' height='12px' /></td>" ;
+    if ($k == "outputstatus") {
+      $tmptd = "" ;
+      if      ( preg_match('/^EXTERNAL COMMAND: /' ,$v) )
+        $tmptd .= "<img src='img/command.png' width='12px' height='12px' />" ;
+      if ( preg_match('/ FLAPPING ALERT: /' ,$v) )
+        $tmptd .= "<img src='img/flapping.gif' width='12px' height='12px' />" ;
+      if ( preg_match('/[_ ]{1}DOWNTIME/' ,$v) )
+        $tmptd .= "<img src='img/flag_downtime.png' width='12px' height='12px' />" ;
+      if ( preg_match('/ACKNOWLEDGE/' ,$v) )
+        $tmptd .= "<img src='img/flag_ack.gif' width='12px' height='12px' />" ;
+      if ( preg_match('/_NOTIFICATIONS/' ,$v) )
+        $tmptd .= "<img src='img/flag_notify.png' width='12px' height='12px' />" ;
+      if ( preg_match('/_COMMENT/' ,$v) )
+        $tmptd .= "<img src='img/flag_comment.gif' width='12px' height='12px' />" ;
+      if ( preg_match('/(SVC|HOST)_CHECK/' ,$v) )
+        $tmptd .= "<img src='img/flag_disablecheck.png' width='12px' height='12px' />" ;
+      if ( preg_match('/(HOST|SERVICE) NOTIFICATION: /' ,$v) )
+        $tmptd .= "<img src='img/disa_notif.png' width='12px' height='12px' />" ;
+      if ( preg_match('/CUSTOM_(HOST|SVC)_NOTIFICATION;/' ,$v) )
+        $tmptd .= "<img src='img/disa_notif.png' width='12px' height='12px' />" ;
+      if      ( preg_match('/[ ]?HOST /' ,$v) )
+        $tmptd .= "<img src='img/flag_host.png' width='12px' height='12px' />" ;
+      else if ( preg_match('/[ ]?SERVICE /' ,$v) )
+        $tmptd .= "<img src='img/flag_svc.png' width='12px' height='12px' />" ;
+      if      ( preg_match('/[; (]?CRITICAL[) ;]{1}/' ,$v) )
+        $tmptd .= "<img src='img/flag_critical.png' width='12px' height='12px' />" ;
+      else if ( preg_match('/[; (]?WARNING[) ;]{1}/' ,$v) )
+        $tmptd .= "<img src='img/flag_warning.png' width='12px' height='12px' />" ;
+      else if ( preg_match('/[; (]?UNKNOWN[) ;]{1}/' ,$v) )
+        $tmptd .= "<img src='img/flag_unknown.png' width='12px' height='12px' />" ;
+      else if ( preg_match('/[; (]?(OK|UP)[) ;]{1}/' ,$v) )
+        $tmptd .= "<img src='img/flag_ok.png' width='12px' height='12px' />" ;
+      if ($tmptd != "") $tds[0] = "<td ".$style.">".$tmptd."</td>" ;
     }
     $tds[] = "<td ".$style.">".$v."</td>" ;
-  } //end foreach
-  echo "<tr title='".$author."' class='".$class."'>" ;
+  }
+  echo "<tr>" ;
   foreach ($tds AS $td) echo $td ;
   echo "</tr>" ;
-} //end while
-
+}
 echo "</table>" ;
 
 mysql_free_result($rep) ;
@@ -203,3 +177,4 @@ mysql_close($dbconn) ;
     <br>
   </body>
 </html>
+
