@@ -590,11 +590,8 @@ if ($nb_rows > 0)
 
 require_once("header.php");
 
-if (isset($_GET['monitor'])) 
-  unset($COLS['checkbox']);
-else {
-  require_once("action.php");
-}
+if (isset($_GET['monitor'])) unset($COLS['checkbox']);
+require_once("action.php");
 require_once("alert.php");
 require_once("footer.php");
 

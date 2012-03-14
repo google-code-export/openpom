@@ -16,6 +16,9 @@
         <td colspan="11" id="margintop"></td>
       </tr>
       <tr>
+
+  <?php if (!isset($_GET['monitor'])) { ?>
+
       <td style="padding-left: 4px; width: 60px;">
         <nobr>
           <span class="icon-btn icon-refesh"
@@ -143,6 +146,16 @@
         <td style="padding-left: 10px; padding-right: 10px;">
         </td>
         
+  <?php } ?>
+
+    <?php if (isset($_GET['monitor'])) { ?>
+
+        <td style="text-align: left; cursor: default;" title="<?php echo ucfirst(lang($MYLANG, 'title'.$level)) ?>">
+          <?php echo " &nbsp;".$level.") ".ucfirst(lang($MYLANG, 'level'.$level)) ?>
+        </td>
+
+  <?php } ?>
+
         <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
           <span class="count">
             <img src="img/flag_critical.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_critical ?></b>
@@ -155,6 +168,8 @@
             <img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $glob_check ?></b>
           </span>
         </td>
+
+  <?php if (!isset($_GET['monitor'])) { ?>
         
         <td style="padding-left: 10px; padding-right: 10px;">
         </td>
@@ -181,8 +196,27 @@
           <div id="white"></div>
           <div id="grad"></div>
         </td>
+
+  <?php } if (isset($_GET['monitor'])) { ?>
+        <td style="text-align: center; cursor: default;">
+          <?php echo ucfirst(lang($MYLANG, 'refreshing')) ?>
+          <b><span id="refreshspan"></span></b>&#160;<?php echo lang($MYLANG, 'second') ?>
+        </td>
+        <td style="text-align: right; cursor: default;">
+          <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a> &nbsp;
+        </td>
+  <?php } ?>
+
       </tr>
     </table>
 
+  <?php if (!isset($_GET['monitor'])) { ?>
+
     <div id="top-fixed-tpad"></div>
+
+  <?php } else { ?>
+
+    <div id="top-fixed-tpad-monitor"></div>
+
+  <?php } ?>
 
