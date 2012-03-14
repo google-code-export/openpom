@@ -457,15 +457,26 @@ if (!($rep_glob = mysql_query($QUERY_GLOBAL_COUNT, $dbconn))) {
   error_log("invalid query : ".$errno." : ".$txt_error);
   die_refresh("invalid query") ;
 }
-$glob_ok       = 0;
-$glob_warning  = 0; 
-$glob_critical = 0;
-$glob_unknown  = 0;
-$glob_ack      = 0;
-$glob_down     = 0;
-$glob_notif    = 0;
-$glob_check    = 0;
-$glob_any      = 0;
+$glob_ok               = 0;
+$glob_warning          = 0;
+$glob_critical         = 0;
+$glob_unknown          = 0;
+$glob_unknown_ack      = 0;
+$glob_critical_ack     = 0;
+$glob_warning_ack      = 0;
+$glob_unknown_down     = 0;
+$glob_critical_down    = 0;
+$glob_warning_down     = 0;
+$glob_unknown_notif    = 0;
+$glob_critical_notif   = 0;
+$glob_warning_notif    = 0;
+$glob_unknown_check    = 0;
+$glob_critical_check   = 0;
+$glob_warning_check    = 0;
+$glob_ack              = 0;
+$glob_down             = 0;
+$glob_notif            = 0;
+$glob_check            = 0;
 
 while ($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC) ) {
   if      ( $glob_counter['STATE']  == 3 ) $glob_unknown  += $glob_counter['NSTATE'] ;
@@ -476,7 +487,35 @@ while ($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC) ) {
   if      ( $glob_counter['DOWN']   == 1 ) $glob_down     += $glob_counter['NDOWN'] ;
   if      ( $glob_counter['NOTIF']  == 0 ) $glob_notif    += $glob_counter['NNOTIF'] ;
   if      ( $glob_counter['SCHECK'] == 0 ) $glob_check    += $glob_counter['NCHECK'] ;
+  if      ( ( $glob_counter['STATE']  == 3 ) && ( $glob_counter['ACK'] == 1 ) )
+    $glob_unknown_ack  += $glob_counter['NACK'] ;
+  else if ( ( $glob_counter['STATE']  == 2 ) && ( $glob_counter['ACK'] == 1 ) )
+    $glob_critical_ack  += $glob_counter['NACK'] ;
+  else if ( ( $glob_counter['STATE']  == 1 ) && ( $glob_counter['ACK'] == 1 ) )
+    $glob_warning_ack  += $glob_counter['NACK'] ;
+  if      ( ( $glob_counter['STATE']  == 3 ) && ( $glob_counter['DOWN'] == 1 ) )
+    $glob_unknown_down  += $glob_counter['NDOWN'] ;
+  else if ( ( $glob_counter['STATE']  == 2 ) && ( $glob_counter['DOWN'] == 1 ) )
+    $glob_critical_down  += $glob_counter['NDOWN'] ;
+  else if ( ( $glob_counter['STATE']  == 1 ) && ( $glob_counter['DOWN'] == 1 ) )
+    $glob_warning_down  += $glob_counter['NDOWN'] ;
+  if      ( ( $glob_counter['STATE']  == 3 ) && ( $glob_counter['NOTIF'] == 0 ) )
+    $glob_unknown_notif  += $glob_counter['NNOTIF'] ;
+  else if ( ( $glob_counter['STATE']  == 2 ) && ( $glob_counter['NOTIF'] == 0 ) )
+    $glob_critical_notif  += $glob_counter['NNOTIF'] ;
+  else if ( ( $glob_counter['STATE']  == 1 ) && ( $glob_counter['NOTIF'] == 0 ) )
+    $glob_warning_notif  += $glob_counter['NNOTIF'] ;
+  if      ( ( $glob_counter['STATE']  == 3 ) && ( $glob_counter['SCHECK'] == 0 ) )
+    $glob_unknown_check  += $glob_counter['NCHECK'] ;
+  else if ( ( $glob_counter['STATE']  == 2 ) && ( $glob_counter['SCHECK'] == 0 ) )
+    $glob_critical_check  += $glob_counter['NCHECK'] ;
+  else if ( ( $glob_counter['STATE']  == 1 ) && ( $glob_counter['SCHECK'] == 0 ) )
+    $glob_warning_check  += $glob_counter['NCHECK'] ;
 }
+
+eval ("\$glob_critical = $GLOB_CRITICAL;") ;
+eval ("\$glob_warning = $GLOB_WARNING;") ;
+eval ("\$glob_unknown = $GLOB_UNKNOWN;") ;
 
 /* FORGE QUERY (AUTO CHANGE LEVEL IN MONITOR MODE) */
 $nb_rows = 0;
