@@ -97,7 +97,6 @@ $CMD_FILE           = "/usr/local/nagios/var/rw/nagios.cmd";
 //$CMD_FILE         = "/var/lib/icinga/rw/icinga.cmd";
 $BASE_URL           = "" ;
 $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
-$LOG                = "/" . $BACKEND . "/cgi-bin/showlog.cgi";
 
 /* SEARCH FILTERING */
 $QUICKSEARCH = 0 ;  //disabled direct search on click

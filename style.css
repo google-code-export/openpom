@@ -538,6 +538,10 @@ table#alert tr.selected td {
     background-position: left center;
 }
 
+table#alert tr.showlog:hover {
+  background-color: #76F0C8;
+  border-color: #61E1B8;
+}
 
 /**
  * Status popin/popup

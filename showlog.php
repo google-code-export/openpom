@@ -160,7 +160,7 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
     }
     $tds[] = "<td ".$style.">".$v."</td>" ;
   }
-  echo "<tr>" ;
+  echo "<tr class='showlog'>" ;
   foreach ($tds AS $td) echo $td ;
   echo "</tr>" ;
 }
