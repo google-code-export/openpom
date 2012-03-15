@@ -16,26 +16,35 @@ SELECT
 FROM (
 
   SELECT
-    current_state 				AS state,
-    count(current_state)        		AS c_state,
-    problem_has_been_acknowledged		AS ack,
-    count(problem_has_been_acknowledged)	AS c_ack,
-    scheduled_downtime_depth			AS down,
-    count(scheduled_downtime_depth)		AS c_down,
-    notifications_enabled			AS notif,
-    count(notifications_enabled)		AS c_notif,
+    SS.current_state 				AS state,
+    count(SS.current_state)        		AS c_state,
+    SS.problem_has_been_acknowledged		AS ack,
+    count(SS.problem_has_been_acknowledged)	AS c_ack,
+    SS.scheduled_downtime_depth			AS down,
+    count(SS.scheduled_downtime_depth)		AS c_down,
+    SS.notifications_enabled			AS notif,
+    count(SS.notifications_enabled)		AS c_notif,
     '1' 					AS check_ena,
     'O' 					AS c_check_ena
 
   FROM
-    ".$BACKEND."_servicestatus
+         ".$BACKEND."_services AS S
+    JOIN ".$BACKEND."_servicestatus AS SS          ON S.service_object_id = SS.service_object_id
+    JOIN ".$BACKEND."_service_contactgroups AS SCG ON SCG.service_id = S.service_id
+    JOIN ".$BACKEND."_contactgroups AS HCG         ON SCG.contactgroup_object_id = HCG.contactgroup_object_id
+    JOIN ".$BACKEND."_contactgroup_members AS CGM  ON CGM.contactgroup_id = HCG.contactgroup_id
+    JOIN ".$BACKEND."_contacts AS C                ON C.contact_object_id = CGM.contact_object_id
+    JOIN ".$BACKEND."_objects AS O                 ON O.object_id = C.contact_object_id
+
+  WHERE
+    O.name1 = 'define_my_user'
 
   GROUP BY 
-    current_state, 
-    problem_has_been_acknowledged, 
-    scheduled_downtime_depth, 
-    notifications_enabled,
-    active_checks_enabled
+    SS.current_state, 
+    SS.problem_has_been_acknowledged, 
+    SS.scheduled_downtime_depth, 
+    SS.notifications_enabled,
+    SS.active_checks_enabled
 
 UNION 
   
@@ -48,47 +57,60 @@ UNION
     '0'			AS c_down,
     '10'		AS notif,
     '0'					AS c_notif,
-    active_checks_enabled		AS check_ena,
-    count(active_checks_enabled)	AS c_check_ena
+    SS.active_checks_enabled		AS check_ena,
+    count(SS.active_checks_enabled)	AS c_check_ena
 
   FROM 
-    ".$BACKEND."_servicestatus
+         ".$BACKEND."_services AS S
+    JOIN ".$BACKEND."_servicestatus AS SS          ON S.service_object_id = SS.service_object_id
+    JOIN ".$BACKEND."_service_contactgroups AS SCG ON SCG.service_id = S.service_id
+    JOIN ".$BACKEND."_contactgroups AS HCG         ON SCG.contactgroup_object_id = HCG.contactgroup_object_id
+    JOIN ".$BACKEND."_contactgroup_members AS CGM  ON CGM.contactgroup_id = HCG.contactgroup_id
+    JOIN ".$BACKEND."_contacts AS C                ON C.contact_object_id = CGM.contact_object_id
+    JOIN ".$BACKEND."_objects AS O                 ON O.object_id = C.contact_object_id
 
-  WHERE 
-    check_type = 0
+  WHERE
+    O.name1 = 'define_my_user'
+    AND SS.check_type = 0
 
   GROUP BY
-    active_checks_enabled
+    SS.active_checks_enabled
 
 UNION 
 
   SELECT 
-    ( CASE current_state
+    ( CASE HS.current_state
         WHEN 2 THEN 3
         WHEN 1 THEN 2
         WHEN 0 THEN 0
         END )                   		AS state,
-    count(current_state)               		AS c_state,
-    problem_has_been_acknowledged		AS ack,
-    count(problem_has_been_acknowledged)	AS c_ack,
-    scheduled_downtime_depth			AS down,
-    count(scheduled_downtime_depth)		AS c_down,
-    notifications_enabled			AS notif,
-    count(notifications_enabled)		AS c_notif,
+    count(HS.current_state)               	AS c_state,
+    HS.problem_has_been_acknowledged		AS ack,
+    count(HS.problem_has_been_acknowledged)	AS c_ack,
+    HS.scheduled_downtime_depth			AS down,
+    count(HS.scheduled_downtime_depth)		AS c_down,
+    HS.notifications_enabled			AS notif,
+    count(HS.notifications_enabled)		AS c_notif,
     '1' 					AS check_ena,
     'O' 					AS c_check_ena
 
   FROM
-    ".$BACKEND."_hoststatus
+         ".$BACKEND."_hosts AS H
+    JOIN ".$BACKEND."_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
+    JOIN ".$BACKEND."_host_contactgroups AS HCG   ON HCG.host_id = H.host_id
+    JOIN ".$BACKEND."_contactgroups As OCG        ON HCG.contactgroup_object_id = OCG.contactgroup_object_id
+    JOIN ".$BACKEND."_contactgroup_members AS CGM ON CGM.contactgroup_id = OCG.contactgroup_id
+    JOIN ".$BACKEND."_contacts AS C               ON C.contact_object_id = CGM.contact_object_id
+    JOIN ".$BACKEND."_objects AS O                ON O.object_id = C.contact_object_id
 
-  WHERE 
-    check_type = 0
+  WHERE
+    O.name1 = 'define_my_user'
 
   GROUP BY 
-    current_state,
-    problem_has_been_acknowledged, 
-    scheduled_downtime_depth, 
-    notifications_enabled
+    HS.current_state,
+    HS.problem_has_been_acknowledged, 
+    HS.scheduled_downtime_depth, 
+    HS.notifications_enabled
 
 UNION 
   
@@ -101,14 +123,24 @@ UNION
     '0'			AS c_down,
     '10'		AS notif,
     '0'					AS c_notif,
-    active_checks_enabled		AS check_ena,
-    count(active_checks_enabled)	AS c_check_ena
+    HS.active_checks_enabled		AS check_ena,
+    count(HS.active_checks_enabled)	AS c_check_ena
 
   FROM 
-    ".$BACKEND."_hoststatus
+         ".$BACKEND."_hosts AS H
+    JOIN ".$BACKEND."_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
+    JOIN ".$BACKEND."_host_contactgroups AS HCG   ON HCG.host_id = H.host_id
+    JOIN ".$BACKEND."_contactgroups As OCG        ON HCG.contactgroup_object_id = OCG.contactgroup_object_id
+    JOIN ".$BACKEND."_contactgroup_members AS CGM ON CGM.contactgroup_id = OCG.contactgroup_id
+    JOIN ".$BACKEND."_contacts AS C               ON C.contact_object_id = CGM.contact_object_id
+    JOIN ".$BACKEND."_objects AS O                ON O.object_id = C.contact_object_id
+
+  WHERE
+    O.name1 = 'define_my_user'
+    AND HS.check_type = 0
 
   GROUP BY
-    active_checks_enabled
+    HS.active_checks_enabled
 
 ) AS sub
 

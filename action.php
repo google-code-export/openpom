@@ -220,7 +220,7 @@
                   title="<?php echo ucfirst(lang($MYLANG, 'prev'))?>"></span>
           <?php } ?>
           
-          <span><?php echo $FIRST."-".($FIRST+$nb_rows)."&thinsp;<b>/".$total_rows."</b>" ?></span>
+          <span><?php echo $FIRST."-".($FIRST+$nb_rows)."&thinsp;<b>/&thinsp;".$hit_any."</b>" ?></span>
           
           <?php if ($nb_rows >= $LINE_BY_PAGE) { ?>
             <span class="icon-btn icon-next"
