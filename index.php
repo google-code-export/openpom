@@ -560,7 +560,7 @@ while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   if ($data['ACK'] == 1) $hit_ack++;
   if ($data['DOWNTIME'] > 0) $hit_down++;
   if ($data['NOTIF'] == 0) $hit_notif++;
-  if ( ($data['DISABLECHECK'] == 0) && ($data['CHECKTYPE'] == 0) ) $hit_checkk++;
+  if ( ($data['DISABLECHECK'] == 0) && ($data['CHECKTYPE'] == 0) ) $hit_check++;
   $hit_any++;
 }
 $hit_any = $total_rows;
