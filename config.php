@@ -100,18 +100,7 @@ $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
 $LOG                = "/" . $BACKEND . "/cgi-bin/showlog.cgi";
 
 /* SEARCH FILTERING */
-$QUICKSEARCH = 0 ;  //disabled direct search on click
-
-/* GLOBAL COUNTER PERSONALIZATION */
-//$GLOB_CRITICAL = '$glob_critical' ;
-//$GLOB_CRITICAL = '$glob_critical - $glob_critical_ack - $glob_critical_down' ;
-$GLOB_CRITICAL = '$glob_critical - $glob_critical_ack - $glob_critical_down - $glob_critical_notif - $glob_critical_check' ;
-//$GLOB_WARNING = '$glob_warning' ;
-//$GLOB_WARNING  = '$glob_warning - $glob_warning_ack - $glob_warning_down' ;
-$GLOB_WARNING  = '$glob_warning - $glob_warning_ack - $glob_warning_down - $glob_warning_notif - $glob_warning_check' ;
-//$GLOB_UNKNOWN = '$glob_unknown' ;
-//$GLOB_UNKNOWN  = '$glob_unknown - $glob_unknown_ack - $glob_unknown_down' ;
-$GLOB_UNKNOWN  = '$glob_unknown - $glob_unknown_ack - $glob_unknown_down - $glob_unknown_notif - $glob_unknown_check' ;
+$QUICKSEARCH = 1 ;  //disabled direct search on click
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE
  *  

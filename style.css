@@ -398,6 +398,24 @@ table#alert td#notif_warning > div {
 }
 
 /**
+ * Global counter table                                                                                                        
+ */
+
+table.glob tr.glob td.glob img,
+table.glob tr.glob td.glob a {
+  border: none;
+  margin: none;
+  padding: none;
+  text-decoration: none;
+  color: #000;
+}
+
+td.glob {
+  text-align: left;
+  padding-right: 8px !important;
+}
+
+/**
  * History table
  */
 
