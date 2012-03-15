@@ -547,7 +547,6 @@ $hit_down     = 0;
 $hit_ack      = 0;
 $hit_notif    = 0;
 $hit_check    = 0;
-$hit_any      = 0;
 $line         = 1;
 
 while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
@@ -561,9 +560,7 @@ while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   if ($data['DOWNTIME'] > 0) $hit_down++;
   if ($data['NOTIF'] == 0) $hit_notif++;
   if ( ($data['DISABLECHECK'] == 0) && ($data['CHECKTYPE'] == 0) ) $hit_check++;
-  $hit_any++;
 }
-$hit_any = $total_rows;
 
 if      ($hit_critical > 0) $framecolor = $CRITICAL;
 else if ($hit_warning > 0)  $framecolor = $WARNING;
