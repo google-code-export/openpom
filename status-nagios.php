@@ -155,8 +155,6 @@ $STATUSDATA = array (
 ($CHECKENABLE == "disabled") ? 'disacur' : 'nodisacur'              => $DISABLECHECKCOMMENT[1],
 /*COMMENT*/
 ($NOCOMMENT == 0) ? 'commentcur' : 'nocommentcur' => $COMMENT[1],
-/*LOGS*/
-'logs'         => "<a href=\"javascript:gotoPomLogs({'q': 'h:".str_replace('\'', '\\\'', $HOSTNAME)."'});\">".ucfirst(lang($MYLANG, 'view_logs'))."</a>",
 /*HISTORY*/
 (count($_SESSION['HISTORY']) > 0) ? 'history' : 'nohistory'         =>
                   "<a href=\"#\" onClick=\"return pop('history.php?id=".$id."&type=".$type."&host=".$HOSTNAME."&svc=".$SERVICE."', 'history-".$id."', '".$HISTORY_POPUP_WIDTH."', '".$HISTORY_POPUP_HEIGHT."')\">".ucfirst(lang($MYLANG, 'show_history'))."</a>",
