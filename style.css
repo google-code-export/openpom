@@ -274,10 +274,10 @@ div#top-fixed-tpad {
   width: 1px;
 }
 
-body.monitor div#top-fixed-tpad {
-  display: none;
+div#top-fixed-tpad-monitor {
+  height: 20px;
+  width: 1px;
 }
-
 
 /**
  * Alert table
@@ -398,6 +398,24 @@ table#alert td#notif_warning > div {
 }
 
 /**
+ * Global counter table                                                                                                        
+ */
+
+table.glob tr.glob td.glob img,
+table.glob tr.glob td.glob a {
+  border: none;
+  margin: none;
+  padding: none;
+  text-decoration: none;
+  color: #000;
+}
+
+td.glob {
+  text-align: left;
+  padding-right: 8px !important;
+}
+
+/**
  * Box popins
  */
 
@@ -488,42 +506,42 @@ table#alert tr.bluegreen td    { border-color: #9FE8C5; }
 
              table#alert tr.orange:hover td, 
              table#alert tr.orange td.checkbox, 
-body.monitor table#alert tr.orange td.flag { 
+table#alert tr.orange td.flag { 
   background-color: #FFD07A;
   border-color: #EEC57A;
 }
 
              table#alert tr.red:hover td, 
              table#alert tr.red td.checkbox, 
-body.monitor table#alert tr.red td.flag { 
+table#alert tr.red td.flag { 
   background-color: #FF8F8F;
   border-color: #E89292;
 }
 
              table#alert tr.yellow:hover td, 
              table#alert tr.yellow td.checkbox, 
-body.monitor table#alert tr.yellow td.flag { 
+table#alert tr.yellow td.flag { 
   background-color: #FFF45C;
   border-color: #ECE258;
 }
 
              table#alert tr.green:hover td, 
              table#alert tr.green td.checkbox, 
-body.monitor table#alert tr.green td.flag {
+table#alert tr.green td.flag {
   background-color: #87F272;
   border-color: #86E173;
 }
 
              table#alert tr.blue:hover td, 
              table#alert tr.blue td.checkbox, 
-body.monitor table#alert tr.blue td.flag {
+table#alert tr.blue td.flag {
   background-color: #87BAFF;
   border-color: #80ACE8;
 }
 
              table#alert tr.bluegreen:hover td, 
              table#alert tr.bluegreen td.checkbox, 
-body.monitor table#alert tr.bluegreen td.flag {
+table#alert tr.bluegreen td.flag {
   background-color: #76F0C8;
   border-color: #61E1B8;
 }

@@ -17,13 +17,6 @@
     2010&thinsp;-&thinsp;<?php echo date('Y') ?> <span class="ndash">&ndash;</span> 
     <?php echo ucfirst(lang($MYLANG, 'querytime')) ?> <?php echo sprintf($str_query_time, $query_time) ?>
     
-    <?php if (isset($_GET['monitor'])) { ?>
-      <span class="ndash">&ndash;</span> 
-      <?php echo ucfirst(lang($MYLANG, 'refreshing')) ?>
-      <b><span id="refreshspan"></span></b>&#160;<?php echo lang($MYLANG, 'second') ?>
-      <span class="ndash">&ndash;</span>
-      <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a>
-    <?php } ?>
   </div>
   
   <?php if ($_SESSION['FRAME'] == 1) { ?>

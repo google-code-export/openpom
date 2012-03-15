@@ -16,6 +16,9 @@
         <td colspan="11" id="margintop"></td>
       </tr>
       <tr>
+
+  <?php if (!isset($_GET['monitor'])) { ?>
+
       <td style="padding-left: 4px; width: 60px;">
         <nobr>
           <span class="icon-btn icon-refesh"
@@ -149,19 +152,64 @@
         <td style="padding-left: 10px; padding-right: 10px;">
         </td>
         
-        <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
-          <span class="count">
-            <img src="img/flag_critical.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_critical ?></b>
-            <img src="img/flag_warning.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_warning ?></b>
-            <img src="img/flag_unknown.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_unknown ?></b>
-            <img src="img/flag_ok.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ok ?></b>
-            <img src="img/flag_downtime.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_down ?></b>
-            <img src="img/flag_ack.gif" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_ack ?></b>
-            <img src="img/flag_notify.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_notify ?></b>
-            <img src="img/flag_disablecheck.png" width="10px" height="10px" /><b>&thinsp;<?php echo $hit_disacheck ?></b>
-          </span>
+  <?php } ?>
+
+    <?php if (isset($_GET['monitor'])) { ?>
+
+        <td style="text-align: left; cursor: default;" title="<?php echo ucfirst(lang($MYLANG, 'title'.$level)) ?>">
+          <?php echo " &nbsp;".$level.") ".ucfirst(lang($MYLANG, 'level'.$level)) ?>
         </td>
-        
+
+        <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
+          <img src="img/flag_critical.png" width="10px" height="10px" />&thinsp;<?php echo $hit_critical."/".$glob_critical ?>
+          <img src="img/flag_warning.png" width="10px" height="10px" />&thinsp;<?php echo $hit_warning."/".$glob_warning ?>
+          <img src="img/flag_unknown.png" width="10px" height="10px" />&thinsp;<?php echo $hit_unknown."/".$glob_unknown ?>
+          <img src="img/flag_ok.png" width="10px" height="10px" />&thinsp;<?php echo $hit_ok."/".$glob_ok ?>
+          <img src="img/flag_ack.gif" width="10px" height="10px" />&thinsp;<?php echo $hit_ack."/".$glob_ack ?>
+          <img src="img/flag_downtime.png" width="10px" height="10px" />&thinsp;<?php echo $hit_down."/".$glob_down ?>
+          <img src="img/flag_notify.png" width="10px" height="10px" />&thinsp;<?php echo $hit_notif."/".$glob_notif ?>
+          <img src="img/flag_disablecheck.png" width="10px" height="10px" />&thinsp;<?php echo $hit_check."/".$glob_check ?>
+        </td>
+
+  <?php } ?>
+
+  <?php if (!isset($_GET['monitor'])) { ?>
+
+        <td style="text-align: center; cursor: default;" title="<?php echo lang($MYLANG, 'meter') ?>">
+
+            <table class="glob">
+              <tr class="glob">
+                <td class="glob">
+                  <a href="?level=12"><img src="img/flag_critical.png" width="10px" height="10px" />&thinsp;<?php echo $hit_critical."/".$glob_critical ?></a>
+                </td>
+                <td class="glob">
+                  <a href="?level=13"><img src="img/flag_warning.png" width="10px" height="10px" />&thinsp;<?php echo $hit_warning."/".$glob_warning ?></a>
+                </td>
+                <td class="glob">
+                  <a href="?level=8"><img src="img/flag_ack.gif" width="10px" height="10px" />&thinsp;<?php echo $hit_ack."/".$glob_ack ?></a>
+                </td>
+                <td class="glob">
+                  <a href="?level=9"><img src="img/flag_downtime.png" width="10px" height="10px" />&thinsp;<?php echo $hit_down."/".$glob_down ?></a>
+                </td>
+              </tr>
+              <tr class="glob">
+                <td class="glob">
+                  <a href="?level=14"><img src="img/flag_unknown.png" width="10px" height="10px" />&thinsp;<?php echo $hit_unknown."/".$glob_unknown ?></a>
+                </td>
+                <td class="glob">
+                  <a href="?level=15"><img src="img/flag_ok.png" width="10px" height="10px" />&thinsp;<?php echo $hit_ok."/".$glob_ok ?></a>
+                </td>
+                <td class="glob">
+                  <a href="?level=10"><img src="img/flag_notify.png" width="10px" height="10px" />&thinsp;<?php echo $hit_notif."/".$glob_notif ?></a>
+                </td>
+                <td class="glob">
+                  <a href="?level=11"><img src="img/flag_disablecheck.png" width="10px" height="10px" />&thinsp;<?php echo $hit_check."/".$glob_check ?></a>
+                </td>
+              </tr>
+            </table>
+
+        </td>
+
         <td style="padding-left: 10px; padding-right: 10px;">
         </td>
 
@@ -172,7 +220,7 @@
                   title="<?php echo ucfirst(lang($MYLANG, 'prev'))?>"></span>
           <?php } ?>
           
-          <span><?php echo $FIRST."-".($FIRST+$nb_rows)."&thinsp;<b>/".$hit_any."</b>" ?></span>
+          <span><?php echo $FIRST."-".($FIRST+$nb_rows)."&thinsp;<b>/".$total_rows."</b>" ?></span>
           
           <?php if ($nb_rows >= $LINE_BY_PAGE) { ?>
             <span class="icon-btn icon-next"
@@ -187,8 +235,27 @@
           <div id="white"></div>
           <div id="grad"></div>
         </td>
+
+  <?php } if (isset($_GET['monitor'])) { ?>
+        <td style="text-align: center; cursor: default;">
+          <?php echo ucfirst(lang($MYLANG, 'refreshing')) ?>
+          <b><span id="refreshspan"></span></b>&#160;<?php echo lang($MYLANG, 'second') ?>
+        </td>
+        <td style="text-align: right; cursor: default;">
+          <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a> &nbsp;
+        </td>
+  <?php } ?>
+
       </tr>
     </table>
 
+  <?php if (!isset($_GET['monitor'])) { ?>
+
     <div id="top-fixed-tpad"></div>
+
+  <?php } else { ?>
+
+    <div id="top-fixed-tpad-monitor"></div>
+
+  <?php } ?>
 

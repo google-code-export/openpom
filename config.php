@@ -99,8 +99,7 @@ $BASE_URL           = "" ;
 $LINK               = "/" . $BACKEND . "/cgi-bin/extinfo.cgi";
 
 /* SEARCH FILTERING */
-$QUICKSEARCH = 0 ;  //disabled direct search on click
-
+$QUICKSEARCH = 1 ;  //disabled direct search on click
 
 /* SHOW GRPAH FROM EXTERNAL SOURCE
  *  

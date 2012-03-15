@@ -12,7 +12,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <title>
-      <?php echo $CODENAME?> E=<?php echo $hit_critical?> W=<?php echo $hit_warning?> U=<?php echo $hit_unknown?> T=<?php echo $hit_any?>
+      <?php echo $CODENAME?> E=<?php echo $glob_critical?> W=<?php echo $glob_warning?> U=<?php echo $glob_unknown?> OK=<?php echo $glob_ok ?>
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
@@ -59,7 +59,7 @@
       document.onclick = hide_data;
     </script>
   </head>
-  <body<?php if (isset($_GET['monitor'])) echo ' class="monitor"'; ?>>
+  <body>
     <?php if ($_SESSION['FRAME'] == 1) { ?>
     <table width="100%" height="100%" class="frame" id="type_<?php echo $framecolor?>">
       <tr>
