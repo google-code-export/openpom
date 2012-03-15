@@ -83,11 +83,9 @@
           </script>
           <?php } ?>
                 
-          <?php if (isset($LOG)) { ?>
-            <span class="icon-btn icon-nagios"
-                  title="<?php echo ucfirst(lang($MYLANG, 'show_log')) ?>"
-                  onclick="pop('<?php echo $LOG; ?>', 'nagios_log', 600, 500);"></span>&thinsp;
-          <?php } ?>
+          <span class="icon-btn icon-nagios"
+                title="<?php echo ucfirst(lang($MYLANG, 'show_log')) ?>"
+                onclick="pop('./showlog.php', 'nagios_log', 650, 700);"></span>&thinsp;
           
           <span class="icon-btn icon-monitor"
                 title="<?php echo ucfirst(lang($MYLANG, 'mode'))?>"
