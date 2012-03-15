@@ -83,7 +83,7 @@ $TRACK_OK           = "bluegreen";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.5.0";
+$VERSION            = "1.5.1";
 $CODENAME           = "OpenPOM";
 $ENCODING           = "ISO-8859-1"; 
 
