@@ -451,7 +451,8 @@ $MY_GET_NO_FILT = preg_replace('/[?&]{1}filtering=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_FILT);
 
 /* QUERY AND SET GLOBAL COUNTER */
-if (!($rep_glob = mysql_query($QUERY_GLOBAL_COUNT, $dbconn))) {
+$query_glob = str_replace('define_my_user', mysql_real_escape_string($MY_USER, $dbconn), $QUERY_GLOBAL_COUNT) ;
+if (!($rep_glob = mysql_query($query_glob, $dbconn))) {
   $errno = mysql_errno($dbconn);
   $txt_error = mysql_error($dbconn);
   error_log("invalid query : ".$errno." : ".$txt_error);
@@ -468,15 +469,21 @@ $glob_check    = 0;
 $glob_all      = 0;
 
 while ($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC) ) {
-  if      ( $glob_counter['STATE']  == 3 ) $glob_unknown  += $glob_counter['NSTATE'] ;
-  else if ( $glob_counter['STATE']  == 2 ) $glob_critical += $glob_counter['NSTATE'] ;
-  else if ( $glob_counter['STATE']  == 1 ) $glob_warning  += $glob_counter['NSTATE'] ;
-  else if ( $glob_counter['STATE']  == 0 ) $glob_ok       += $glob_counter['NSTATE'] ;
-  if      ( $glob_counter['ACK']    == 1 ) $glob_ack      += $glob_counter['NACK'] ;
-  if      ( $glob_counter['DOWN']   == 1 ) $glob_down     += $glob_counter['NDOWN'] ;
-  if      ( $glob_counter['NOTIF']  == 0 ) $glob_notif    += $glob_counter['NNOTIF'] ;
-  if      ( $glob_counter['SCHECK'] == 0 ) $glob_check    += $glob_counter['NCHECK'] ;
-  if      ( $glob_counter['NSTATE'] >  0 ) $glob_all      += $glob_counter['NSTATE'] ;
+  if      ( substr($glob_counter['TYPE'], 0, 13) == 'current_state' ) {
+    if      ( $glob_counter['STATE'] == 0 ) $glob_ok       += $glob_counter['TOTAL'] ;
+    else if ( $glob_counter['STATE'] == 2 ) $glob_critical += $glob_counter['TOTAL'] ;
+    else if ( $glob_counter['STATE'] == 3 ) $glob_unknown  += $glob_counter['TOTAL'] ;
+    else if ( $glob_counter['STATE'] == 1 ) $glob_warning  += $glob_counter['TOTAL'] ;
+    $glob_all    += $glob_counter['TOTAL'] ;
+  }
+  else if ( ( substr($glob_counter['TYPE'], 0, 11) == 'acknowledge' ) &&
+            ( $glob_counter['STATE'] == 1 ) ) $glob_ack   += $glob_counter['TOTAL'] ;
+  else if ( ( substr($glob_counter['TYPE'], 0, 8)  == 'downtime' ) &&
+            ( $glob_counter['STATE'] == 1 ) ) $glob_down  += $glob_counter['TOTAL'] ;
+  else if ( ( substr($glob_counter['TYPE'], 0, 9)  == 'disanotif' ) &&
+            ( $glob_counter['STATE'] == 0 ) ) $glob_notif += $glob_counter['TOTAL'] ;
+  else if ( ( substr($glob_counter['TYPE'], 0, 9)  == 'disacheck' ) &&
+            ( $glob_counter['STATE'] == 0 ) ) $glob_check += $glob_counter['TOTAL'] ;
 }
 
 /* FORGE QUERY (AUTO CHANGE LEVEL IN MONITOR MODE) */

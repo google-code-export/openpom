@@ -214,6 +214,7 @@ UNION
         AND comment_source = 1
         AND deletion_time = '0000-00-00 00:00:00'
         AND substring_index(comment_data, ':', 1) = '~track' 
+        AND ( define_track_anything = 0 )
       )
     )
     

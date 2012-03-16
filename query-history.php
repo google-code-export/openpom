@@ -31,7 +31,6 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_servicestatus AS SS ON ACO.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_ack = 1
-    LIMIT 1000
 
   UNION
 
@@ -54,7 +53,6 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_servicestatus AS SS ON DOW.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_down = 1
-    LIMIT 1000
 
   UNION
 
@@ -79,7 +77,6 @@ $QUERY_HISTORY['svc'] = "
       AND COM.entry_type = 1
       AND COM.comment_data != '~track:This service is beeing tracked'
       AND define_my_com = 1
-    LIMIT 1000
 
   UNION
 
@@ -97,7 +94,6 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_contacts AS C ON C.contact_object_id = CN.contact_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_notify = 1
-    LIMIT 1000
 
   UNION
 
@@ -113,7 +109,6 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_state = 1
-    LIMIT 1000
 
   UNION 
 
@@ -136,7 +131,6 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_servicestatus AS SS ON SS.service_object_id = F.object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_flap = 1
-    LIMIT 1000
 
   ) AS sub
 
@@ -275,7 +269,6 @@ $QUERY_HISTORY['host'] = "
       JOIN ".$BACKEND."_hoststatus AS HS ON HS.host_object_id = F.object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_flap = 1
-    LIMIT 1000
 
   ) AS sub
 

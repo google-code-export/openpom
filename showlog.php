@@ -117,8 +117,14 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   $tds = array() ;
   foreach ($row AS $k => $v) {
     if ($k == "type") {
-      if ( ($v == 2) || ($v == 6) || ($v == 64) )
+      if      ( ($v == 2) || ($v == 6) || ($v == 64) )
         $v = "<img src='img/info.png' width='12px' height='12px' />" ;
+      else if ( $v == 100 ) 
+        $v = "<img src='img/start.gif' width='12px' height='12px' />" ;
+      else if ( $v == 102 ) 
+        $v = "<img src='img/restart.gif' width='12px' height='12px' />" ;
+      else if ( $v == 103 ) 
+        $v = "<img src='img/stop.gif' width='12px' height='12px' />" ;
       else if ($v == 512) 
         $v = "<img src='img/command.png' width='12px' height='12px' />" ;
       else 
@@ -156,6 +162,10 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
         $tmptd .= "<img src='img/flag_unknown.png' width='12px' height='12px' />" ;
       else if ( preg_match('/[; (]?(OK|UP)[) ;]{1}/' ,$v) )
         $tmptd .= "<img src='img/flag_ok.png' width='12px' height='12px' />" ;
+      if ( preg_match('/(Caught SIGHUP, restarting)/', $v) )
+        $tmptd .= "<img src='img/restart.gif' width='12px' height='12px' />" ;
+      else if ( preg_match('/(Successfully shutdown|Caught SIGTERM, shutting down)/', $v) )
+        $tmptd .= "<img src='img/stop.gif' width='12px' height='12px' />" ;
       if ($tmptd != "") $tds[0] = "<td ".$style.">".$tmptd."</td>" ;
     }
     $tds[] = "<td ".$style.">".$v."</td>" ;
