@@ -204,22 +204,26 @@ if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
     }//end foreach
   } //End if advanced search
   else {
-    $MY_FILTER = "'%".mysql_real_escape_string($FILTER, $dbconn)."%'" ;
+    $MY_FILTER = " '%".mysql_real_escape_string($FILTER, $dbconn)."%' " ;
     $MY_FILTER = str_replace('*', '%', $MY_FILTER) ;
-    if (substr($MY_FILTER, 0, 3) == "'%!") $MY_LIKE = "NOT LIKE" ;
-    else $MY_LIKE = "LIKE" ;
+    $MY_OPERATOR = " OR " ;
+    if (substr($MY_FILTER, 1, 3) == "'%!") {
+      $MY_LIKE = " NOT LIKE " ;
+      $MY_OPERATOR = " AND " ;
+    }
+    else $MY_LIKE = " LIKE " ;
     $MY_FILTER = str_replace('!', '', $MY_FILTER) ;
     $sub_cols_in_search['host'] = array (
-      "group"   => "OR  OHG.name1       ".$MY_LIKE."  ".$MY_FILTER, 
-      "IP"      => "OR  H.address       ".$MY_LIKE."  ".$MY_FILTER,
-      "stinfo"  => "OR  HS.output       ".$MY_LIKE."  ".$MY_FILTER,
-      "service" => "OR  '--host--'      ".$MY_LIKE."  ".$MY_FILTER,
+      "group"   => $MY_OPERATOR." OHG.name1  ".$MY_LIKE."  ".$MY_FILTER,
+      "IP"      => $MY_OPERATOR." H.address  ".$MY_LIKE."  ".$MY_FILTER,
+      "stinfo"  => $MY_OPERATOR." HS.output  ".$MY_LIKE."  ".$MY_FILTER,
+      "service" => $MY_OPERATOR." '--host--' ".$MY_LIKE."  ".$MY_FILTER,
     ) ;
     $sub_cols_in_search['svc']  = array (
-      "group"   => "OR  OHG.name1       ".$MY_LIKE."  ".$MY_FILTER, 
-      "IP"      => "OR  H.address       ".$MY_LIKE."  ".$MY_FILTER,
-      "stinfo"  => "OR  SS.output       ".$MY_LIKE."  ".$MY_FILTER,
-      "service" => "OR  S.display_name  ".$MY_LIKE."  ".$MY_FILTER,
+      "group"   => $MY_OPERATOR." OHG.name1      ".$MY_LIKE."  ".$MY_FILTER,
+      "IP"      => $MY_OPERATOR." H.address      ".$MY_LIKE."  ".$MY_FILTER,
+      "stinfo"  => $MY_OPERATOR." SS.output      ".$MY_LIKE."  ".$MY_FILTER,
+      "service" => $MY_OPERATOR." S.display_name ".$MY_LIKE."  ".$MY_FILTER,
     ) ;
     foreach (array('host', 'svc') AS $f ) {
       $MY_SEARCH[$f] = "(      H.display_name  ".$MY_LIKE."  ".$MY_FILTER ;
