@@ -7,10 +7,10 @@
   http://www.gnu.org/licenses/
 */
 
-
+require_once("config.php");
+session_name( str_replace(" ", "", $CODENAME) ) ;
 session_start();
 if (!isset($_SESSION['USER'])) die();
-require_once("config.php");
 require_once("lang.php");
 require_once("query-status.php");
 require_once("utils.php");

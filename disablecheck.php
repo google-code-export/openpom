@@ -8,6 +8,7 @@
 */
 
 require_once("config.php");
+session_name( str_replace(" ", "", $CODENAME) ) ;
 session_start();
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
