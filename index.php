@@ -21,7 +21,7 @@
 
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
 require_once("config.php");
-session_name( str_replace(" ", "", $CODENAME) ) ;
+session_name($CODENAME);
 session_cache_limiter('nocache');
 ini_set('session.gc_maxlifetime', 3600*24*365);
 ini_set('session.cookie_lifetime', 3600*24*365);
@@ -47,7 +47,7 @@ if (isset($_GET['reset'])) {
   session_destroy() ;
   session_unset() ;
   unset($_GET);
-  session_name( str_replace(" ", "", $CODENAME) ) ;
+  session_name($CODENAME);
   session_start();
   $_SESSION['USER'] = $_SERVER['REMOTE_USER'];
 }
