@@ -3,6 +3,10 @@ table#top span#metter-wrap {
   background-color: #F5F8F3;
 }
 
+table#top span#metter-wrap img {
+    left: 2px !important;
+}
+
 table#top span#metter-wrap select {
   height: 20px;
   padding: 0px;
