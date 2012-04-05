@@ -36,3 +36,7 @@ input {
 input[type=radio] {
   margin: -3px;
 }
+
+table#top td#wgrad div#white {
+    height: 4px;
+}
