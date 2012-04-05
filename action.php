@@ -241,7 +241,7 @@
   <?php } if (isset($_GET['monitor'])) { ?>
         <td style="text-align: center; cursor: default;">
           <?php echo ucfirst(lang($MYLANG, 'refreshing')) ?>
-          <b><span id="refreshspan"></span></b>&#160;<?php echo lang($MYLANG, 'second') ?>
+          <span id="refreshspan" style="vertical-align: baseline;"><?php echo $REFRESHTIME; ?></span>&#160;<?php echo lang($MYLANG, 'second') ?>
         </td>
         <td style="text-align: right; cursor: default;">
           <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a> &nbsp;
