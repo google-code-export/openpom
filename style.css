@@ -246,10 +246,6 @@ table#top span#metter-wrap select {
   padding-top: 1px;
 }
 
-table#top td#margintop {
-  height: 4px;
-}
-
 table#top td#wgrad {
   background-color: transparent;
 }

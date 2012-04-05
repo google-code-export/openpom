@@ -9,12 +9,14 @@
   
   if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ; 
   if (!isset($_SESSION['USER'])) die(); ?>
-  
+
+  <?php if (isset($_GET['monitor'])) { ?>
+    <style type="text/css">
+    table#top { top: 4px; }
+    </style>
+  <?php } ?>  
   
     <table id="top">
-      <tr>
-        <td colspan="11" id="margintop"></td>
-      </tr>
       <tr>
 
   <?php if (!isset($_GET['monitor'])) { ?>
