@@ -90,7 +90,7 @@
                 
           <span class="icon-btn icon-nagios"
                 title="<?php echo ucfirst(lang($MYLANG, 'show_log')) ?>"
-                onclick="pop('./showlog.php', 'nagios_log', 650, 700);"></span>&thinsp;
+                onclick="pop('./showlog.php', 'nagios_log', 700, 600);"></span>&thinsp;
           
           <span class="icon-btn icon-monitor"
                 title="<?php echo ucfirst(lang($MYLANG, 'mode'))?>"
