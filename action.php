@@ -233,7 +233,7 @@
 
       </tr>
       <tr>
-        <td colspan="11" id="wgrad">
+        <td colspan="10" id="wgrad">
           <div id="white"></div>
           <div id="grad"></div>
         </td>
