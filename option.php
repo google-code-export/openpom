@@ -158,8 +158,8 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <?php echo ucfirst(lang($MYLANG, 'statuspopin')) ?>
           </th>
           <td colspan="3">
-            <?php echo ucfirst(lang($MYLANG, 'statusall')) ?>
-            <input type="checkbox" name="showall" value="1" 
+            <label for="showall" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, 'statusall')) ?></label>
+            <input type="checkbox" name="showall" id="showall" value="1" 
                    <?php echo (isset($_SESSION['STATUS']['all'])) ? 'checked' : '' ?> 
                    style="vertical-align: middle;" 
                    onclick="if (this.checked) {
@@ -170,12 +170,14 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
                               document.getElementById('showlimit').readOnly=false;
                               document.getElementById('showlimit').className=''; 
                             };" />
-            &nbsp;&nbsp; <?php echo ucfirst(lang($MYLANG, 'statuslimit')) ?>
+            &nbsp;&nbsp; 
+            <?php echo ucfirst(lang($MYLANG, 'statuslimit')) ?>
             <input type="text" maxlength="2" 
                    name="showlimit" id="showlimit"
                    value="<?php echo $_SESSION['STATUS']['limit'] ?>" <?php if (isset($_SESSION['STATUS']['all'])) echo "readonly='readonly' class='readonly' " ; ?>/>
-            &nbsp;&nbsp; <?php echo ucfirst(lang($MYLANG, 'showgraph')) ?>
-            <input type="checkbox" name="showgraph" value="1" 
+            &nbsp;&nbsp; 
+            <label for="showgraph" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, 'showgraph')) ?></label>
+            <input type="checkbox" name="showgraph" id="showgraph" value="1" 
                    <?php echo (isset($_SESSION['STATUS']['graph'])) ? 'checked' : '' ?> 
                    style="vertical-align: middle;" />
           </td>
