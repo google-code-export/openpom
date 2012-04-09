@@ -465,6 +465,7 @@ div#box-down input#end { width: 240px; }
 div#box-down input#hour { width: 40px; }
 div#box-down input#minute { width: 40px; }
 div#box-down input#comment { width: 240px; }
+div#box-disablecheck input[type="text"] { width: 240px; }
 input.readonly {
   color: #A0A0A0;
   background-color: #C0C0C0;
