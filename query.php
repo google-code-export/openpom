@@ -38,6 +38,10 @@ SELECT
 
 FROM (
 
+
+-- BEGIN
+-- NDO SERVICES
+
   SELECT
     GROUP_CONCAT(
       DISTINCT OHG.name1
@@ -129,7 +133,15 @@ FROM (
 
   GROUP BY SVCID
 
+-- END
+-- NDO SERVICES
+
+
 UNION
+
+
+-- BEGIN
+-- NDO HOSTS
 
   SELECT
     GROUP_CONCAT(
@@ -220,6 +232,10 @@ UNION
     
 
   GROUP BY SVCID
+
+-- END
+-- NDO HOSTS
+
 
 ) AS sub
 
