@@ -219,7 +219,7 @@ $HISTORY = array(
 $EXT_CMD['ack']['host'][0]      = array(
 'ACKNOWLEDGE_HOST_PROBLEM',
 '$host',
-'1;0;0',
+'1;1;1',
 '$user',
 '$comment');
 
@@ -227,7 +227,7 @@ $EXT_CMD['ack']['svc'][0]       = array(
 'ACKNOWLEDGE_SVC_PROBLEM',
 '$host',
 '$svc',
-'1;0;0',
+'1;1;1',
 '$user',
 '$comment');
 
