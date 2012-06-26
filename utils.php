@@ -80,12 +80,15 @@ function select_level($LEVEL) {
   if ($LEVEL == 1) { 
     $MY_SVCFILT       = "2";
     $MY_SOFT          = "1";
+    $MY_CHECK_DISABLE = "1";
   }
   else if ($LEVEL == 2) { 
     $MY_SOFT          = "1";
+    $MY_CHECK_DISABLE = "1";
   }
   else if ($LEVEL == 3) {
     $MY_SOFT          = "0";
+    $MY_CHECK_DISABLE = "1";
   }
   else if ($LEVEL == 4) {
     $MY_HOSTACKLIST   = "0,1";
