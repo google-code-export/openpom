@@ -179,7 +179,7 @@ if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
       die_refresh("invalid char in filter");
   }
   $FILTER = $_GET['filtering'] ;
-  if (preg_match_all('/([!]?[hsigo]{1}:)+([a-zA-Z0-9@*()\._-]+)?[ ]?([&|]{1}){0,}[ ]?/', $_GET['filtering'], $keyword)) {
+  if (preg_match_all('/([!]?[hsigo]:)+([^ &|]+)?[ ]?([&|]){0,}[ ]?/', $_GET['filtering'], $keyword)) {
     foreach ( array('host', 'svc') AS $f ) {
       foreach ($keyword[1] AS $k => $v) {
         foreach ($SFILTER[$f] AS $t => $s) {
