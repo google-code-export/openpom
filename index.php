@@ -450,7 +450,7 @@ if (isset($_GET['option']))
 $MY_GET = "?";
 if (isset($_GET)) {
   foreach($_GET AS $key => $val) {
-    $MY_GET = $MY_GET."&".$key."=".$val;
+    $MY_GET = $MY_GET."&".rawurlencode($key)."=".rawurlencode($val);
   }
 }
 $MY_GET_NO_SORT = preg_replace('/[?&]{1}sort=[a-z]+/','',$MY_GET);
