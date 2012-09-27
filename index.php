@@ -533,7 +533,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
     $errno = mysql_errno($dbconn);
     $txt_error = mysql_error($dbconn);
     error_log("invalid query : ".$errno." : ".$txt_error);
-    die_refresh("invalid query") ;
+    die_refresh("invalid query");
   }
   $query_time = getmicrotime() - $query_start;
   $str_query_time = '%01.4fs';
