@@ -27,6 +27,15 @@
     <script type="text/javascript" src="js/jquery.colorbox.js"></script>
     <script type="text/javascript" src="js/lib.js"></script>
     <script type="text/javascript">
+      var body_class = [];
+
+      <?php if (isset($_GET['monitor'])) { ?>
+          body_class.push('monitor');
+      <?php } ?>
+
+      if (window != window.top)
+        body_class.push('framed');
+
       var current_data_displayed = null;
       var cache    = new Array();
       var mytime   = <?php echo intval($REFRESHTIME) ?>;
@@ -60,6 +69,11 @@
     </script>
   </head>
   <body>
+    <script type="text/javascript">
+    if (body_class.length)
+      $('body').addClass(body_class.join(' '));
+    </script>
+
     <?php if ($_SESSION['FRAME'] == 1) { ?>
     <table width="100%" height="100%" class="frame" id="type_<?php echo $framecolor?>">
       <tr>

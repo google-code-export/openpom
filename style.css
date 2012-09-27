@@ -214,7 +214,11 @@ table#top {
   top: 0px; 
   left: 0px;
   z-index: 2;
+  border-top: 2px solid #fff;
 }
+
+body.framed table#top { border-top: none; }
+body.framed.monitor table#top { border-top: 2px solid #fff; }
 
 table#top td {
   background-color: #fff;
@@ -266,15 +270,12 @@ table#top td#wgrad div#grad {
 }
 
 div#top-fixed-tpad {
-  height: 39px;
+  height: 41px;
   width: 1px;
 }
 
-div#top-fixed-tpad-monitor {
-  height: 20px;
-  width: 1px;
-}
-
+body.framed div#top-fixed-tpad { height: 39px; }
+body.monitor div#top-fixed-tpad { height: 20px; }
 
 /**
  * Alert table
