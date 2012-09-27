@@ -543,6 +543,14 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
     select_level($level++);
 }
 
+/* json output mode */
+if (isset($_GET['json'])) {
+  $json = array('time' => $query_time, 'data' => array());
+  while ($data = mysql_fetch_array($rep, MYSQL_ASSOC))
+    $json['data'][] = $data;
+  json_success($json, 'ISO-8859-1');
+}
+
 $array_total_rows = mysql_fetch_row( mysql_query( "SELECT FOUND_ROWS( )", $dbconn ) );
 $total_rows       = $array_total_rows[0];
 

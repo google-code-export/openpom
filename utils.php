@@ -772,6 +772,10 @@ function get_graph($type, $host, $svc = null) {
 }
 
 function die_refresh($message, $timeout = 10, $url = null) {
+  /* json output mode */
+  if (isset($_GET['json']))
+    json_error($message, 'ISO-8859-1');
+
   global $CODENAME;
   global $ENCODING;
   
@@ -826,6 +830,40 @@ __EOFEOF__;
 
   /* terminates here */
   exit(1);
+}
+
+function json_error($errmsg, $charset = '')
+{
+  if (!empty($charset))
+    $charset = "; charset={$charset}";
+
+  @header('Status', true, 400);
+  @header("Content-Type: application/json{$charset}");
+
+  if (is_null($errmsg))
+    $errmsg = 'An error has occured';
+
+  echo json_encode(array(
+    'success' => false,
+    'message' => $errmsg
+  ));
+
+  exit(1);
+}
+
+function json_success($data, $charset = '')
+{
+  if (!empty($charset))
+    $charset = "; charset={$charset}";
+
+  @header("Content-Type: application/json{$charset}");
+
+  echo json_encode(array(
+    'success' => true,
+    'result' => $data
+  ));
+
+  exit(0);
 }
 
 ?>
