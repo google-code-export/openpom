@@ -199,22 +199,31 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           </th>
           <td>
             <?php
-            $count = count($COLS)-1;
+            $middle = ceil((count($COLS) - 2) / 2);
             $i = 0;
-            foreach($COLS AS $key => $val) { 
-              if ($key != "machine") {
-                if (intval($count/2) == $i++) echo '</td><td colspan="2">';
+            foreach($COLS AS $key => $val) {
+              if ($key == 'machine' || $key == 'service')
+                continue;
+              if ($i == $middle)
+                echo '</td><td colspan="2">';
+              $i++;
+
+              $enabled = true;
+              if (isset($_SESSION["COLS_$key"])) {
+                if ($_SESSION["COLS_$key"] == 0)
+                  $enabled = false;
+              }
+              else if (in_array($key, $NO_COLS))
+                $enabled = false;
               ?>
               
-              <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
+              <input type="checkbox" name="<?php echo "defaultcols_$key" ?>" id="<?php echo "defaultcols_$key" ?>" 
                      value="1" 
                      style="vertical-align: middle;"
-                     <?php echo (!isset($_SESSION[$key])) ? 'checked' : '' ?> />
-              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+                     <?php echo $enabled ? 'checked' : '' ?> />
+              <label for="<?php echo "defaultcols_$key" ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
               
-              <?php
-              }
-            } ?>
+            <?php } ?>
           </td>
         </tr>
         <tr>

@@ -71,6 +71,10 @@ if ( (isset($_GET['option'])) && ($_GET['option'] != "OK") ) {
   unset($_GET['maxlen_svc']);
   unset($_GET['maxlen_groups']);
   unset($_GET['frame']);
+  foreach ($COLS as $k => $v) {
+    if (isset($_GET["defaultcols_{$k}"]))
+      unset($_GET["defaultcols_{$k}"]);
+  }
   unset($_GET['option']);
 }
 
@@ -126,24 +130,61 @@ $MY_CHECK_DISABLE  = "0,1";              //DISABLED CHECK
 $MY_TRACK_ANY      = 0 ;                 //TRACK ANYTHING
 
 /* Search filtering */
+$SFILTER = array();
+
 $SFILTER['svc'] = array (
-  'H.display_name' => "h:",
-  "S.display_name" => "s:",
-  "H.address"      => "i:",
-  "OHG.name1"      => "g:",
-  "SS.output"      => "o:"
-) ;
+  'machine' => array('H.display_name', 'h:'),
+  'service' => array('S.display_name', 's:'),
+  'IP'      => array('H.address',      'i:'),
+  'group'   => array('HG.alias',       'g:'),
+  'stinfo'  => array('SS.output',      'o:')
+);
 
 $SFILTER['host'] = array (
-  'H.display_name' => "h:",
-  "'--host--'"     => "s:",
-  "H.address"      => "i:",
-  "OHG.name1"      => "g:",
-  "HS.output"      => "o:"
-) ;
+  'machine' => array('H.display_name', 'h:'),
+  'service' => array("'--host--'",     's:'),
+  'IP'      => array('H.address',      'i:'),
+  'group'   => array('HG.alias',       'g:'),
+  'stinfo'  => array('HS.output',      'o:')
+);
 
+/* Columns to display:
+ * Host and service are always display, this is not configurable.
+ * In JSON mode all the columns of the SQL query are returned and
+ * this is not configurable. In classic HTML mode, we only choose
+ * which columns are to be displayed, based on the session settings
+ * and the $NO_COLS array (default configuration).
+ */
 
-/* PROCESS GET DATA */
+/* classic HTML mode */
+if (!isset($_GET['json'])) {
+  foreach ($COLS as $k => &$v) {
+    /* host and service are mandatory */
+    if ($k == 'machine' || $k == 'service')
+      continue;
+  
+    /* new session defaults */
+    if (isset($_GET['option'])) {
+      if (isset($_GET["defaultcols_$k"]) && $_GET["defaultcols_$k"] != 0)
+        $_SESSION["COLS_$k"] = 1;
+      else {
+        $_SESSION["COLS_$k"] = 0;
+        unset($COLS[$k]);
+      }
+    }
+    /* existing session defaults */
+    else if (isset($_SESSION["COLS_$k"])) {
+      if ($_SESSION["COLS_$k"] == 0)
+        unset($COLS[$k]);
+    }
+    /* configuration defaults */
+    else if (in_array($k, $NO_COLS)) {
+      $_SESSION["COLS_$k"] = 0;
+      unset($COLS[$k]);
+    }
+  }
+  unset($v);
+}
 
 /* GET DEFAULT LEVEL */
 if ( (isset($_GET['defaultlevel'])) && (is_numeric($_GET['defaultlevel'])) &&
@@ -182,7 +223,9 @@ if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
   if (preg_match_all('/([!]?[hsigo]:)+([^ &|]+)?[ ]?([&|]){0,}[ ]?/', $_GET['filtering'], $keyword)) {
     foreach ( array('host', 'svc') AS $f ) {
       foreach ($keyword[1] AS $k => $v) {
-        foreach ($SFILTER[$f] AS $t => $s) {
+        foreach ($SFILTER[$f] AS $s) {
+          $t = $s[0];
+          $s = $s[1];
           if ( ( ($s == $v) || ($v == "!".$s) ) && (isset($keyword[2][$k])) ) {
             if ( ($k > 0) && (isset($keyword[3][$k-1])) ) {
               if ( $keyword[3][$k-1] == "|" ) $MY_SEARCH[$f] .= " OR " ;
@@ -210,26 +253,17 @@ if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
     }
     else $MY_LIKE = " LIKE " ;
     $MY_FILTER = str_replace('!', '', $MY_FILTER) ;
-    $sub_cols_in_search['host'] = array (
-      "group"   => $MY_OPERATOR." OHG.name1  ".$MY_LIKE."  ".$MY_FILTER,
-      "IP"      => $MY_OPERATOR." H.address  ".$MY_LIKE."  ".$MY_FILTER,
-      "stinfo"  => $MY_OPERATOR." HS.output  ".$MY_LIKE."  ".$MY_FILTER,
-      "service" => $MY_OPERATOR." '--host--' ".$MY_LIKE."  ".$MY_FILTER,
-    ) ;
-    $sub_cols_in_search['svc']  = array (
-      "group"   => $MY_OPERATOR." OHG.name1      ".$MY_LIKE."  ".$MY_FILTER,
-      "IP"      => $MY_OPERATOR." H.address      ".$MY_LIKE."  ".$MY_FILTER,
-      "stinfo"  => $MY_OPERATOR." SS.output      ".$MY_LIKE."  ".$MY_FILTER,
-      "service" => $MY_OPERATOR." S.display_name ".$MY_LIKE."  ".$MY_FILTER,
-    ) ;
-    foreach (array('host', 'svc') AS $f ) {
-      $MY_SEARCH[$f] = "(      H.display_name  ".$MY_LIKE."  ".$MY_FILTER ;
-      foreach ($sub_cols_in_search[$f] AS $k => $v) {
-        if (!isset($_SESSION[$k]))
-          $MY_SEARCH[$f] .= $v ;
-      } //end foreach
-      $MY_SEARCH[$f] .= " ) AND " ;
-    } //end foreach
+
+    foreach (array('host', 'svc') as $f) {
+      $criteria = array();
+      foreach ($SFILTER[$f] as $col => $spec) {
+        if (!isset($COLS[$col]))
+          continue;
+        $criteria[] = "{$spec[0]} $MY_LIKE $MY_FILTER";
+      }
+      if (!empty($criteria))
+        $MY_SEARCH[$f] = ' ( ' . implode($MY_OPERATOR, $criteria) . ' ) AND ';
+    }
   } //end else
 } //end if (FILTERING)
 
@@ -356,34 +390,6 @@ else if (isset($_GET['option'])) {
 else if (isset($_SESSION['FRAME'])) 
   $FRAME = $_SESSION['FRAME'];
 $_SESSION['FRAME'] = $FRAME;
-
-/* SET / UNSET COLS DISPLAYED */
-if(!isset($_SESSION['NO_COLS'])) {
-  foreach($NO_COLS AS $key => $val)
-    $_SESSION[$val] = 1;
-  $_SESSION['NO_COLS'] = 1;
-}
-foreach($COLS AS $key => $val) {
-  if(isset($_GET['option'])) {
-    if(!isset($_GET[$key]) && $key != 'machine') {
-      unset($COLS[$key]);
-      $_SESSION[$key] = 1;
-      if ( (isset($MY_FILTER)) && (preg_match('/(service|group|stinfo|IP)/',$key)) ) {
-        $MY_SEARCH['svc']  = str_replace($sub_cols_in_search['svc'][$key], ' ', $MY_SEARCH['svc']) ;
-        $MY_SEARCH['host'] = str_replace($sub_cols_in_search['host'][$key], ' ', $MY_SEARCH['host']) ;
-      }
-    }
-    else if(isset($_SESSION[$key]))
-      unset($_SESSION[$key]);
-  }
-  else if(isset($_SESSION[$key]) && $key != 'machine') {
-    unset($COLS[$key]);
-    if ( (isset($MY_FILTER)) && (preg_match('/(service|group|stinfo|IP)/',$key)) ) {
-      $MY_SEARCH['svc']  = str_replace($sub_cols_in_search['svc'][$key], ' ', $MY_SEARCH['svc']) ;
-      $MY_SEARCH['host'] = str_replace($sub_cols_in_search['host'][$key], ' ', $MY_SEARCH['host']) ;
-    }
-  }
-}
 
 /* HISTORY TO DISPLAY */
 if(isset($_GET['option'])) {
@@ -531,8 +537,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   echo $query;
   echo "</pre>";
   */
-  
-
+ 
   $query_start = getmicrotime();
   if (!($rep = mysql_query($query, $dbconn))) {
     $errno = mysql_errno($dbconn);
