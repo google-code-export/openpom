@@ -69,7 +69,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             <?php echo ucfirst(lang($MYLANG, 'step')) ?>
           </th>
           <td colspan="3">
-            <input type="text" maxlength="3" name="step" 
+            <input type="text" maxlength="3" name="defaultstep" 
                    value="<?php echo $_SESSION['STEP'] ?>" />
             &#160;(min 1, max 999)
           </td>

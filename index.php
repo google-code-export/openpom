@@ -64,7 +64,7 @@ if (!mysql_select_db($SQL_DB, $dbconn))
 if ( (isset($_GET['option'])) && ($_GET['option'] != "OK") ) {
   unset($_GET['refresh']);
   unset($_GET['lang']);
-  unset($_GET['step']);
+  unset($_GET['defaultstep']);
   unset($_GET['defaultlevel']);
   unset($_GET['maxlen_stinfo']);
   unset($_GET['maxlen_host']);
@@ -264,16 +264,21 @@ else if (isset($_SESSION['REFRESH']))
 else 
   $_SESSION['REFRESH'] = $REFRESHTIME;
 
-/* GET MAX LINE PER PAGE */
-if ( (isset($_GET['step'])) && (is_numeric($_GET['step'])) &&
-     ($_GET['step'] > 0) && ($_GET['step'] < 1000) ) {
-  $LINE_BY_PAGE = $_GET['step'];
+/* GET DEFAULT MAX LINE PER PAGE */
+if ( (isset($_GET['defaultstep'])) && (is_numeric($_GET['defaultstep'])) &&
+     ($_GET['defaultstep'] > 0) && ($_GET['defaultstep'] < 1000) ) {
+  $LINE_BY_PAGE = $_GET['defaultstep'];
   $_SESSION['STEP'] = $LINE_BY_PAGE;
 }
 else if (isset($_SESSION['STEP']))
   $LINE_BY_PAGE = $_SESSION['STEP'];
 else
   $_SESSION['STEP'] = $LINE_BY_PAGE;
+
+/* SELECT MAX LINE PER PAGE */
+if ( (isset($_GET['step'])) && (is_numeric($_GET['step'])) &&
+  ($_GET['step'] > 0) && ($_GET['step'] < 1000) )
+  $LINE_BY_PAGE = $_GET['step'] ;
 
 /* GET/SET FONT SIZE FOR ALERT */
 if ( (isset($_GET['fontsize'])) && (is_numeric($_GET['fontsize'])) &&
