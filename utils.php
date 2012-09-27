@@ -832,7 +832,7 @@ __EOFEOF__;
   exit(1);
 }
 
-function json_error($errmsg, $charset = '')
+function json_error($errmsg = '', $charset = '')
 {
   if (!empty($charset))
     $charset = "; charset={$charset}";
@@ -840,7 +840,7 @@ function json_error($errmsg, $charset = '')
   @header('Status', true, 400);
   @header("Content-Type: application/json{$charset}");
 
-  if (is_null($errmsg))
+  if (empty($errmsg))
     $errmsg = 'An error has occured';
 
   echo json_encode(array(
