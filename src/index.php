@@ -88,7 +88,7 @@ if (isset($_GET['monitor'])) {
 }
 
 /* GLOBAL NOTIF */
-$query_global_notif = "SELECT notifications_enabled FROM nagios_programstatus ;";
+$query_global_notif = "SELECT notifications_enabled FROM ".$BACKEND."_programstatus ;";
 $res_global_notif = mysql_query($query_global_notif, $dbconn);
 $row_global_notif = mysql_fetch_row($res_global_notif);
 if ($row_global_notif[0] == 0) $global_notif = "ena_notif" ;
