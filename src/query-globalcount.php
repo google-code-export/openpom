@@ -13,7 +13,7 @@ FROM (
     SS.current_state          AS state,
     COUNT( SS.current_state ) AS total
   FROM
-         nagios_services AS S
+         ".$BACKEND."_services AS S
     JOIN ".$BACKEND."_servicestatus AS SS ON S.service_object_id = SS.service_object_id
   WHERE
     'define_my_user' IN (
