@@ -2,6 +2,12 @@ DESTDIR =
 PREFIX = /usr/local
 WWWDIR = $(PREFIX)/www
 
+ifeq ($(V),1)
+    INSTALL_Q = -v
+else
+    INSTALL_Q =
+endif
+
 install:
-	cd src && for dirs in $$(find . -type d); do install -v -d -m 0755 $(DESTDIR)$(WWWDIR)/$$dirs; done
-	cd src && for file in $$(find . -type f); do install -v -o 0 -g 0 -m 0644 $$file $(DESTDIR)$(WWWDIR)/$$file; done
+	cd src && for dirs in $$(find . -type d); do install $(INSTALL_Q) -d -m 0755 $(DESTDIR)$(WWWDIR)/$$dirs; done
+	cd src && for file in $$(find . -type f); do install $(INSTALL_Q) -o 0 -g 0 -m 0644 $$file $(DESTDIR)$(WWWDIR)/$$file; done
