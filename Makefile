@@ -1,6 +1,7 @@
 DESTDIR =
 PREFIX  = /usr/local
 WWWDIR  = $(PREFIX)/www/openpom
+ETCDIR  = $(PREFIX)/etc/openpom
 
 TOPDIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
@@ -35,3 +36,7 @@ install:
 	for f in $(F_JS); do \
 	    install $(INSTALL_Q) -m 0644 $$f $(DESTDIR)$(WWWDIR)/js; \
 	done
+	
+	install $(INSTALL_Q) -d -m 0755 $(DESTDIR)$(ETCDIR)
+	mv $(DESTDIR)$(WWWDIR)/config.php $(DESTDIR)$(ETCDIR)
+	ln -s $(DESTDIR)$(ETCDIR)/config.php $(DESTDIR)$(WWWDIR)/config.php
