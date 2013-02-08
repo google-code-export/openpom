@@ -39,4 +39,4 @@ install:
 	
 	install $(INSTALL_Q) -d -m 0755 $(DESTDIR)$(ETCDIR)
 	mv $(DESTDIR)$(WWWDIR)/config.php $(DESTDIR)$(ETCDIR)
-	ln -s $(DESTDIR)$(ETCDIR)/config.php $(DESTDIR)$(WWWDIR)/config.php
+	ln -s $(ETCDIR)/config.php $(DESTDIR)$(WWWDIR)/config.php
