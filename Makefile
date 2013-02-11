@@ -2,7 +2,7 @@ DESTDIR =
 PREFIX  = /opt/openpom
 TOPDIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-EXCLUDE = .git \
+EXCLUDE = ".git*" \
           Makefile \
           "*.swp" \
           "*~" \
