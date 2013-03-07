@@ -700,14 +700,14 @@ function execute_prepared_actions_nagios($actions) {
  * process requested action, send a command to nagios pipe
  * in most of the cases
  */
-function handle_action($action, $target) {
+function handle_action($action, $target, $checkname) {
   global $handle_action_cache;
   
   $handle_action_cache = array();
   $ts = time();
   
   /* loop on targets */
-  foreach ($target as $t) {
+  foreach ($target as $i => $t) {
     
     /* field 0: type (required)
      * field 1: host (not always required)
@@ -724,6 +724,12 @@ function handle_action($action, $target) {
         $override_fct = $fct . '_svc_' . preg_replace('/[^a-z0-9]/', '_', strtolower($t[1]));
         if (function_exists($override_fct)) {
           $fct = $override_fct;
+        }
+        else if (isset($checkname[$i])) {
+          $override_fct = $fct . '_checkname_' . preg_replace('/[^a-z0-9]/', '_', strtolower($checkname[$i]));
+          if (function_exists($override_fct)) {
+            $fct = $override_fct;
+          }
         }
       }
       

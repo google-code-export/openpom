@@ -34,7 +34,8 @@ SELECT
   sub.NOTIF                        AS NOTIF,
   sub.COMMENT                      AS COMMENT,
   sub.DISABLECHECK                 AS DISABLECHECK,
-  sub.CHECKTYPE                    AS CHECKTYPE
+  sub.CHECKTYPE                    AS CHECKTYPE,
+  sub.CHECKNAME                    AS CHECKNAME
 
 FROM (
 
@@ -76,13 +77,15 @@ FROM (
       AND CO.entry_type = 1
       AND CO.comment_source = 1
       AND CO.deletion_time = '0000-00-00 00:00:00'
-    )                                    AS COMMENT   -- comment is 0, 1, 2 or 3
+    )                                    AS COMMENT,  -- comment is 0, 1, 2 or 3
                                                       -- bit 0 is comment
                                                       -- bit 1 is track
                                                       -- 0: no comment, no track
                                                       -- 1: comment only
                                                       -- 2: track only
                                                       -- 3: comment and track
+    SUBSTRING_INDEX(SS.check_command,'!',1)
+                                         AS CHECKNAME
 
   FROM
          ".$BACKEND."_hosts AS H
@@ -181,13 +184,16 @@ UNION
       AND CO.entry_type = 1
       AND CO.comment_source = 1
       AND CO.deletion_time = '0000-00-00 00:00:00'
-    )                                    AS COMMENT   -- comment is 0, 1, 2 or 3
+    )                                    AS COMMENT,  -- comment is 0, 1, 2 or 3
                                                       -- bit 0 is comment
                                                       -- bit 1 is track
                                                       -- 0: no comment, no track
                                                       -- 1: comment only
                                                       -- 2: track only
                                                       -- 3: comment and track
+    SUBSTRING_INDEX(HS.check_command,'!',1)
+                                         AS CHECKNAME
+
   FROM
          ".$BACKEND."_hosts AS H
     JOIN ".$BACKEND."_hoststatus AS HS            ON H.host_object_id = HS.host_object_id

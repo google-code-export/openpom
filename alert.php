@@ -149,6 +149,10 @@ define('HAS_TRACK',   0x2);
                        class="data"
                        name="target[]" 
                        value="'.$ACTION_TARGET.'" />
+                <input type="hidden"
+                       class="data"
+                       name="checkname[]"
+                       value="'.$data['CHECKNAME'].'" />
                 <span></span>
               </span>';
           }
