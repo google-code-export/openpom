@@ -550,7 +550,7 @@ table#alert tr.selected td {
 }
 
 table#alert tr.showlog:hover {
-  background-color: #76F0C8;
+  background-color: #eeeeee;
   border-color: #61E1B8;
 }
 
