@@ -29,7 +29,7 @@ if (!mysql_select_db($SQL_DB, $dbconn))
 $query = str_replace('define_my_first', $MY_FIRST, $QUERY_LOGS) ;
 $query = str_replace('define_my_step',  $MY_STEP, $query) ;
 $query = str_replace('define_my_submax',  $MY_FIRST + $MY_STEP,  $query) ;
-file_put_contents('/tmp/query-logs.txt', $query);
+
 $first_line = 0 ;
 if (!($rep = mysql_query($query, $dbconn)))
   die('query failed: ' . mysql_error($dbconn));
