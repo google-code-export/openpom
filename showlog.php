@@ -104,8 +104,8 @@ if ($nb_rows < 1) {
 }
 $style = "style='white-space: nowrap;'" ;
 while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
-  echo "<tr>" ;
   if ($first_line == 0) {
+    echo "<tr>" ;
     foreach ($row AS $kh => $vh) {
       if ($MY_SORT == $kh)
         echo "<th><a ".$classorder." href='?".$MY_GET."&sort=".$kh.$order."'>".ucfirst(lang($MYLANG, $kh))."</a></th>";
