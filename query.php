@@ -1,7 +1,7 @@
-<?php 
+<?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -15,12 +15,12 @@ SELECT
   sub.MACHINE_NAME                 AS MACHINE_NAME,
   sub.ADDRESS                      AS ADDRESS,
   sub.SERVICES                     AS SERVICES,
-  sub.SUBSERVICE                   AS SUBSERVICE, 
+  sub.SUBSERVICE                   AS SUBSERVICE,
   sub.STATUS                       AS STATUS,
-  ( case sub.STATUS 
-      when 3 then 1 
-      when 2 then -1 
-      when 1 then 0 
+  ( case sub.STATUS
+      when 3 then 1
+      when 2 then -1
+      when 1 then 0
       else 10 end
   )                                AS COEF,
   sub.SVCID                        AS SVCID,
@@ -53,7 +53,7 @@ FROM (
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
     S.display_name                       AS SERVICES,
-    null                                 AS SUBSERVICE, 
+    null                                 AS SUBSERVICE,
     SS.current_state                     AS STATUS,
     SS.servicestatus_id                  AS SVCID,
     SS.output                            AS OUTPUT,
@@ -61,7 +61,7 @@ FROM (
     SS.problem_has_been_acknowledged     AS ACK,
     SS.check_type                        AS CHECKTYPE,
     ( CASE SS.check_type
-        WHEN 0 THEN SS.active_checks_enabled 
+        WHEN 0 THEN SS.active_checks_enabled
         WHEN 1 THEN SS.passive_checks_enabled
       END )                              AS DISABLECHECK,
     UNIX_TIMESTAMP(SS.last_check)        AS LASTCHECK,
@@ -70,7 +70,7 @@ FROM (
     SS.scheduled_downtime_depth          AS DOWNTIME,
     SS.notifications_enabled             AS NOTIF,
     ( SELECT BIT_OR(
-        IF(substring_index(comment_data, ':', 1) = '~track', 2, 
+        IF(substring_index(comment_data, ':', 1) = '~track', 2,
           IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = S.service_object_id
@@ -107,7 +107,7 @@ FROM (
     AND ( (
             SS.current_state IN (define_my_svcfilt)
         AND (
-              SS.problem_has_been_acknowledged IN (define_my_svcacklist) 
+              SS.problem_has_been_acknowledged IN (define_my_svcacklist)
           AND HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval
         )
         AND (
@@ -117,7 +117,7 @@ FROM (
         AND (define_my_nosvc = 0 OR HS.current_state = 0)
         AND SS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR SS.state_type = 1)
-        AND ( 
+        AND (
               ( SS.check_type = 0 AND SS.active_checks_enabled IN (define_my_check_disable) ) OR
               ( SS.check_type = 1 AND SS.passive_checks_enabled IN (define_my_check_disable) )
             )
@@ -156,8 +156,8 @@ UNION
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
     '--host--'                           AS SERVICES,
-    null                                 AS SUBSERVICE, 
-    ( case HS.current_state 
+    null                                 AS SUBSERVICE,
+    ( case HS.current_state
       when 2 then 3
       when 1 then 2
       when 0 then 0
@@ -168,7 +168,7 @@ UNION
     HS.problem_has_been_acknowledged     AS ACK,
     HS.check_type                        AS CHECKTYPE,
     ( CASE HS.check_type
-        WHEN 0 THEN HS.active_checks_enabled 
+        WHEN 0 THEN HS.active_checks_enabled
         WHEN 1 THEN HS.passive_checks_enabled
       END )                              AS DISABLECHECK,
     UNIX_TIMESTAMP(HS.last_check)        AS LASTCHECK,
@@ -177,7 +177,7 @@ UNION
     HS.scheduled_downtime_depth          AS DOWNTIME,
     HS.notifications_enabled             AS NOTIF,
     ( SELECT BIT_OR(
-        IF(substring_index(comment_data, ':', 1) = '~track', 2, 
+        IF(substring_index(comment_data, ':', 1) = '~track', 2,
           IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
       FROM ".$BACKEND."_commenthistory AS CO
       WHERE CO.object_id = H.host_object_id
@@ -215,11 +215,11 @@ UNION
         AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
         AND HS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR HS.state_type = 1)
-        AND ( 
+        AND (
               HS.active_checks_enabled IN (define_my_check_disable) OR
-              HS.passive_checks_enabled IN (define_my_check_disable) 
+              HS.passive_checks_enabled IN (define_my_check_disable)
         )
-        AND ( 
+        AND (
               ( HS.check_type = 0 AND HS.active_checks_enabled IN (define_my_check_disable) ) OR
               ( HS.check_type = 1 AND HS.passive_checks_enabled IN (define_my_check_disable) )
             )
@@ -231,11 +231,11 @@ UNION
         AND entry_type = 1
         AND comment_source = 1
         AND deletion_time = '0000-00-00 00:00:00'
-        AND substring_index(comment_data, ':', 1) = '~track' 
+        AND substring_index(comment_data, ':', 1) = '~track'
         AND ( define_track_anything = 0 )
       )
     )
-    
+
 
   GROUP BY SVCID
 
