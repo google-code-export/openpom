@@ -716,7 +716,7 @@ function handle_action($action, $target) {
     $t = explode(';', $t);
     $tlen = count($t);
     
-    if (count($t) > 0) {
+    if ($tlen > 0) {
       $type = $t[0];
       $fct = 'prepare_action_' . $type . '__' . $action;
       array_shift($t);
