@@ -125,7 +125,7 @@ define('HAS_TRACK',   0x2);
           $COLOR .= " soft"; 
         }
         
-        $ACTION_TARGET = 'nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICES'];
+        $ACTION_TARGET = 'nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICES'].';'.$data['CHECKNAME'];
         $GET_DATA = "get_data('nagios', '".$data['TYPE']."', '".$data['SVCID']."');";
       ?>
 
@@ -149,10 +149,6 @@ define('HAS_TRACK',   0x2);
                        class="data"
                        name="target[]" 
                        value="'.$ACTION_TARGET.'" />
-                <input type="hidden"
-                       class="data"
-                       name="checkname[]"
-                       value="'.$data['CHECKNAME'].'" />
                 <span></span>
               </span>';
           }

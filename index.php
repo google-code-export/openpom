@@ -97,13 +97,11 @@ else $global_notif = "disa_notif";
 /* PROCESS POST DATA AND SEND CMD TO NAGIOS OR ICINGA */
 if (isset($_POST['action']) 
       && isset($_POST['target']) 
-      && is_array($_POST['target'])
-      && is_array($_POST['checkname'])) {
+      && is_array($_POST['target'])) {
   
   handle_action(
     $_POST['action'], 
-    $_POST['target'],
-    $_POST['checkname']);
+    $_POST['target']);
 }
 
 /* INIT DEFAULT VALUES (see config.php for other) */

@@ -700,43 +700,50 @@ function execute_prepared_actions_nagios($actions) {
  * process requested action, send a command to nagios pipe
  * in most of the cases
  */
-function handle_action($action, $target, $checkname) {
+function handle_action($action, $target) {
   global $handle_action_cache;
   
   $handle_action_cache = array();
   $ts = time();
   
   /* loop on targets */
-  foreach ($target as $i => $t) {
+  foreach ($target as $t) {
     
     /* field 0: type (required)
-     * field 1: host (not always required)
-     * field 2: svc  (not always required) */
+     * field 1: host
+     * field 2: svc
+     * field 3: check_name */
     $t = explode(';', $t);
+    $tlen = count($t);
     
     if (count($t) > 0) {
       $type = $t[0];
       $fct = 'prepare_action_' . $type . '__' . $action;
       array_shift($t);
+      $tlen--;
+      $done = false;
       
-      /* special action hooks for a particular service if defined */
-      if (count($t) > 1) {
+      /* per service override */
+      if ($tlen > 1) {
         $override_fct = $fct . '_svc_' . preg_replace('/[^a-z0-9]/', '_', strtolower($t[1]));
         if (function_exists($override_fct)) {
-          $fct = $override_fct;
-        }
-        else if (isset($checkname[$i])) {
-          $override_fct = $fct . '_checkname_' . preg_replace('/[^a-z0-9]/', '_', strtolower($checkname[$i]));
-          if (function_exists($override_fct)) {
-            $fct = $override_fct;
-          }
+          call_user_func($override_fct, $ts, $t);
+          $done = true;
         }
       }
-      
-      /* prepare action */
-      if (function_exists($fct)) {
-        call_user_func($fct, $ts, $t);
+
+      /* per check name override */
+      if (!$done && $tlen > 2) {
+        $override_fct = $fct . '_checkname_' . preg_replace('/[^a-z0-9]/', '_', strtolower($t[2]));
+        if (function_exists($override_fct)) {
+          call_user_func($override_fct, $ts, $t);
+          $done = true;
+        }
       }
+
+      /* fallback to default action */
+      if (!$done && function_exists($fct))
+          call_user_func($fct, $ts, $t);
     }
   }
   
