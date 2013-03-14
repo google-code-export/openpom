@@ -2,12 +2,11 @@
 
 $QUERY_LOGS = "
 SELECT
-  SQL_CALC_FOUND_ROWS
   sub.type         AS type,
   sub.entry_time   AS entry_time,
   sub.outputstatus AS outputstatus
   
-FROM (
+FROM ((
 
   SELECT 
     logentry_type AS type,
@@ -15,8 +14,12 @@ FROM (
     logentry_data AS outputstatus
   FROM
     ".$BACKEND."_logentries
+  ORDER BY
+    entry_time DESC
+  LIMIT
+    define_my_submax
 
-UNION
+) UNION (
 
   SELECT
     event_type AS type,
@@ -35,14 +38,24 @@ UNION
                AS outpustatus
   FROM
     ".$BACKEND."_processevents
+  ORDER BY
+    event_time DESC
+  LIMIT
+    define_my_submax
 
-) AS sub
+)) AS sub
 
   ORDER BY 
-    define_my_sort define_my_order
+    sub.entry_time DESC
 
   LIMIT 
     define_my_first, define_my_step
 " ;
+
+$QUERY_LOGS_TOTAL = "
+select 
+  (select count(*) from ".$BACKEND."_logentries) + 
+  (select count(*) from ".$BACKEND."_processevents)
+";
 
 ?>

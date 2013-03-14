@@ -70,19 +70,19 @@ input#filtering {
     line-height: 20px;
 }
 
-th a.col_sort_up {
+th .col_sort_up {
     text-decoration: none;
     color: #000000;
     padding-right: 20px;
     background: url('img/sort_up.png') no-repeat 95% 50%;
 }
-th a.col_sort_down {
+th .col_sort_down {
     text-decoration: none;
     color: #000000;
     padding-right: 20px;
     background: url('img/sort_down.png') no-repeat 95% 50%;
 }
-th a.col_no_sort {
+th .col_no_sort {
     text-decoration: none;
     color: #000000;
 }
@@ -310,6 +310,7 @@ table#alert th {
   background-color: #045FB4;
   text-align: left;
   padding: 3px 2px;
+  color: #fff;
   border: none;
   border-left: 1px solid #185691;
   border-bottom: 1px solid #0c76d9;
@@ -336,7 +337,8 @@ table#alert td.checkbox {
   width: 15px;
 }
 
-table#alert th a {
+table#alert th a,
+table#alert th span {
   color: #fff;
   vertical-align: middle;
 }
