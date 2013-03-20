@@ -201,6 +201,9 @@ $STATUSPOPIN = array (
   'history'      => 2,
 ) ;
 
+/* Nagios/Icinga global logs javascript button onclick action */
+$GLOBAL_LOGS_ONCLICK = "pop('./showlog.php', 'nagios_log', 700, 600);";
+
 /* POPUP HISTORY SIZE */
 $HISTORY_POPUP_WIDTH  = 760 ;
 $HISTORY_POPUP_HEIGHT = 450 ;
