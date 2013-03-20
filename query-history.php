@@ -152,11 +152,11 @@ $QUERY_HISTORY['svc'] = "
 
 $QUERY_HISTORY['host'] = "
   SELECT
-    sub.author_name          AS author_name,
     sub.state                AS color,
     sub.state_type           AS state_type,
     sub.type                 AS type,
     sub.entry_time           AS entry_time,
+    sub.author_name          AS author_name,
     sub.output               AS outputstatus
     
   FROM ((
