@@ -77,6 +77,7 @@ $QUERY_HISTORY['svc'] = "
     FROM ".$BACKEND."_commenthistory AS COM
       JOIN ".$BACKEND."_servicestatus AS SS ON COM.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
+      AND COM.entry_type != 4
       AND define_my_com = 1
     ORDER BY COM.commenthistory_id DESC
     LIMIT define_my_submax
@@ -219,6 +220,7 @@ $QUERY_HISTORY['host'] = "
     FROM ".$BACKEND."_commenthistory AS COM
       JOIN ".$BACKEND."_hoststatus AS HS ON COM.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
+      AND COM.entry_type != 4
       AND define_my_com = 1
     ORDER BY COM.commenthistory_id DESC
     LIMIT define_my_submax
