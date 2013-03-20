@@ -49,6 +49,7 @@ if ($cprev >= 0)
           onclick="window.location.href=\'?prev='.$cprev.'\'"
                   title="'.ucfirst(lang($MYLANG, 'prev')).'"></span>' ;
 else $prev = "" ;
+
 if ( ($total_rows % $MY_STEP) == 0 )
 $nb_pages = (int) ($total_rows / $MY_STEP) ;
 else
@@ -74,7 +75,7 @@ $cur_page = (int) ($MY_FIRST / $MY_STEP) + 1 ;
       <?php if ($nb_pages > 1) echo $cur_page." / ".$nb_pages ; ?>
       <div style="display: inline; text-align: right; margin:0; padding: 0;"> &nbsp; <?php echo $next ; ?></div>
     </center>
-    &nbsp; <table id='alert' border=1>
+    &nbsp; <table id='alert' class="logs" border=1>
 <?php
 if ($nb_rows < 1) {
   mysql_close($dbconn) ;
@@ -83,15 +84,15 @@ if ($nb_rows < 1) {
   echo "</html>" ;
   die() ;
 }
-$style = "style='white-space: nowrap;'" ;
+
 while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   if ($first_line == 0) {
     echo "<tr>" ;
     foreach ($row AS $kh => $vh) {
       if ($kh == 'entry_time')
-        echo "<th><span class='col_sort_down'>".ucfirst(lang($MYLANG, $kh))."</span></th>";
+        echo '<th class="'.$kh.'"><span class="col_sort_down">'.ucfirst(lang($MYLANG, $kh)).'</span></th>';
       else
-        echo "<th>".ucfirst(lang($MYLANG, $kh))."</th>";
+        echo '<th class="'.$kh.'"><span class="col_no_sort">'.ucfirst(lang($MYLANG, $kh)).'</span></th>';
     }
     echo "</tr>" ;
     $first_line = 1 ;
@@ -148,10 +149,10 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
         $tmptd .= "<img src='img/restart.gif' width='12px' height='12px' />" ;
       else if ( preg_match('/(Successfully shutdown|Caught SIGTERM, shutting down)/', $v) )
         $tmptd .= "<img src='img/stop.gif' width='12px' height='12px' />" ;
-      if ($tmptd != "") $tds[0] = "<td ".$style.">".$tmptd."</td>" ;
+      if ($tmptd != "") $tds[0] = "<td>".$tmptd."</td>" ;
       $v = htmlspecialchars($v);
     }
-    $tds[] = "<td ".$style.">".$v."</td>" ;
+    $tds[] = '<td class="'.$k.'">'.$v.'</td>';
   }
   echo "<tr class='showlog'>" ;
   foreach ($tds AS $td) echo $td ;

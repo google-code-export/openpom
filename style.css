@@ -397,6 +397,16 @@ table#alert td#notif_warning > div {
   padding-bottom: 3px;
 }
 
+table#alert.logs th.entry_time,
+table#alert.logs td.entry_time {
+    padding-right: 10px;
+}
+
+table#alert.logs th,
+table#alert.logs td {
+    white-space: nowrap;
+}
+
 /**
  * Global counter table
  */
