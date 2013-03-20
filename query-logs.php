@@ -15,7 +15,7 @@ FROM ((
   FROM
     ".$BACKEND."_logentries
   ORDER BY
-    entry_time DESC
+    logentry_id DESC
   LIMIT
     define_my_submax
 
@@ -39,7 +39,7 @@ FROM ((
   FROM
     ".$BACKEND."_processevents
   ORDER BY
-    event_time DESC
+    processevent_id DESC
   LIMIT
     define_my_submax
 
