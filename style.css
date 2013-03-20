@@ -397,13 +397,21 @@ table#alert td#notif_warning > div {
   padding-bottom: 3px;
 }
 
+table#alert.history th.author_name,
+table#alert.history td.author_name {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 table#alert.logs th.entry_time,
 table#alert.logs td.entry_time {
     padding-right: 10px;
 }
 
 table#alert.logs th,
-table#alert.logs td {
+table#alert.logs td,
+table#alert.history th,
+table#alert.history td {
     white-space: nowrap;
 }
 
