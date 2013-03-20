@@ -9,15 +9,14 @@
 
 $QUERY_HISTORY['svc'] = "
   SELECT
-    SQL_CALC_FOUND_ROWS
-    sub.author_name          AS author_name,
     sub.state                AS color,
     sub.state_type           AS state_type,
-    sub.type		     AS type,
+    sub.type                 AS type,
     sub.entry_time           AS entry_time,
+    sub.author_name          AS author_name,
     sub.output               AS outputstatus
     
-  FROM (
+  FROM ((
 
     -- ACKNOWLEDGEMENT 
     SELECT 
@@ -31,8 +30,10 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_servicestatus AS SS ON ACO.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_ack = 1
+    ORDER BY ACO.acknowledgement_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- DOWNTIME
     SELECT 
@@ -53,8 +54,10 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_servicestatus AS SS ON DOW.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_down = 1
+    ORDER BY DOW.downtimehistory_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- COMMENT
     SELECT 
@@ -74,15 +77,15 @@ $QUERY_HISTORY['svc'] = "
     FROM ".$BACKEND."_commenthistory AS COM
       JOIN ".$BACKEND."_servicestatus AS SS ON COM.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
-      AND COM.entry_type = 1
-      AND COM.comment_data != '~track:This service is beeing tracked'
       AND define_my_com = 1
+    ORDER BY COM.commenthistory_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- NOTIFICATION
     SELECT
-      CONCAT_WS('', C.alias, ' (', C.email_address, ')' ) AS author_name,
+      CO.name1 AS author_name,
       N.state,
       '1' AS state_type,
       'notify' AS type,
@@ -91,15 +94,17 @@ $QUERY_HISTORY['svc'] = "
     FROM ".$BACKEND."_notifications AS N
       JOIN ".$BACKEND."_servicestatus AS SS ON N.object_id = SS.service_object_id
       JOIN ".$BACKEND."_contactnotifications AS CN ON CN.notification_id = N.notification_id
-      JOIN ".$BACKEND."_contacts AS C ON C.contact_object_id = CN.contact_object_id
+      JOIN ".$BACKEND."_objects AS CO ON CO.object_id = CN.contact_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_notify = 1
+    ORDER BY N.notification_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- STATEHISTORY
     SELECT
-      '(nagios)' AS author_name,
+      'Nagios Process' AS author_name,
       STH.state,
       STH.state_type,
       'statehistory' AS type,
@@ -109,12 +114,14 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_state = 1
+    ORDER BY SS.servicestatus_id DESC
+    LIMIT define_my_submax
 
-  UNION 
+  ) UNION ( 
 
     -- FLAPPING
     SELECT
-      '(nagios)' AS author_name,
+      'Nagios Process' AS author_name,
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_servicestatus AS SS2 ON STH.object_id = SS2.service_object_id
@@ -126,15 +133,17 @@ $QUERY_HISTORY['svc'] = "
       '0' AS state_type,
       'flapping' AS type,
       F.event_time AS entry_time,
-      ( CASE F.event_type WHEN 1000 then 'start flapping' when 1001 then 'stop flapping' end ) AS output
+      ( CASE F.event_type WHEN 1000 then 'start flapping' else 'stop flapping' end ) AS output
     FROM ".$BACKEND."_flappinghistory AS F
       JOIN ".$BACKEND."_servicestatus AS SS ON SS.service_object_id = F.object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_flap = 1
+    ORDER BY F.flappinghistory_id DESC
+    LIMIT define_my_submax
 
-  ) AS sub
+  )) AS sub
 
-  ORDER BY define_my_sort define_my_order
+  ORDER BY sub.entry_time DESC
 
   LIMIT define_my_first, define_my_step
 
@@ -142,15 +151,14 @@ $QUERY_HISTORY['svc'] = "
 
 $QUERY_HISTORY['host'] = "
   SELECT
-    SQL_CALC_FOUND_ROWS
     sub.author_name          AS author_name,
     sub.state                AS color,
-    sub.state_type	     AS state_type,
-    sub.type		     AS type,
+    sub.state_type           AS state_type,
+    sub.type                 AS type,
     sub.entry_time           AS entry_time,
     sub.output               AS outputstatus
     
-  FROM (
+  FROM ((
 
     -- ACKNOWLEDGEMENT 
     SELECT 
@@ -164,9 +172,10 @@ $QUERY_HISTORY['host'] = "
       JOIN ".$BACKEND."_hoststatus AS HS ON ACO.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_ack = 1
-    LIMIT 1000
+    ORDER BY ACO.acknowledgement_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- DOWNTIME
     SELECT 
@@ -187,9 +196,10 @@ $QUERY_HISTORY['host'] = "
       JOIN ".$BACKEND."_hoststatus AS HS ON DOW.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_down = 1
-    LIMIT 1000
+    ORDER BY DOW.downtimehistory_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- COMMENT
     SELECT 
@@ -209,16 +219,15 @@ $QUERY_HISTORY['host'] = "
     FROM ".$BACKEND."_commenthistory AS COM
       JOIN ".$BACKEND."_hoststatus AS HS ON COM.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
-      AND COM.entry_type = 1
-      AND COM.comment_data != '~track:This service is beeing tracked'
       AND define_my_com = 1
-    LIMIT 1000
+    ORDER BY COM.commenthistory_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- NOTIFICATION
     SELECT
-      CONCAT_WS('', C.alias, ' (', C.email_address, ')' ) AS author_name,
+      CO.name1 AS author_name,
       N.state,
       '1' AS state_type,
       'notify' AS type,
@@ -227,16 +236,17 @@ $QUERY_HISTORY['host'] = "
     FROM ".$BACKEND."_notifications AS N
       JOIN ".$BACKEND."_hoststatus AS HS ON N.object_id = HS.host_object_id
       JOIN ".$BACKEND."_contactnotifications AS CN ON CN.notification_id = N.notification_id
-      JOIN ".$BACKEND."_contacts AS C ON C.contact_object_id = CN.contact_object_id
+      JOIN ".$BACKEND."_objects AS CO ON CO.object_id = CN.contact_object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_notify = 1
-    LIMIT 1000
+    ORDER BY N.notification_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- STATEHISTORY
     SELECT
-      '(nagios)' AS author_name,
+      'Nagios Process' AS author_name,
       STH.state,
       STH.state_type,
       'statehistory' AS type,
@@ -246,13 +256,14 @@ $QUERY_HISTORY['host'] = "
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_state = 1
-    LIMIT 1000
+    ORDER BY HS.hoststatus_id DESC
+    LIMIT define_my_submax
 
-  UNION
+  ) UNION (
 
     -- FLAPPING
     SELECT
-      '(nagios)' AS author_name,
+      'Nagios Process' AS author_name,
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_hoststatus AS HS2 ON STH.object_id = HS2.host_object_id
@@ -264,15 +275,17 @@ $QUERY_HISTORY['host'] = "
       '0' AS state_type,
       'flapping' AS type,
       F.event_time AS entry_time,
-      ( CASE F.event_type WHEN 1000 then 'start flapping' when 1001 then 'stop flapping' end ) AS output
+      ( CASE F.event_type WHEN 1000 then 'start flapping' else 'stop flapping' end ) AS output
     FROM ".$BACKEND."_flappinghistory AS F
       JOIN ".$BACKEND."_hoststatus AS HS ON HS.host_object_id = F.object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_flap = 1
+    ORDER BY F.flappinghistory_id DESC
+    LIMIT define_my_submax
 
-  ) AS sub
+  )) AS sub
 
-  ORDER BY define_my_sort define_my_order
+  ORDER BY sub.entry_time DESC
 
   LIMIT define_my_first, define_my_step
 
