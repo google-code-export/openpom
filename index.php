@@ -467,8 +467,8 @@ $query_glob = str_replace('define_my_user', mysql_real_escape_string($MY_USER, $
 if (!($rep_glob = mysql_query($query_glob, $dbconn))) {
   $errno = mysql_errno($dbconn);
   $txt_error = mysql_error($dbconn);
-  error_log("invalid query : ".$errno." : ".$txt_error);
-  die_refresh("invalid query") ;
+  error_log("invalid query: $errno, $txt_error");
+  die_refresh("invalid query: $errno, $txt_error");
 }
 $glob_ok       = 0;
 $glob_warning  = 0;
@@ -542,8 +542,8 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   if (!($rep = mysql_query($query, $dbconn))) {
     $errno = mysql_errno($dbconn);
     $txt_error = mysql_error($dbconn);
-    error_log("invalid query : ".$errno." : ".$txt_error);
-    die_refresh("invalid query");
+    error_log("invalid query: $errno, $txt_error");
+    die_refresh("invalid query: $errno, $txt_error");
   }
   $query_time = getmicrotime() - $query_start;
   $str_query_time = '%01.4fs';
