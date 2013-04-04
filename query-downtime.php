@@ -9,14 +9,16 @@
 
 
 $QUERY_DOWNTIME_MIXED_ID = "
-  SELECT 
-    d.internal_downtime_id as id, 
-    if(d.downtime_type = 1, 'svc', 'host') as type
-  FROM ".$BACKEND."_scheduleddowntime AS d
-  JOIN ".$BACKEND."_objects AS o ON o.object_id = d.object_id
-  WHERE o.name1 = define_host
-  AND o.name2 = define_svc
-  AND d.downtime_type IN (1, 2)
+  select
+    d.internal_downtime_id as id
+  from
+    ".$BACKEND."_scheduleddowntime AS d
+  inner join
+    ".$BACKEND."_objects AS o on o.object_id = d.object_id
+  where
+    o.name1 = define_host and
+    o.name2 = define_svc and
+    d.downtime_type in (1, 2);
 ";
 
 ?>

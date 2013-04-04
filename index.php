@@ -29,6 +29,7 @@ session_start();
 
 require_once("query.php");
 require_once("query-downtime.php");
+require_once("query-comment.php");
 require_once("query-globalcount.php");
 require_once("utils.php");
 

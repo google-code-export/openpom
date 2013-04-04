@@ -323,9 +323,73 @@ function validate_downtime_range(&$start, &$end) {
 
 
 /*******************************************************************************
- * ACTIONS ON EVENTS: function to get per-type action templates 
+ * Functions to get per-type action templates 
  ******************************************************************************/
 
+function __get_del_host_comment_commands($ts, $host)
+{
+  global $QUERY_COMMENT_MIXED_ID;
+  global $dbconn;
+  $out = '';
+
+  $qhost = "'" . mysql_real_escape_string($host, $dbconn) . "'";
+  $query = str_replace('define_host', $qhost, $QUERY_COMMENT_MIXED_ID);
+  $query = preg_replace('/([^\s]*[\s]*)=[\s]*define_svc/i', '\1 is null', $query);
+
+  if (($result = mysql_query($query, $dbconn))) {
+    while (($id = mysql_fetch_row($result))) {
+        $id = $id[0];
+        $out .= "[$ts] DEL_HOST_COMMENT;$id\n";
+    }
+    mysql_free_result($result);
+  }
+
+  return $out;
+}
+
+function __get_del_host_downtime_commands($ts, $host)
+{
+  global $QUERY_DOWNTIME_MIXED_ID;
+  global $dbconn;
+  $out = '';
+
+  $qhost = "'" . mysql_real_escape_string($host, $dbconn) . "'";
+  $query = str_replace('define_host', $qhost, $QUERY_DOWNTIME_MIXED_ID);
+  $query = preg_replace('/([^\s]*[\s]*)=[\s]*define_svc/i', '\1 is null', $query);
+
+  if (($result = mysql_query($query, $dbconn))) {
+    while (($id = mysql_fetch_row($result))) {
+        $id = $id[0];
+        $out .= "[$ts] DEL_HOST_DOWNTIME;$id\n";
+    }
+    mysql_free_result($result);
+  }
+
+  return $out;
+}
+
+function __get_del_svc_downtime_commands($ts, $host, $svc)
+{
+  global $QUERY_DOWNTIME_MIXED_ID;
+  global $dbconn;
+  $out = '';
+
+  $qhost = "'" . mysql_real_escape_string($host, $dbconn) . "'";
+  $qsvc = "'" . mysql_real_escape_string($svc, $dbconn) . "'";
+  $query = str_replace('define_host', $qhost, $QUERY_DOWNTIME_MIXED_ID);
+  $query = str_replace('define_svc', $qsvc, $query);
+
+  if (($result = mysql_query($query, $dbconn))) {
+    while (($id = mysql_fetch_row($result))) {
+        $id = $id[0];
+        $out .= "[$ts] DEL_SVC_DOWNTIME;$id\n";
+    }
+    mysql_free_result($result);
+  }
+
+  return $out;
+}
+    
 /* get_nagios_cmd_template
  * return "nagios" command template
  */
@@ -357,10 +421,12 @@ function get_nagios_cmd_template($action, $ts, $target, $ignore_track = false) {
               && isset($EXT_CMD[$action]['svc'])) {
       
       foreach ($EXT_CMD[$action]['svc'] AS $n => $array ) {
-        $out .= "[$ts] " . str_replace(
-                              array('$host', '$svc'), 
-                              array($target[0], $target[1]),
-                              implode(';', $array)) . "\n";
+        if (isset($array[0]) && $array[0] == 'DEL_SVC_DOWNTIME')
+          $out .= __get_del_svc_downtime_commands($ts, $target[0], $target[1]);
+        else
+          $out .= "[$ts] " . str_replace(array('$host', '$svc'), 
+                                         array($target[0], $target[1]),
+                                         implode(';', $array)) . "\n";
       }
     }
     
@@ -369,8 +435,12 @@ function get_nagios_cmd_template($action, $ts, $target, $ignore_track = false) {
               && isset($EXT_CMD[$action]['host'])) {
       
       foreach ($EXT_CMD[$action]['host'] AS $n => $array ) {
-        $out .= "[$ts] " . str_replace(
-                              '$host', $target[0], implode(';', $array)) . "\n";
+        if (isset($array[0]) && $array[0] == 'DEL_HOST_DOWNTIME')
+          $out .= __get_del_host_downtime_commands($ts, $target[0]);
+        else if (isset($array[0]) && $array[0] == 'DEL_ALL_HOST_COMMENTS')
+          $out .= __get_del_host_comment_commands($ts, $target[0]);
+        else
+          $out .= "[$ts] " . str_replace('$host', $target[0], implode(';', $array)) . "\n";
       }
     }
     
@@ -386,7 +456,7 @@ function get_nagios_cmd_template($action, $ts, $target, $ignore_track = false) {
 
 
 /*******************************************************************************
- * ACTIONS ON EVENTS: prepare action function for type "nagios" 
+ * Actions on Nagios: prepare action function for type "nagios" 
  ******************************************************************************/
 
 /* prepare_action_nagios__down
@@ -537,84 +607,17 @@ function prepare_action_nagios__recheck($ts, $target) {
   return cache_action_nagios($prepared);
 }
 
-
 /* prepare_action_nagios__reset
  * prepare command for "nagios" action "reset"
  */
 function prepare_action_nagios__reset($ts, $target) {
-  global $QUERY_DOWNTIME_MIXED_ID;
-  global $dbconn;
-  
-  /* get partial commands template */
   $prepared = get_nagios_cmd_template('reset', $ts, $target);
-  
-  /* ugly hack for resetting downtime 
-   * there can be multiple downtime scheduled */
-  if (!empty($prepared) && count($target) > 0) {
-    
-    /* replace host in query template */
-    $dt_query = str_replace(
-      'define_host', 
-      "'" . mysql_real_escape_string($target[0], $dbconn) . "'", 
-      $QUERY_DOWNTIME_MIXED_ID);
-    
-    /* replace svc in query template (or remove condition) */
-    if (count($target) > 1 && !empty($target[1]) && $target[1] != '--host--') {
-      $dt_query = str_replace(
-        'define_svc', 
-        "'" . mysql_real_escape_string($target[1], $dbconn) . "'", 
-        $dt_query);
-      
-    } else {
-      $dt_query = preg_replace(
-        '/[^\s]*[\s]*=[\s]*define_svc/i', '1', $dt_query);
-    }
-    
-    /* get the list of downtime ids, cols: id, type (svc|host) */
-    if (($dt_result = mysql_query($dt_query, $dbconn))) {
-      $dt_replace = array('host' => null, 'svc' => null);
-      
-      /* extract the part to be repeated for each host scheduled downtime */
-      if (preg_match('/^(.+DEL_HOST_DOWNTIME;\$downtime_id)$/m', $prepared, $capture)) {
-        $dt_replace['host'] = $capture[1];
-      }
-      
-      /* extract the part to be repeated for each svc scheduled downtime */
-      if (preg_match('/^(.+DEL_SVC_DOWNTIME;\$downtime_id)$/m', $prepared, $capture)) {
-        $dt_replace['svc'] = $capture[1];
-      }
-      
-      /* prepare downtime delete commands */
-      $dt_cmds = array('host' => '', 'svc' => '');
-      while (($dt_row = mysql_fetch_row($dt_result))) {
-        if (!is_null($dt_replace[$dt_row[1]])) {
-          $dt_cmds[$dt_row[1]] .= str_replace(
-            '$downtime_id', $dt_row[0], $dt_replace[$dt_row[1]]) . "\n";
-        }
-      }
-      
-      /* replace downtime commands in template (host) */
-      if (!is_null($dt_replace['host'])) {
-        $prepared = str_replace(
-          $dt_replace['host'] . "\n", $dt_cmds['host'], $prepared);
-      }
-      
-      /* replace downtime commands in template (svc) */
-      if (!is_null($dt_replace['svc'])) {
-        $prepared = str_replace(
-          $dt_replace['svc'] . "\n", $dt_cmds['svc'], $prepared);
-      }
-      
-      mysql_free_result($dt_result);
-    }
-  }
-  
   return cache_action_nagios($prepared);
 }
 
 
 /*******************************************************************************
- * ACTIONS ON EVENTS: functions for caching prepared action
+ * Functions for caching prepared action
  ******************************************************************************/
 
 /* cache_action_nagios
@@ -642,7 +645,7 @@ function cache_action_nagios($prepared) {
 
 
 /*******************************************************************************
- * ACTIONS ON EVENTS: functions for executing prepared actions
+ * Functions for executing prepared actions
  ******************************************************************************/
 
 /* execute_prepared_actions_nagios
@@ -693,7 +696,7 @@ function execute_prepared_actions_nagios($actions) {
 
 
 /*******************************************************************************
- * ACTIONS ON EVENTS: main handling function
+ * Main action handling function
  ******************************************************************************/
 
 /* handle_action
