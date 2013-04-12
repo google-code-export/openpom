@@ -115,7 +115,7 @@ $QUERY_HISTORY['svc'] = "
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_state = 1
-    ORDER BY SS.servicestatus_id DESC
+    ORDER BY STH.statehistory_id DESC
     LIMIT define_my_submax
 
   ) UNION ( 
@@ -258,7 +258,7 @@ $QUERY_HISTORY['host'] = "
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_state = 1
-    ORDER BY HS.hoststatus_id DESC
+    ORDER BY STH.statehistory_id DESC
     LIMIT define_my_submax
 
   ) UNION (
