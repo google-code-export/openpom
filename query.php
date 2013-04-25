@@ -11,7 +11,7 @@ $QUERY = "
 SELECT
   SQL_CALC_FOUND_ROWS
   sub.GROUPES                      AS GROUPE,
-  sub.MACHINES                     AS MACHINES,
+  sub.MACHINE_ALIAS                AS MACHINE_ALIAS,
   sub.MACHINE_NAME                 AS MACHINE_NAME,
   sub.ADDRESS                      AS ADDRESS,
   sub.SERVICES                     AS SERVICES,
@@ -49,7 +49,7 @@ FROM (
       ORDER BY OHG.name1
       DESC SEPARATOR 'define_my_separator'
     )                                    AS GROUPES,
-    H.alias                              AS MACHINES,
+    H.alias                              AS MACHINE_ALIAS,
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
     S.display_name                       AS SERVICES,
@@ -152,7 +152,7 @@ UNION
       ORDER BY OHG.name1
       DESC SEPARATOR 'define_my_separator'
     )                                    AS GROUPES,
-    H.alias                              AS MACHINES,
+    H.alias                              AS MACHINE_ALIAS,
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
     '--host--'                           AS SERVICES,
