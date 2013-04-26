@@ -125,7 +125,7 @@ define('HAS_TRACK',   0x2);
           $COLOR .= " soft"; 
         }
         
-        $ACTION_TARGET = 'nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICES'].';'.$data['CHECKNAME'];
+        $ACTION_TARGET = 'nagios;'.$data['MACHINE_NAME'].';'.$data['SERVICE'].';'.$data['CHECKNAME'];
         $GET_DATA = "get_data('nagios', '".$data['TYPE']."', '".$data['SVCID']."');";
       ?>
 
@@ -158,7 +158,7 @@ define('HAS_TRACK',   0x2);
             if ($data['TYPE'] == "svc") {
               $toprint = '
                 <a target="_blank" 
-                   href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data['SERVICES'].'"
+                   href="'.$LINK.'?type=2&host='.$data["MACHINE_NAME"].'&service='.$data['SERVICE'].'"
                   ><img src="img/flag_svc.png" border="0" alt="S" title="'.ucfirst(lang($MYLANG, 'service')).'"
                 /></a>'; 
                 
@@ -170,7 +170,7 @@ define('HAS_TRACK',   0x2);
                 /></a>'; 
             }
             
-            $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICES']);
+            $g = get_graph('popup', $data['MACHINE_NAME'], $data['SERVICE']);
             if (!empty($g)) {
               
               $toprint .= '<a href="#" ' 

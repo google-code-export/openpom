@@ -14,7 +14,7 @@ SELECT
   sub.MACHINE_ALIAS                AS MACHINE_ALIAS,
   sub.MACHINE_NAME                 AS MACHINE_NAME,
   sub.ADDRESS                      AS ADDRESS,
-  sub.SERVICES                     AS SERVICES,
+  sub.SERVICE                      AS SERVICE,
   sub.SUBSERVICE                   AS SUBSERVICE,
   sub.STATUS                       AS STATUS,
   ( case sub.STATUS
@@ -52,7 +52,7 @@ FROM (
     H.alias                              AS MACHINE_ALIAS,
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
-    S.display_name                       AS SERVICES,
+    S.display_name                       AS SERVICE,
     null                                 AS SUBSERVICE,
     SS.current_state                     AS STATUS,
     SS.servicestatus_id                  AS SVCID,
@@ -155,7 +155,7 @@ UNION
     H.alias                              AS MACHINE_ALIAS,
     H.display_name                       AS MACHINE_NAME,
     H.address                            AS ADDRESS,
-    '--host--'                           AS SERVICES,
+    '--host--'                           AS SERVICE,
     null                                 AS SUBSERVICE,
     ( case HS.current_state
       when 2 then 3
