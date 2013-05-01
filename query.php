@@ -33,7 +33,8 @@ SELECT
   sub.DOWNTIME                     AS DOWNTIME,
   sub.NOTIF                        AS NOTIF,
   sub.COMMENT                      AS COMMENT,
-  sub.DISABLECHECK                 AS DISABLECHECK,
+  sub.HAS_ACTIVE                   AS HAS_ACTIVE,
+  sub.HAS_PASSIVE                  AS HAS_PASSIVE,
   sub.CHECKTYPE                    AS CHECKTYPE,
   sub.CHECKNAME                    AS CHECKNAME
 
@@ -60,10 +61,8 @@ FROM (
     SS.state_type                        AS SVCST,
     SS.problem_has_been_acknowledged     AS ACK,
     SS.check_type                        AS CHECKTYPE,
-    ( CASE SS.check_type
-        WHEN 0 THEN SS.active_checks_enabled
-        WHEN 1 THEN SS.passive_checks_enabled
-      END )                              AS DISABLECHECK,
+    SS.active_checks_enabled             AS HAS_ACTIVE,
+    SS.passive_checks_enabled            AS HAS_PASSIVE,
     UNIX_TIMESTAMP(SS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(SS.last_state_change) AS DURATION,
     'svc'                                AS TYPE,
@@ -165,10 +164,8 @@ UNION
     HS.state_type                        AS SVCST,
     HS.problem_has_been_acknowledged     AS ACK,
     HS.check_type                        AS CHECKTYPE,
-    ( CASE HS.check_type
-        WHEN 0 THEN HS.active_checks_enabled
-        WHEN 1 THEN HS.passive_checks_enabled
-      END )                              AS DISABLECHECK,
+    HS.active_checks_enabled             AS HAS_ACTIVE,
+    HS.passive_checks_enabled            AS HAS_PASSIVE,
     UNIX_TIMESTAMP(HS.last_check)        AS LASTCHECK,
     UNIX_TIMESTAMP(HS.last_state_change) AS DURATION,
     'host'                               AS TYPE,

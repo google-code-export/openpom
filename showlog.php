@@ -128,7 +128,9 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
       if ( preg_match('/ADD_(SVC|HOST)_COMMENT/' ,$v) )
         $tmptd .= "<img src='img/flag_comment.gif' width='12px' height='12px' />" ;
       if ( preg_match('/DISABLE_(SVC|HOST)_CHECK/' ,$v) )
-        $tmptd .= "<img src='img/flag_disablecheck.png' width='12px' height='12px' />" ;
+        $tmptd .= "<img src='img/flag_no_active.png' width='12px' height='12px' />" ;
+      if ( preg_match('/DISABLE_PASSIVE_(SVC|HOST)_CHECKS/' ,$v) )
+        $tmptd .= "<img src='img/flag_no_passive.png' width='12px' height='12px' />" ;
       if ( preg_match('/(HOST|SERVICE) NOTIFICATION: /' ,$v) )
         $tmptd .= "<img src='img/disa_notif.png' width='12px' height='12px' />" ;
       if ( preg_match('/CUSTOM_(HOST|SVC)_NOTIFICATION;/' ,$v) )
