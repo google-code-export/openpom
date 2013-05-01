@@ -115,10 +115,6 @@ FROM (
         AND (define_my_nosvc = 0 OR HS.current_state = 0)
         AND SS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR SS.state_type = 1)
-        AND (
-              ( SS.check_type = 0 AND SS.active_checks_enabled IN (define_my_check_disable) ) OR
-              ( SS.check_type = 1 AND SS.passive_checks_enabled IN (define_my_check_disable) )
-            )
       )
       OR (
         SELECT count(*) > 0
@@ -209,14 +205,6 @@ UNION
         AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
         AND HS.notifications_enabled IN (define_my_disable)
         AND (define_my_soft = 0 OR HS.state_type = 1)
-        AND (
-              HS.active_checks_enabled IN (define_my_check_disable) OR
-              HS.passive_checks_enabled IN (define_my_check_disable)
-        )
-        AND (
-              ( HS.check_type = 0 AND HS.active_checks_enabled IN (define_my_check_disable) ) OR
-              ( HS.check_type = 1 AND HS.passive_checks_enabled IN (define_my_check_disable) )
-            )
       )
       OR (
         SELECT count(*) > 0

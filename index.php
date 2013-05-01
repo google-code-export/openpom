@@ -526,7 +526,6 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_sortfield'          =>  mysql_real_escape_string($SORTFIELD, $dbconn),
   'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
   'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
-  'define_my_check_disable'   =>  mysql_real_escape_string($MY_CHECK_DISABLE, $dbconn),
   'define_track_anything'     => $MY_TRACK_ANY,
   ) ;
 
