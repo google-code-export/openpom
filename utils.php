@@ -539,26 +539,6 @@ function prepare_action_nagios__disable($ts, $target) {
   return cache_action_nagios($prepared);
 }
 
-function prepare_action_nagios__disablecheck($ts, $target) {
-  /* this action requires at least one element in target, the host name */
-  if (count($target) < 1) {
-    return false;
-  }
-  
-  /* this action requires a valid comment */
-  if (!validate_comment_value($c)) {
-    return false;
-  }
-  
-  /* build command */
-  $prepared = str_replace(
-    array('$user', '$comment'), 
-    array($_SESSION['USER'], $c), 
-    get_nagios_cmd_template('disablecheck', $ts, $target));
-  
-  return cache_action_nagios($prepared);
-}
-
 
 /* prepare_action_nagios__ena_notif
  * prepare command for "nagios" action "ena_notif" (global)

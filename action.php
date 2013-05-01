@@ -43,10 +43,6 @@
                 onclick="clicked_generic_popin('comment.php');"
                 title="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>"></span>&thinsp;
 
-          <span class="icon-btn icon-disablecheck"
-                onclick="clicked_generic_popin('disablecheck.php');"
-                title="<?php echo ucfirst(lang($MYLANG, 'disablecheck'))?>"></span>&thinsp;
-
           <span class="icon-btn icon-reset"
                 onclick="clicked_generic_action('reset');"
                 title="<?php echo ucfirst(lang($MYLANG, 'reset_title'))?>"></span>&thinsp;

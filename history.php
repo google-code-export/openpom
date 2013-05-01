@@ -169,9 +169,6 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
       if ($cap[1] == "~disable") 
         $tds[0] = "<td>
           <img src='img/flag_notify.png' width='12px' height='12px' /></td>" ;
-      else if ($cap[1] == "~disablecheck") 
-        $tds[0] = "<td>
-          <img src='img/flag_disablecheck.png' width='12px' height='12px' /></td>" ;
     }
     $tds[] = '<td class="'.$k.'">'.$v.'</td>';
   } //end foreach

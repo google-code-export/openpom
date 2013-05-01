@@ -359,31 +359,6 @@ $EXT_CMD['comment_persistent']['svc'][0]  = array(
 '$user',
 '$comment');
 
-/* DISABLE CHECK */
-$EXT_CMD['disablecheck']['host'][0]  = array(
-'DISABLE_HOST_CHECK',
-'$host');
-
-$EXT_CMD['disablecheck']['host'][1]  = array(
-'ADD_HOST_COMMENT',
-'$host',
-'1',
-'$user',
-'~disablecheck:$comment');
-
-$EXT_CMD['disablecheck']['svc'][0]   = array(
-'DISABLE_SVC_CHECK',
-'$host',
-'$svc');
-
-$EXT_CMD['disablecheck']['svc'][1]  = array(
-'ADD_SVC_COMMENT',
-'$host',
-'$svc',
-'1',
-'$user',
-'~disablecheck:$comment');
-
 /* ENABLE GLOBAL NOTIFICATIONS */
 $EXT_CMD['ena_notif']['host'][0]  = array(
 'ENABLE_NOTIFICATIONS');

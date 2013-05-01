@@ -109,14 +109,10 @@ $DOWNTIME             = $st_data['DOWNTIME'];
 $ACKCOMMENT           = explode(';', $st_data['ACKCOMMENT'], 2);
 $DOWNCOMMENT          = explode(';', $st_data['DOWNCOMMENT'], 3);
 $NOTIFCOMMENT         = explode(';', $st_data['NOTIFCOMMENT'], 2);
-$DISABLECHECKCOMMENT  = explode(';', $st_data['DISABLECHECKCOMMENT'], 2);
 $COMMENT              = explode(';', $st_data['COMMENT'], 2);
 
 if (isset($NOTIFCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $NOTIFCOMMENT[1], $cap)) {
   $NOTIFCOMMENT[1] = $cap[1];
-}
-if (isset($DISABLECHECKCOMMENT[1]) && preg_match('/^~[^:]+:(.*)$/', $DISABLECHECKCOMMENT[1], $cap)) {
-  $DISABLECHECKCOMMENT[1] = $cap[1];
 }
 
 if ( (! isset($ACKCOMMENT[0]) ) || (empty($ACKCOMMENT[0])) ) $ACKCOMMENT[0] = "N/A" ;
@@ -126,8 +122,6 @@ if (! isset($DOWNCOMMENT[1]) ) $DOWNCOMMENT[1] = "N/A" ;
 if (! isset($DOWNCOMMENT[2]) ) $DOWNCOMMENT[2] = "N/A" ;
 if ( (! isset($NOTIFCOMMENT[0]) ) || (empty($NOTIFCOMMENT[0])) ) $NOTIFCOMMENT[0] = "N/A" ;
 if (! isset($NOTIFCOMMENT[1]) ) $NOTIFCOMMENT[1] = "N/A" ;
-if ( (! isset($DISABLECHECKCOMMENT[0]) ) || (empty($DISABLECHECKCOMMENT[0])) ) $DISABLECHECKCOMMENT[0] = "N/A" ;
-if (! isset($DISABLECHECKCOMMENT[1]) ) $DISABLECHECKCOMMENT[1] = "N/A" ;
 if ( (! isset($COMMENT[0]) ) || (empty($COMMENT[0])) ) { $COMMENT[0] = "N/A" ; $NOCOMMENT = 1 ; }
 else $NOCOMMENT = 0;
 if (! isset($COMMENT[1]) ) $COMMENT[1] = "N/A" ;
@@ -151,8 +145,6 @@ $STATUSDATA = array (
 ($DOWNTIME && count($DOWNCOMMENT) > 2) ? 'downcur' : 'nodowncur'    => $DOWNCOMMENT[2]." (".lang($MYLANG, 'end')." ".$DOWNCOMMENT[1].")",
 /*NOTIFYSTATUS*/
 (!$NOTIF && count($NOTIFCOMMENT) > 1) ? 'notifycur' : 'nonotifycur' => $NOTIFCOMMENT[1],
-/*DISACHECK*/
-($CHECKENABLE == "disabled") ? 'disacur' : 'nodisacur'              => $DISABLECHECKCOMMENT[1],
 /*COMMENT*/
 ($NOCOMMENT == 0) ? 'commentcur' : 'nocommentcur' => $COMMENT[1],
 /*HISTORY*/
@@ -164,7 +156,6 @@ $STATUSHEAD = array (
 'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >&nbsp;('.$ACKCOMMENT[0].')</span>', 
 'downcur'    => '<img class="inline-middle" src="img/flag_downtime.png" /><span class="inline-middle" >&nbsp;('.$DOWNCOMMENT[0].')</span>',
 'notifycur'  => '<img class="inline-middle" src="img/flag_notify.png" /><span class="inline-middle" >&nbsp;('.$NOTIFCOMMENT[0].')</span>',
-'disacur'    => '<img class="inline-middle" src="img/flag_disablecheck.png" /><span class="inline-middle" >&nbsp;('.$DISABLECHECKCOMMENT[0].')</span>',
 'commentcur' => '<img class="inline-middle" src="img/flag_comment.gif" /><span class="inline-middle">&nbsp;('.$COMMENT[0].')</span>',
 ) ;
 

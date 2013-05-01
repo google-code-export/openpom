@@ -99,15 +99,6 @@ $QUERY_STATUS['svc'] = "
       ORDER BY NCO.comment_id DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
-      concat_ws(';', DCCO.author_name, DCCO.comment_data)
-      FROM ".$BACKEND."_comments AS DCCO
-      WHERE DCCO.object_id = SS.service_object_id
-      AND DCCO.entry_type = 1
-      AND DCCO.comment_source = 1
-      AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
-      ORDER BY DCCO.entry_time DESC
-      LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
-    ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ".$BACKEND."_comments AS CO
       WHERE CO.object_id = SS.service_object_id
@@ -225,15 +216,6 @@ $QUERY_STATUS['host'] = "
       AND substring_index(NCO.comment_data, ':', 1) = '~disable'
       ORDER BY NCO.comment_id DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
-    ( SELECT 
-      concat_ws(';', DCCO.author_name, DCCO.comment_data)
-      FROM ".$BACKEND."_comments AS DCCO
-      WHERE DCCO.object_id = HS.host_object_id
-      AND DCCO.entry_type = 1
-      AND DCCO.comment_source = 1
-      AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
-      ORDER BY DCCO.entry_time DESC
-      LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
     ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ".$BACKEND."_comments AS CO
