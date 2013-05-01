@@ -1,3 +1,7 @@
+table#top td > div {
+    display: block;
+}
+
 table#top span#metter-wrap {
   border: 1px solid #BABFBA;
   background-color: #F5F8F3;
@@ -9,7 +13,7 @@ table#top span#metter-wrap img {
 
 table#top span#metter-wrap select {
   height: 20px;
-  padding: 0px;
+  padding: 1px;
   border: 1px solid #fff;
   -ms-filter: 
       "progid:DXImageTransform.Microsoft.chroma(Color=#716f64), 
@@ -29,6 +33,10 @@ table#top span#metter-wrap select {
       progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff);
 }
 
+table#top input#filtering {
+  line-height: 20px;
+}
+
 input {
   margin: -1px;
 }
@@ -40,3 +48,10 @@ input[type=radio] {
 table#top td#wgrad div#white {
     height: 4px;
 }
+
+.opacity_10 {
+    zoom: 1;
+    filter: alpha(opacity=10);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+}
+

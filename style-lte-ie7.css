@@ -1,0 +1,22 @@
+table#top td#top-glob tr:first-child td {
+    border-bottom: 2px solid #fff;
+}
+
+table#top td#top-glob td span {
+    vertical-align: baseline;
+}
+
+table#top td#top-glob td.glob-text span {
+    position: relative;
+    top: 1px;
+}
+
+table#top td#top-filter-input {
+  padding-right: 130px ;
+  width: 1%;
+}
+
+input#filtering {
+  height: 20px;
+}
+

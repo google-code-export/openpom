@@ -20,7 +20,10 @@
     
     <link rel="stylesheet" type="text/css" href="style.css" />
     <!--[if lte IE 8]>
-        <link rel="stylesheet" type="text/css" href="style-ie.css" />
+        <link rel="stylesheet" type="text/css" href="style-lte-ie8.css" />
+    <![endif]-->
+    <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="style-lte-ie7.css" />
     <![endif]-->
 
     <script type="text/javascript" src="js/jquery.min.js"></script>

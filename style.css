@@ -58,18 +58,6 @@ h2 {
   padding: 0px;
 }
 
-
-input#filtering {
-    width: 130px;
-    height: 20px;
-    background: #F5F8F3 url('img/search.png') no-repeat scroll 1px center;
-    padding: 0px;
-    margin: 0px;
-    padding-left: 22px;
-    vertical-align: middle;
-    line-height: 20px;
-}
-
 th .col_sort_up {
     text-decoration: none;
     color: #000000;
@@ -123,11 +111,9 @@ a.comment {
 }
 
 .opacity_10 {
-  opacity: 0.1;
-  -moz-opacity: 0.1;
-  -khtml-opacity: 0.1;
-  filter: alpha(opacity=10);
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+    opacity: 0.1;
+    -moz-opacity: 0.1;
+    -khtml-opacity: 0.1;
 }
 
 
@@ -209,73 +195,208 @@ span.icon-bg-disa_notif, span.icon-bg-disa_notif:hover { background-color: #D5F4
  */
 
 table#top {
-  width: 100%;
-  position: fixed;
-  top: 0px; 
-  left: 0px;
-  z-index: 2;
-  border-top: 2px solid #fff;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    border-top: 2px solid #fff;
 }
 
 body.framed table#top { border-top: none; }
 body.framed.monitor table#top { border-top: 2px solid #fff; }
 
 table#top td {
-  background-color: #fff;
-  white-space: nowrap;
-  padding: 0;
+    background-color: #fff;
+    padding: 0px;
 }
 
-table#top td span {
-  vertical-align: middle;
-  display: inline-block;
+table#top td > div {
+    white-space: nowrap;
+    /* remove space char between inline-blocks */
+    display: table;
+    width: 100%;
 }
 
-table#top td span.count {
-  padding-left: 2px;
-  padding-right: 2px;
+table#top td.top-separator {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-table#top span#metter-wrap {
+table#top td#top-refresh {
+    padding-left: 4px;
+}
+
+table#top td#top-refresh span#refresh-countdown {
+    vertical-align: middle;
+}
+
+table#top td#top-actions {
+    text-align: center;
+}
+
+table#top td#top-settings {
+    text-align: center;
+}
+
+table#top td#top-level {
+    text-align: center;
+}
+
+table#top td#top-filter-input {
+    text-align: right;
+}
+
+table#top td#top-filter-buttons {
+    width: 1px;
+    padding-left: 5px;
+}
+
+table#top td#top-monitor-level {
+    text-align: left;
+    padding-left: 4px;
+}
+
+table#top td#top-monitor-glob {
+    text-align: center;
+}
+
+table#top td#top-monitor-glob img {
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    padding-left: 8px;
+    padding-right: 2px;
+}
+
+table#top td#top-monitor-glob span {
+    vertical-align: middle;
+    padding: 0px;
+    margin: 0px;
+}
+
+table#top td#top-glob {
+    text-align: center;
+}
+
+table#top td#top-glob > span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+table#top td#top-glob table {
+    width: 1px;
+}
+
+table#top td#top-glob table span {
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+    line-height: 9px;
+}
+
+table#top td#top-glob img {
+    border: none;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+}
+
+table#top td#top-glob a {
+    text-decoration: none;
+    color: #000;
+}
+
+table#top td#top-glob td {
+    text-align: left;
+}
+
+table#top td#top-glob td span {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+table#top td#top-glob td.glob-icon span {
+    padding-left: 8px;
+    padding-right: 2px;
+}
+
+table#top td#top-pagination {
+    text-align: right;
+    padding-right: 4px;
+}
+
+table#top td#top-pagination span {
+    vertical-align: middle;
+}
+
+table#top td#top-gradient {
+    background-color: transparent !important;
+}
+
+table#top td#top-gradient div#white {
+    width: 100%;
+    height: 7px;
+    background-color: #fff;
+}
+
+table#top td#top-gradient div#grad {
+    width: 100%;
+    height: 8px;
+    background-image: url('img/wgrad.png');
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: left bottom;
+}
+
+table#top td#top-monitor-refresh {
+    text-align: center;
+}
+
+table#top td#top-monitor-stop {
+    text-align: right;
+    padding-right: 4px;
+}
+
+div#top-fixed-height {
+    height: 41px;
+    width: 1px;
+}
+
+body.framed div#top-fixed-height { height: 39px; }
+body.monitor div#top-fixed-height { height: 20px; }
+
+input#filtering {
+    min-width: 130px;
+    max-width: 200px;
+    width: 100%;
+    height: 22px;
+    background: #F5F8F3 url('img/search.png') no-repeat scroll 1px center;
+    padding: 0px;
+    margin: 0px;
+    padding-left: 22px;
+    vertical-align: middle;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+span#metter-wrap {
   position: relative;
   display: inline-block;
   vertical-align: middle;
 }
 
-table#top span#metter-wrap select {
-  height: 20px;
-  vertical-align: middle;
+span#metter-wrap select {
+  height: 22px;
   border: 1px solid #BABFBA;
   background-color: #F5F8F3;
-  padding-top: 1px;
+  padding: .3em;
 }
 
-table#top td#wgrad {
-  background-color: transparent;
-}
-
-table#top td#wgrad div#white {
-  width: 100%; 
-  height: 7px;
-  background-color: #fff;
-}
-
-table#top td#wgrad div#grad {
-  width: 100%; 
-  height: 8px;
-  background-image: url('img/wgrad.png');
-  background-repeat: repeat;
-  background-attachment: scroll;
-  background-position: left bottom;
-}
-
-div#top-fixed-tpad {
-  height: 41px;
-  width: 1px;
-}
-
-body.framed div#top-fixed-tpad { height: 39px; }
-body.monitor div#top-fixed-tpad { height: 20px; }
 
 /**
  * Alert table
@@ -415,45 +536,7 @@ table#alert.history td {
     white-space: nowrap;
 }
 
-/**
- * Global counter table
- */
 
-table#glob span {
-    display: inline-block;
-    padding: 0px;
-    margin: 0px;
-    line-height: 9px;
-}
-
-table#glob img {
-    border: none;
-    width: 10px;
-    height: 10px;
-    display: block;
-}
-
-table#glob a {
-    text-decoration: none;
-    color: #000;
-}
-
-table#glob td {
-    text-align: left;
-}
-
-table#glob td.glob-icon span {
-    padding-left: 8px;
-    padding-right: 2px;
-}
-
-/* for monitor mode */
-td#glob-monitor img {
-    width: 10px;
-    height: 10px;
-    padding-left: 8px;
-    padding-right: 2px;
-}
 
 /**
  * Box popins

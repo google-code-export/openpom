@@ -124,7 +124,7 @@ function selectline(object, event) {
 }
 
 function autorefresh() { 
-  var refresh = $('#refreshspan');
+  var refresh = $('#refresh-countdown');
   var line_is_checked = false;
   var keep_going = true;
   
