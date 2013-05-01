@@ -81,10 +81,7 @@ define('HAS_TRACK',   0x2);
               <?php echo lang($MYLANG, 'notif_warning'); ?>
             </div>
             <script type="text/javascript">
-            var warning = $('td#notif_warning > div');
-            if (warning.length) {
-              blink_button(warning);
-            }
+                blink_button($('td#notif_warning > div'));
             </script>
           </td>
         </tr>

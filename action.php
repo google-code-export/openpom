@@ -75,10 +75,7 @@
           <?php if ($global_notif == 'ena_notif') { ?>
           <!-- blink global notification button -->
           <script type="text/javascript">
-          var button = $('.icon-ena_notif');
-          if (button.length) {
-            blink_button(button);
-          }
+              blink_button($('.icon-ena_notif'));
           </script>
           <?php } ?>
                 
