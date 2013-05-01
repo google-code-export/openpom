@@ -481,22 +481,34 @@ $glob_notif    = 0;
 $glob_check    = 0;
 $glob_all      = 0;
 
-while ($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC) ) {
-  if      ( substr($glob_counter['TYPE'], 0, 13) == 'current_state' ) {
-    if      ( $glob_counter['STATE'] == 0 ) $glob_ok       += $glob_counter['TOTAL'] ;
-    else if ( $glob_counter['STATE'] == 2 ) $glob_critical += $glob_counter['TOTAL'] ;
-    else if ( $glob_counter['STATE'] == 3 ) $glob_unknown  += $glob_counter['TOTAL'] ;
-    else if ( $glob_counter['STATE'] == 1 ) $glob_warning  += $glob_counter['TOTAL'] ;
-    $glob_all    += $glob_counter['TOTAL'] ;
-  }
-  else if ( ( substr($glob_counter['TYPE'], 0, 11) == 'acknowledge' ) &&
-            ( $glob_counter['STATE'] == 1 ) ) $glob_ack   += $glob_counter['TOTAL'] ;
-  else if ( ( substr($glob_counter['TYPE'], 0, 8)  == 'downtime' ) &&
-            ( $glob_counter['STATE'] == 1 ) ) $glob_down  += $glob_counter['TOTAL'] ;
-  else if ( ( substr($glob_counter['TYPE'], 0, 9)  == 'disanotif' ) &&
-            ( $glob_counter['STATE'] == 0 ) ) $glob_notif += $glob_counter['TOTAL'] ;
-  else if ( ( substr($glob_counter['TYPE'], 0, 9)  == 'disacheck' ) &&
-            ( $glob_counter['STATE'] == 0 ) ) $glob_check += $glob_counter['TOTAL'] ;
+while (($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC))) {
+
+    /* state counters */
+    if (strpos($glob_counter['TYPE'], 'state_') === 0) {
+        switch ($glob_counter['STATE']) {
+            case 0: $glob_ok += $glob_counter['TOTAL'];       break;
+            case 1: $glob_warning += $glob_counter['TOTAL'];  break;
+            case 2: $glob_critical += $glob_counter['TOTAL']; break;
+            case 3: $glob_unknown += $glob_counter['TOTAL'];  break;
+        }
+        $glob_all += $glob_counter['TOTAL'];
+    }
+
+    /* ack counter */
+    else if (strpos($glob_counter['TYPE'], 'ack_') === 0)
+        $glob_ack += $glob_counter['TOTAL'];
+
+    /* downtime counter */
+    else if (strpos($glob_counter['TYPE'], 'dt_') === 0)
+        $glob_down += $glob_counter['TOTAL'];
+
+    /* notifications disabled counter */
+    else if (strpos($glob_counter['TYPE'], 'disanotif_') === 0)
+        $glob_notif += $glob_counter['TOTAL'];
+
+    /* checks disabled counter */
+    else if (strpos($glob_counter['TYPE'], 'disacheck_') === 0)
+        $glob_check += $glob_counter['TOTAL'];
 }
 
 /* FORGE QUERY (AUTO CHANGE LEVEL IN MONITOR MODE) */
@@ -585,7 +597,7 @@ while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   if ($data['ACK'] == 1) $hit_ack++;
   if ($data['DOWNTIME'] > 0) $hit_down++;
   if ($data['NOTIF'] == 0) $hit_notif++;
-  if ( ($data['DISABLECHECK'] == 0) && ($data['CHECKTYPE'] == 0) ) $hit_check++;
+  if (!$data['HAS_ACTIVE'] && !$data['HAS_PASSIVE']) $hit_check++;
 }
 
 if      ($hit_critical > 0) $framecolor = $CRITICAL;

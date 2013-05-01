@@ -9,238 +9,230 @@ SELECT
 FROM (
 
   SELECT 
-    'current_state_svc'       AS type,
-    SS.current_state          AS state,
-    COUNT( SS.current_state ) AS total
+    'state_svc'                 AS type,
+    _SS.current_state           AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_services AS S
-    JOIN ".$BACKEND."_servicestatus AS SS ON S.service_object_id = SS.service_object_id
+         ${BACKEND}_services AS _S
+    JOIN ${BACKEND}_servicestatus AS _SS ON _S.service_object_id = _SS.service_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_services AS _S
-        JOIN ".$BACKEND."_service_contactgroups AS _SCG ON _S.service_id = _SCG.service_id
-        JOIN ".$BACKEND."_contactgroups AS _CG          ON _SCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM  ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C                ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                 ON _C.contact_object_id = _O.object_id
-        WHERE _S.service_id = S.service_id
+    _S.service_id IN (
+        SELECT DISTINCT S.service_id
+        FROM ${BACKEND}_services AS S
+        JOIN ${BACKEND}_service_contactgroups AS SCG   ON S.service_id = SCG.service_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON SCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
   GROUP BY
-    SS.current_state
+    _SS.current_state
 
 UNION
 
   SELECT
-    'acknowledgesvc'                          AS type,
-    SS.problem_has_been_acknowledged          AS state,
-    COUNT( SS.problem_has_been_acknowledged ) AS total
+    'ack_svc'                   AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_services AS S
-    JOIN ".$BACKEND."_servicestatus AS SS ON S.service_object_id = SS.service_object_id
+         ${BACKEND}_services AS _S
+    JOIN ${BACKEND}_servicestatus AS _SS ON _S.service_object_id = _SS.service_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_services AS _S
-        JOIN ".$BACKEND."_service_contactgroups AS _SCG ON _S.service_id = _SCG.service_id
-        JOIN ".$BACKEND."_contactgroups AS _CG          ON _SCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM  ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C                ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                 ON _C.contact_object_id = _O.object_id
-        WHERE _S.service_id = S.service_id
+    _SS.problem_has_been_acknowledged = 1 AND
+    _S.service_id IN (
+        SELECT DISTINCT S.service_id
+        FROM ${BACKEND}_services AS S
+        JOIN ${BACKEND}_service_contactgroups AS SCG   ON S.service_id = SCG.service_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON SCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-  GROUP BY
-    SS.problem_has_been_acknowledged
 
 UNION
 
   SELECT
-    'downtimesvc'                        AS type,
-    SS.scheduled_downtime_depth          AS state,
-    COUNT( SS.scheduled_downtime_depth ) AS total
+    'dt_svc'                    AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_services AS S
-    JOIN ".$BACKEND."_servicestatus AS SS ON S.service_object_id = SS.service_object_id
+         ${BACKEND}_services AS _S
+    JOIN ${BACKEND}_servicestatus AS _SS ON _S.service_object_id = _SS.service_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_services AS _S
-        JOIN ".$BACKEND."_service_contactgroups AS _SCG ON _S.service_id = _SCG.service_id
-        JOIN ".$BACKEND."_contactgroups AS _CG          ON _SCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM  ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C                ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                 ON _C.contact_object_id = _O.object_id
-        WHERE _S.service_id = S.service_id
+    _SS.scheduled_downtime_depth > 0 AND
+    _S.service_id IN (
+        SELECT DISTINCT S.service_id
+        FROM ${BACKEND}_services AS S
+        JOIN ${BACKEND}_service_contactgroups AS SCG   ON S.service_id = SCG.service_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON SCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-  GROUP BY
-    SS.scheduled_downtime_depth
 
 UNION
 
   SELECT
-    'disanotifsvc'                    AS type,
-    SS.notifications_enabled          AS state,
-    COUNT( SS.notifications_enabled ) AS total
+    'disanotif_svc'             AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_services AS S
-    JOIN ".$BACKEND."_servicestatus AS SS ON S.service_object_id = SS.service_object_id
+         ${BACKEND}_services AS _S
+    JOIN ${BACKEND}_servicestatus AS _SS ON _S.service_object_id = _SS.service_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_services AS _S
-        JOIN ".$BACKEND."_service_contactgroups AS _SCG ON _S.service_id = _SCG.service_id
-        JOIN ".$BACKEND."_contactgroups AS _CG          ON _SCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM  ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C                ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                 ON _C.contact_object_id = _O.object_id
-        WHERE _S.service_id = S.service_id
+    _SS.notifications_enabled = 0 AND
+    _S.service_id IN (
+        SELECT DISTINCT S.service_id
+        FROM ${BACKEND}_services AS S
+        JOIN ${BACKEND}_service_contactgroups AS SCG   ON S.service_id = SCG.service_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON SCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-  GROUP BY
-    SS.notifications_enabled
 
 UNION
 
   SELECT
-    'disachecksvc'                    AS type,
-    SS.active_checks_enabled          AS state,
-    COUNT( SS.active_checks_enabled ) AS total
+    'disacheck_svc'             AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_services AS S
-    JOIN ".$BACKEND."_servicestatus AS SS ON S.service_object_id = SS.service_object_id
+         ${BACKEND}_services AS _S
+    JOIN ${BACKEND}_servicestatus AS _SS ON _S.service_object_id = _SS.service_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_services AS _S
-        JOIN ".$BACKEND."_service_contactgroups AS _SCG ON _S.service_id = _SCG.service_id
-        JOIN ".$BACKEND."_contactgroups AS _CG          ON _SCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM  ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C                ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                 ON _C.contact_object_id = _O.object_id
-        WHERE _S.service_id = S.service_id
+    _SS.active_checks_enabled = 0 AND
+    _SS.passive_checks_enabled = 0 AND
+    _S.service_id IN (
+        SELECT DISTINCT S.service_id
+        FROM ${BACKEND}_services AS S
+        JOIN ${BACKEND}_service_contactgroups AS SCG   ON S.service_id = SCG.service_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON SCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-    AND SS.check_type = 0
-  GROUP BY
-    SS.active_checks_enabled
 
 UNION
 
   SELECT
-    'current_state_host'      AS type,
-    ( CASE HS.current_state
+    'state_host'                AS type,
+    ( CASE _HS.current_state
         WHEN 2 THEN 3
         WHEN 1 THEN 2
         WHEN 0 THEN 0
-      END )                   AS state,
-    COUNT( HS.current_state ) AS total
+      END )                     AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS ON H.host_object_id = HS.host_object_id
+         ${BACKEND}_hosts AS _H
+    JOIN ${BACKEND}_hoststatus AS _HS ON _H.host_object_id = _HS.host_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_hosts AS _H
-        JOIN ".$BACKEND."_host_contactgroups AS _HCG   ON _H.host_id = _HCG.host_id
-        JOIN ".$BACKEND."_contactgroups AS _CG         ON _HCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C               ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                ON _C.contact_object_id = _O.object_id
-        WHERE _H.host_id = H.host_id
+    _H.host_id IN (
+        SELECT DISTINCT H.host_id
+        FROM ${BACKEND}_hosts AS H
+        JOIN ${BACKEND}_host_contactgroups AS HCG      ON H.host_id = HCG.host_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON HCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
   GROUP BY 
-    HS.current_state
+    _HS.current_state
 
 UNION
 
   SELECT
-    'acknowledgehost'                         AS type,
-    HS.problem_has_been_acknowledged          AS state,
-    COUNT( HS.problem_has_been_acknowledged ) AS total
+    'ack_host'                  AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS ON H.host_object_id = HS.host_object_id
+         ${BACKEND}_hosts AS _H
+    JOIN ${BACKEND}_hoststatus AS _HS ON _H.host_object_id = _HS.host_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_hosts AS _H
-        JOIN ".$BACKEND."_host_contactgroups AS _HCG   ON _H.host_id = _HCG.host_id
-        JOIN ".$BACKEND."_contactgroups AS _CG         ON _HCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C               ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                ON _C.contact_object_id = _O.object_id
-        WHERE _H.host_id = H.host_id
+    _HS.problem_has_been_acknowledged = 1 AND
+    _H.host_id IN (
+        SELECT DISTINCT H.host_id
+        FROM ${BACKEND}_hosts AS H
+        JOIN ${BACKEND}_host_contactgroups AS HCG      ON H.host_id = HCG.host_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON HCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-  GROUP BY 
-    HS.problem_has_been_acknowledged
 
 UNION
 
   SELECT
-    'downtimehost'                       AS type,
-    HS.scheduled_downtime_depth          AS state,
-    COUNT( HS.scheduled_downtime_depth ) AS total
+    'dt_host'                   AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS ON H.host_object_id = HS.host_object_id
+         ${BACKEND}_hosts AS _H
+    JOIN ${BACKEND}_hoststatus AS _HS ON _H.host_object_id = _HS.host_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_hosts AS _H
-        JOIN ".$BACKEND."_host_contactgroups AS _HCG   ON _H.host_id = _HCG.host_id
-        JOIN ".$BACKEND."_contactgroups AS _CG         ON _HCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C               ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                ON _C.contact_object_id = _O.object_id
-        WHERE _H.host_id = H.host_id
+    _HS.scheduled_downtime_depth > 0 AND
+    _H.host_id IN (
+        SELECT DISTINCT H.host_id
+        FROM ${BACKEND}_hosts AS H
+        JOIN ${BACKEND}_host_contactgroups AS HCG      ON H.host_id = HCG.host_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON HCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-  GROUP BY 
-    HS.scheduled_downtime_depth
 
 UNION
 
   SELECT
-    'disanotifhost'                   AS type,
-    HS.notifications_enabled          AS state,
-    COUNT( HS.notifications_enabled ) AS total
+    'disanotif_host'            AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS ON H.host_object_id = HS.host_object_id
+         ${BACKEND}_hosts AS _H
+    JOIN ${BACKEND}_hoststatus AS _HS ON _H.host_object_id = _HS.host_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_hosts AS _H
-        JOIN ".$BACKEND."_host_contactgroups AS _HCG   ON _H.host_id = _HCG.host_id
-        JOIN ".$BACKEND."_contactgroups AS _CG         ON _HCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C               ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                ON _C.contact_object_id = _O.object_id
-        WHERE _H.host_id = H.host_id
+    _HS.notifications_enabled = 0 AND
+    _H.host_id IN (
+        SELECT DISTINCT H.host_id
+        FROM ${BACKEND}_hosts AS H
+        JOIN ${BACKEND}_host_contactgroups AS HCG      ON H.host_id = HCG.host_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON HCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-  GROUP BY 
-    HS.notifications_enabled
 
 UNION
 
   SELECT
-    'disacheckhost'                   AS type,
-    HS.active_checks_enabled          AS state,
-    COUNT( HS.active_checks_enabled ) AS total
+    'disacheck_host'            AS type,
+    NULL                        AS state,
+    COUNT(*)                    AS total
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS ON H.host_object_id = HS.host_object_id
+         ${BACKEND}_hosts AS _H
+    JOIN ${BACKEND}_hoststatus AS _HS ON _H.host_object_id = _HS.host_object_id
   WHERE
-    'define_my_user' IN (
-	    SELECT DISTINCT _O.name1
-        FROM ".$BACKEND."_hosts AS _H
-        JOIN ".$BACKEND."_host_contactgroups AS _HCG   ON _H.host_id = _HCG.host_id
-        JOIN ".$BACKEND."_contactgroups AS _CG         ON _HCG.contactgroup_object_id = _CG.contactgroup_object_id
-        JOIN ".$BACKEND."_contactgroup_members AS _CGM ON _CG.contactgroup_id = _CGM.contactgroup_id
-        JOIN ".$BACKEND."_contacts AS _C               ON _CGM.contact_object_id = _C.contact_object_id
-        JOIN ".$BACKEND."_objects AS _O                ON _C.contact_object_id = _O.object_id
-        WHERE _H.host_id = H.host_id
+    _HS.active_checks_enabled = 0 AND
+    _HS.passive_checks_enabled = 0 AND
+    _H.host_id IN (
+        SELECT DISTINCT H.host_id
+        FROM ${BACKEND}_hosts AS H
+        JOIN ${BACKEND}_host_contactgroups AS HCG      ON H.host_id = HCG.host_id
+        JOIN ${BACKEND}_contactgroups AS CG            ON HCG.contactgroup_object_id = CG.contactgroup_object_id
+        JOIN ${BACKEND}_contactgroup_members AS CGM    ON CG.contactgroup_id = CGM.contactgroup_id
+        JOIN ${BACKEND}_contacts AS C                  ON CGM.contact_object_id = C.contact_object_id
+        JOIN ${BACKEND}_objects AS O                   ON C.contact_object_id = O.object_id
+        WHERE O.name1 = 'define_my_user'
     )
-    AND HS.check_type = 0
-  GROUP BY 
-    HS.active_checks_enabled
 
 ) AS sub
 

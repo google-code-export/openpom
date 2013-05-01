@@ -419,18 +419,40 @@ table#alert.history td {
  * Global counter table
  */
 
-table.glob tr.glob td.glob img, 
-table.glob tr.glob td.glob a {
-  border: none;
-  margin: none;
-  padding: none;
-  text-decoration: none;
-  color: #000;
+table#glob span {
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+    line-height: 9px;
 }
 
-td.glob {
-  text-align: left;
-  padding-right: 8px !important;
+table#glob img {
+    border: none;
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
+table#glob a {
+    text-decoration: none;
+    color: #000;
+}
+
+table#glob td {
+    text-align: left;
+}
+
+table#glob td.glob-icon span {
+    padding-left: 8px;
+    padding-right: 2px;
+}
+
+/* for monitor mode */
+td#glob-monitor img {
+    width: 10px;
+    height: 10px;
+    padding-left: 8px;
+    padding-right: 2px;
 }
 
 /**
