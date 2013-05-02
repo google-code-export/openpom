@@ -10,8 +10,10 @@
 require_once("config.php");
 session_name($CODENAME);
 session_start();
+
 if (!isset($_SESSION['USER'])) die();
 require_once("lang.php");
+
 if (preg_match('/[?&]{1}filtering=([^&]+)/',$_SERVER['HTTP_REFERER'], $refilt))
   $qfilt = urldecode($refilt[1]);
 if (preg_match('/[?&]{1}sort=([^&]+)/',$_SERVER['HTTP_REFERER'], $resort)) {
@@ -88,50 +90,31 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
             </select>
           </td>
         </tr>
+
+<?php
+foreach ($COLUMN_ENABLED as $col => $display) {
+    if (!isset($COLUMN_DEFINITION[$col]) ||
+        !isset($COLUMN_DEFINITION[$col]['lmax']))
+        continue;
+?>
+
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'maxlen_stinfo')) ?>
+            <?php echo ucfirst(lang($MYLANG, 'maxlen')) ?>
+            <?php echo ucfirst(lang($MYLANG, $col)) ?>
           </th>
           <td colspan="3">
-            <input type="text" maxlength="3" 
-                   name="maxlen_stinfo" 
-                   value="<?php echo $_SESSION['MAXLEN_STINFO'] ?>" />
+            <input type="text" maxlength="3"
+                   name="maxlen_<?php echo $col ?>"
+                   value="<?php echo $_SESSION["MAXLEN_$col"] ?>" />
             &#160;(min 1, max 999)
           </td>
         </tr>
-        <tr>
-          <th>
-            <?php echo ucfirst(lang($MYLANG, 'maxlen_host')) ?>
-          </th>
-          <td colspan="3">
-            <input type="text" maxlength="3" 
-                   name="maxlen_host" 
-                   value="<?php echo $_SESSION['MAXLEN_HOST'] ?>" />
-            &#160;(min 1, max 999)
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <?php echo ucfirst(lang($MYLANG, 'maxlen_svc')) ?>
-          </th>
-          <td colspan="3">
-            <input type="text" maxlength="3" 
-                   name="maxlen_svc" 
-                   value="<?php echo $_SESSION['MAXLEN_SVC'] ?>" />
-            &#160;(min 1, max 999)
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <?php echo ucfirst(lang($MYLANG, 'maxlen_groups')) ?>
-          </th>
-          <td colspan="3">
-            <input type="text" maxlength="3" 
-                   name="maxlen_groups" 
-                   value="<?php echo $_SESSION['MAXLEN_GROUPS'] ?>" />
-            &#160;(min 1, max 999)
-          </td>
-        </tr>
+
+<?php
+} /* end foreach column */
+?>
+
         <tr>
           <th>
             <?php echo ucfirst(lang($MYLANG, 'fontsize')) ?>
@@ -199,30 +182,36 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
           </th>
           <td>
             <?php
-            $middle = ceil((count($COLS) - 2) / 2);
-            $i = 0;
-            foreach($COLS AS $key => $val) {
-              if ($key == 'machine' || $key == 'service')
-                continue;
-              if ($i == $middle)
-                echo '</td><td colspan="2">';
-              $i++;
+            $columns = array();
 
-              $enabled = true;
-              if (isset($_SESSION["COLS_$key"])) {
-                if ($_SESSION["COLS_$key"] == 0)
-                  $enabled = false;
-              }
-              else if (in_array($key, $NO_COLS))
-                $enabled = false;
+            foreach ($COLUMN_ENABLED as $col => $display) {
+                if (isset($COLUMN_DEFINITION[$col]) &&
+                    isset($COLUMN_DEFINITION[$col]['opts']) &&
+                    ($COLUMN_DEFINITION[$col]['opts'] & COL_MUST_DISPLAY))
+                    continue;
+
+                if (isset($_SESSION["COLS_$col"]))
+                    $display = (bool)$_SESSION["COLS_$col"];
+
+                $columns[$col] = $display;
+            }
+
+            $middle = ceil(count($columns) / 2);
+            $i = 0;
+            foreach ($columns as $col => $display) {
+              if ($i == $middle) echo '</td><td colspan="2">';
+              $i++;
               ?>
               
-              <input type="checkbox" name="<?php echo "defaultcols_$key" ?>" id="<?php echo "defaultcols_$key" ?>" 
+              <input type="checkbox"
+                     name="<?php echo "defaultcols_$col" ?>"
+                     id="<?php echo "defaultcols_$col" ?>"
                      value="1" 
                      style="vertical-align: middle;"
-                     <?php echo $enabled ? 'checked' : '' ?> />
-              <label for="<?php echo "defaultcols_$key" ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
-              
+                     <?php echo $display ? 'checked' : '' ?> />
+              <label for="<?php echo "defaultcols_$col" ?>"
+                     style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $col)) ?></label><br />
+
             <?php } ?>
           </td>
         </tr>
@@ -241,7 +230,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
               }
               ?>
               
-              <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>" 
+              <input type="checkbox" name="<?php echo $key ?>" id="<?php echo $key ?>"
                      value="1" 
                      style="vertical-align: middle;"
                      <?php echo (isset($_SESSION['HISTORY'][$key])) ? 'checked' : '' ?> />

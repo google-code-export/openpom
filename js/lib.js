@@ -512,3 +512,46 @@ function blink_button(jObject) {
         280
     );
 }
+
+/* This function is used to append words to the search input when clicking
+ * on a link of the alert table. It won't be called if the "quick search"
+ * option is enabled.
+ *
+ * We look for the first potential boolean operator in the search input
+ * If found, we use it to separate the new word from the others, except if
+ * the last character of the search input is already an operator.
+ */
+function add_filter(key, value)
+{
+    value = $.trim(value);
+    if (value.length == 0)
+        return;
+
+    var search_jobject = $('input#filtering');
+    if (search_jobject.length != 1)
+        return;
+
+    var search_filter = [];
+    var existing = $.trim(search_jobject.val());
+    var separator;
+
+    if (existing.length) {
+        search_filter.push(existing);
+
+        /* don't add operator if the last character is an operator */
+        if (((separator = existing.indexOf('&')) > -1 ||
+             (separator = existing.indexOf('|')) > -1) &&
+            existing.charAt(existing.length - 1) != '&' &&
+            existing.charAt(existing.length - 1) != '|' &&
+            existing.charAt(existing.length - 1) != '!')
+            search_filter.push(existing.charAt(separator));
+    }
+
+    if (key.length)
+        search_filter.push(key + ':' + value);
+    else
+        search_filter.push(value);
+
+    search_jobject.val(search_filter.join(' '));
+}
+

@@ -106,86 +106,67 @@ if (isset($_POST['action'])
 }
 
 /* INIT DEFAULT VALUES (see config.php for other) */
-$SEPARATOR         = ", ";               //SEPARATOR FOR GROUPS
-$MY_USER           = $_SESSION['USER'];  //USER VIEW
-$MY_SVCFILT        = "1,2,3";            //STATUS SVC FILTER
-$MY_HOSTFILT       = "1";                //STATUS HOST FILTER
-$MY_SVCACKLIST     = 0;                  //SVC ACKNOWLEDGE
-$MY_HOSTACKLIST    = 0;                  //HOST ACKNOWLEDGE
-$MY_HOSTDOWNOP     = '=';                //HOST DOWNTIME DEPTH COMPARISON OPERATOR
-$MY_HOSTDOWNVAL    = 0;                  //HOST DOWNTIME DEPTH COMPARED VALUE
-$MY_SVCDOWNOP      = '=';                //SVC DOWNTIME DEPTH COMPARISON OPERATOR
-$MY_SVCDOWNVAL     = 0;                  //SVC DOWNTIME DEPTH COMPARED VALUE
-$MY_ACKLISTOP      = '=';                //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST, COMP OP
-$MY_ACKLISTVAL     = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST, COMP VAL
-$MY_NOSVC          = 1;                  //NO SVC FOR CRITICAL HOST
-$MY_DISABLE        = 1;                  //DISABLE ALERT ARE TREATED LIKE ACK AND DOWN
-$MY_SOFT           = 0;                  //SOFT ALERTS (0 print soft alerts)
-$SORTFIELD         = "COEF, DURATION";   //SORT FIELD 
-$SORTORDERFIELD    = "ASC";              //SORT ORDER
-$FIRST             = "0";                //FIRST GET ROW 
-$MY_SEARCH['host'] = '';                 //SEARCH HOST PARAMETER
-$MY_SEARCH['svc']  = '';                 //SEARCH SVC PARAMETER
-$FILTER            = '';                 //FILTER BY DEFAULT
-$MY_CHECK_DISABLE  = "0,1";              //DISABLED CHECK
-$MY_TRACK_ANY      = 0 ;                 //TRACK ANYTHING
+$SEPARATOR          = ", ";               //SEPARATOR FOR GROUPS
+$MY_USER            = $_SESSION['USER'];  //USER VIEW
+$MY_SVCFILT         = "1,2,3";            //STATUS SVC FILTER
+$MY_HOSTFILT        = "1";                //STATUS HOST FILTER
+$MY_SVCACKLIST      = 0;                  //SVC ACKNOWLEDGE
+$MY_HOSTACKLIST     = 0;                  //HOST ACKNOWLEDGE
+$MY_HOSTDOWNOP      = '=';                //HOST DOWNTIME DEPTH COMPARISON OPERATOR
+$MY_HOSTDOWNVAL     = 0;                  //HOST DOWNTIME DEPTH COMPARED VALUE
+$MY_SVCDOWNOP       = '=';                //SVC DOWNTIME DEPTH COMPARISON OPERATOR
+$MY_SVCDOWNVAL      = 0;                  //SVC DOWNTIME DEPTH COMPARED VALUE
+$MY_ACKLISTOP       = '=';                //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST, COMP OP
+$MY_ACKLISTVAL      = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOWNTIME HOST, COMP VAL
+$MY_NOSVC           = 1;                  //NO SVC FOR CRITICAL HOST
+$MY_DISABLE         = 1;                  //DISABLE ALERT ARE TREATED LIKE ACK AND DOWN
+$MY_SOFT            = 0;                  //SOFT ALERTS (0 print soft alerts)
+$FIRST              = "0";                //FIRST GET ROW 
+$MY_TRACK_ANY       = 1 ;                 //TRACK ANYTHING
 
-/* Search filtering */
-$SFILTER = array();
+/* Internal flags used to identify the type of comments set on host
+ * and services */
+define('ENTRY_COMMENT_NORMAL', 0x01);
+define('ENTRY_COMMENT_TRACK',  0x02);
 
-$SFILTER['svc'] = array (
-  'machine' => array('H.display_name', 'h:'),
-  'service' => array('S.display_name', 's:'),
-  'IP'      => array('H.address',      'i:'),
-  'group'   => array('HG.alias',       'g:'),
-  'stinfo'  => array('SS.output',      'o:')
-);
 
-$SFILTER['host'] = array (
-  'machine' => array('H.display_name', 'h:'),
-  'service' => array("'--host--'",     's:'),
-  'IP'      => array('H.address',      'i:'),
-  'group'   => array('HG.alias',       'g:'),
-  'stinfo'  => array('HS.output',      'o:')
-);
-
-/* Columns to display:
- * Host and service are always display, this is not configurable.
- * In JSON mode all the columns of the SQL query are returned and
- * this is not configurable. In classic HTML mode, we only choose
- * which columns are to be displayed, based on the session settings
- * and the $NO_COLS array (default configuration).
- */
 
 /* classic HTML mode */
 if (!isset($_GET['json'])) {
-  foreach ($COLS as $k => &$v) {
-    /* host and service are mandatory */
-    if ($k == 'machine' || $k == 'service')
-      continue;
-  
-    /* new session defaults */
-    if (isset($_GET['option'])) {
-      if (isset($_GET["defaultcols_$k"]) && $_GET["defaultcols_$k"] != 0)
-        $_SESSION["COLS_$k"] = 1;
-      else {
-        $_SESSION["COLS_$k"] = 0;
-        unset($COLS[$k]);
-      }
+    foreach ($COLUMN_ENABLED as $col => $display) {
+
+        if (isset($COLUMN_DEFINITION[$col]) &&
+            isset($COLUMN_DEFINITION[$col]['opts']) &&
+            ($COLUMN_DEFINITION[$col]['opts'] & COL_MUST_DISPLAY))
+            continue;
+
+        /* new session defaults */
+        if (isset($_GET['option'])) {
+
+            if (isset($_GET["defaultcols_$col"]) && $_GET["defaultcols_$col"]) {
+                $COLUMN_ENABLED[$col] = true;
+                $_SESSION["COLS_$col"] = 1;
+            }
+            else {
+                $COLUMN_ENABLED[$col] = false;
+                $_SESSION["COLS_$col"] = 0;
+            }
+            continue;
+        }
+
+        /* existing session defaults */
+        if (isset($_SESSION["COLS_$col"])) {
+            $COLUMN_ENABLED[$col] = (bool)$_SESSION["COLS_$col"];
+            continue;
+        }
+
+        $_SESSION["COLS_$col"] = $display;
     }
-    /* existing session defaults */
-    else if (isset($_SESSION["COLS_$k"])) {
-      if ($_SESSION["COLS_$k"] == 0)
-        unset($COLS[$k]);
-    }
-    /* configuration defaults */
-    else if (in_array($k, $NO_COLS)) {
-      $_SESSION["COLS_$k"] = 0;
-      unset($COLS[$k]);
-    }
-  }
-  unset($v);
 }
+
+if (!init_enabled_columns($COLS, $query_parts, $err, isset($_GET['monitor'])))
+    die_refresh($err);
+
 
 /* GET DEFAULT LEVEL */
 if ( (isset($_GET['defaultlevel'])) && (is_numeric($_GET['defaultlevel'])) &&
@@ -205,79 +186,38 @@ if ( (isset($_GET['level'])) && (is_numeric($_GET['level'])) &&
 
 select_level($LEVEL);
 
-/* FORGE FILTER */
-if (isset($_GET['clear'])) { 
-  if (isset($_GET['filtering'])) unset($_GET['filtering']);
-}
-else if ( (isset($_GET['filtering'])) && (strlen($_GET['filtering']) < 2) ) {
-  unset($_GET['filtering']);
-}
-if ( (isset($_GET['filtering'])) && (!isset($_GET['clear'])) ) {
-  if (strlen($_GET['filtering']) > 100) 
-    die_refresh("filter too long");
-  foreach(str_split($ILLEGAL_CHAR) AS $char) {
-    $pos = strpos($_GET['filtering'], $char);
-    if ( ($pos === 0) || ($pos > 0) )
-      die_refresh("invalid char in filter");
-  }
-  $FILTER = $_GET['filtering'] ;
-  if (preg_match_all('/([!]?[hsigo]:)+([^ &|]+)?[ ]?([&|]){0,}[ ]?/', $_GET['filtering'], $keyword)) {
-    foreach ( array('host', 'svc') AS $f ) {
-      foreach ($keyword[1] AS $k => $v) {
-        foreach ($SFILTER[$f] AS $s) {
-          $t = $s[0];
-          $s = $s[1];
-          if ( ( ($s == $v) || ($v == "!".$s) ) && (isset($keyword[2][$k])) ) {
-            if ( ($k > 0) && (isset($keyword[3][$k-1])) ) {
-              if ( $keyword[3][$k-1] == "|" ) $MY_SEARCH[$f] .= " OR " ;
-              else $MY_SEARCH[$f] .= " AND " ;
-            }
-            if ($v == "!".$s) 
-              $MY_SEARCH[$f] .= $t." NOT LIKE '".mysql_real_escape_string($keyword[2][$k], $dbconn)."' " ;
-            else
-              $MY_SEARCH[$f] .= $t." LIKE '".mysql_real_escape_string($keyword[2][$k], $dbconn)."' " ;
-            $MY_SEARCH[$f] = str_replace("*", "%", $MY_SEARCH[$f]) ;
-          }
-        }//end foreach
-      }//end foreach
-      if ( $MY_SEARCH[$f] != "" )
-        $MY_SEARCH[$f] = " ( ".$MY_SEARCH[$f]." ) AND " ;
-    }//end foreach
-  } //End if advanced search
-  else {
-    $MY_FILTER = " '%".mysql_real_escape_string($FILTER, $dbconn)."%' " ;
-    $MY_FILTER = str_replace('*', '%', $MY_FILTER) ;
-    $MY_OPERATOR = " OR " ;
-    if (substr($MY_FILTER, 1, 3) == "'%!") {
-      $MY_LIKE = " NOT LIKE " ;
-      $MY_OPERATOR = " AND " ;
-    }
-    else $MY_LIKE = " LIKE " ;
-    $MY_FILTER = str_replace('!', '', $MY_FILTER) ;
 
-    foreach (array('host', 'svc') as $f) {
-      $criteria = array();
-      foreach ($SFILTER[$f] as $col => $spec) {
-        if (!isset($COLS[$col]))
-          continue;
-        $criteria[] = "{$spec[0]} $MY_LIKE $MY_FILTER";
-      }
-      if (!empty($criteria))
-        $MY_SEARCH[$f] = ' ( ' . implode($MY_OPERATOR, $criteria) . ' ) AND ';
-    }
-  } //end else
-} //end if (FILTERING)
-
-/* SORT FIELD ORDER */
-if (isset($_GET['sort'])) {
-  foreach($COLS AS $key => $val) {
-    if ($_GET['sort'] == $key) {
-      $SORTFIELD = $val;
-      if ( (isset($_GET['order'])) && ($_GET['order'] != 0) )
-        $SORTORDERFIELD = "DESC";
-    }
-  }
+/* Reset filter */
+if (isset($_GET['clear'])) {
+    if (isset($_GET['filtering']))
+        unset($_GET['filtering']);
 }
+
+/* Store filter */
+$FILTER = isset($_GET['filtering']) ? trim($_GET['filtering']) : '';
+
+/* Build SQL criteria from filter */
+if (!init_filter($SEARCH, $err, $FILTER))
+    die_refresh($err);
+
+/* Sort column */
+if (isset($_GET['sort']) && !empty($_GET['sort'])) {
+    if (isset($COLS[$_GET['sort']]))
+        $SORTCOL = $_GET['sort'];
+    else
+        unset($_GET['sort']);
+}
+
+/* Sort direction */
+if (isset($_GET['order'])) {
+    if ($_GET['order'] == 0 || $_GET['order'] == 1)
+        $SORTDIR = $_GET['order'];
+    else
+        unset($_GET['order']);
+}
+
+
+
 
 /* GET NEXT OR PREVIOUS PAGE */
 if (isset($_GET['prev'])) 
@@ -326,49 +266,26 @@ else if (isset($_SESSION['FONTSIZE']))
 else
   $_SESSION['FONTSIZE'] = $FONT_SIZE;
 
-/* GET MAX CHARACTERS FOR STINFO COLUMN */
-if ( (isset($_GET['maxlen_stinfo'])) && (is_numeric($_GET['maxlen_stinfo'])) &&
-     ($_GET['maxlen_stinfo'] > 0) && ($_GET['maxlen_stinfo'] < 1000) ) {
-  $MAXLEN_STINFO = $_GET['maxlen_stinfo'];
-  $_SESSION['MAXLEN_STINFO'] = $MAXLEN_STINFO;
-}
-else if (isset($_SESSION['MAXLEN_STINFO']))
-  $MAXLEN_STINFO = $_SESSION['MAXLEN_STINFO'];
-else
-  $_SESSION['MAXLEN_STINFO'] = $MAXLEN_STINFO;
 
-/* GET MAX CHARACTERS FOR HOST/MACHINE COLUMN */
-if ( (isset($_GET['maxlen_host'])) && (is_numeric($_GET['maxlen_host'])) &&
-     ($_GET['maxlen_host'] > 0) && ($_GET['maxlen_host'] < 1000) ) {
-  $MAXLEN_HOST = $_GET['maxlen_host'];
-  $_SESSION['MAXLEN_HOST'] = $MAXLEN_HOST;
-}
-else if (isset($_SESSION['MAXLEN_HOST']))
-  $MAXLEN_HOST = $_SESSION['MAXLEN_HOST'];
-else
-  $_SESSION['MAXLEN_HOST'] = $MAXLEN_HOST;
 
-/* GET MAX CHARACTERS FOR SERVICE COLUMN */
-if ( (isset($_GET['maxlen_svc'])) && (is_numeric($_GET['maxlen_svc'])) &&
-     ($_GET['maxlen_svc'] > 0) && ($_GET['maxlen_svc'] < 1000) ) {
-  $MAXLEN_SVC = $_GET['maxlen_svc'];
-  $_SESSION['MAXLEN_SVC'] = $MAXLEN_SVC;
-}
-else if (isset($_SESSION['MAXLEN_SVC']))
-  $MAXLEN_SVC = $_SESSION['MAXLEN_SVC'];
-else
-  $_SESSION['MAXLEN_SVC'] = $MAXLEN_SVC;
+/* Maximum character length in columns */
+foreach ($COLUMN_ENABLED as $col => $display) {
+    if (!isset($COLUMN_DEFINITION[$col]) ||
+        !isset($COLUMN_DEFINITION[$col]['lmax']))
+        continue;
 
-/* GET MAX CHARACTERS FOR GROUPS COLUMN */
-if ( (isset($_GET['maxlen_groups'])) && (is_numeric($_GET['maxlen_groups'])) &&
-     ($_GET['maxlen_groups'] > 0) && ($_GET['maxlen_groups'] < 1000) ) {
-  $MAXLEN_GROUPS = $_GET['maxlen_groups'];
-  $_SESSION['MAXLEN_GROUPS'] = $MAXLEN_GROUPS;
+    if (isset($_GET["maxlen_$col"]) && is_numeric($_GET["maxlen_$col"]) &&
+        $_GET["maxlen_$col"] > 0 && $_GET["maxlen_$col"] < 1000) {
+
+        $COLUMN_DEFINITION[$col]['lmax'] = $_GET["maxlen_$col"];
+        $_SESSION["MAXLEN_$col"] = $_GET["maxlen_$col"];
+    }
+    else if (isset($_SESSION["MAXLEN_$col"]))
+        $COLUMN_DEFINITION[$col]['lmax'] = $_SESSION["MAXLEN_$col"];
+    else
+        $_SESSION["MAXLEN_$col"] = $COLUMN_DEFINITION[$col]['lmax'];
 }
-else if (isset($_SESSION['MAXLEN_GROUPS']))
-  $MAXLEN_GROUPS = $_SESSION['MAXLEN_GROUPS'];
-else
-  $_SESSION['MAXLEN_GROUPS'] = $MAXLEN_GROUPS;
+
 
 /* ENABLE/DISABLE QUICK SEARCH */
 if (isset($_GET['quicksearch'])) {
@@ -465,6 +382,7 @@ $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_FILT);
 
 /* QUERY AND SET GLOBAL COUNTER */
 $query_glob = str_replace('define_my_user', mysql_real_escape_string($MY_USER, $dbconn), $QUERY_GLOBAL_COUNT) ;
+
 if (!($rep_glob = mysql_query($query_glob, $dbconn))) {
   $errno = mysql_errno($dbconn);
   $txt_error = mysql_error($dbconn);
@@ -518,8 +436,8 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   $query = $QUERY;
   $replacement = array (
   'define_my_separator'       =>  mysql_real_escape_string($SEPARATOR, $dbconn),
-  'define_my_host_search'     =>  $MY_SEARCH['host'],
-  'define_my_svc_search'      =>  $MY_SEARCH['svc'],
+  'define_host_search'        =>  $SEARCH['define_host_search'],
+  'define_svc_search'         =>  $SEARCH['define_svc_search'],
   'define_my_user'            =>  mysql_real_escape_string($MY_USER, $dbconn),
   'define_my_svcfilt'         =>  mysql_real_escape_string($MY_SVCFILT, $dbconn),
   'define_my_svcacklist'      =>  mysql_real_escape_string($MY_SVCACKLIST, $dbconn),
@@ -534,8 +452,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_my_soft'            =>  mysql_real_escape_string($MY_SOFT, $dbconn),
   'define_my_nosvc'           =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
   'define_my_hostfilt'        =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
-  'define_sortsensfield'      =>  mysql_real_escape_string($SORTORDERFIELD, $dbconn),
-  'define_sortfield'          =>  mysql_real_escape_string($SORTFIELD, $dbconn),
+  'define_orderby'            =>  get_orderby(),
   'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
   'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
   'define_track_anything'     => $MY_TRACK_ANY,
@@ -544,6 +461,10 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
 
   foreach($replacement AS $replace => $val)
     $query = str_replace($replace, $val, $query);
+
+    $query = str_replace(array_keys($query_parts),
+                         array_values($query_parts),
+                         $query);
 
   /*
   echo "<pre>";
@@ -598,7 +519,7 @@ while ($data = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
   if ($data['ACK'] == 1) $hit_ack++;
   if ($data['DOWNTIME'] > 0) $hit_down++;
   if ($data['NOTIF'] == 0) $hit_notif++;
-  if (!$data['HAS_ACTIVE'] && !$data['HAS_PASSIVE']) $hit_check++;
+  if (!$data['ACTIVE'] && !$data['PASSIVE']) $hit_check++;
 }
 
 if      ($hit_critical > 0) $framecolor = $CRITICAL;
@@ -611,8 +532,6 @@ if ($nb_rows > 0)
   mysql_data_seek($rep, 0);
 
 require_once("header.php");
-
-if (isset($_GET['monitor'])) unset($COLS['checkbox']);
 require_once("action.php");
 require_once("alert.php");
 require_once("footer.php");
