@@ -38,6 +38,12 @@ SELECT
   sub.CHECKTYPE                    AS CHECKTYPE,
   sub.CHECKNAME                    AS CHECKNAME
 
+  -- COMMENT column:
+  -- 0: no comment, no track
+  -- 1: comment only
+  -- 2: track only
+  -- 3: comment and track
+
 FROM (
 
 
@@ -49,81 +55,74 @@ FROM (
       DISTINCT OHG.name1
       ORDER BY OHG.name1
       DESC SEPARATOR 'define_my_separator'
-    )                                    AS GROUPES,
-    H.alias                              AS MACHINE_ALIAS,
-    H.display_name                       AS MACHINE_NAME,
-    H.address                            AS ADDRESS,
-    S.display_name                       AS SERVICE,
-    null                                 AS SUBSERVICE,
-    SS.current_state                     AS STATUS,
-    SS.servicestatus_id                  AS SVCID,
-    SS.output                            AS OUTPUT,
-    SS.state_type                        AS SVCST,
-    SS.problem_has_been_acknowledged     AS ACK,
-    SS.check_type                        AS CHECKTYPE,
-    SS.active_checks_enabled             AS HAS_ACTIVE,
-    SS.passive_checks_enabled            AS HAS_PASSIVE,
-    UNIX_TIMESTAMP(SS.last_check)        AS LASTCHECK,
-    UNIX_TIMESTAMP(SS.last_state_change) AS DURATION,
-    'svc'                                AS TYPE,
-    SS.scheduled_downtime_depth          AS DOWNTIME,
-    SS.notifications_enabled             AS NOTIF,
+    )                                                   AS GROUPES,
+    H.alias                                             AS MACHINE_ALIAS,
+    H.display_name                                      AS MACHINE_NAME,
+    H.address                                           AS ADDRESS,
+    S.display_name                                      AS SERVICE,
+    NULL                                                AS SUBSERVICE,
+    SS.current_state                                    AS STATUS,
+    SS.servicestatus_id                                 AS SVCID,
+    SS.output                                           AS OUTPUT,
+    SS.state_type                                       AS SVCST,
+    SS.problem_has_been_acknowledged                    AS ACK,
+    SS.check_type                                       AS CHECKTYPE,
+    SS.active_checks_enabled                            AS HAS_ACTIVE,
+    SS.passive_checks_enabled                           AS HAS_PASSIVE,
+    UNIX_TIMESTAMP(SS.last_check)                       AS LASTCHECK,
+    UNIX_TIMESTAMP(SS.last_state_change)                AS DURATION,
+    'svc'                                               AS TYPE,
+    SS.scheduled_downtime_depth                         AS DOWNTIME,
+    SS.notifications_enabled                            AS NOTIF,
     ( SELECT BIT_OR(
         IF(substring_index(comment_data, ':', 1) = '~track', 2,
-          IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
-      FROM ".$BACKEND."_comments AS CO
-      WHERE CO.object_id = S.service_object_id
-      AND CO.entry_type = 1
-      AND CO.comment_source = 1
-    )                                    AS COMMENT,  -- comment is 0, 1, 2 or 3
-                                                      -- bit 0 is comment
-                                                      -- bit 1 is track
-                                                      -- 0: no comment, no track
-                                                      -- 1: comment only
-                                                      -- 2: track only
-                                                      -- 3: comment and track
-    SUBSTRING_INDEX(SS.check_command,'!',1)
-                                         AS CHECKNAME
-
+        IF(substring(comment_data, 1, 1) = '~', 0, 1)))
+      FROM ${BACKEND}_comments
+      WHERE object_id = S.service_object_id
+      AND entry_type = 1
+      AND comment_source = 1
+    )                                                   AS COMMENT,
+    SUBSTRING_INDEX(SS.check_command, '!', 1)           AS CHECKNAME
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS             ON H.host_object_id = HS.host_object_id
-    JOIN ".$BACKEND."_services AS S                ON H.host_object_id = S.host_object_id
-    JOIN ".$BACKEND."_servicestatus AS SS          ON S.service_object_id = SS.service_object_id
-    JOIN ".$BACKEND."_service_contactgroups AS SCG ON SCG.service_id = S.service_id
-    JOIN ".$BACKEND."_contactgroups AS HCG         ON SCG.contactgroup_object_id = HCG.contactgroup_object_id
-    JOIN ".$BACKEND."_contactgroup_members AS CGM  ON CGM.contactgroup_id = HCG.contactgroup_id
-    JOIN ".$BACKEND."_contacts AS C                ON C.contact_object_id = CGM.contact_object_id
-    JOIN ".$BACKEND."_objects AS O                 ON O.object_id = C.contact_object_id
-    LEFT JOIN ".$BACKEND."_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
-    LEFT JOIN ".$BACKEND."_hostgroups AS HG        ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT JOIN ".$BACKEND."_objects AS OHG          ON HG.hostgroup_object_id = OHG.object_id
+         ${BACKEND}_hosts AS H
+    JOIN ${BACKEND}_hoststatus AS HS                    ON H.host_object_id = HS.host_object_id
+    JOIN ${BACKEND}_services AS S                       ON H.host_object_id = S.host_object_id
+    JOIN ${BACKEND}_servicestatus AS SS                 ON S.service_object_id = SS.service_object_id
+    JOIN ${BACKEND}_service_contactgroups AS SCG        ON SCG.service_id = S.service_id
+    JOIN ${BACKEND}_contactgroups AS CG                 ON SCG.contactgroup_object_id = CG.contactgroup_object_id
+    JOIN ${BACKEND}_contactgroup_members AS CGM         ON CGM.contactgroup_id = CG.contactgroup_id
+    JOIN ${BACKEND}_contacts AS C                       ON C.contact_object_id = CGM.contact_object_id
+    JOIN ${BACKEND}_objects AS CO                       ON CO.object_id = C.contact_object_id
+    LEFT JOIN ${BACKEND}_hostgroup_members AS HGM       ON H.host_object_id = HGM.host_object_id
+    LEFT JOIN ${BACKEND}_hostgroups AS HG               ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT JOIN ${BACKEND}_objects AS OHG                 ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
-    define_my_svc_search
-    O.name1 = 'define_my_user'
-    AND ( (
-            SS.current_state IN (define_my_svcfilt)
-        AND (
-              SS.problem_has_been_acknowledged IN (define_my_svcacklist)
-          AND HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval
-        )
-        AND (
-              SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval
-          AND HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval
-        )
-        AND (define_my_nosvc = 0 OR HS.current_state = 0)
-        AND SS.notifications_enabled IN (define_my_disable)
-        AND (define_my_soft = 0 OR SS.state_type = 1)
-      )
-      OR (
-        SELECT count(*) > 0
-        FROM ".$BACKEND."_comments
+    ( CO.name1 = 'define_my_user' ) AND
+    ( define_my_svc_search ) AND
+
+    (
+      ( SS.current_state IN (define_my_svcfilt) AND
+        ( SS.problem_has_been_acknowledged IN (define_my_svcacklist) AND
+          HS.problem_has_been_acknowledged define_my_acklistop define_my_acklistval
+        ) AND
+
+        ( SS.scheduled_downtime_depth define_my_svcdownop define_my_svcdownval AND
+          HS.scheduled_downtime_depth define_my_acklistop define_my_acklistval
+        ) AND
+
+        (define_my_nosvc = 0 OR HS.current_state = 0) AND
+        SS.notifications_enabled IN (define_my_disable) AND
+        (define_my_soft = 0 OR SS.state_type = 1)
+
+      ) OR
+      ( SELECT count(*) > 0
+        FROM ${BACKEND}_comments
         WHERE object_id = S.service_object_id
         AND entry_type = 1
         AND comment_source = 1
         AND substring_index(comment_data, ':', 1) = '~track'
-        AND ( define_track_anything = 0 )
+        AND define_track_anything = 0
       )
     )
 
@@ -144,79 +143,73 @@ UNION
       DISTINCT OHG.name1
       ORDER BY OHG.name1
       DESC SEPARATOR 'define_my_separator'
-    )                                    AS GROUPES,
-    H.alias                              AS MACHINE_ALIAS,
-    H.display_name                       AS MACHINE_NAME,
-    H.address                            AS ADDRESS,
-    '--host--'                           AS SERVICE,
-    null                                 AS SUBSERVICE,
-    ( case HS.current_state
-      when 2 then 3
-      when 1 then 2
-      when 0 then 0
-      end )                              AS STATUS,
-    HS.hoststatus_id                     AS SVCID,
-    HS.output                            AS OUTPUT,
-    HS.state_type                        AS SVCST,
-    HS.problem_has_been_acknowledged     AS ACK,
-    HS.check_type                        AS CHECKTYPE,
-    HS.active_checks_enabled             AS HAS_ACTIVE,
-    HS.passive_checks_enabled            AS HAS_PASSIVE,
-    UNIX_TIMESTAMP(HS.last_check)        AS LASTCHECK,
-    UNIX_TIMESTAMP(HS.last_state_change) AS DURATION,
-    'host'                               AS TYPE,
-    HS.scheduled_downtime_depth          AS DOWNTIME,
-    HS.notifications_enabled             AS NOTIF,
+    )                                                   AS GROUPES,
+    H.alias                                             AS MACHINE_ALIAS,
+    H.display_name                                      AS MACHINE_NAME,
+    H.address                                           AS ADDRESS,
+    '--host--'                                          AS SERVICE,
+    NULL                                                AS SUBSERVICE,
+    ( CASE HS.current_state
+      WHEN 2 THEN 3
+      WHEN 1 THEN 2
+      WHEN 0 THEN 0
+      END
+    )                                                   AS STATUS,
+    HS.hoststatus_id                                    AS SVCID,
+    HS.output                                           AS OUTPUT,
+    HS.state_type                                       AS SVCST,
+    HS.problem_has_been_acknowledged                    AS ACK,
+    HS.check_type                                       AS CHECKTYPE,
+    HS.active_checks_enabled                            AS HAS_ACTIVE,
+    HS.passive_checks_enabled                           AS HAS_PASSIVE,
+    UNIX_TIMESTAMP(HS.last_check)                       AS LASTCHECK,
+    UNIX_TIMESTAMP(HS.last_state_change)                AS DURATION,
+    'host'                                              AS TYPE,
+    HS.scheduled_downtime_depth                         AS DOWNTIME,
+    HS.notifications_enabled                            AS NOTIF,
     ( SELECT BIT_OR(
         IF(substring_index(comment_data, ':', 1) = '~track', 2,
-          IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
-      FROM ".$BACKEND."_comments AS CO
-      WHERE CO.object_id = H.host_object_id
-      AND CO.entry_type = 1
-      AND CO.comment_source = 1
-    )                                    AS COMMENT,  -- comment is 0, 1, 2 or 3
-                                                      -- bit 0 is comment
-                                                      -- bit 1 is track
-                                                      -- 0: no comment, no track
-                                                      -- 1: comment only
-                                                      -- 2: track only
-                                                      -- 3: comment and track
-    SUBSTRING_INDEX(HS.check_command,'!',1)
-                                         AS CHECKNAME
+        IF(substring(comment_data, 1, 1) = '~', 0, 1)))
+      FROM ${BACKEND}_comments
+      WHERE object_id = H.host_object_id
+      AND entry_type = 1
+      AND comment_source = 1
+    )                                                   AS COMMENT,
+    SUBSTRING_INDEX(HS.check_command, '!', 1)           AS CHECKNAME
 
   FROM
-         ".$BACKEND."_hosts AS H
-    JOIN ".$BACKEND."_hoststatus AS HS            ON H.host_object_id = HS.host_object_id
-    JOIN ".$BACKEND."_host_contactgroups AS HCG   ON HCG.host_id = H.host_id
-    JOIN ".$BACKEND."_contactgroups As OCG        ON HCG.contactgroup_object_id = OCG.contactgroup_object_id
-    JOIN ".$BACKEND."_contactgroup_members AS CGM ON CGM.contactgroup_id = OCG.contactgroup_id
-    JOIN ".$BACKEND."_contacts AS C               ON C.contact_object_id = CGM.contact_object_id
-    JOIN ".$BACKEND."_objects AS O                ON O.object_id = C.contact_object_id
-    LEFT JOIN ".$BACKEND."_hostgroup_members AS HGM ON H.host_object_id = HGM.host_object_id
-    LEFT JOIN ".$BACKEND."_hostgroups AS HG       ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT JOIN ".$BACKEND."_objects AS OHG         ON HG.hostgroup_object_id = OHG.object_id
+         ${BACKEND}_hosts AS H
+    JOIN ${BACKEND}_hoststatus AS HS                    ON H.host_object_id = HS.host_object_id
+    JOIN ${BACKEND}_host_contactgroups AS HCG           ON HCG.host_id = H.host_id
+    JOIN ${BACKEND}_contactgroups AS CG                 ON HCG.contactgroup_object_id = CG.contactgroup_object_id
+    JOIN ${BACKEND}_contactgroup_members AS CGM         ON CGM.contactgroup_id = CG.contactgroup_id
+    JOIN ${BACKEND}_contacts AS C                       ON C.contact_object_id = CGM.contact_object_id
+    JOIN ${BACKEND}_objects AS CO                       ON CO.object_id = C.contact_object_id
+    LEFT JOIN ${BACKEND}_hostgroup_members AS HGM       ON H.host_object_id = HGM.host_object_id
+    LEFT JOIN ${BACKEND}_hostgroups AS HG               ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT JOIN ${BACKEND}_objects AS OHG                 ON HG.hostgroup_object_id = OHG.object_id
 
   WHERE
-    define_my_host_search
-    O.name1 = 'define_my_user'
-    AND ( (
-            HS.current_state IN (define_my_hostfilt)
-        AND HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval
-        AND HS.problem_has_been_acknowledged IN (define_my_hostacklist)
-        AND HS.notifications_enabled IN (define_my_disable)
-        AND (define_my_soft = 0 OR HS.state_type = 1)
+    ( CO.name1 = 'define_my_user' ) AND
+    ( define_my_host_search ) AND
+
+    (
+      ( HS.current_state IN (define_my_hostfilt) AND
+        HS.scheduled_downtime_depth define_my_hostdownop define_my_hostdownval AND
+        HS.problem_has_been_acknowledged IN (define_my_hostacklist) AND
+        HS.notifications_enabled IN (define_my_disable) AND
+        (define_my_soft = 0 OR HS.state_type = 1)
       )
-      OR (
-        SELECT count(*) > 0
-        FROM ".$BACKEND."_comments
+      OR
+      ( SELECT count(*) > 0
+        FROM ${BACKEND}_comments
         WHERE object_id = H.host_object_id
         AND entry_type = 1
         AND comment_source = 1
         AND substring_index(comment_data, ':', 1) = '~track'
-        AND ( define_track_anything = 0 )
+        AND define_track_anything = 0
       )
     )
-
 
   GROUP BY SVCID
 
@@ -226,8 +219,7 @@ UNION
 
 ) AS sub
 
-ORDER BY define_sortfield define_sortsensfield
-
+ORDER BY define_my_orderby
 LIMIT define_first, define_step
 ";
 
