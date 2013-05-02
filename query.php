@@ -147,7 +147,7 @@ UNION
     H.alias                                             AS MACHINE_ALIAS,
     H.display_name                                      AS MACHINE_NAME,
     H.address                                           AS ADDRESS,
-    '--host--'                                          AS SERVICE,
+    'define_host_service'                               AS SERVICE,
     NULL                                                AS SUBSERVICE,
     ( CASE HS.current_state
       WHEN 2 THEN 3

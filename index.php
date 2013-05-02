@@ -539,6 +539,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
   'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
   'define_track_anything'     => $MY_TRACK_ANY,
+  'define_host_service'       =>  mysql_real_escape_string($HOST_SERVICE, $dbconn),
   ) ;
 
   foreach($replacement AS $replace => $val)

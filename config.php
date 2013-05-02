@@ -207,6 +207,8 @@ $GLOBAL_LOGS_ONCLICK = "pop('./showlog.php', 'nagios_log', 700, 600);";
 $HISTORY_POPUP_WIDTH  = 760 ;
 $HISTORY_POPUP_HEIGHT = 450 ;
 
+/* Service name given to host entries */
+$HOST_SERVICE = '--host--';
 /* ELEMENT SHOWED IN HISTORY AND ORDER 0 => DO NOT DISPLAY */
 $HISTORY = array(
 'ack'    => 1,

@@ -375,6 +375,7 @@ function __get_del_svc_downtime_commands($ts, $host, $svc)
  */
 function get_nagios_cmd_template($action, $ts, $target, $ignore_track = false) {
   global $EXT_CMD;
+  global $HOST_SERVICE;
   $out = '';
   
   if ($action == 'track') {
@@ -397,7 +398,7 @@ function get_nagios_cmd_template($action, $ts, $target, $ignore_track = false) {
      * not denoting a host, so this is a service template */
     else if (count($target) > 1 
               && !empty($target[1]) 
-              && $target[1] != '--host--'
+              && $target[1] != $HOST_SERVICE
               && isset($EXT_CMD[$action]['svc'])) {
       
       foreach ($EXT_CMD[$action]['svc'] AS $n => $array ) {
@@ -726,6 +727,8 @@ function getmicrotime(){
 } 
 
 function get_graph($type, $host, $svc = null) {
+  global $HOST_SERVICE;
+
   if ($type == 'status') {
     $type = 'GRAPH';
   } else if ($type == 'popup') {
@@ -734,7 +737,7 @@ function get_graph($type, $host, $svc = null) {
     return null;
   }
 
-  if (empty($svc) || $svc == '--host--') {
+  if (empty($svc) || $svc == $HOST_SERVICE) {
     $type .= '_HOST';
   } else {
     $type .= '_SVC';

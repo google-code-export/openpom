@@ -74,7 +74,7 @@ $ADDRESS           = $st_data['ADDRESS'];
 $HOSTNAME          = $st_data['HOSTNAME'];
 
 if (empty($st_data['SERVICE']))
-  $SERVICE         = "--host--";
+  $SERVICE         = $HOST_SERVICE;
 else
   $SERVICE         = $st_data['SERVICE'];
 
