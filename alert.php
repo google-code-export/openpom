@@ -60,16 +60,14 @@ if ($data['STATETYPE'] == 0)
     $data['__color_class'] .= ' soft';
 
 $data['__action_target'] = 'nagios;'.$data['HOSTNAME'].';'.$data['SERVICE'].';'.$data['CHECKNAME'];
-$data['__get_data'] = "get_data('nagios', '".$data['TYPE']."', '".$data['STATUSID']."');";
+$data['__popin_url'] = "status-nagios.php?arg1=${data['TYPE']}&arg2=${data['STATUSID']}";
 
 ?>
 
     <tr class="alert-item <?php echo $data['__color_class'] ?>"
         id="<?php echo $data['STATUSID'] ?>"
-        <?php if ($POPIN) { ?>
-        onmouseover="to = setTimeout(function() { <?php echo $data['__get_data'] ?> }, 500);"
-        onmouseout="clearTimeout(to);"
-        <?php } ?>
+        onmouseover="set_popin('<?php echo $data['__popin_url'] ?>');"
+        onmouseout="unset_popin();"
         onclick="selectline(this, event);">
 
 <?php foreach ($COLS as $col => $def) { ?>

@@ -8,33 +8,150 @@
 
 
 /*******************************************************************************
- * ON LOAD
+ * Status popin
+ * - declare javascript event handlers
+ * - FIXME: initialize popin-related globals here instead of header.php
  ******************************************************************************/
 
-$(document).ready(function(){
-  if (typeof(jpopin) != 'undefined') {
-    
-    /* put the status popin at right place */
-    var first_alert_item = $('table#alert tr.alert-item:first');
-    if (first_alert_item.length) {
-      jpopin.css('top', (first_alert_item.offset().top - 10) + 'px');
+function set_popin(url)
+{
+    popin_url = url;
+
+    if (popin_flag) {
+        popin_timer_show = setTimeout(function () {
+            show_popin();
+        }, 500);
     }
-    
-    /* add the status popin to document */
-    $('body').append(jpopin);
-  }
+}
+
+function unset_popin()
+{
+    popin_url = null;
+
+    if (popin_timer_show != null) {
+        clearTimeout(popin_timer_show);
+        popin_timer_show = null;
+    }
+}
+
+function resize_popin(wpx)
+{
+    var width;
+
+    if (typeof(wpx) != 'undefined' && !isNaN(wpx) && wpx > 100)
+        width = wpx + 'px';
+    else if (typeof(popin_init_width) != 'undefined' && !isNaN(popin_init_width))
+        width = popin_init_width + 'px';
+    else
+        width = 'auto';
+
+    popin_jobject.css('width', width);
+}
+
+function show_popin()
+{
+    if (popin_timer_show != null) {
+        clearTimeout(popin_timer_show);
+        popin_timer_show = null;
+    }
+
+    if (popin_timer_hide != null) {
+        clearTimeout(popin_timer_hide);
+        popin_timer_hide = null;
+    }
+
+    if (popin_url == null)
+        return;
+
+    popin_jobject.fadeOut(150, function () {
+        if (popin_url in popin_cache) {
+            popin_timer_hide = setTimeout(hide_popin, 5000);
+            popin_jobject.html(popin_cache[popin_url]);
+            resize_popin();
+            popin_jobject.fadeIn(150);
+        }
+        else {
+            $.ajax({
+                dataType: 'html',
+                async: true,
+                timeout: 10000,
+                type: 'GET',
+                url: popin_url,
+                success: function (data, textStatus, jqXHR) {
+                    popin_cache[this.url] = data;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    popin_cache[this.url] = 'An error has occured';
+                },
+                complete: function (jqXHR, textStatus) {
+                    popin_timer_hide = setTimeout(hide_popin, 5000);
+                    popin_jobject.html(popin_cache[this.url]);
+                    resize_popin();
+                    popin_jobject.fadeIn(150);
+                }
+            });
+        }
+    });
+}
+
+function hide_popin()
+{
+    if (popin_timer_hide != null) {
+        clearTimeout(popin_timer_hide);
+        popin_timer_hide = null;
+    }
+
+    popin_jobject.fadeOut(150);
+}
+
+function restart_popin_hide_timer()
+{
+    if (popin_timer_hide == null)
+        return;
+
+    clearTimeout(popin_timer_hide);
+    popin_timer_hide = setTimeout(hide_popin, 5000);
+}
+
+/* Attach events related to the status popin */
+
+$(document).keydown(function (event) {
+    if (event.which != 17 || popin_keydown)
+        return;
+
+    popin_keydown = true;
+    popin_flag = popin_flag ? false : true;
+
+    if (popin_flag)
+        show_popin();
 });
 
+$(document).keyup(function (event) {
+    if (event.which != 17)
+        return;
 
+    popin_keydown = false;
+    popin_flag = popin_flag ? false : true;
 
-/*******************************************************************************
- * IE SPECIFIC
- ******************************************************************************/
+    if (popin_flag)
+        show_popin();
+});
 
-/*@cc_on @if (@_win32 && @_jscript_version >= 5) if (!window.XMLHttpRequest)
-window.XMLHttpRequest = function() { return new ActiveXObject('Microsoft.XMLHTTP') }
-@end @*/
+$(document).click(function (event) {
+    hide_popin();
+});
 
+$(document).ready(function () {
+    /* put the status popin at right place */
+    var first_alert_item = $('table#alert tr.alert-item:first');
+
+    if (first_alert_item.length)
+        popin_jobject.css('top', (first_alert_item.offset().top - 10) + 'px');
+
+    /* add the status popin to document */
+    $('body').append(popin_jobject);
+    $('input#top-dummy-focus').focus();
+});
 
 
 /*******************************************************************************
@@ -159,80 +276,6 @@ function autorefresh() {
   if (keep_going) {
     window.setTimeout(autorefresh, 1000);
   }
-}
-
-/* global variables:
- * - popin_initial_width
- * - jpopin
- */
-function status_popin_resize(wpx) {
-  var width = 'auto';
-  
-  if (typeof(wpx) != 'undefined' 
-        && !isNaN(wpx) && wpx > 100) {
-    width = wpx + 'px';
-  
-  } else if (typeof(popin_initial_width) != 'undefined'
-        && !isNaN(popin_initial_width)) {
-    width = popin_initial_width + 'px';
-  }
-  
-  jpopin.css('width', width);
-}
-
-function XMLHttpRequestSurcouche(zeasy) { 
-  /* objet XMLHttpRequest */ 
-  this.rq;
-  var myrq;
-  
-  this.XMLHttpRequestResponse = function() { 
-    if (myrq.readyState == 4 && myrq.status == 200) {
-      if (it != null) {
-        clearTimeout(it);
-      }
-      cache[zeasy] = myrq.responseText;
-      if (current_data_displayed == zeasy) {
-        it = setTimeout(hide_data, 5000);
-        jpopin.html(myrq.responseText);
-        status_popin_resize();
-        jpopin.fadeIn(150); 
-      }
-    }
-  };
-  
-  myrq = new XMLHttpRequest(); 
-  myrq.onreadystatechange = this.XMLHttpRequestResponse;
-  this.rq = myrq;
-}
-
-function get_data(type, arg1, arg2) {
-  if (it != null) {
-    clearTimeout(it);
-  }
-  
-  jpopin.fadeOut(150, function () {
-    current_data_displayed = type + ':' + arg1 + ':' + arg2;
-    
-    if (typeof(cache[current_data_displayed]) != 'undefined') {
-      it = setTimeout(hide_data, 5000);
-      jpopin.html(cache[current_data_displayed]);
-      status_popin_resize();
-      jpopin.fadeIn(150);
-      return;
-      
-    } else {
-      var xhr = new XMLHttpRequestSurcouche(current_data_displayed);
-      xhr.rq.open('GET', 'status-' + type + '.php?arg1=' + arg1 + '&arg2=' + arg2, true);
-      xhr.rq.send(null);
-    }
-  }); 
-}
-
-function hide_data() {
-  if (it != null) {
-    clearTimeout(it);
-  }
-  jpopin.fadeOut(150);
 }
 
 function append_track(fobject) {

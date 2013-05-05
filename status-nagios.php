@@ -196,7 +196,7 @@ else $g = "" ;
              alt="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" 
              title="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" /></a>
       
-      <table id="popup" onmouseover="if (it != null) { clearInterval(it); } it = setInterval(hide_data, 5000);">
+      <table id="popup" onmouseover="restart_popin_hide_timer();">
     <?php } ?>
     
       <tr>
@@ -256,7 +256,7 @@ else $g = "" ;
           <td colspan="2" style="padding: 0; margin: 0; vertical-align: bottom; height: 100%;">
             <img style="vertical-align: bottom; padding: 0; margin: 0;"
                  <?php if ($POPIN_FIT_TO_GRAPH_WIDTH && !isset($_GET['fix'])) { ?>
-                 onload="status_popin_resize($(this).outerWidth() + 12);"
+                 onload="resize_popin($(this).outerWidth() + 12);"
                  <?php } ?>
                  src="<?php echo $g ?>" />
           </td>

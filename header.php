@@ -49,18 +49,15 @@ if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die();
             if (window != window.top)
                 body_class.push('framed');
 
-            var current_data_displayed = null;
-            var cache = [];
             var mytime = <?php echo intval($REFRESHTIME) ?>;
-            var filter = "<?php echo $FILTER ?>";
-            var cur_id;
-            var it = null;
             var filtering_has_focus = false;
             var lastChecked = null;
             var accept_action = true;
-            var popin_initial_width = <?php echo intval($POPIN_INITIAL_WIDTH) ?>;
 
-            var jpopin = $('\
+            /* Status popin globals
+             * FIXME: move that to js/lib.js with functions
+             */
+            var popin_jobject = $('\
                 <div>\
                     <img style="margin: 20px;" src="img/loading.gif" />\
                 </div>\
@@ -77,7 +74,15 @@ if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die();
                       'z-index': '88888'
                    });
 
-            document.onclick = hide_data;
+            /* Setup a flag indicating if control key is pressed and
+             * the overrides popin on/off option */
+            var popin_flag = !!<?php echo $POPIN ?>;
+            var popin_keydown = false;
+            var popin_url = null;
+            var popin_timer_show = null;
+            var popin_timer_hide = null;
+            var popin_cache = {};
+            var popin_init_width = <?php echo intval($POPIN_INITIAL_WIDTH) ?>;
         </script>
     </head>
 

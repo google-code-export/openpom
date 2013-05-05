@@ -21,6 +21,9 @@ $page_next = $FIRST + $LINE_BY_PAGE;
 ?>
 
 <form method="get" id="filter">
+    <input type="button"
+           id="top-dummy-focus" />
+
     <table id="top">
         <tr>
 

@@ -194,6 +194,17 @@ span.icon-bg-disa_notif, span.icon-bg-disa_notif:hover { background-color: #D5F4
  * Top panel
  */
 
+input#top-dummy-focus {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    width: 0px;
+    height: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
 table#top {
     width: 100%;
     position: fixed;
