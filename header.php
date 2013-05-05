@@ -16,10 +16,10 @@ if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die();
     <head>
         <title>
             <?php echo $CODENAME?>
-            C=<?php echo $glob_critical?>
-            W=<?php echo $glob_warning?>
-            U=<?php echo $glob_unknown?>
-            O=<?php echo $glob_ok ?>
+            CR=<?php echo $glob_critical?>
+            WA=<?php echo $glob_warning?>
+            UN=<?php echo $glob_unknown?>
+            OK=<?php echo $glob_ok ?>
         </title>
 
         <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
