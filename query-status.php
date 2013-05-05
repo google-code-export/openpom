@@ -63,7 +63,7 @@ $QUERY_STATUS['svc'] = "
       ASC SEPARATOR ', ')
                                            AS CONTACTGROUP,
     ( SELECT N.start_time 
-      FROM ".$BACKEND."_notifications AS N
+      FROM ${BACKEND}_notifications AS N
         WHERE N.object_id = SS.service_object_id
       GROUP BY N.start_time DESC
       LIMIT 1 )                            AS LASTNOTIFY,
@@ -75,7 +75,7 @@ $QUERY_STATUS['svc'] = "
                                            AS CHECKNAME,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
-      FROM ".$BACKEND."_comments AS ACO
+      FROM ${BACKEND}_comments AS ACO
       WHERE ACO.object_id = SS.service_object_id
       AND ACO.entry_type = 4
       AND ACO.author_name != '(Nagios Process)'
@@ -83,7 +83,7 @@ $QUERY_STATUS['svc'] = "
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
-      FROM ".$BACKEND."_downtimehistory AS DCO
+      FROM ${BACKEND}_downtimehistory AS DCO
       WHERE DCO.object_id = SS.service_object_id
       AND DCO.actual_end_time = '0000-00-00 00:00:00' 
       AND DCO.scheduled_end_time >= NOW()
@@ -91,7 +91,7 @@ $QUERY_STATUS['svc'] = "
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', NCO.author_name, NCO.comment_data)
-      FROM ".$BACKEND."_comments AS NCO
+      FROM ${BACKEND}_comments AS NCO
       WHERE NCO.object_id = SS.service_object_id
       AND NCO.entry_type = 1
       AND NCO.comment_source = 1
@@ -100,7 +100,7 @@ $QUERY_STATUS['svc'] = "
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
-      FROM ".$BACKEND."_comments AS CO
+      FROM ${BACKEND}_comments AS CO
       WHERE CO.object_id = SS.service_object_id
       AND CO.entry_type = 1
       AND CO.comment_source = 1
@@ -109,14 +109,14 @@ $QUERY_STATUS['svc'] = "
       LIMIT 1 )                            AS COMMENT
 
   FROM
-    ".$BACKEND."_servicestatus AS SS
-    INNER JOIN ".$BACKEND."_services AS S                 ON S.service_object_id = SS.service_object_id
-    INNER JOIN ".$BACKEND."_hosts AS H                    ON H.host_object_id = S.host_object_id
-    LEFT  JOIN ".$BACKEND."_hostgroup_members AS HGM      ON H.host_object_id = HGM.host_object_id
-    LEFT  JOIN ".$BACKEND."_hostgroups AS HG              ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT  JOIN ".$BACKEND."_objects AS OHG                ON HG.hostgroup_object_id = OHG.object_id
-    LEFT  JOIN ".$BACKEND."_service_contactgroups AS SCG  ON SS.servicestatus_id = SCG.service_id
-    LEFT  JOIN ".$BACKEND."_objects AS OCG                ON SCG.contactgroup_object_id = OCG.object_id
+    ${BACKEND}_servicestatus AS SS
+    INNER JOIN ${BACKEND}_services AS S                 ON S.service_object_id = SS.service_object_id
+    INNER JOIN ${BACKEND}_hosts AS H                    ON H.host_object_id = S.host_object_id
+    LEFT  JOIN ${BACKEND}_hostgroup_members AS HGM      ON H.host_object_id = HGM.host_object_id
+    LEFT  JOIN ${BACKEND}_hostgroups AS HG              ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT  JOIN ${BACKEND}_objects AS OHG                ON HG.hostgroup_object_id = OHG.object_id
+    LEFT  JOIN ${BACKEND}_service_contactgroups AS SCG  ON SS.servicestatus_id = SCG.service_id
+    LEFT  JOIN ${BACKEND}_objects AS OCG                ON SCG.contactgroup_object_id = OCG.object_id
   WHERE
     SS.servicestatus_id = define_my_id
   GROUP BY 
@@ -181,7 +181,7 @@ $QUERY_STATUS['host'] = "
       ASC SEPARATOR ', ')
                                            AS CONTACTGROUP,
     ( SELECT N.start_time 
-      FROM ".$BACKEND."_notifications AS N
+      FROM ${BACKEND}_notifications AS N
         WHERE N.object_id = HS.host_object_id
       GROUP BY N.start_time DESC
       LIMIT 1 )                            AS LASTNOTIFY,
@@ -193,7 +193,7 @@ $QUERY_STATUS['host'] = "
                                            AS CHECKNAME,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
-      FROM ".$BACKEND."_comments AS ACO
+      FROM ${BACKEND}_comments AS ACO
       WHERE ACO.object_id = HS.host_object_id
       AND ACO.entry_type = 4
       AND ACO.author_name != '(Nagios Process)'
@@ -201,7 +201,7 @@ $QUERY_STATUS['host'] = "
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
-      FROM ".$BACKEND."_downtimehistory AS DCO
+      FROM ${BACKEND}_downtimehistory AS DCO
       WHERE DCO.object_id = HS.host_object_id
       AND DCO.actual_end_time = '0000-00-00 00:00:00' 
       AND DCO.scheduled_end_time >= NOW()
@@ -209,7 +209,7 @@ $QUERY_STATUS['host'] = "
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', NCO.author_name, NCO.comment_data)
-      FROM ".$BACKEND."_comments AS NCO
+      FROM ${BACKEND}_comments AS NCO
       WHERE NCO.object_id = HS.host_object_id
       AND NCO.entry_type = 1
       AND NCO.comment_source = 1
@@ -218,7 +218,7 @@ $QUERY_STATUS['host'] = "
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
-      FROM ".$BACKEND."_comments AS CO
+      FROM ${BACKEND}_comments AS CO
       WHERE CO.object_id = HS.host_object_id
       AND CO.entry_type = 1
       AND CO.comment_source = 1
@@ -227,13 +227,13 @@ $QUERY_STATUS['host'] = "
       LIMIT 1 )                            AS COMMENT
 
   FROM
-    ".$BACKEND."_hoststatus AS HS
-    INNER JOIN ".$BACKEND."_hosts AS H                    ON H.host_object_id = HS.host_object_id
-    LEFT  JOIN ".$BACKEND."_hostgroup_members AS HGM      ON H.host_object_id = HGM.host_object_id
-    LEFT  JOIN ".$BACKEND."_hostgroups AS HG              ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT  JOIN ".$BACKEND."_objects AS OHG                ON HG.hostgroup_object_id = OHG.object_id
-    LEFT  JOIN ".$BACKEND."_host_contactgroups AS HCG     ON HS.hoststatus_id = HCG.host_id
-    LEFT  JOIN ".$BACKEND."_objects AS OCG                ON HCG.contactgroup_object_id = OCG.object_id
+    ${BACKEND}_hoststatus AS HS
+    INNER JOIN ${BACKEND}_hosts AS H                    ON H.host_object_id = HS.host_object_id
+    LEFT  JOIN ${BACKEND}_hostgroup_members AS HGM      ON H.host_object_id = HGM.host_object_id
+    LEFT  JOIN ${BACKEND}_hostgroups AS HG              ON HGM.hostgroup_id = HG.hostgroup_id
+    LEFT  JOIN ${BACKEND}_objects AS OHG                ON HG.hostgroup_object_id = OHG.object_id
+    LEFT  JOIN ${BACKEND}_host_contactgroups AS HCG     ON HS.hoststatus_id = HCG.host_id
+    LEFT  JOIN ${BACKEND}_objects AS OCG                ON HCG.contactgroup_object_id = OCG.object_id
   WHERE
     HS.hoststatus_id = define_my_id
   GROUP BY 
