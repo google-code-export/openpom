@@ -60,10 +60,6 @@ switch ($st_data['CHKTYPE']) {
   case 0: $CHKTYPE = "Active";  break;
   case 1: $CHKTYPE = "Passive"; break;
 }
-switch ($st_data['CHECKENABLE']) {
-  case 0: $CHECKENABLE = "disabled";  break;
-  case 1: $CHECKENABLE = "enabled";   break;
-}
 switch ($st_data['FLAPPING']) {
   case 0: $FLAPPING = strtoupper(lang($MYLANG, 'no'));  break;
   case 1: $FLAPPING = strtoupper(lang($MYLANG, 'yes')); break;
@@ -133,7 +129,7 @@ $STATUSDATA = array (
 'checkstatus'  => $CURATTEMP."/".$MAXATTEMP." | ".$NORMALINTERVAL."m/".$RETRYINTERVAL."m | ".printtime($LASTCHECKTIMEDIFF),
 'lastok'       => ( (substr($LASTTIMEOK, 0, 4) == "1970") || ($STATUS == "OK") ) ? "N/A" : $LASTTIMEOK." (".printtime($LASTTIMEOKDIFF).")",
 'nextcheck'    => ( printtime($NEXTCHECKTIMEDIFF) < 0) ? "N/A" : $NEXTCHECKTIME." (".printtime($NEXTCHECKTIMEDIFF).")",
-'checkinfo'    => $CHKTYPE." (".lang($MYLANG, $CHECKENABLE).") | ".$CHECKNAME,
+'checkinfo'    => $CHKTYPE.", A=${st_data['ACTIVE']}, P=${st_data['PASSIVE']} | ".$CHECKNAME,
 'checktime'    => $LATENCY." | ".$EXEC_TIME,
 'laststatus'   => printtime($LASTCHANGEDIFF)." | ".printtime($UPDATETIMEDIFF),
 'flapping'     => $FLAPPING." ".(($st_data['FLAPPING'] != 2) ? "(".$PERCENT."% ".lang($MYLANG, 'state_change').")" : ""),

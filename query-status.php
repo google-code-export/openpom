@@ -26,10 +26,8 @@ $QUERY_STATUS['svc'] = "
     SS.normal_check_interval               AS NORMALINTERVAL,
     SS.retry_check_interval                AS RETRYINTERVAL,
     SS.check_type                          AS CHKTYPE,
-    ( CASE SS.check_type 
-        WHEN 0 THEN SS.active_checks_enabled
-        WHEN 1 THEN SS.passive_checks_enabled
-      END )                                AS CHECKENABLE,
+    SS.active_checks_enabled               AS ACTIVE,
+    SS.passive_checks_enabled              AS PASSIVE,
     SS.perfdata                            AS PERFDATA,
     SS.latency                             AS LATENCY,
     SS.execution_time                      AS EXEC_TIME,
@@ -145,10 +143,8 @@ $QUERY_STATUS['host'] = "
     HS.normal_check_interval               AS NORMALINTERVAL,
     HS.retry_check_interval                AS RETRYINTERVAL,
     HS.check_type                          AS CHKTYPE,
-    ( CASE HS.check_type 
-        WHEN 0 THEN HS.active_checks_enabled
-        WHEN 1 THEN HS.passive_checks_enabled
-      END )                                AS CHECKENABLE,
+    HS.active_checks_enabled               AS ACTIVE,
+    HS.passive_checks_enabled              AS PASSIVE,
     HS.perfdata                            AS PERFDATA,
     HS.latency                             AS LATENCY,
     HS.execution_time                      AS EXEC_TIME,
