@@ -81,11 +81,10 @@ $QUERY_STATUS['svc'] = "
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
-      FROM ${BACKEND}_downtimehistory AS DCO
+      FROM ${BACKEND}_scheduleddowntime AS DCO
       WHERE DCO.object_id = SS.service_object_id
-      AND DCO.actual_end_time = '0000-00-00 00:00:00' 
       AND DCO.scheduled_end_time >= NOW()
-      ORDER BY DCO.entry_time DESC
+      ORDER BY DCO.scheduleddowntime_id DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', NCO.author_name, NCO.comment_data)
@@ -197,11 +196,10 @@ $QUERY_STATUS['host'] = "
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
-      FROM ${BACKEND}_downtimehistory AS DCO
+      FROM ${BACKEND}_scheduleddowntime AS DCO
       WHERE DCO.object_id = HS.host_object_id
-      AND DCO.actual_end_time = '0000-00-00 00:00:00' 
       AND DCO.scheduled_end_time >= NOW()
-      ORDER BY DCO.entry_time DESC
+      ORDER BY DCO.scheduleddowntime_id DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', NCO.author_name, NCO.comment_data)
