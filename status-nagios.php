@@ -7,6 +7,9 @@
   http://www.gnu.org/licenses/
 */
 
+/* FIXME: Rewrite, this is unreadable ! */
+
+
 require_once("config.php");
 session_name($CODENAME);
 session_start();
@@ -143,10 +146,12 @@ $STATUSDATA = array (
 (!$NOTIF && count($NOTIFCOMMENT) > 1) ? 'notifycur' : 'nonotifycur' => $NOTIFCOMMENT[1],
 /*COMMENT*/
 ($NOCOMMENT == 0) ? 'commentcur' : 'nocommentcur' => $COMMENT[1],
-/*HISTORY*/
-(count($_SESSION['HISTORY']) > 0) ? 'history' : 'nohistory'         =>
-                  "<a href=\"#\" onClick=\"return pop('history.php?id=".$id."&type=".$type."&host=".$HOSTNAME."&svc=".$SERVICE."', '".$id."', '".$HISTORY_POPUP_WIDTH."', '".$HISTORY_POPUP_HEIGHT."');\">".ucfirst(lang($MYLANG, 'show_history'))."</a>",
 ) ;
+
+/* Open gitory popup */
+if (count($_SESSION['HISTORY'])) {
+    $STATUSDATA['linkhistory'] = "<a href=\"#\" onClick=\"return pop('history.php?id=$id&type=$type&host=$HOSTNAME&svc=$SERVICE', '$id', '$HISTORY_POPUP_WIDTH', '$HISTORY_POPUP_HEIGHT');\">".ucfirst(lang($MYLANG, 'show_history'))."</a>";
+}
 
 $STATUSHEAD = array (
 'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >&nbsp;('.$ACKCOMMENT[0].')</span>', 

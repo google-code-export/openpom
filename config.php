@@ -401,7 +401,7 @@ $STATUSPOPIN = array (
   'notifycur'    => 2,
   'disacur'      => 2,
   'commentcur'   => 2,
-  'history'      => 2,
+  'linkhistory'  => 2,
 ) ;
 
 /* Nagios/Icinga global logs javascript button onclick action */
