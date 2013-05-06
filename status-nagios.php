@@ -86,6 +86,7 @@ $LASTTIMEOK           = $st_data['LASTTIMEOK'];
 $NEXTCHECKTIME        = $st_data['NEXTCHECKTIME'];
 $NEXTCHECKTIMEDIFF    = $st_data['NEXTCHECKTIMEDIFF'];
 $OUTPUT               = $st_data['OUTPUT'];
+$LONG_OUTPUT          = $st_data['LONG_OUTPUT'];
 $CURATTEMP            = $st_data['CURATTEMP'];
 $MAXATTEMP            = $st_data['MAXATTEMP'];
 $NORMALINTERVAL       = $st_data['NORMALINTERVAL'];
