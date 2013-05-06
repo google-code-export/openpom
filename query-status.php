@@ -75,12 +75,11 @@ $QUERY_STATUS['svc'] = "
                                            AS CHECKNAME,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS ACO
+      FROM ".$BACKEND."_comments AS ACO
       WHERE ACO.object_id = SS.service_object_id
       AND ACO.entry_type = 4
       AND ACO.author_name != '(Nagios Process)'
-      AND ACO.deletion_time = '0000-00-00 00:00:00' 
-      ORDER BY ACO.entry_time DESC
+      ORDER BY ACO.comment_id DESC
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
@@ -92,33 +91,30 @@ $QUERY_STATUS['svc'] = "
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', NCO.author_name, NCO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS NCO
+      FROM ".$BACKEND."_comments AS NCO
       WHERE NCO.object_id = SS.service_object_id
       AND NCO.entry_type = 1
       AND NCO.comment_source = 1
-      AND NCO.deletion_time = '0000-00-00 00:00:00'
       AND substring_index(NCO.comment_data, ':', 1) = '~disable'
-      ORDER BY NCO.entry_time DESC
+      ORDER BY NCO.comment_id DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
       concat_ws(';', DCCO.author_name, DCCO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS DCCO
+      FROM ".$BACKEND."_comments AS DCCO
       WHERE DCCO.object_id = SS.service_object_id
       AND DCCO.entry_type = 1
       AND DCCO.comment_source = 1
-      AND DCCO.deletion_time = '0000-00-00 00:00:00'
       AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
       ORDER BY DCCO.entry_time DESC
       LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
     ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS CO
+      FROM ".$BACKEND."_comments AS CO
       WHERE CO.object_id = SS.service_object_id
       AND CO.entry_type = 1
       AND CO.comment_source = 1
-      AND CO.deletion_time = '0000-00-00 00:00:00'
       AND substring(CO.comment_data, 1, 1) != '~'
-      ORDER BY CO.entry_time DESC
+      ORDER BY CO.comment_id DESC
       LIMIT 1 )                            AS COMMENT
 
   FROM
@@ -206,12 +202,11 @@ $QUERY_STATUS['host'] = "
                                            AS CHECKNAME,
     ( SELECT 
       concat_ws(';', ACO.author_name, ACO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS ACO
+      FROM ".$BACKEND."_comments AS ACO
       WHERE ACO.object_id = HS.host_object_id
       AND ACO.entry_type = 4
       AND ACO.author_name != '(Nagios Process)'
-      AND ACO.deletion_time = '0000-00-00 00:00:00' 
-      ORDER BY ACO.entry_time DESC
+      ORDER BY ACO.comment_id DESC
       LIMIT 1 )                            AS ACKCOMMENT,
     ( SELECT 
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
@@ -223,33 +218,30 @@ $QUERY_STATUS['host'] = "
       LIMIT 1 )                            AS DOWNCOMMENT,
     ( SELECT 
       concat_ws(';', NCO.author_name, NCO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS NCO
+      FROM ".$BACKEND."_comments AS NCO
       WHERE NCO.object_id = HS.host_object_id
       AND NCO.entry_type = 1
       AND NCO.comment_source = 1
-      AND NCO.deletion_time = '0000-00-00 00:00:00'
       AND substring_index(NCO.comment_data, ':', 1) = '~disable'
-      ORDER BY NCO.entry_time DESC
+      ORDER BY NCO.comment_id DESC
       LIMIT 1 )                            AS NOTIFCOMMENT, 
     ( SELECT 
       concat_ws(';', DCCO.author_name, DCCO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS DCCO
+      FROM ".$BACKEND."_comments AS DCCO
       WHERE DCCO.object_id = HS.host_object_id
       AND DCCO.entry_type = 1
       AND DCCO.comment_source = 1
-      AND DCCO.deletion_time = '0000-00-00 00:00:00'
       AND substring_index(DCCO.comment_data, ':', 1) = '~disablecheck'
       ORDER BY DCCO.entry_time DESC
       LIMIT 1 )                            AS DISABLECHECKCOMMENT, 
     ( SELECT 
       concat_ws(';', CO.author_name, CO.comment_data)
-      FROM ".$BACKEND."_commenthistory AS CO
+      FROM ".$BACKEND."_comments AS CO
       WHERE CO.object_id = HS.host_object_id
       AND CO.entry_type = 1
       AND CO.comment_source = 1
-      AND CO.deletion_time = '0000-00-00 00:00:00'
       AND substring(CO.comment_data, 1, 1) != '~'
-      ORDER BY CO.entry_time DESC
+      ORDER BY CO.comment_id DESC
       LIMIT 1 )                            AS COMMENT
 
   FROM

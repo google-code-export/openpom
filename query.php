@@ -72,11 +72,10 @@ FROM (
     ( SELECT BIT_OR(
         IF(substring_index(comment_data, ':', 1) = '~track', 2,
           IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
-      FROM ".$BACKEND."_commenthistory AS CO
+      FROM ".$BACKEND."_comments AS CO
       WHERE CO.object_id = S.service_object_id
       AND CO.entry_type = 1
       AND CO.comment_source = 1
-      AND CO.deletion_time = '0000-00-00 00:00:00'
     )                                    AS COMMENT,  -- comment is 0, 1, 2 or 3
                                                       -- bit 0 is comment
                                                       -- bit 1 is track
@@ -124,11 +123,10 @@ FROM (
       )
       OR (
         SELECT count(*) > 0
-        FROM ".$BACKEND."_commenthistory
+        FROM ".$BACKEND."_comments
         WHERE object_id = S.service_object_id
         AND entry_type = 1
         AND comment_source = 1
-        AND deletion_time = '0000-00-00 00:00:00'
         AND substring_index(comment_data, ':', 1) = '~track'
         AND ( define_track_anything = 0 )
       )
@@ -179,11 +177,10 @@ UNION
     ( SELECT BIT_OR(
         IF(substring_index(comment_data, ':', 1) = '~track', 2,
           IF(substring(comment_data, 1, 1) = '~', 0, 1) ))
-      FROM ".$BACKEND."_commenthistory AS CO
+      FROM ".$BACKEND."_comments AS CO
       WHERE CO.object_id = H.host_object_id
       AND CO.entry_type = 1
       AND CO.comment_source = 1
-      AND CO.deletion_time = '0000-00-00 00:00:00'
     )                                    AS COMMENT,  -- comment is 0, 1, 2 or 3
                                                       -- bit 0 is comment
                                                       -- bit 1 is track
@@ -226,11 +223,10 @@ UNION
       )
       OR (
         SELECT count(*) > 0
-        FROM ".$BACKEND."_commenthistory
+        FROM ".$BACKEND."_comments
         WHERE object_id = H.host_object_id
         AND entry_type = 1
         AND comment_source = 1
-        AND deletion_time = '0000-00-00 00:00:00'
         AND substring_index(comment_data, ':', 1) = '~track'
         AND ( define_track_anything = 0 )
       )
