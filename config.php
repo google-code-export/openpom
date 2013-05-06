@@ -216,8 +216,8 @@ $COLUMN_DEFINITION['groups'] = array(
     'key'   => 'g',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'OHG.name1',
-                      'define_svc_search'   => 'OHG.name1'),
+    'filter' => array('define_host_search'  => 'HGO.name1',
+                      'define_svc_search'   => 'HGO.name1'),
 );
 
 /* Expression column for displaying the duration since last check of a

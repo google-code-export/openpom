@@ -27,8 +27,8 @@ FROM (
 
   SELECT
     GROUP_CONCAT(
-      DISTINCT OHG.name1
-      ORDER BY OHG.name1
+      DISTINCT HGO.name1
+      ORDER BY HGO.name1
       DESC SEPARATOR 'define_my_separator'
     )                                                   AS GROUPS,
     H.alias                                             AS HOSTALIAS,
@@ -72,7 +72,7 @@ FROM (
     JOIN ${BACKEND}_objects AS CO                       ON CO.object_id = C.contact_object_id
     LEFT JOIN ${BACKEND}_hostgroup_members AS HGM       ON H.host_object_id = HGM.host_object_id
     LEFT JOIN ${BACKEND}_hostgroups AS HG               ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT JOIN ${BACKEND}_objects AS OHG                 ON HG.hostgroup_object_id = OHG.object_id
+    LEFT JOIN ${BACKEND}_objects AS HGO                 ON HG.hostgroup_object_id = HGO.object_id
     define_cvar_svc_joins
 
   WHERE
@@ -118,8 +118,8 @@ UNION
 
   SELECT
     GROUP_CONCAT(
-      DISTINCT OHG.name1
-      ORDER BY OHG.name1
+      DISTINCT HGO.name1
+      ORDER BY HGO.name1
       DESC SEPARATOR 'define_my_separator'
     )                                                   AS GROUPS,
     H.alias                                             AS HOSTALIAS,
@@ -166,7 +166,7 @@ UNION
     JOIN ${BACKEND}_objects AS CO                       ON CO.object_id = C.contact_object_id
     LEFT JOIN ${BACKEND}_hostgroup_members AS HGM       ON H.host_object_id = HGM.host_object_id
     LEFT JOIN ${BACKEND}_hostgroups AS HG               ON HGM.hostgroup_id = HG.hostgroup_id
-    LEFT JOIN ${BACKEND}_objects AS OHG                 ON HG.hostgroup_object_id = OHG.object_id
+    LEFT JOIN ${BACKEND}_objects AS HGO                 ON HG.hostgroup_object_id = HGO.object_id
     define_cvar_host_joins
 
   WHERE
