@@ -165,6 +165,7 @@ $LANG['en'] = array (
 'statusall'          => 'all: ',
 'statuslimit'        => 'lines: ',
 'showgraph'          => 'graph: ',
+'cvar'               => 'variable:',
 ) ;
 
 /* FRENCH */
@@ -321,6 +322,7 @@ $LANG['fr'] = array (
 'statusall'          => 'toutes: ',
 'statuslimit'        => 'lignes: ',
 'showgraph'          => 'graphe: ',
+'cvar'               => 'variable :',
 ) ;
 
 $LANG['de'] = array (
@@ -475,6 +477,7 @@ $LANG['de'] = array (
 'statusall'          => 'alle: ',
 'statuslimit'        => 'linien: ',
 'showgraph'          => 'graph: ',
+'cvar'               => 'Variable:',
 ) ;
 
 /* GET/SET LANG */

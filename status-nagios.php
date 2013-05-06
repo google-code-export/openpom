@@ -153,6 +153,117 @@ if (count($_SESSION['HISTORY'])) {
     $STATUSDATA['linkhistory'] = "<a href=\"#\" onClick=\"return pop('history.php?id=$id&type=$type&host=$HOSTNAME&svc=$SERVICE', '$id', '$HISTORY_POPUP_WIDTH', '$HISTORY_POPUP_HEIGHT');\">".ucfirst(lang($MYLANG, 'show_history'))."</a>";
 }
 
+/* Custom variables */
+
+/* The $cvar array is only used to build the $variables array which
+ * contains the final list of key/value custom variables. Precedence
+ * is given to variables defined on the service if also present on
+ * the host.
+ *
+ * Values of custom variables can make reference to other custom
+ * variables using the syntax ${_OTHER_VARIABLE}. Values can also
+ * reference special properties of the $other_variables array with
+ * the same syntax.
+ *
+ * Obviously, a variable cannot reference itself.
+ */
+$cvar = array();
+$variables = array(
+    'host_name' => $st_data['HOSTNAME'],
+    'host_address' => $st_data['ADDRESS'],
+    'service_description' => $SERVICE,
+    'check_command' => $st_data['CHECKNAME'],
+);
+
+if (!is_null($st_data['CVAR_HOST']))
+    $cvar = array_merge($cvar, explode(chr(0x16), $st_data['CVAR_HOST']));
+if (!is_null($st_data['CVAR_SERVICE']))
+    $cvar = array_merge($cvar, explode(chr(0x16), $st_data['CVAR_SERVICE']));
+
+foreach ($cvar as $v) {
+    if (strpos($v, 'BASH_') === 0)
+        continue;
+    if (($eq = strpos($v, '=')) > 0)
+        $variables['_' . substr($v, 0, $eq)] = substr($v, $eq + 1);
+}
+
+function cvar_link_text($full)
+{
+    $l = strlen($full);
+
+    if ($l > 30)
+        return htmlspecialchars(substr($full, 0, 30)) . '...';
+    else
+        return htmlspecialchars($full);
+}
+
+/* This is a preg_replace callack function to build HTML links. It
+ * expects to receive a 3 elements array as argument:
+ *   - 0: the full matched string,
+ *   - 1: the protocol part,
+ *   - 2: the URL without the proto:// part
+ *
+ * FIXME: Might wan't to add rawurlencode() in the link value but
+ * it should be configurable on a per-variable basis.
+ */
+function cvar_link_replace_cb($match)
+{
+    /* Check for user:password URL and if so, do not display
+     * user:password in HTML link text.
+     */
+    if (preg_match('/^([^:]+):([^@]+)@(.*)/', $match[2], $cap))
+        $text = cvar_link_text("${match[1]}://${cap[3]}");
+    else
+        $text = cvar_link_text($match[0]);
+
+    return '<a href="' . $match[0] . '" target="_blank">' . $text . '</a>';
+}
+
+/* This function formats a custom variable value in HTML, resolving
+ * any potential reference to other variables.
+ */
+function cvar_format($cvar) {
+    global $variables;
+
+    if (!isset($variables[$cvar]))
+        return '';
+
+    if (preg_match_all("/\\\$\\{([^}]+)\\}/", $variables[$cvar], $cap, PREG_OFFSET_CAPTURE)) {
+        $out = '';
+        $pos = 0;
+
+        foreach ($cap[1] as $c) {
+            $out .= substr($variables[$cvar], $pos, ($c[1] - 2) - $pos);
+
+            /* do not expand if the variable reference itself or if it
+             * references a non existing variable */
+            if ($c[0] == $cvar || !isset($variables[$c[0]]))
+                $out .= '${' . $cvar . '}';
+            else
+                $out .= $variables[$c[0]];
+
+            $pos = $c[1] + strlen($c[0]) + 1;
+        }
+
+        $out .= substr($variables[$cvar], $pos);
+    }
+    else
+        $out = $variables[$cvar];
+
+    /* build html links */
+    return preg_replace_callback('@([a-z]+)://([^\s]+)@', 'cvar_link_replace_cb', $out);
+}
+
+/* This function returns a more human-readable string value
+ * for a custom variable name.
+ */
+function cvar_alias($cvar)
+{
+    $out = strtolower($cvar);
+    if ($out[0] == '_') $out = substr($out, 1);
+    return str_replace('_', '-', $out);
+}
+
 $STATUSHEAD = array (
 'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >&nbsp;('.$ACKCOMMENT[0].')</span>', 
 'downcur'    => '<img class="inline-middle" src="img/flag_downtime.png" /><span class="inline-middle" >&nbsp;('.$DOWNCOMMENT[0].')</span>',
@@ -248,6 +359,26 @@ else $g = "" ;
         <td></td>
       </tr>
       <?php } ?>
+
+<?php
+foreach ($SHOWSTATUSCVAR as $v) {
+    if (!isset($variables[$v]))
+        continue;
+?>
+
+      <tr>
+        <th>
+          <?php echo ucfirst(lang($MYLANG, 'cvar')) ?>
+          <?php echo cvar_alias($v) ?>
+        </th>
+        <td>
+          <?php echo cvar_format($v); ?>
+        </td>
+      </tr>
+
+<?php } ?>
+
+
       <?php if (!empty($g)) { ?>
         <tr>
           <th style="height: 6px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>

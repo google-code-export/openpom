@@ -103,7 +103,22 @@ $QUERY_STATUS['svc'] = "
       AND CO.comment_source = 1
       AND substring(CO.comment_data, 1, 1) != '~'
       ORDER BY CO.comment_id DESC
-      LIMIT 1 )                            AS COMMENT
+      LIMIT 1 )                            AS COMMENT,
+
+    -- service custom variables
+    ( select group_concat(concat(varname, '=', varvalue) separator 0x16)
+      from nagios_customvariables
+      where object_id=SS.service_object_id
+    ) AS CVAR_SERVICE,
+
+    -- host custom variables
+    ( select group_concat(concat(varname, '=', varvalue) separator 0x16)
+      from nagios_customvariables
+      where object_id=(
+        select host_object_id
+        from ${BACKEND}_services
+        where service_object_id=SS.service_object_id)
+    ) AS CVAR_HOST
 
   FROM
     ${BACKEND}_servicestatus AS SS
@@ -218,7 +233,16 @@ $QUERY_STATUS['host'] = "
       AND CO.comment_source = 1
       AND substring(CO.comment_data, 1, 1) != '~'
       ORDER BY CO.comment_id DESC
-      LIMIT 1 )                            AS COMMENT
+      LIMIT 1 )                            AS COMMENT,
+
+    -- service custom variables
+    NULL AS CVAR_SERVICE,
+
+    -- host custom variables
+    ( select group_concat(concat(varname, '=', varvalue) separator 0x16)
+      from nagios_customvariables
+      where object_id=HS.host_object_id
+    ) AS CVAR_HOST
 
   FROM
     ${BACKEND}_hoststatus AS HS
