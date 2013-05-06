@@ -276,6 +276,8 @@ if ( (isset($_GET['fix'])) || (isset($_SESSION['STATUS']['graph'])) )
   $g = get_graph('status', $HOSTNAME, $SERVICE); 
 else $g = "" ;
 
+/* bottom section (override RRD graph) */
+$bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
 ?>
 
 <?php if (isset($_GET['fix'])) { ?>
@@ -387,11 +389,13 @@ foreach ($SHOWSTATUSCVAR as $v) {
         </tr>
         <tr>
           <td colspan="2" style="padding: 0; margin: 0; vertical-align: bottom; height: 100%;">
+      <?php if (!function_exists($bottom_fct) || !$bottom_fct()) { ?>
             <img style="vertical-align: bottom; padding: 0; margin: 0;"
                  <?php if ($POPIN_FIT_TO_GRAPH_WIDTH && !isset($_GET['fix'])) { ?>
                  onload="resize_popin($(this).outerWidth() + 12);"
                  <?php } ?>
                  src="<?php echo $g ?>" />
+      <?php } ?>
           </td>
         </tr>
         
