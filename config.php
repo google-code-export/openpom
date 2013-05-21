@@ -419,7 +419,7 @@ $HISTORY = array(
 'ack'    => 1,
 'down'   => 1,
 'com'    => 1,
-'notify' => 1,
+'notify' => 0,
 'state'  => 1,
 'flap'   => 1,
 ) ;
