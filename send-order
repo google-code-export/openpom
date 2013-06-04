@@ -2,11 +2,11 @@
 #
 #  OpenPom $Revision: 16 $
 #  $HeadURL: https://openpom.googlecode.com/svn/trunk/send-order $
-# 
+#
 #  Copyright 2010, Exosec
 #  Licensed under GPL Version 2.
 #  http://www.gnu.org/licenses/
-# 
+#
 #  $Date: 2010-09-13 10:24:33 +0200 (Mon, 13 Sep 2010) $
 #
 #
@@ -32,15 +32,19 @@ oIFS=$IFS ; IFS=$'\n'
 orders=( $(echo "$*") )
 IFS=$oIFS
 
-[ ! -p "${orders[0]}" ] && { echo "${orders[0]} is not a named pipe" ; exit 2 ; }
+if [ ! -p "${orders[0]}" ] ; then
+  echo "${orders[0]} is not a named pipe"
+  exit 2
+fi
 
 c=0
 for ((i=1; i<="${#orders[@]}"; i++)) ; do
   if [ $c -gt 0 -a $(($c%$MAX_EXTCMD)) -eq 0 ] ; then
       sleep $SLEEP_TIME
   fi
+
   cat > "${orders[0]}" <<< "${orders[$i]}"
   c=$((c+1))
 done
-exit $?
 
+exit $?
