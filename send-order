@@ -32,7 +32,7 @@ local_cmdfile="$1"
 shift 1
 
 oIFS=$IFS ; IFS=$'\n'
-orders=( $(echo "$*") )
+orders=( $@ )
 IFS=$oIFS
 
 if [ ! -p "${local_cmdfile}" ] ; then
