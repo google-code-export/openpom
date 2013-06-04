@@ -28,22 +28,25 @@
 MAX_EXTCMD=30  ### MAX EXTERNAL COMMAND
 SLEEP_TIME=5   ### SLEEP X SECONDS AFTER MAX_EXTCMD IS REACHED
 
+local_cmdfile="$1"
+shift 1
+
 oIFS=$IFS ; IFS=$'\n'
 orders=( $(echo "$*") )
 IFS=$oIFS
 
-if [ ! -p "${orders[0]}" ] ; then
-  echo "${orders[0]} is not a named pipe"
+if [ ! -p "${local_cmdfile}" ] ; then
+  echo "${local_cmdfile} is not a named pipe" 1>&2
   exit 2
 fi
 
 c=0
-for ((i=1; i<="${#orders[@]}"; i++)) ; do
+for ((i=0; i<"${#orders[@]}"; i++)) ; do
   if [ $c -gt 0 -a $(($c%$MAX_EXTCMD)) -eq 0 ] ; then
       sleep $SLEEP_TIME
   fi
 
-  cat > "${orders[0]}" <<< "${orders[$i]}"
+  cat > "${local_cmdfile}" <<< "${orders[$i]}"
   c=$((c+1))
 done
 
