@@ -57,6 +57,8 @@ $COLUMN_ENABLED = array(
     'output'    => true,
     'groups'    => false,
     'last'      => true,
+//     'client'    => true,
+//     'timeleft'  => false,
 );
 
 /* Default column to use for sorting */
@@ -227,46 +229,78 @@ $COLUMN_DEFINITION['last'] = array(
     'opts'   => COL_FMT_DURATION,
 );
 
-/* Exemple for adding a column displaying the value of an host or service
- * custom variable. If the custom variable _CLIENT is present on a service,
- * that value is used, otherwise the value of the custom variable _CLIENT
- * present on the host is used if defined.
- *
- * $COLUMN_DEFINITION['client'] = array(
- *     'cvar'   => 'CLIENT',
- *     'opts'   => COL_FILTER_LINK,
- *     'key'    => 'c',
- * );
- *
- * Another exemple using a _MAX_FIX_TIME custom variable. We suppose here
- * that custom variable contains a maximum number of seconds for an incident
- * to be resolved.
- *
- * $COLUMN_DEFINITION['maxfix'] = array(
- *     'cvar'   => 'MAX_FIX_TIME',
- * );
- *
- * The previous value is then used in an expression column setup to
- * display the time left to fix the incident. The "maxfix" column does not
- * necessarily need to be present in the $COLUMN_ENABLED array. It's more
- * like an intermediate column.
- *
- * $COLUMN_DEFINITION['timeleft'] = array(
- *     'expr'   => 'ifnull(SCVAR_maxfix, HCVAR_maxfix) - (UNIX_TIMESTAMP() - LASTCHANGE)',
- *     'opts'   => COL_FMT_DURATION,
- * );
- *
- * The "timeleft" expression column can be used in the sorting of entries.
- * For instance to list entries with a small amount of "timeleft" first,
- * you could modify the sort property of the "flags" column to:
- *
- *              array(array('-1 * EXPR_timeleft', 'desc'),
- *                    array('EXPR_coef', 'asc'),
- *                    array('EXPR_duration', 'asc'))
- *
- * You could also modify the expression of the "coef" column to make the
- * EXPR_timeleft value function of it.
+
+/* HOWTO display a customer name? */
+
+/* Custom variable _CLIENT to display the name of the customer associated
+ * with a host or service entry. This column should be displayed and thus
+ * added in $COLUMN_ENABLED.
  */
+// $COLUMN_DEFINITION['client'] = array(
+//     'cvar'   => 'CLIENT',
+//     'opts'   => COL_FILTER_LINK,
+//     'key'    => 'c',
+// );
+
+/* HOWTO display the time left to fix an incident? */
+
+/* Custom variable _SLA which contains a maximum number of seconds for an
+ * incident to be resolved. This value can be used in the timeleft column
+ * below. This column is not ment to be displayed, so it should not be listed
+ * in $COLUMN_ENABLED.
+ */
+// $COLUMN_DEFINITION['sla'] = array(
+//     'cvar'   => 'SLA',
+// );
+
+/* Expression column using the _SLA value in order to display the time left
+ * for an incident to be resolved. This column should be displayed and thus
+ * added in $COLUMN_ENABLED.
+ */
+// $COLUMN_DEFINITION['timeleft'] = array(
+//     'expr'   => 'if(STATUS = 0, NULL, ifnull(SCVAR_sla, HCVAR_sla) - (UNIX_TIMESTAMP() - LASTCHANGE))',
+//     'sort'   => array(array('-1 * EXPR_timeleft', 'desc'),
+//                       array('EXPR_coef', 'asc'),
+//                       array('EXPR_duration', 'asc')),
+//     'opts'   => COL_FMT_DURATION,
+// );
+
+/* HOWTO sort the flags column according to a custom severity? */
+
+/* Custom variable _SEVERITY which contains a severity number, the greater
+ * the most severe. This column is not ment to be displayed, so it should not
+ * be listed in $COLUMN_ENABLED.
+ */
+// $COLUMN_DEFINITION['severity'] = array(
+//     'cvar'   => 'SEVERITY',
+// );
+
+/* Expression column to define a custom coeficient used in column flags
+ * for sorting. This column is not ment to be displayed, so it should not
+ * be listed in $COLUMN_ENABLED.
+ */
+// $COLUMN_DEFINITION['coef2'] = array(
+//     'expr'   => 'CASE STATUS WHEN 3 THEN 1 WHEN 2 THEN 3 WHEN 1 THEN 2 ELSE 0 END * 10 +
+//                  ifnull(ifnull(SCVAR_severity, HCVAR_severity), 0)',
+// );
+
+/* Modify the sort definition of the flags column. This uses the new
+ * coeficient defined just above.
+ */
+// $COLUMN_DEFINITION['flags'] = array(
+//     'sort'   => array(array('EXPR_coef2', 'desc'),
+//                       array('EXPR_duration', 'asc')),
+// );
+
+
+/* HOWTO display cells with exceeded SLA (timeleft) in black?  */
+
+// function on_alert_row(&$rdata) {
+//     if (isset($rdata['EXPR_timeleft']) && $rdata['EXPR_timeleft'] < 0)
+//         $rdata['__timeleft_class'] = 'black';
+// }
+
+
 /* 
   ALERT COLOR  you must define the new color in style.css (tr.color) 
   red yellow orange green black
