@@ -62,6 +62,8 @@ if ($data['STATETYPE'] == 0)
 $data['__action_target'] = 'nagios;'.$data['HOSTNAME'].';'.$data['SERVICE'].';'.$data['CHECKNAME'];
 $data['__popin_url'] = "status-nagios.php?arg1=${data['TYPE']}&arg2=${data['STATUSID']}";
 
+if (function_exists('on_alert_row'))
+    on_alert_row($data);
 ?>
 
     <tr class="alert-item <?php echo $data['__tr_class'] ?>"
@@ -72,7 +74,7 @@ $data['__popin_url'] = "status-nagios.php?arg1=${data['TYPE']}&arg2=${data['STAT
 
 <?php foreach ($COLS as $col => $def) { ?>
 
-        <td class="<?php echo $col ?>">
+        <td class="<?php echo $col ?> <?php if (isset($data["__{$col}_class"])) echo $data["__{$col}_class"]; ?>">
             <?php $def['rfmt']($col, $def, $data); ?>
         </td>
 
