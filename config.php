@@ -439,7 +439,7 @@ $STATUSPOPIN = array (
 ) ;
 
 /* List of custom variales to display is status popin */
-$SHOWSTATUSCVAR = array('_SERIAL', '_PROCEDURE', '_REMOTE_CONNECT');
+$SHOWSTATUSCVAR = array('_PROCEDURE', '_REMOTE_CONNECT');
 
 /* Nagios/Icinga global logs javascript button onclick action */
 $GLOBAL_LOGS_ONCLICK = "pop('./showlog.php', 'nagios_log', 700, 600);";
