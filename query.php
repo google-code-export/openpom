@@ -488,7 +488,6 @@ function init_filter(&$query_pieces, &$err, $filter)
         return false;
     }
 
-    debug($parts);
     for ($l = count($parts), $i = 0; $i < $l; $i++) {
         $more = $i < ($l - 1);
         $p = &$parts[$i];
@@ -524,7 +523,6 @@ function init_filter(&$query_pieces, &$err, $filter)
         }
     }
 
-    debug($query_pieces);
     return true;
 }
 
