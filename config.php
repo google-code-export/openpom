@@ -321,8 +321,8 @@ $TRACK_OK           = "bluegreen";
 $MYLANG             = "en"; 
 
 /* OTHER VARIABLE */
-$VERSION            = "1.5.1";
 $CODENAME           = "OpenPOM";
+$VERSION            = "1.6";
 $ENCODING           = "ISO-8859-1"; 
 
 /* NAGIOS AND ICINGA VARIABLES */
