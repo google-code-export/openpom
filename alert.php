@@ -47,24 +47,24 @@ table#alert * {
 <?php
 
 switch ($data['STATUS']) {
-    case 0:     $data['__color_class'] = $OK;       break;
-    case 1:     $data['__color_class'] = $WARNING;  break;
-    case 2:     $data['__color_class'] = $CRITICAL; break;
-    default:    $data['__color_class'] = $UNKNOWN;  break;
+    case 0:     $data['__tr_class'] = $OK;       break;
+    case 1:     $data['__tr_class'] = $WARNING;  break;
+    case 2:     $data['__tr_class'] = $CRITICAL; break;
+    default:    $data['__tr_class'] = $UNKNOWN;  break;
 }
 
 if ($data['COMMENT'] & ENTRY_COMMENT_TRACK)
-    $data['__color_class'] = $data['STATUS'] > 0 ? $TRACK_ERROR : $TRACK_OK;
+    $data['__tr_class'] .= $data['STATUS'] > 0 ? " $TRACK_ERROR" : " $TRACK_OK";
 
 if ($data['STATETYPE'] == 0)
-    $data['__color_class'] .= ' soft';
+    $data['__tr_class'] .= ' soft';
 
 $data['__action_target'] = 'nagios;'.$data['HOSTNAME'].';'.$data['SERVICE'].';'.$data['CHECKNAME'];
 $data['__popin_url'] = "status-nagios.php?arg1=${data['TYPE']}&arg2=${data['STATUSID']}";
 
 ?>
 
-    <tr class="alert-item <?php echo $data['__color_class'] ?>"
+    <tr class="alert-item <?php echo $data['__tr_class'] ?>"
         id="<?php echo $data['STATUSID'] ?>"
         onmouseover="set_popin('<?php echo $data['__popin_url'] ?>');"
         onmouseout="unset_popin();"
@@ -72,7 +72,7 @@ $data['__popin_url'] = "status-nagios.php?arg1=${data['TYPE']}&arg2=${data['STAT
 
 <?php foreach ($COLS as $col => $def) { ?>
 
-        <td class="<?php echo "$col ${data['__color_class']}" ?>">
+        <td class="<?php echo $col ?>">
             <?php $def['rfmt']($col, $def, $data); ?>
         </td>
 
