@@ -790,7 +790,7 @@ function format_row_duration($col, &$def, &$data)
         return;
     }
 
-    return format_row($col, &$def, &$data);
+    return format_row($col, $def, $data);
 }
 
 ?>
