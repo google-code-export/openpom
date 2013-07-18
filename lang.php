@@ -493,12 +493,12 @@ else
 function lang($lang, $key) {
   global $LANG;
   if ( (empty($key)) || (empty($lang)) )
-    return sprintf("lang error");
+    return "lang error";
   if (strlen($key) > 100)
-    return sprintf("lang error");
+    return "lang error";
   if (isset($LANG[$lang][$key])) 
-    return sprintf("%s", $LANG[$lang][$key]);
-  return sprintf("%s", $key);
+    return $LANG[$lang][$key];
+  return $key;
 }
 
 ?>
