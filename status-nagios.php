@@ -172,6 +172,7 @@ $cvar = array();
 $variables = array(
     'host_name' => $st_data['HOSTNAME'],
     'host_address' => $st_data['ADDRESS'],
+    'address' => $st_data['ADDRESS'],
     'service_description' => $SERVICE,
     'check_command' => $st_data['CHECKNAME'],
 );
