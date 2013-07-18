@@ -129,6 +129,11 @@ define('COL_NO_MONITOR',   0x10);   /* remove in monitor mode */
  *
  * Property lmax:
  * Truncate values of the column to that many characters.
+ *
+ * Property is_ref:
+ * For custom variable columns (require cvar). The value of the custom
+ * variable correspond to the name of another custom variable. The later
+ * must be unique.
  */
 $COLUMN_DEFINITION = array();
 

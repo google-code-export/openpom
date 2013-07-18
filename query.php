@@ -280,23 +280,46 @@ function init_column(&$query_pieces, &$err, $col = null)
         $query_pieces['define_cvar_host_cols']  .= "
             , HCVAR_$col.varvalue AS HCVAR_$col
             , NULL AS SCVAR_$col ";
-
-        $query_pieces['define_cvar_host_joins'] .= "
-            LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
-                HCVAR_$col.object_id = H.host_object_id AND
-                HCVAR_$col.varname = $cvar ";
-
+    
         $query_pieces['define_cvar_svc_cols']  .= "
             , HCVAR_$col.varvalue AS HCVAR_$col
             , SCVAR_$col.varvalue AS SCVAR_$col ";
 
-        $query_pieces['define_cvar_svc_joins'] .= "
-            LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
-                HCVAR_$col.object_id = H.host_object_id AND
-                HCVAR_$col.varname = $cvar
-            LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
-                SCVAR_$col.object_id = S.service_object_id AND
-                SCVAR_$col.varname = $cvar ";
+        if (isset($def['is_ref']) && $def['is_ref']) {
+            $query_pieces['define_cvar_host_joins'] .= "
+                LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
+                    HCVAR_${col}_ref.object_id = H.host_object_id AND
+                    HCVAR_${col}_ref.varname = $cvar
+                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                    HCVAR_$col.varname = HCVAR_${col}_ref.varvalue ";
+
+            $query_pieces['define_cvar_svc_joins'] .= "
+                LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
+                    HCVAR_${col}_ref.object_id = H.host_object_id AND
+                    HCVAR_${col}_ref.varname = $cvar
+                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                    HCVAR_$col.varname = HCVAR_${col}_ref.varvalue 
+
+                LEFT JOIN ${BACKEND}_customvariables as SCVAR_${col}_ref ON
+                    SCVAR_${col}_ref.object_id = S.service_object_id AND
+                    SCVAR_${col}_ref.varname = $cvar
+                LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
+                    SCVAR_$col.varname = SCVAR_${col}_ref.varvalue ";
+        }
+        else {
+            $query_pieces['define_cvar_host_joins'] .= "
+                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                    HCVAR_$col.object_id = H.host_object_id AND
+                    HCVAR_$col.varname = $cvar ";
+
+            $query_pieces['define_cvar_svc_joins'] .= "
+                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                    HCVAR_$col.object_id = H.host_object_id AND
+                    HCVAR_$col.varname = $cvar
+                LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
+                    SCVAR_$col.object_id = S.service_object_id AND
+                    SCVAR_$col.varname = $cvar ";
+        }
     }
 
     /* special expression columns */
