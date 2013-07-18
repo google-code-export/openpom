@@ -218,7 +218,10 @@ function cvar_link_replace_cb($match)
     else
         $text = cvar_link_text($match[0]);
 
-    return '<a href="' . $match[0] . '" target="_blank">' . $text . '</a>';
+    if (strncasecmp($match[1], 'http', 4) == 0)
+        return '<a href="' . $match[0] . '" target="_blank">' . $text . '</a>';
+    else
+        return '<a href="' . $match[0] . '">' . $text . '</a>';
 }
 
 /* This function formats a custom variable value in HTML, resolving
