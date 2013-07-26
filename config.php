@@ -218,14 +218,14 @@ $COLUMN_DEFINITION['output'] = array(
 /* Column for displaying the list of host groups an host entry belongs
  * to. The same list is displayed for host services. */
 $COLUMN_DEFINITION['groups'] = array(
-    'data'   => 'GROUPS',
+    'data'   => array('HGROUPALIASES', 'SGROUPALIASES'),
     'lmax'   => 40,
     'opts'   => COL_FILTER_LINK | COL_MULTI,
     'key'    => 'g',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'HGO.name1 LIKE %f',
-                      'define_svc_search'   => 'HGO.name1 LIKE %f'),
+    'filter' => array('define_host_search'  => 'HGO.name1 LIKE %f OR SGO.name1 LIKE %f',
+                      'define_svc_search'   => 'HGO.name1 LIKE %f OR SGO.name1 LIKE %f'),
 );
 
 /* Expression column for displaying the duration since last check of a

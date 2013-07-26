@@ -106,7 +106,6 @@ if (isset($_POST['action'])
 }
 
 /* INIT DEFAULT VALUES (see config.php for other) */
-$SEPARATOR          = ", ";               //SEPARATOR FOR GROUPS
 $MY_USER            = $_SESSION['USER'];  //USER VIEW
 $MY_SVCFILT         = "1,2,3";            //STATUS SVC FILTER
 $MY_HOSTFILT        = "1";                //STATUS HOST FILTER

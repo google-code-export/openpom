@@ -10,7 +10,18 @@
 $QUERY = "
 SELECT
   SQL_CALC_FOUND_ROWS
-  sub.*
+  sub.*,
+
+  (   select group_concat(hg.alias)
+      from ${BACKEND}_hostgroup_members hgm
+      inner join ${BACKEND}_hostgroups hg on hgm.hostgroup_id = hg.hostgroup_id
+      where hgm.host_object_id = sub.HOID
+  )                                                     AS HGROUPALIASES,
+  (   select group_concat(sg.alias)
+      from ${BACKEND}_servicegroup_members sgm
+      inner join ${BACKEND}_servicegroups sg on sgm.servicegroup_id = sg.servicegroup_id
+      where sgm.service_object_id = sub.SOID
+  )                                                     AS SGROUPALIASES
 
   define_expr_cols
 
@@ -27,11 +38,6 @@ FROM (
 -- NDO SERVICES
 
   SELECT
-    GROUP_CONCAT(
-      DISTINCT HGO.name1
-      ORDER BY HGO.name1
-      DESC SEPARATOR 'define_my_separator'
-    )                                                   AS GROUPS,
     H.host_object_id                                    AS HOID,
     H.alias                                             AS HOSTALIAS,
     H.display_name                                      AS HOSTNAME,
@@ -73,6 +79,9 @@ FROM (
     JOIN ${BACKEND}_contactgroup_members AS CGM         ON CGM.contactgroup_id = CG.contactgroup_id
     JOIN ${BACKEND}_contacts AS C                       ON C.contact_object_id = CGM.contact_object_id
     JOIN ${BACKEND}_objects AS CO                       ON CO.object_id = C.contact_object_id
+    LEFT JOIN ${BACKEND}_servicegroup_members AS SGM    ON S.service_object_id = SGM.service_object_id
+    LEFT JOIN ${BACKEND}_servicegroups AS SG            ON SGM.servicegroup_id = SG.servicegroup_id
+    LEFT JOIN ${BACKEND}_objects AS SGO                 ON SG.servicegroup_object_id = SGO.object_id
     LEFT JOIN ${BACKEND}_hostgroup_members AS HGM       ON H.host_object_id = HGM.host_object_id
     LEFT JOIN ${BACKEND}_hostgroups AS HG               ON HGM.hostgroup_id = HG.hostgroup_id
     LEFT JOIN ${BACKEND}_objects AS HGO                 ON HG.hostgroup_object_id = HGO.object_id
@@ -121,11 +130,6 @@ UNION
 -- NDO HOSTS
 
   SELECT
-    GROUP_CONCAT(
-      DISTINCT HGO.name1
-      ORDER BY HGO.name1
-      DESC SEPARATOR 'define_my_separator'
-    )                                                   AS GROUPS,
     H.host_object_id                                    AS HOID,
     H.alias                                             AS HOSTALIAS,
     H.display_name                                      AS HOSTNAME,
