@@ -11,6 +11,7 @@ $QUERY = "
 SELECT
   SQL_CALC_FOUND_ROWS
   sub.*
+
   define_expr_cols
 
   -- COMMENT column:
@@ -31,9 +32,11 @@ FROM (
       ORDER BY HGO.name1
       DESC SEPARATOR 'define_my_separator'
     )                                                   AS GROUPS,
+    H.host_object_id                                    AS HOID,
     H.alias                                             AS HOSTALIAS,
     H.display_name                                      AS HOSTNAME,
     H.address                                           AS ADDRESS,
+    S.service_object_id                                 AS SOID,
     S.display_name                                      AS SERVICE,
     NULL                                                AS SUBSERVICE,
     SS.current_state                                    AS STATUS,
@@ -122,9 +125,11 @@ UNION
       ORDER BY HGO.name1
       DESC SEPARATOR 'define_my_separator'
     )                                                   AS GROUPS,
+    H.host_object_id                                    AS HOID,
     H.alias                                             AS HOSTALIAS,
     H.display_name                                      AS HOSTNAME,
     H.address                                           AS ADDRESS,
+    NULL                                                AS SOID,
     'define_host_service'                               AS SERVICE,
     NULL                                                AS SUBSERVICE,
     ( CASE HS.current_state
@@ -731,17 +736,15 @@ function format_header_checkbox($col, &$def)
 
 function format_row_checkbox($col, &$def, &$data)
 {
-    if (isset($data['__has_action']) && $data['__has_action']) {
-        ?>
-        <span class="checkbox">
-            <input type="hidden"
-                   class="data"
-                   name="target[]"
-                   value="<?php echo $data['__action_target'] ?>" />
-            <span></span>
-        </span>
-        <?php
-    }
+    ?>
+    <span class="checkbox">
+        <input type="hidden"
+               class="data"
+               name="target[]"
+               value="<?php echo $data['__action_target'] ?>" />
+        <span></span>
+    </span>
+    <?php
 }
 
 function format_row_flags($col, &$def, &$data)

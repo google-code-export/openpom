@@ -389,6 +389,7 @@ if (!($rep_glob = mysql_query($query_glob, $dbconn))) {
   error_log("invalid query: $errno, $txt_error");
   die_refresh("invalid query: $errno, $txt_error");
 }
+
 $glob_ok       = 0;
 $glob_warning  = 0;
 $glob_critical = 0;
@@ -400,33 +401,19 @@ $glob_check    = 0;
 $glob_all      = 0;
 
 while (($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC))) {
+    if ($glob_counter['current_state'] == 0) $glob_ok++;
+    else if ($glob_counter['current_state'] == 1) $glob_warning++;
+    else if ($glob_counter['current_state'] == 2) $glob_critical++;
+    else if ($glob_counter['current_state'] == 3) $glob_unknown++;
 
-    /* state counters */
-    if (strpos($glob_counter['TYPE'], 'state_') === 0) {
-        switch ($glob_counter['STATE']) {
-            case 0: $glob_ok += $glob_counter['TOTAL'];       break;
-            case 1: $glob_warning += $glob_counter['TOTAL'];  break;
-            case 2: $glob_critical += $glob_counter['TOTAL']; break;
-            case 3: $glob_unknown += $glob_counter['TOTAL'];  break;
-        }
-        $glob_all += $glob_counter['TOTAL'];
-    }
+    if ($glob_counter['problem_has_been_acknowledged'] == 1) $glob_ack++;
+    if ($glob_counter['scheduled_downtime_depth'] > 0) $glob_down++;
+    if ($glob_counter['notifications_enabled'] == 0) $glob_notif++;
 
-    /* ack counter */
-    else if (strpos($glob_counter['TYPE'], 'ack_') === 0)
-        $glob_ack += $glob_counter['TOTAL'];
+    if ($glob_counter['active_checks_enabled'] == 0 &&
+        $glob_counter['passive_checks_enabled'] == 0) $glob_check++;
 
-    /* downtime counter */
-    else if (strpos($glob_counter['TYPE'], 'dt_') === 0)
-        $glob_down += $glob_counter['TOTAL'];
-
-    /* notifications disabled counter */
-    else if (strpos($glob_counter['TYPE'], 'disanotif_') === 0)
-        $glob_notif += $glob_counter['TOTAL'];
-
-    /* checks disabled counter */
-    else if (strpos($glob_counter['TYPE'], 'disacheck_') === 0)
-        $glob_check += $glob_counter['TOTAL'];
+    $glob_all++;
 }
 
 /* FORGE QUERY (AUTO CHANGE LEVEL IN MONITOR MODE) */
@@ -435,7 +422,6 @@ $level = $LEVEL;
 while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   $query = $QUERY;
   $replacement = array (
-  'define_my_separator'       =>  mysql_real_escape_string($SEPARATOR, $dbconn),
   'define_host_search'        =>  $SEARCH['define_host_search'],
   'define_svc_search'         =>  $SEARCH['define_svc_search'],
   'define_my_user'            =>  mysql_real_escape_string($MY_USER, $dbconn),
