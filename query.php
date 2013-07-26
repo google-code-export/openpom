@@ -340,18 +340,6 @@ function init_column(&$query_pieces, &$err, $col = null)
     /* special expression columns */
     else if (isset($def['expr'])) {
 
-        /* cannot have filter on expr columns */
-        if (isset($def['filter'])) {
-            $err = "Filter cannot be defined on 'expr' columns: $col";
-            return false;
-        }
-
-        /* cannot have filter on expr columns */
-        if (isset($def['key'])) {
-            $err = "Key cannot be defined on 'expr' columns: $col";
-            return false;
-        }
-
         /* sorting */
         if (!isset($def['sort']))
             $def['sort'] = array(array("EXPR_$col", 'asc'));
