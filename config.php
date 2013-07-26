@@ -73,6 +73,7 @@ define('COL_FMT_DURATION', 0x02);   /* format value as time duration */
 define('COL_FILTER_LINK',  0x04);   /* make filter links, requires a filter property */
 define('COL_MULTI',        0x08);   /* split data, useful for filter links */
 define('COL_NO_MONITOR',   0x10);   /* remove in monitor mode */
+define('COL_DATA_FIRST',   0x20);   /* first non null data */
 
 /* Supported types of columns:
  * - Non-SQL custom columns, like "checkbox" or "flags"

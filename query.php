@@ -264,8 +264,12 @@ function init_column(&$query_pieces, &$err, $col = null)
             );
 
         /* data */
-        if (!isset($def['data']))
+        if (!isset($def['data'])) {
             $def['data'] = array("SCVAR_$col", "HCVAR_$col");
+            $def['opts'] = isset($def['opts']) 
+                                ? $def['opts'] | COL_DATA_FIRST
+                                : COL_DATA_FIRST;
+        }
 
         /* filtering */
         if (!isset($def['filter']))
@@ -640,8 +644,10 @@ function format_row($col, &$def, &$data)
         $datakey = is_array($def['data']) ? $def['data'] : array($def['data']);
         foreach ($datakey as $d) {
             if (!is_null($data[$d]) && !empty($data[$d])) {
-                $value = $data[$d];
-                break;
+                $value = (is_null($value) ? '' : "$value, ") . $data[$d];
+
+                if (isset($def['opts']) && ($def['opts'] & COL_DATA_FIRST))
+                    break;
             }
         }
     }
@@ -651,14 +657,16 @@ function format_row($col, &$def, &$data)
         return;
     }
 
-    $value = isset($def['opts']) && ($def['opts'] & COL_MULTI)
-                    ? explode(',', $value)
-                    : array($value);
+    if (isset($def['opts']) && ($def['opts'] & COL_MULTI)) {
+        $value = array_map('trim', explode(',', $value));
+        asort($value);
+    }
+    else
+        $value = array($value);
 
     if (isset($def['opts']) && ($def['opts'] & COL_FMT_DURATION))
         $value = array_map('printtime', $value);
 
-    $value = array_map('trim', $value);
     $lmax = isset($def['lmax']) ? $def['lmax'] : null;
     $truncated = false;
     reset($value);
