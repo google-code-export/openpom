@@ -132,7 +132,7 @@ function select_level($LEVEL) {
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
   }
-  else if ($LEVEL == 8) {
+  else if ($LEVEL == 8) {       /* ACK */
     $MY_SVCFILT       = "0,1,2,3";
     $MY_HOSTFILT      = "0,1,2";
     $MY_HOSTACKLIST   = "1";
@@ -145,9 +145,9 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
-  else if ($LEVEL == 9) {
+  else if ($LEVEL == 9) {       /* DOWNTIME */
     $MY_SVCFILT       = "0,1,2,3";
     $MY_HOSTFILT      = "0,1,2";
     $MY_HOSTACKLIST   = "0,1";
@@ -160,9 +160,9 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
-  else if ($LEVEL == 10) {
+  else if ($LEVEL == 10) {      /* NOTIF DISABLED */
     $MY_SVCFILT       = "0,1,2,3";
     $MY_HOSTFILT      = "0,1,2";
     $MY_HOSTACKLIST   = "0,1";
@@ -175,9 +175,9 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
-  else if ($LEVEL == 11) {
+  else if ($LEVEL == 11) {      /* CRITICAL */
     $MY_SVCFILT       = "2";
     $MY_HOSTFILT      = "1";
     $MY_HOSTACKLIST   = "0,1";
@@ -190,9 +190,9 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
-  else if ($LEVEL == 12) {
+  else if ($LEVEL == 12) {      /* WARNING */
     $MY_SVCFILT       = "1";
     $MY_HOSTFILT      = "10";
     $MY_HOSTACKLIST   = "0,1";
@@ -205,9 +205,9 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
-  else if ($LEVEL == 13) {
+  else if ($LEVEL == 13) {      /* UNKNOWN */
     $MY_SVCFILT       = "3";
     $MY_HOSTFILT      = "10";
     $MY_HOSTACKLIST   = "0,1";
@@ -220,9 +220,9 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
-  else if ($LEVEL == 14) {
+  else if ($LEVEL == 14) {      /* OK */
     $MY_SVCFILT       = "0";
     $MY_HOSTFILT      = "0";
     $MY_HOSTACKLIST   = "0,1";
@@ -235,7 +235,7 @@ function select_level($LEVEL) {
     $MY_ACKLISTVAL    = 0;
     $MY_NOSVC         = "0";
     $MY_DISABLE       = "0,1";
-    $MY_TRACK_ANY     = 1;
+    $MY_TRACK_ANY     = 0;
   }
 }
 
