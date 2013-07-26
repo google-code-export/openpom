@@ -50,8 +50,8 @@ FROM (
     SS.scheduled_downtime_depth                         AS DOWNTIME,
     SS.notifications_enabled                            AS NOTIF,
     ( SELECT BIT_OR(
-        IF(substring_index(comment_data, ':', 1) = '~track', 2,
-        IF(substring(comment_data, 1, 1) = '~', 0, 1)))
+        IF(comment_data LIKE '~track:%', 2,
+        IF(comment_data LIKE '~%', 0, 1)))
       FROM ${BACKEND}_comments
       WHERE object_id = S.service_object_id
       AND entry_type = 1
@@ -99,8 +99,8 @@ FROM (
         WHERE object_id = S.service_object_id
         AND entry_type = 1
         AND comment_source = 1
-        AND substring_index(comment_data, ':', 1) = '~track'
         AND define_track_anything = 1
+        AND comment_data LIKE '~track:%'
       )
     )
 
@@ -146,8 +146,8 @@ UNION
     HS.scheduled_downtime_depth                         AS DOWNTIME,
     HS.notifications_enabled                            AS NOTIF,
     ( SELECT BIT_OR(
-        IF(substring_index(comment_data, ':', 1) = '~track', 2,
-        IF(substring(comment_data, 1, 1) = '~', 0, 1)))
+        IF(comment_data LIKE '~track:%', 2,
+        IF(comment_data LIKE '~%', 0, 1)))
       FROM ${BACKEND}_comments
       WHERE object_id = H.host_object_id
       AND entry_type = 1
@@ -186,8 +186,8 @@ UNION
         WHERE object_id = H.host_object_id
         AND entry_type = 1
         AND comment_source = 1
-        AND substring_index(comment_data, ':', 1) = '~track'
         AND define_track_anything = 1
+        AND comment_data LIKE '~track:%'
       )
     )
 
