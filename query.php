@@ -506,7 +506,7 @@ function init_filter(&$query_pieces, &$err, $filter)
         else {
             $like = sqlquote(str_replace('*', '%', $like));
             foreach (array_keys($qp) as $type)
-                $qp[$type] .= $entry[$type] . " like $like ";
+                $qp[$type] .= '(' . str_replace('%f', $like, $entry[$type]) . ')';
         }
     }
 

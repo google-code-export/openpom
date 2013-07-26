@@ -173,8 +173,8 @@ $COLUMN_DEFINITION['hostname'] = array(
     'key'    => 'h',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'H.display_name',
-                      'define_svc_search'   => 'H.display_name'),
+    'filter' => array('define_host_search'  => 'H.display_name LIKE %f',
+                      'define_svc_search'   => 'H.display_name LIKE %f'),
 );
 
 /* Column for displaying the host address of an entry. */
@@ -185,8 +185,8 @@ $COLUMN_DEFINITION['address'] = array(
     'key'    => 'i',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'H.address',
-                      'define_svc_search'   => 'H.address'),
+    'filter' => array('define_host_search'  => 'H.address LIKE %f',
+                      'define_svc_search'   => 'H.address LIKE %f'),
 );
 
 /* Column for displaying the service name of an entry. */
@@ -198,8 +198,8 @@ $COLUMN_DEFINITION['service'] = array(
     'key'    => 's',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => "'$HOST_SERVICE'",
-                      'define_svc_search'   => 'S.display_name'),
+    'filter' => array('define_host_search'  => "'$HOST_SERVICE' LIKE %f",
+                      'define_svc_search'   => 'S.display_name LIKE %f'),
 );
 
 /* Column for displaying the last output returned by the plugin of a
@@ -211,8 +211,8 @@ $COLUMN_DEFINITION['output'] = array(
     'key'    => 'o',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'HS.output',
-                      'define_svc_search'   => 'SS.output'),
+    'filter' => array('define_host_search'  => 'HS.output LIKE %f',
+                      'define_svc_search'   => 'SS.output LIKE %f'),
 );
 
 /* Column for displaying the list of host groups an host entry belongs
@@ -221,11 +221,11 @@ $COLUMN_DEFINITION['groups'] = array(
     'data'   => 'GROUPS',
     'lmax'   => 40,
     'opts'   => COL_FILTER_LINK | COL_MULTI,
-    'key'   => 'g',
+    'key'    => 'g',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'HGO.name1',
-                      'define_svc_search'   => 'HGO.name1'),
+    'filter' => array('define_host_search'  => 'HGO.name1 LIKE %f',
+                      'define_svc_search'   => 'HGO.name1 LIKE %f'),
 );
 
 /* Expression column for displaying the duration since last check of a
