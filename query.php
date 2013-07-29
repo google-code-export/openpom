@@ -350,7 +350,7 @@ function init_filter(&$err, $filter)
 
     columns_by_key($name_by_key, $def_by_key);
     $re_keys = '[' . implode('', array_keys($name_by_key)) . ']';
-    $re_filter = "/(?'grp'[()]\\s*)|((?'not'!)?\\s*((?'key'$re_keys):)?(?'val'[^\\s&|]+)\\s*(?'op'[&|])?\\s*)/";
+    $re_filter = "/(?'not'!)?\\s*((?'key'$re_keys):)?(?'val'[^\\s&|]+)\\s*(?'op'[&|])?\\s*/";
 
     function add(&$qp, $entry, $like = false)
     {
@@ -372,16 +372,7 @@ function init_filter(&$err, $filter)
         return false;
     }
 
-    $grp = 0;
-
     for ($l = count($parts), $i = 0; $i < $l; $i++) {
-        if (!empty($p['grp'])) {
-            if ($p['grp'][0] == '(') $grp++;
-            else $grp--;
-            add($tmp_qp, $p['grp'][0]);
-            continue;
-        }
-
         $more = $i < ($l - 1);
         $p = &$parts[$i];
 
@@ -421,11 +412,6 @@ function init_filter(&$err, $filter)
             }
             add($tmp_qp, $p['op'] == '&' ? 'AND' : 'OR');
         }
-    }
-
-    if ($grp != 0) {
-        $err = "Invalid filter: parenthesis mismatch";
-        return false;
     }
 
     $MY_QUERY_PARTS = array_merge($MY_QUERY_PARTS, $tmp_qp);
