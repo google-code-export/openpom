@@ -8,6 +8,8 @@
 */
 
 require_once("config.php");
+require_once("query.php");
+
 session_name($CODENAME);
 session_start();
 
@@ -34,6 +36,14 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
   </div>
   
   <div class="box-content" id="box-option">
+<?php
+
+if (!init_columns(&$err)) {
+    echo "$err</div>";
+    exit(1);
+}
+
+?>
     <form action="" method="get" onsubmit="return valid_option(this);">
     <table>
         <tr>
@@ -92,9 +102,8 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
         </tr>
 
 <?php
-foreach ($COLUMN_ENABLED as $col => $display) {
-    if (!isset($COLUMN_DEFINITION[$col]) ||
-        !isset($COLUMN_DEFINITION[$col]['lmax']))
+foreach ($COLUMN_DEFINITION as $col => $def) {
+    if (!isset($def['lmax']))
         continue;
 ?>
 
@@ -106,7 +115,8 @@ foreach ($COLUMN_ENABLED as $col => $display) {
           <td colspan="3">
             <input type="text" maxlength="3"
                    name="maxlen_<?php echo $col ?>"
-                   value="<?php echo $_SESSION["MAXLEN_$col"] ?>" />
+                   value="<?php echo isset($_SESSION["MAXLEN_$col"])
+                                    ? $_SESSION["MAXLEN_$col"] : $def['lmax'] ?>" />
             &#160;(min 1, max 999)
           </td>
         </tr>
@@ -184,16 +194,16 @@ foreach ($COLUMN_ENABLED as $col => $display) {
             <?php
             $columns = array();
 
-            foreach ($COLUMN_ENABLED as $col => $display) {
-                if (isset($COLUMN_DEFINITION[$col]) &&
-                    isset($COLUMN_DEFINITION[$col]['opts']) &&
-                    ($COLUMN_DEFINITION[$col]['opts'] & COL_MUST_DISPLAY))
+            foreach ($COLUMN_DEFINITION as $col => $def) {
+                if (($def['opts'] & (COL_MUST_DISPLAY|COL_NO_USER_PREF)))
                     continue;
 
                 if (isset($_SESSION["COLS_$col"]))
-                    $display = (bool)$_SESSION["COLS_$col"];
-
-                $columns[$col] = $display;
+                    $columns[$col] = (bool)$_SESSION["COLS_$col"];
+                else if (($def['opts'] & COL_ENABLED))
+                    $columns[$col] = true;
+                else
+                    $columns[$col] = false;
             }
 
             $middle = ceil(count($columns) / 2);

@@ -43,24 +43,6 @@ $MAXLEVEL             = 14;
 /* Service name given to host entries */
 $HOST_SERVICE = '--host--';
 
-/* List of columns enabled. The key of $COLUMN_ENABLED is a reference to keys
- * of the $COLUMN_DEFINITION array (see below). The boolean value means: is
- * the column displayed by default or not ?
- */
-$COLUMN_ENABLED = array(
-    'checkbox'  => true,
-    'flags'     => true,
-    'duration'  => true,
-    'hostname'  => true,
-    'address'   => false,
-    'service'   => true,
-    'output'    => true,
-    'groups'    => false,
-    'last'      => true,
-//     'client'    => true,
-//     'timeleft'  => false,
-);
-
 /* Default column to use for sorting */
 $SORTCOL = 'flags';
 
@@ -68,12 +50,17 @@ $SORTCOL = 'flags';
 $SORTDIR = 0;
 
 /* Columns definition */
-define('COL_MUST_DISPLAY', 0x01);   /* column must be enabled and displayed */
-define('COL_FMT_DURATION', 0x02);   /* format value as time duration */
-define('COL_FILTER_LINK',  0x04);   /* make filter links, requires a filter property */
-define('COL_MULTI',        0x08);   /* split data, useful for filter links */
-define('COL_NO_MONITOR',   0x10);   /* remove in monitor mode */
-define('COL_DATA_FIRST',   0x20);   /* first non null data */
+define('COL_MUST_DISPLAY',      0x0001);    /* column must be displayed no matter what */
+define('COL_NO_USER_PREF',      0x0002);    /* user cannot turn column on/off */
+define('COL_FMT_DURATION',      0x0004);    /* format value as time duration */
+define('COL_FILTER_LINK',       0x0008);    /* make filter links, requires a filter property */
+define('COL_MULTI',             0x0010);    /* split data, useful for filter links */
+define('COL_NO_MONITOR',        0x0020);    /* remove in monitor mode */
+define('COL_DATA_FIRST',        0x0040);    /* first non null data */
+define('COL_ENABLED',           0x0080);    /* column is turned on by default */
+
+define('COL_FILTER',            0x0100);    /* internal: column is used in filter */
+define('COL_DEPEND',            0x0200);    /* internal: column is used by another */
 
 /* Supported types of columns:
  * - Non-SQL custom columns, like "checkbox" or "flags"
@@ -141,18 +128,20 @@ $COLUMN_DEFINITION = array();
 /* Internal column for displaying a checkbox in order to allow the user
  * to select some lines in the table. */
 $COLUMN_DEFINITION['checkbox'] = array(
-    'opts'   => COL_NO_MONITOR,
+    'opts'   => COL_NO_MONITOR|COL_ENABLED,
 );
 
 /* Expression column for building a criticity coeficient based on hosts
  * and services status. It is used for sorting in the flags column. */
 $COLUMN_DEFINITION['coef'] = array(
     'expr'   => 'CASE STATUS WHEN 3 THEN 1 WHEN 2 THEN -1 WHEN 1 THEN 0 ELSE 10 END',
+    'opts'   => COL_NO_USER_PREF
 );
 
 /* Column for displaying small icons and flags depending on the status
  * of monitored host and service entries. */
 $COLUMN_DEFINITION['flags'] = array(
+    'opts'   => COL_ENABLED,
     'sort'   => array(array('EXPR_coef', 'asc'),
                       array('EXPR_duration', 'asc')),
 );
@@ -161,7 +150,7 @@ $COLUMN_DEFINITION['flags'] = array(
  * of a monitored host or service entry. */
 $COLUMN_DEFINITION['duration'] = array(
     'expr'   => 'UNIX_TIMESTAMP() - LASTCHANGE',
-    'opts'   => COL_FMT_DURATION,
+    'opts'   => COL_FMT_DURATION|COL_ENABLED,
 );
 
 /* Column for displaying the host name of an entry. */
@@ -169,7 +158,7 @@ $COLUMN_DEFINITION['hostname'] = array(
     'sort'   => array(array('HOSTNAME', 'asc')),
     'data'   => 'HOSTNAME',
     'lmax'   => 30,
-    'opts'   => COL_MUST_DISPLAY | COL_FILTER_LINK,
+    'opts'   => COL_MUST_DISPLAY|COL_FILTER_LINK|COL_ENABLED,
     'key'    => 'h',
 
     /* internal stuff */
@@ -194,7 +183,7 @@ $COLUMN_DEFINITION['service'] = array(
     'sort'   => array(array('SERVICE', 'asc')),
     'data'   => 'SERVICE',
     'lmax'   => 30,
-    'opts'   => COL_MUST_DISPLAY | COL_FILTER_LINK,
+    'opts'   => COL_MUST_DISPLAY|COL_FILTER_LINK|COL_ENABLED,
     'key'    => 's',
 
     /* internal stuff */
@@ -209,6 +198,7 @@ $COLUMN_DEFINITION['output'] = array(
     'data'   => 'OUTPUT',
     'lmax'   => 50,
     'key'    => 'o',
+    'opts'   => COL_ENABLED,
 
     /* internal stuff */
     'filter' => array('define_host_search'  => 'HS.output LIKE %f',
@@ -220,7 +210,7 @@ $COLUMN_DEFINITION['output'] = array(
 $COLUMN_DEFINITION['groups'] = array(
     'data'   => array('HGROUPALIASES', 'SGROUPALIASES'),
     'lmax'   => 40,
-    'opts'   => COL_FILTER_LINK | COL_MULTI,
+    'opts'   => COL_FILTER_LINK|COL_MULTI,
     'key'    => 'g',
 
     /* internal stuff */
@@ -232,7 +222,7 @@ $COLUMN_DEFINITION['groups'] = array(
  * monitored host or service entry. */
 $COLUMN_DEFINITION['last'] = array(
     'expr'   => 'UNIX_TIMESTAMP() - LASTCHECK',
-    'opts'   => COL_FMT_DURATION,
+    'opts'   => COL_FMT_DURATION|COL_ENABLED,
 );
 
 

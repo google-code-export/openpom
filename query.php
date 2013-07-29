@@ -24,6 +24,7 @@ SELECT
   )                                                     AS SGROUPALIASES
 
   define_expr_cols
+  define_cvar_cols
 
   -- COMMENT column:
   -- 0: no comment, no track
@@ -216,250 +217,103 @@ LIMIT define_first, define_step
 
 
 
-/******************************************************************************
- * Columns initialization
- * Columns-related pieces to subtitute in $QUERY
- *****************************************************************************/
+/* Columns */
 
-/* Internal function called by init_enabled_columns() defined below.
- *
- * This function must be called a first time passing $col as null
- * in order to initialize its internal static variable and the
- * resulting $query_pieces array.
- *
- * $query_pieces: pieces to substitute in $QUERY (out)
- * $err: error message if false returned (out)
- * $col: name of the column to process (in)
- *
- * Return true on success.
- * Return false on failure and set an error message in $err.
- */
-function init_column(&$query_pieces, &$err, $col = null)
+// initialize column
+// initialize filter, mark used columns
+// initialize orderby, mark used columns
+// terminate building query parts
+
+function init_columns(&$err)
 {
     global $COLUMN_DEFINITION;
-    global $BACKEND;
-    static $processed;
-
-    if (is_null($col)) {
-        $processed = array();
-        $query_pieces = array('define_expr_cols' => '',
-                              'define_cvar_host_cols' => '',
-                              'define_cvar_host_joins' => '',
-                              'define_cvar_svc_cols' => '',
-                              'define_cvar_svc_joins' => '');
-        return true;
-    }
-
-    if (in_array($col, $processed))
-        return true;
-
-    if (!ctype_alnum($col)) {
-        $err = "Only alphanumeric char allowed in column names: $col";
-        return false;
-    }
-
-    if (!isset($COLUMN_DEFINITION[$col])) {
-        $err = "Unknown column: $col";
-        return false;
-    }
-
-    $def = &$COLUMN_DEFINITION[$col];
-
-    /* special custom variable columns */
-    if (isset($def['cvar'])) {
-
-        /* sorting */
-        if (!isset($def['sort']))
-            $def['sort'] = array(
-                array("ifnull(SCVAR_$col, HCVAR_$col)", 'asc')
-            );
-
-        /* data */
-        if (!isset($def['data'])) {
-            $def['data'] = array("SCVAR_$col", "HCVAR_$col");
-            $def['opts'] = isset($def['opts']) 
-                                ? $def['opts'] | COL_DATA_FIRST
-                                : COL_DATA_FIRST;
-        }
-
-        /* filtering */
-        if (!isset($def['filter']))
-            $def['filter'] = array(
-                'define_host_search'  => "HCVAR_$col.varvalue",
-                'define_svc_search'   => "ifnull(SCVAR_$col.varvalue, HCVAR_$col.varvalue)"
-            );
-
-        /* query parts */
-        $cvar = sqlquote($def['cvar']);
-
-        $query_pieces['define_cvar_host_cols']  .= "
-            , HCVAR_$col.varvalue AS HCVAR_$col
-            , NULL AS SCVAR_$col ";
-    
-        $query_pieces['define_cvar_svc_cols']  .= "
-            , HCVAR_$col.varvalue AS HCVAR_$col
-            , SCVAR_$col.varvalue AS SCVAR_$col ";
-
-        if (isset($def['is_ref']) && $def['is_ref']) {
-            $query_pieces['define_cvar_host_joins'] .= "
-                LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
-                    HCVAR_${col}_ref.object_id = H.host_object_id AND
-                    HCVAR_${col}_ref.varname = $cvar
-                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
-                    HCVAR_$col.varname = HCVAR_${col}_ref.varvalue ";
-
-            $query_pieces['define_cvar_svc_joins'] .= "
-                LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
-                    HCVAR_${col}_ref.object_id = H.host_object_id AND
-                    HCVAR_${col}_ref.varname = $cvar
-                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
-                    HCVAR_$col.varname = HCVAR_${col}_ref.varvalue 
-
-                LEFT JOIN ${BACKEND}_customvariables as SCVAR_${col}_ref ON
-                    SCVAR_${col}_ref.object_id = S.service_object_id AND
-                    SCVAR_${col}_ref.varname = $cvar
-                LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
-                    SCVAR_$col.varname = SCVAR_${col}_ref.varvalue ";
-        }
-        else {
-            $query_pieces['define_cvar_host_joins'] .= "
-                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
-                    HCVAR_$col.object_id = H.host_object_id AND
-                    HCVAR_$col.varname = $cvar ";
-
-            $query_pieces['define_cvar_svc_joins'] .= "
-                LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
-                    HCVAR_$col.object_id = H.host_object_id AND
-                    HCVAR_$col.varname = $cvar
-                LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
-                    SCVAR_$col.object_id = S.service_object_id AND
-                    SCVAR_$col.varname = $cvar ";
-        }
-    }
-
-    /* special expression columns */
-    else if (isset($def['expr'])) {
-
-        /* sorting */
-        if (!isset($def['sort']))
-            $def['sort'] = array(array("EXPR_$col", 'asc'));
-
-        /* data */
-        if (!isset($def['data']))
-            $def['data'] = array("EXPR_$col");
-
-        /* query part */
-        $query_pieces['define_expr_cols'] .= "
-            , ${def['expr']} as EXPR_$col ";
-    }
-
-    /* header cell format function */
-    if (!isset($def['hfmt']) || !function_exists($def['hfmt'])) {
-        if (function_exists("format_header_$col"))
-            $def['hfmt'] = "format_header_$col";
-        else
-            $def['hfmt'] = 'format_header';
-    }
-
-    /* row cell format function */
-    if (!isset($def['rfmt']) || !function_exists($def['rfmt'])) {
-        if (function_exists("format_row_$col"))
-            $def['rfmt'] = "format_row_$col";
-        else
-            $def['rfmt'] = 'format_row';
-    }
-
-    /* look for dependencies in expression columns */
-    $deps = array();
-
-    if (isset($def['expr']) &&
-        preg_match_all('/(SCVAR|HCVAR|EXPR)_([[:alnum:]]+)/', $def['expr'], $cap))
-        $deps = array_merge($deps, $cap[2]);
-
-    if (isset($def['sort'])) {
-        foreach ($def['sort'] as $sort) {
-            if (preg_match_all('/(SCVAR|HCVAR|EXPR)_([[:alnum:]]+)/', $sort[0], $cap))
-                $deps = array_merge($deps, $cap[2]);
-        }
-    }
-
-    foreach ($deps as $depcol) {
-        if ($depcol != $col && !init_column($query_pieces, $err, $depcol))
-            return false;
-    }
-
-    $processed[] = $col;
-    return true;
-}
-
-/* This function is called by index.php in order to initialize all
- * enabled columns.
- *
- * $cols: final list of columns used in alert.php (out)
- * $query_pieces: pieces to substitute in $QUERY (out)
- * $err: error message if false returned (out)
- * $monitor: boolean indicating if monitor mode is enabled (in)
- *
- * Return true on success.
- * Return false on failure and set an error message in $err.
- */
-function init_enabled_columns(&$cols, &$query_pieces, &$err, $monitor)
-{
-    global $COLUMN_ENABLED;
-    global $COLUMN_DEFINITION;
-
-    $cols = array();
-    init_column($query_pieces, $err);
-
-    /* build the $cols array
-     * - only add enabled columns set to be displayed
-     * - do not add a column with COL_NO_MONITOR option if $monitor
-     */
-    foreach ($COLUMN_ENABLED as $col => $display) {
-        if (!$display)
-            continue;
-
-        if (!init_column($query_pieces, $err, $col))
-            return false;
-
-        if ($monitor && isset($COLUMN_DEFINITION[$col]['opts']) &&
-            ($COLUMN_DEFINITION[$col]['opts'] & COL_NO_MONITOR))
-            continue;
-
-        $cols[$col] = &$COLUMN_DEFINITION[$col];
-    }
-
-    /* check for mandatory columns */
-    foreach ($COLUMN_DEFINITION as $col => $def) {
-        if (isset($def['opts']) && ($def['opts'] & COL_MUST_DISPLAY) &&
-            !isset($cols[$col])) {
-
-            $err = "Mandatory column must be enabled: $col";
-            return false;
-        }
-    }
-
-    return true;
-}
-
-/******************************************************************************
- * Filter processing (user input for searching)
- * Filter-related pieces to subtitute in $QUERY
- *****************************************************************************/
-
-function columns_with_filter_by_key()
-{
-    global $COLUMN_DEFINITION;
-
-    $out = array();
 
     foreach ($COLUMN_DEFINITION as $col => &$def) {
-        if (isset($def['filter']) && !empty($def['filter']) &&
-            isset($def['key']) && !empty($def['key']))
-            $out[$def['key']] = $def;
+        /* names valid to be used as sql alias */
+        if (!ctype_alnum($col)) {
+            $err = "Only alphanumeric char allowed in column names: $col";
+            return false;
+        }
+
+        /* special custom variable columns */
+        if (isset($def['cvar'])) {
+
+            /* sorting */
+            if (!isset($def['sort']))
+                $def['sort'] = array(
+                    array("ifnull(SCVAR_$col, HCVAR_$col)", 'asc')
+                );
+
+            /* data */
+            if (!isset($def['data']))
+                $def['data'] = array("SCVAR_$col", "HCVAR_$col");
+                $def['opts'] = isset($def['opts'])
+                                    ? $def['opts'] | COL_DATA_FIRST
+                                    : COL_DATA_FIRST;
+
+            /* filtering */
+            if (!isset($def['filter']))
+                $def['filter'] = array(
+                    'define_host_search'  => "HCVAR_$col.varvalue LIKE %f",
+                    'define_svc_search'   => "ifnull(SCVAR_$col.varvalue, HCVAR_$col.varvalue) LIKE %f"
+                );
+        }
+
+        /* special expression columns */
+        else if (isset($def['expr'])) {
+
+            /* sorting */
+            if (!isset($def['sort']))
+                $def['sort'] = array(
+                    array("EXPR_$col", 'asc')
+                );
+
+            /* data */
+            if (!isset($def['data']))
+                $def['data'] = array("EXPR_$col");
+        }
+
+        /* options */
+        if (!isset($def['opts']))
+            $def['opts'] = 0;
+        else if (($def['opts'] & COL_MUST_DISPLAY))
+            $def['opts'] |= COL_ENABLED;
+
+        /* header cell format function */
+        if (!isset($def['hfmt']) || !function_exists($def['hfmt'])) {
+            if (function_exists("format_header_$col"))
+                $def['hfmt'] = "format_header_$col";
+            else
+                $def['hfmt'] = 'format_header';
+        }
+
+        /* row cell format function */
+        if (!isset($def['rfmt']) || !function_exists($def['rfmt'])) {
+            if (function_exists("format_row_$col"))
+                $def['rfmt'] = "format_row_$col";
+            else
+                $def['rfmt'] = 'format_row';
+        }
     }
 
-    return $out;
+    return true;
+}
+
+/* Filter */
+
+function columns_by_key(&$name_by_key, &$def_by_key)
+{
+    global $COLUMN_DEFINITION;
+
+    $name_by_key = array();
+    $def_by_key = array();
+
+    foreach ($COLUMN_DEFINITION as $col => &$def) {
+        if (isset($def['key']) && !empty($def['key'])) {
+            $name_by_key[$def['key']] = &$col;
+            $def_by_key[$def['key']] = &$def;
+        }
+    }
 }
 
 function sqlquote($str, $surround = true)
@@ -468,33 +322,35 @@ function sqlquote($str, $surround = true)
     return $surround ? "'$str'" : $str;
 }
 
-/* This function is called from index.php, after columns initialization.
- * It used the $COLS global which is basically the result of the
- * init_enabled_columns() function.
+/* This function parses the search filter and fills the MY_QUERY_PARTS
+ * array with parts to be replaced in the main query. It marks the columns
+ * used in the search criterias so we know later which one are required.
  *
- * $query_pieces: pieces to substitute in $QUERY (out)
  * $err: error message if false returned (out)
  * $filter: user search (in)
  *
  * Return true on success.
  * Return false on failure and set an error message in $err.
  */
-function init_filter(&$query_pieces, &$err, $filter)
+function init_filter(&$err, $filter)
 {
-    global $COLS;
+    global $MY_QUERY_PARTS;
+    global $COLUMN_DEFINITION;
 
     if (empty($filter)) {
-        $query_pieces = array('define_host_search' => '1=1',
-                              'define_svc_search' => '1=1');
+        $MY_QUERY_PARTS['define_host_search'] = '1=1';
+        $MY_QUERY_PARTS['define_svc_search'] = '1=1';
         return true;
     }
 
-    $query_pieces = array('define_host_search' => '',
-                          'define_svc_search' => '');
+    $tmp_qp = array(
+        'define_host_search' => '',
+        'define_svc_search' => ''
+    );
 
-    $column_keys = columns_with_filter_by_key();
-    $re_keys = '[' . implode('', array_keys($column_keys)) . ']';
-    $re_filter = "/(?'not'!)?\\s*((?'key'$re_keys):)?(?'val'[^\\s&|]+)\\s*(?'op'[&|])?\\s*/";
+    columns_by_key($name_by_key, $def_by_key);
+    $re_keys = '[' . implode('', array_keys($name_by_key)) . ']';
+    $re_filter = "/(?'grp'[()]\\s*)|((?'not'!)?\\s*((?'key'$re_keys):)?(?'val'[^\\s&|]+)\\s*(?'op'[&|])?\\s*)/";
 
     function add(&$qp, $entry, $like = false)
     {
@@ -504,38 +360,56 @@ function init_filter(&$query_pieces, &$err, $filter)
         }
         else {
             $like = sqlquote(str_replace('*', '%', $like));
-            foreach (array_keys($qp) as $type)
-                $qp[$type] .= '(' . str_replace('%f', $like, $entry[$type]) . ')';
+            foreach (array_keys($qp) as $type) {
+                if (isset($entry[$type]) && $entry[$type] != '')
+                    $qp[$type] .= '(' . str_replace('%f', $like, $entry[$type]) . ')';
+            }
         }
     }
 
     if (!preg_match_all($re_filter, $filter, $parts, PREG_SET_ORDER)) {
-        $err = "Invalid filter";
+        $err = "Invalid filter: $filter";
         return false;
     }
 
+    $grp = 0;
+
     for ($l = count($parts), $i = 0; $i < $l; $i++) {
+        if (!empty($p['grp'])) {
+            if ($p['grp'][0] == '(') $grp++;
+            else $grp--;
+            add($tmp_qp, $p['grp'][0]);
+            continue;
+        }
+
         $more = $i < ($l - 1);
         $p = &$parts[$i];
 
         if (!empty($p['not']))
-            add($query_pieces, 'NOT');
+            add($tmp_qp, 'NOT');
 
-        add($query_pieces, '(');
+        add($tmp_qp, '(');
 
         if (empty($p['key'])) {
-            foreach ($COLS as $col => $def) {
+            foreach ($COLUMN_DEFINITION as $col => &$def) {
                 if (!isset($def['filter']))
                     continue;
-                add($query_pieces, $def['filter'], "*${p['val']}*");
-                add($query_pieces, 'OR');
+                $def['opts'] |= COL_FILTER;
+                add($tmp_qp, $def['filter'], "*${p['val']}*");
+                add($tmp_qp, 'OR');
             }
-            add($query_pieces, '1=0');
+            add($tmp_qp, '1=0');
         }
-        else
-            add($query_pieces, $column_keys[$p['key']]['filter'], $p['val']);
+        else {
+            if (!isset($def_by_key[$p['key']]['filter'])) {
+                $err = "Column with search key '{$p['key']}' has no filter expression";
+                return false;
+            }
+            $def_by_key[$p['key']]['opts'] |= COL_FILTER;
+            add($tmp_qp, $def_by_key[$p['key']]['filter'], $p['val']);
+        }
 
-        add($query_pieces, ')');
+        add($tmp_qp, ')');
 
         if (empty($p['op']) && $more)
             $p['op'] = '&';
@@ -545,23 +419,30 @@ function init_filter(&$query_pieces, &$err, $filter)
                 $err = "Invalid filter: trailing operator has no operand";
                 return false;
             }
-            add($query_pieces, $p['op'] == '&' ? 'AND' : 'OR');
+            add($tmp_qp, $p['op'] == '&' ? 'AND' : 'OR');
         }
     }
 
+    if ($grp != 0) {
+        $err = "Invalid filter: parenthesis mismatch";
+        return false;
+    }
+
+    $MY_QUERY_PARTS = array_merge($MY_QUERY_PARTS, $tmp_qp);
     return true;
 }
 
 /* This function gets called from index.php. It makes use of the globals
  * $SORTCOL and $SORTDIR to construct a GROUP BY string.
  */
-function get_orderby()
+function init_orderby()
 {
     global $SORTCOL;
     global $SORTDIR;
     global $COLUMN_DEFINITION;
+    global $MY_QUERY_PARTS;
 
-    $out = '';
+    $MY_QUERY_PARTS['define_orderby'] = '';
 
     if (isset($COLUMN_DEFINITION[$SORTCOL]) &&
         isset($COLUMN_DEFINITION[$SORTCOL]['sort'])) {
@@ -574,14 +455,193 @@ function get_orderby()
                     $spec[1] = str_ireplace('desc', 'asc', $spec[1], $done);
             }
 
-            if (!empty($out)) $out .= ', ';
-            $out .= $spec[0] . ' ' . $spec[1];
+            if (!empty($MY_QUERY_PARTS['define_orderby']))
+                $MY_QUERY_PARTS['define_orderby'] .= ', ';
+
+            $MY_QUERY_PARTS['define_orderby'] .= "{$spec[0]} {$spec[1]}";
+        }
+
+        $COLUMN_DEFINITION[$SORTCOL]['opts'] |= COL_FILTER;
+        column_dependencies($SORTCOL, $COLUMN_DEFINITION[$SORTCOL], COLDEP_SORT);
+    }
+
+    if (empty($MY_QUERY_PARTS['define_orderby']))
+        $MY_QUERY_PARTS['define_orderby'] = '1';
+}
+
+define('COLDEP_SORT', 0x1);
+define('COLDEP_EXPR', 0x2);
+
+function column_dependencies($col, &$def, $mode)
+{
+    global $COLUMN_DEFINITION;
+    $deps = array();
+
+    if (($mode & COLDEP_SORT)) {
+        foreach ($def['sort'] as $sort) {
+            if (preg_match_all('/(SCVAR|HCVAR|EXPR)_([[:alnum:]]+)/', $sort[0], $cap))
+                $deps = array_merge($deps, $cap[2]);
         }
     }
 
-    if (empty($out)) $out = '1';
-    return $out;
+    if (($mode & COLDEP_EXPR) && isset($def['expr'])) {
+        if (preg_match_all('/(SCVAR|HCVAR|EXPR)_([[:alnum:]]+)/', $def['expr'], $cap))
+            $deps = array_merge($deps, $cap[2]);
+    }
+
+    foreach ($deps as $d) {
+        if (($COLUMN_DEFINITION[$d]['opts'] & COL_DEPEND))
+            continue;
+
+        $COLUMN_DEFINITION[$d]['opts'] |= COL_DEPEND;
+        column_dependencies($d, $COLUMN_DEFINITION[$d], $mode);
+    }
 }
+
+/* expr:
+ * - add overall select
+ *
+ * cvar no filter:
+ * - add overall subselect in select
+ *   (select ...) as HCVAR_...
+ *   (select ...) as SCVAR_...
+ *
+ * cvar involved in filter:
+ * - add overall select
+ *   HCVAR_....varvalue as HCVAR_...
+ *   SCVAR_....varvalue as SCVAR_...
+ * - joins
+ * - where criterias already put there when initializing the filter
+ */
+function terminate_query()
+{
+    global $COLUMN_DEFINITION;
+    global $MY_QUERY_PARTS;
+    global $BACKEND;
+
+    foreach ($COLUMN_DEFINITION as $col => &$def) {
+        if (!isset($def['opts']) || ($def['opts'] & (COL_ENABLED|COL_FILTER|COL_DEPEND)) == 0)
+            continue;
+
+        column_dependencies($col, $def, COLDEP_EXPR);
+    }
+
+    foreach ($COLUMN_DEFINITION as $col => &$def) {
+        if (!isset($def['opts']) || ($def['opts'] & (COL_ENABLED|COL_FILTER|COL_DEPEND)) == 0)
+            continue;
+
+        if (isset($def['expr'])) {
+            $MY_QUERY_PARTS['define_expr_cols'] .= "
+                , ${def['expr']} as EXPR_$col ";
+        }
+        else if (isset($def['cvar'])) {
+            $cvar = sqlquote($def['cvar']);
+
+            if (($def['opts'] & COL_FILTER)) {
+                $MY_QUERY_PARTS['define_cvar_host_cols'] .= "
+                    , HCVAR_$col.varvalue AS HCVAR_$col
+                    , NULL AS SCVAR_$col ";
+                $MY_QUERY_PARTS['define_cvar_svc_cols'] .= "
+                    , HCVAR_$col.varvalue AS HCVAR_$col
+                    , SCVAR_$col.varvalue AS SCVAR_$col ";
+                $MY_QUERY_PARTS['define_cvar_event_cols'] .= "
+                    , HCVAR_$col.varvalue AS HCVAR_$col
+                    , SCVAR_$col.varvalue AS SCVAR_$col ";
+
+                if (isset($def['is_ref']) && $def['is_ref']) {
+                    $MY_QUERY_PARTS['define_cvar_host_joins'] .= "
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
+                            HCVAR_${col}_ref.object_id = H.host_object_id AND
+                            HCVAR_${col}_ref.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                            HCVAR_$col.varname = HCVAR_${col}_ref.varvalue ";
+
+                    $MY_QUERY_PARTS['define_cvar_svc_joins'] .= "
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
+                            HCVAR_${col}_ref.object_id = H.host_object_id AND
+                            HCVAR_${col}_ref.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                            HCVAR_$col.varname = HCVAR_${col}_ref.varvalue
+
+                        LEFT JOIN ${BACKEND}_customvariables as SCVAR_${col}_ref ON
+                            SCVAR_${col}_ref.object_id = S.service_object_id AND
+                            SCVAR_${col}_ref.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
+                            SCVAR_$col.varname = SCVAR_${col}_ref.varvalue ";
+
+                    $MY_QUERY_PARTS['define_cvar_event_joins'] .= "
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_${col}_ref ON
+                            HCVAR_${col}_ref.object_id = H.host_object_id AND
+                            HCVAR_${col}_ref.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                            HCVAR_$col.varname = HCVAR_${col}_ref.varvalue
+
+                        LEFT JOIN ${BACKEND}_customvariables as SCVAR_${col}_ref ON
+                            SCVAR_${col}_ref.object_id = S.service_object_id AND
+                            SCVAR_${col}_ref.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
+                            SCVAR_$col.varname = SCVAR_${col}_ref.varvalue ";
+                }
+                else {
+                    $MY_QUERY_PARTS['define_cvar_host_joins'] .= "
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                            HCVAR_$col.object_id = H.host_object_id AND
+                            HCVAR_$col.varname = $cvar ";
+
+                    $MY_QUERY_PARTS['define_cvar_svc_joins'] .= "
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                            HCVAR_$col.object_id = H.host_object_id AND
+                            HCVAR_$col.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
+                            SCVAR_$col.object_id = S.service_object_id AND
+                            SCVAR_$col.varname = $cvar ";
+
+                    $MY_QUERY_PARTS['define_cvar_event_joins'] .= "
+                        LEFT JOIN ${BACKEND}_customvariables as HCVAR_$col ON
+                            HCVAR_$col.object_id = H.host_object_id AND
+                            HCVAR_$col.varname = $cvar
+                        LEFT JOIN ${BACKEND}_customvariables as SCVAR_$col ON
+                            SCVAR_$col.object_id = S.service_object_id AND
+                            SCVAR_$col.varname = $cvar ";
+                }
+            }
+            else {
+                if (isset($def['is_ref']) && $def['is_ref']) {
+                    $MY_QUERY_PARTS['define_cvar_cols'] .= "
+                        ,(  select cv2.varvalue
+                            from nagios_customvariables cv
+                            left inner join nagios_customvariables cv2 on cv.varvalue = cv2.varname
+                            where cv.object_id=HOID and
+                            cv.varname=$cvar
+                         ) as HCVAR_$col
+                        ,(  select cv2.varvalue
+                            from nagios_customvariables cv
+                            left inner join nagios_customvariables cv2 on cv.varvalue = cv2.varname
+                            where cv.object_id=SOID and
+                            cv.varname=$cvar
+                         ) as SCVAR_$col ";
+                }
+                else {
+                    $MY_QUERY_PARTS['define_cvar_cols'] .= "
+                        ,(  select cv.varvalue
+                            from nagios_customvariables cv
+                            where cv.object_id=HOID and
+                            cv.varname=$cvar
+                         ) as HCVAR_$col
+                        ,(  select cv.varvalue
+                            from nagios_customvariables cv
+                            where cv.object_id=SOID and
+                            cv.varname=$cvar
+                         ) as SCVAR_$col ";
+                }
+            }
+        }
+    }
+}
+
+
+
+
 
 
 /******************************************************************************

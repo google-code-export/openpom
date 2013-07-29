@@ -130,43 +130,6 @@ define('ENTRY_COMMENT_TRACK',  0x02);
 
 
 
-/* classic HTML mode */
-if (!isset($_GET['json'])) {
-    foreach ($COLUMN_ENABLED as $col => $display) {
-
-        if (isset($COLUMN_DEFINITION[$col]) &&
-            isset($COLUMN_DEFINITION[$col]['opts']) &&
-            ($COLUMN_DEFINITION[$col]['opts'] & COL_MUST_DISPLAY))
-            continue;
-
-        /* new session defaults */
-        if (isset($_GET['option'])) {
-
-            if (isset($_GET["defaultcols_$col"]) && $_GET["defaultcols_$col"]) {
-                $COLUMN_ENABLED[$col] = true;
-                $_SESSION["COLS_$col"] = 1;
-            }
-            else {
-                $COLUMN_ENABLED[$col] = false;
-                $_SESSION["COLS_$col"] = 0;
-            }
-            continue;
-        }
-
-        /* existing session defaults */
-        if (isset($_SESSION["COLS_$col"])) {
-            $COLUMN_ENABLED[$col] = (bool)$_SESSION["COLS_$col"];
-            continue;
-        }
-
-        $_SESSION["COLS_$col"] = $display;
-    }
-}
-
-if (!init_enabled_columns($COLS, $query_parts, $err, isset($_GET['monitor'])))
-    die_refresh($err);
-
-
 /* GET DEFAULT LEVEL */
 if ( (isset($_GET['defaultlevel'])) && (is_numeric($_GET['defaultlevel'])) &&
      ($_GET['defaultlevel'] > 0) && ($_GET['defaultlevel'] <= $MAXLEVEL) ) {
@@ -185,23 +148,20 @@ if ( (isset($_GET['level'])) && (is_numeric($_GET['level'])) &&
 
 select_level($LEVEL);
 
-
-/* Reset filter */
+/* filter */
 if (isset($_GET['clear'])) {
     if (isset($_GET['filtering']))
         unset($_GET['filtering']);
+    $FILTER = '';
 }
-
-/* Store filter */
-$FILTER = isset($_GET['filtering']) ? trim($_GET['filtering']) : '';
-
-/* Build SQL criteria from filter */
-if (!init_filter($SEARCH, $err, $FILTER))
-    die_refresh($err);
+else if (isset($_GET['filtering']))
+    $FILTER = trim($_GET['filtering']);
+else
+    $FILTER = '';
 
 /* Sort column */
 if (isset($_GET['sort']) && !empty($_GET['sort'])) {
-    if (isset($COLS[$_GET['sort']]))
+    if (isset($COLUMN_DEFINITION[$_GET['sort']]))
         $SORTCOL = $_GET['sort'];
     else
         unset($_GET['sort']);
@@ -214,9 +174,6 @@ if (isset($_GET['order'])) {
     else
         unset($_GET['order']);
 }
-
-
-
 
 /* GET NEXT OR PREVIOUS PAGE */
 if (isset($_GET['prev'])) 
@@ -264,26 +221,6 @@ else if (isset($_SESSION['FONTSIZE']))
   $FONT_SIZE = $_SESSION['FONTSIZE'];
 else
   $_SESSION['FONTSIZE'] = $FONT_SIZE;
-
-
-
-/* Maximum character length in columns */
-foreach ($COLUMN_ENABLED as $col => $display) {
-    if (!isset($COLUMN_DEFINITION[$col]) ||
-        !isset($COLUMN_DEFINITION[$col]['lmax']))
-        continue;
-
-    if (isset($_GET["maxlen_$col"]) && is_numeric($_GET["maxlen_$col"]) &&
-        $_GET["maxlen_$col"] > 0 && $_GET["maxlen_$col"] < 1000) {
-
-        $COLUMN_DEFINITION[$col]['lmax'] = $_GET["maxlen_$col"];
-        $_SESSION["MAXLEN_$col"] = $_GET["maxlen_$col"];
-    }
-    else if (isset($_SESSION["MAXLEN_$col"]))
-        $COLUMN_DEFINITION[$col]['lmax'] = $_SESSION["MAXLEN_$col"];
-    else
-        $_SESSION["MAXLEN_$col"] = $COLUMN_DEFINITION[$col]['lmax'];
-}
 
 
 /* ENABLE/DISABLE QUICK SEARCH */
@@ -359,6 +296,62 @@ if (isset($_GET['popin'])
   $_SESSION['POPIN'] = $POPIN;
 }
 
+
+if (!init_columns(&$err))
+    die_refresh($err);
+
+if (!isset($_GET['json'])) {
+
+    /* column user preferences */
+    foreach ($COLUMN_DEFINITION as $col => &$def) {
+
+        /* some columns cannot be modified */
+        if (($def['opts'] & COL_NO_USER_PREF))
+            continue;
+
+        /* max length */
+        if (isset($_GET['option']) && isset($def['lmax'])) {
+            if (isset($_GET["maxlen_$col"]) && is_numeric($_GET["maxlen_$col"]) &&
+                $_GET["maxlen_$col"] > 0 && $_GET["maxlen_$col"] < 1000) {
+
+                pdebug("set MAXLEN_$col = ".$_GET["maxlen_$col"]);
+                $_SESSION["MAXLEN_$col"] = $_GET["maxlen_$col"];
+            }
+
+            if (isset($_SESSION["MAXLEN_$col"]))
+                $def['lmax'] = $_SESSION["MAXLEN_$col"];
+        }
+
+        /* display of some columns is not modifiable */
+        if (($def['opts'] & COL_MUST_DISPLAY))
+            continue;
+
+        /* set new preferences */
+        if (isset($_GET['option'])) {
+            /* on/off */
+            if (isset($_GET["defaultcols_$col"]) && $_GET["defaultcols_$col"]) {
+                $def['opts'] |= COL_ENABLED;
+                $_SESSION["COLS_$col"] = 1;
+            }
+            else {
+                $def['opts'] &= ~COL_ENABLED;
+                $_SESSION["COLS_$col"] = 0;
+            }
+        }
+        /* existing preferences in session */
+        else if (isset($_SESSION["COLS_$col"])) {
+            if ($_SESSION["COLS_$col"])
+                $def['opts'] |= COL_ENABLED;
+            else
+                $def['opts'] &= ~COL_ENABLED;
+        }
+
+        /* otherwise use column default, that is, display the column
+         * if flag COL_ENABLED is present */
+    }
+}
+
+
 /* KEEP GET FOR FUTUR LINK */
 if (isset($_GET['n']))
   unset($_GET['n']);
@@ -379,14 +372,56 @@ $MY_GET_NO_FILT = preg_replace('/[?&]{1}filter=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}filtering=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_FILT);
 
+
+$MY_QUERY_PARTS = array(
+    'define_host_search' => '',
+    'define_svc_search' => '',
+    'define_orderby' => '',
+    'define_expr_cols' => '',
+    'define_cvar_host_cols' => '',
+    'define_cvar_svc_cols' => '',
+    'define_cvar_host_joins' => '',
+    'define_cvar_svc_joins' => '',
+    'define_cvar_cols' => '',
+
+  'define_my_user'            =>  mysql_real_escape_string($MY_USER, $dbconn),
+  'define_my_svcfilt'         =>  mysql_real_escape_string($MY_SVCFILT, $dbconn),
+  'define_my_svcacklist'      =>  mysql_real_escape_string($MY_SVCACKLIST, $dbconn),
+  'define_my_hostacklist'     =>  mysql_real_escape_string($MY_HOSTACKLIST, $dbconn),
+  'define_my_hostdownop'      =>  $MY_HOSTDOWNOP,
+  'define_my_hostdownval'     =>  $MY_HOSTDOWNVAL,
+  'define_my_svcdownop'       =>  $MY_SVCDOWNOP,
+  'define_my_svcdownval'      =>  $MY_SVCDOWNVAL,
+  'define_my_acklistop'       =>  $MY_ACKLISTOP,
+  'define_my_acklistval'      =>  $MY_ACKLISTVAL,
+  'define_my_disable'         =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
+  'define_my_soft'            =>  mysql_real_escape_string($MY_SOFT, $dbconn),
+  'define_my_nosvc'           =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
+  'define_my_hostfilt'        =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
+  'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
+  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
+  'define_track_anything'     =>  $MY_TRACK_ANY,
+  'define_host_service'       =>  mysql_real_escape_string($HOST_SERVICE, $dbconn),
+);
+
+if (!init_filter(&$err, $FILTER))
+    die_refresh($err);
+
+init_orderby();
+terminate_query();
+
+
 /* QUERY AND SET GLOBAL COUNTER */
-$query_glob = str_replace('define_my_user', mysql_real_escape_string($MY_USER, $dbconn), $QUERY_GLOBAL_COUNT) ;
+$query_glob = str_replace(array_keys($MY_QUERY_PARTS),
+                          array_values($MY_QUERY_PARTS),
+                          $QUERY_GLOBAL_COUNT);
+
 
 if (!($rep_glob = mysql_query($query_glob, $dbconn))) {
   $errno = mysql_errno($dbconn);
   $txt_error = mysql_error($dbconn);
-  error_log("invalid query: $errno, $txt_error");
-  die_refresh("invalid query: $errno, $txt_error");
+  error_log("invalid globalcount query: $errno, $txt_error");
+  die_refresh("invalid globalcount query: $errno, $txt_error");
 }
 
 $glob_ok       = 0;
@@ -419,37 +454,9 @@ while (($glob_counter = mysql_fetch_array($rep_glob, MYSQL_ASSOC))) {
 $nb_rows = 0;
 $level = $LEVEL;
 while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
-  $query = $QUERY;
-  $replacement = array (
-  'define_host_search'        =>  $SEARCH['define_host_search'],
-  'define_svc_search'         =>  $SEARCH['define_svc_search'],
-  'define_my_user'            =>  mysql_real_escape_string($MY_USER, $dbconn),
-  'define_my_svcfilt'         =>  mysql_real_escape_string($MY_SVCFILT, $dbconn),
-  'define_my_svcacklist'      =>  mysql_real_escape_string($MY_SVCACKLIST, $dbconn),
-  'define_my_hostacklist'     =>  mysql_real_escape_string($MY_HOSTACKLIST, $dbconn),
-  'define_my_hostdownop'      =>  $MY_HOSTDOWNOP,
-  'define_my_hostdownval'     =>  $MY_HOSTDOWNVAL,
-  'define_my_svcdownop'       =>  $MY_SVCDOWNOP,
-  'define_my_svcdownval'      =>  $MY_SVCDOWNVAL,
-  'define_my_acklistop'       =>  $MY_ACKLISTOP,
-  'define_my_acklistval'      =>  $MY_ACKLISTVAL,
-  'define_my_disable'         =>  mysql_real_escape_string($MY_DISABLE, $dbconn),
-  'define_my_soft'            =>  mysql_real_escape_string($MY_SOFT, $dbconn),
-  'define_my_nosvc'           =>  mysql_real_escape_string($MY_NOSVC, $dbconn),
-  'define_my_hostfilt'        =>  mysql_real_escape_string($MY_HOSTFILT, $dbconn),
-  'define_orderby'            =>  get_orderby(),
-  'define_first'              =>  mysql_real_escape_string($FIRST, $dbconn),
-  'define_step'               =>  mysql_real_escape_string($LINE_BY_PAGE, $dbconn),
-  'define_track_anything'     => $MY_TRACK_ANY,
-  'define_host_service'       =>  mysql_real_escape_string($HOST_SERVICE, $dbconn),
-  ) ;
-
-  foreach($replacement AS $replace => $val)
-    $query = str_replace($replace, $val, $query);
-
-    $query = str_replace(array_keys($query_parts),
-                         array_values($query_parts),
-                         $query);
+  $query = str_replace(array_keys($MY_QUERY_PARTS),
+                       array_values($MY_QUERY_PARTS),
+                       $QUERY);
 
   /*
   echo "<pre>";

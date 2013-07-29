@@ -20,7 +20,11 @@ table#alert * {
 
 <table width="100%" id="alert">
     <tr>
-<?php foreach ($COLS as $col => $def) { ?>
+<?php foreach ($COLUMN_DEFINITION as $col => &$def) {
+          if (($def['opts'] & COL_ENABLED) == 0 ||
+              (isset($_GET['monitor']) && ($def['opts'] & COL_NO_MONITOR)))
+              continue;
+?>
 
         <th class="<?php echo $col ?>">
             <?php $def['hfmt']($col, $def); ?>
@@ -72,7 +76,11 @@ if (function_exists('on_alert_row'))
         onmouseout="unset_popin();"
         onclick="selectline(this, event);">
 
-<?php foreach ($COLS as $col => $def) { ?>
+<?php foreach ($COLUMN_DEFINITION as $col => &$def) {
+          if (($def['opts'] & COL_ENABLED) == 0 ||
+              (isset($_GET['monitor']) && ($def['opts'] & COL_NO_MONITOR)))
+              continue;
+ ?>
 
         <td class="<?php echo $col ?> <?php if (isset($data["__{$col}_class"])) echo $data["__{$col}_class"]; ?>">
             <?php $def['rfmt']($col, $def, $data); ?>
