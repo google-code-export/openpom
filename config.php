@@ -158,7 +158,7 @@ $COLUMN_DEFINITION['hostname'] = array(
     'sort'   => array(array('HOSTNAME', 'asc')),
     'data'   => 'HOSTNAME',
     'lmax'   => 30,
-    'opts'   => COL_MUST_DISPLAY|COL_FILTER_LINK|COL_ENABLED,
+    'opts'   => COL_MUST_DISPLAY|COL_FILTER_LINK,
     'key'    => 'h',
 
     /* internal stuff */
@@ -183,7 +183,7 @@ $COLUMN_DEFINITION['service'] = array(
     'sort'   => array(array('SERVICE', 'asc')),
     'data'   => 'SERVICE',
     'lmax'   => 30,
-    'opts'   => COL_MUST_DISPLAY|COL_FILTER_LINK|COL_ENABLED,
+    'opts'   => COL_MUST_DISPLAY|COL_FILTER_LINK,
     'key'    => 's',
 
     /* internal stuff */
