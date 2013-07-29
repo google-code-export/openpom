@@ -179,7 +179,7 @@ $COLUMN_DEFINITION['hostname'] = array(
 
 /* Column for displaying the host address of an entry. */
 $COLUMN_DEFINITION['address'] = array(
-    'sort'   => array(array('ADDRESS', 'asc')),
+    'sort'   => array(array('INET_ATON(ADDRESS)', 'asc')),
     'data'   => 'ADDRESS',
     'opts'   => COL_FILTER_LINK,
     'key'    => 'i',
