@@ -1,12 +1,11 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
 */
-
 
 if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die();
 
@@ -62,8 +61,8 @@ if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die();
                     <img style="margin: 20px;" src="img/loading.gif" />\
                 </div>\
             ').css({  'display': 'none',
-                      'background-color': 'white', 
-                      'position': 'fixed', 
+                      'background-color': 'white',
+                      'position': 'fixed',
                       'top': '10px',
                       'right': '10px',
                       'border': '1px solid #666',

@@ -34,7 +34,6 @@ SELECT
 
 FROM (
 
-
 -- BEGIN
 -- NDO SERVICES
 
@@ -123,9 +122,7 @@ FROM (
 -- END
 -- NDO SERVICES
 
-
 UNION
-
 
 -- BEGIN
 -- NDO HOSTS
@@ -208,14 +205,11 @@ UNION
 -- END
 -- NDO HOSTS
 
-
 ) AS sub
 
 ORDER BY define_orderby
 LIMIT define_first, define_step
 ";
-
-
 
 /* Columns */
 
@@ -625,11 +619,6 @@ function terminate_query()
     }
 }
 
-
-
-
-
-
 /******************************************************************************
  * Columns data rendering, result of the query execution.
  * Column-specific function can be implemented:
@@ -763,7 +752,6 @@ function format_row($col, &$def, &$data)
 
     echo "<span>$html</span>";
 }
-
 
 function format_header_checkbox($col, &$def)
 {

@@ -1,12 +1,12 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
 */
-  
+
 if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die() ;
 if (!isset($_SESSION['USER'])) die(); ?>
 

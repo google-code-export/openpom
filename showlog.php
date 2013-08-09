@@ -1,7 +1,7 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -63,7 +63,7 @@ $cur_page = (int) ($MY_FIRST / $MY_STEP) + 1 ;
     <title><?php echo ucfirst(lang($MYLANG, 'history')) ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
-    <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
+    <meta http-equiv="PRAGMA" content="NO-CACHE" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/lib.js"></script>
@@ -102,15 +102,15 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
     if ($k == "type") {
       if      ( ($v == 2) || ($v == 6) || ($v == 64) )
         $v = "<img src='img/info.png' width='12px' height='12px' />" ;
-      else if ( $v == 100 ) 
+      else if ( $v == 100 )
         $v = "<img src='img/start.gif' width='12px' height='12px' />" ;
-      else if ( $v == 102 ) 
+      else if ( $v == 102 )
         $v = "<img src='img/restart.gif' width='12px' height='12px' />" ;
-      else if ( $v == 103 ) 
+      else if ( $v == 103 )
         $v = "<img src='img/stop.gif' width='12px' height='12px' />" ;
-      else if ($v == 512) 
+      else if ($v == 512)
         $v = "<img src='img/command.png' width='12px' height='12px' />" ;
-      else 
+      else
         $v = "<img src='img/info.png' width='12px' height='12px' />" ;
     }
     if ($k == "outputstatus") {
@@ -173,4 +173,3 @@ mysql_close($dbconn) ;
     <br>
   </body>
 </html>
-

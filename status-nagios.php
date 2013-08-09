@@ -1,14 +1,13 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
 */
 
 /* FIXME: Rewrite, this is unreadable ! */
-
 
 require_once("config.php");
 session_name($CODENAME);
@@ -20,7 +19,7 @@ require_once("utils.php");
 special_char();
 
 /* requires host/svc in arg1
- * requires status id in arg2 
+ * requires status id in arg2
  */
 if (!isset($_GET['arg1']) || !isset($_GET['arg2'])) {
   die('bad arguments');
@@ -34,11 +33,10 @@ if (!isset($QUERY_STATUS[$type])) {
   die('no query');
 }
 
-
 /*  SQL */
-if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
+if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD)))
   die('cannot connect to db');
-if (!mysql_select_db($SQL_DB, $dbconn)) 
+if (!mysql_select_db($SQL_DB, $dbconn))
   die('cannot select db');
 
 $quoted_id = mysql_real_escape_string($id, $dbconn);
@@ -50,8 +48,6 @@ if (!($st_rep = mysql_query($query, $dbconn)))
 
 if (!($st_data = mysql_fetch_array($st_rep, MYSQL_ASSOC)))
   die('query returned no data');
-
-
 
 switch($st_data['STATE']) {
   case 0: $STATUS = "OK";       $COLOR = $OK;        break;
@@ -126,9 +122,8 @@ if ( (! isset($COMMENT[0]) ) || (empty($COMMENT[0])) ) { $COMMENT[0] = "N/A" ; $
 else $NOCOMMENT = 0;
 if (! isset($COMMENT[1]) ) $COMMENT[1] = "N/A" ;
 
-
 $STATUSDATA = array (
-'curstat'      => "<div class='".$COLOR."'>".$STATUS." (".printtime($LASTCHANGEDIFF).")"."</div>", 
+'curstat'      => "<div class='".$COLOR."'>".$STATUS." (".printtime($LASTCHANGEDIFF).")"."</div>",
 'outputstatus' => $OUTPUT,
 'checkstatus'  => $CURATTEMP."/".$MAXATTEMP." | ".$NORMALINTERVAL."m/".$RETRYINTERVAL."m | ".printtime($LASTCHECKTIMEDIFF),
 'lastok'       => ( (substr($LASTTIMEOK, 0, 4) == "1970") || ($STATUS == "OK") ) ? "N/A" : $LASTTIMEOK." (".printtime($LASTTIMEOKDIFF).")",
@@ -270,14 +265,14 @@ function cvar_alias($cvar)
 }
 
 $STATUSHEAD = array (
-'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >&nbsp;('.$ACKCOMMENT[0].')</span>', 
+'ackcur'     => '<img class="inline-middle" src="img/flag_ack.gif" /><span class="inline-middle" >&nbsp;('.$ACKCOMMENT[0].')</span>',
 'downcur'    => '<img class="inline-middle" src="img/flag_downtime.png" /><span class="inline-middle" >&nbsp;('.$DOWNCOMMENT[0].')</span>',
 'notifycur'  => '<img class="inline-middle" src="img/flag_notify.png" /><span class="inline-middle" >&nbsp;('.$NOTIFCOMMENT[0].')</span>',
 'commentcur' => '<img class="inline-middle" src="img/flag_comment.gif" /><span class="inline-middle">&nbsp;('.$COMMENT[0].')</span>',
 ) ;
 
 if ( (isset($_GET['fix'])) || (isset($_SESSION['STATUS']['graph'])) )
-  $g = get_graph('status', $HOSTNAME, $SERVICE); 
+  $g = get_graph('status', $HOSTNAME, $SERVICE);
 else $g = "" ;
 
 /* bottom section (override RRD graph) */
@@ -291,33 +286,32 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
     <title><?php echo "$SERVICE " . lang($MYLANG, 'on') . " $HOSTNAME" ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
-    <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
+    <meta http-equiv="PRAGMA" content="NO-CACHE" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/lib.js"></script>
   </head>
   <body>
 <?php } ?>
-  
-  
+
   <div class="box-content" id="box-popup">
-    
+
     <?php if (isset($_GET['fix'])) { ?>
       <table id="popup">
-      
+
     <?php } else { ?>
       <a  id="fix"
-          href="#" 
+          href="#"
           onClick="return pop(
               '<?php echo $_SERVER['REQUEST_URI'] ?>&fix',
-              'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);"><img src="img/popup.png" 
-             border="0" 
-             alt="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" 
+              'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);"><img src="img/popup.png"
+             border="0"
+             alt="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>"
              title="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" /></a>
-      
+
       <table id="popup" onmouseover="restart_popin_hide_timer();">
     <?php } ?>
-    
+
       <tr>
         <th>
           <?php echo ucfirst(lang($MYLANG, 'machine')) ?> |
@@ -333,14 +327,14 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
       </tr>
 
       <?php $more = 0 ;
-            if ( (is_array($STATUSPOPIN)) && (count($STATUSPOPIN > 0)) ) { 
+            if ( (is_array($STATUSPOPIN)) && (count($STATUSPOPIN > 0)) ) {
               $i = 1 ;
               foreach ($STATUSPOPIN AS $key => $val) {
                 if ($val == 0) continue ;
                 if ( (!isset($STATUSDATA[$key])) || (empty($STATUSDATA[$key])) )
                   continue ;
                 if ( (!isset($_GET['fix'])) && ($val < 2) &&
-                     (!isset($_SESSION['STATUS']['all'])) && 
+                     (!isset($_SESSION['STATUS']['all'])) &&
                      ($i > $_SESSION['STATUS']['limit']) ) {
                   $more = 1 ;
                   continue ;
@@ -352,16 +346,16 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
       </tr>
       <?php
                 $i++;
-              } //end foreach 
+              } //end foreach
             }
       ?>
       <?php if ( ($more) && (!isset($_GET['fix'])) ) { ?>
       <tr>
         <th>
-          <a href="#" 
+          <a href="#"
             onClick="return pop(
                 '<?php echo $_SERVER['REQUEST_URI'] ?>&fix',
-                'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);" title="<?php echo ucfirst(lang($MYLANG, 'titlemore'))?>"><?php echo ucfirst(lang($MYLANG, 'more'))?></a> 
+                'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);" title="<?php echo ucfirst(lang($MYLANG, 'titlemore'))?>"><?php echo ucfirst(lang($MYLANG, 'more'))?></a>
         </th>
         <td></td>
       </tr>
@@ -385,7 +379,6 @@ foreach ($SHOWSTATUSCVAR as $v) {
 
 <?php } ?>
 
-
       <?php if (!empty($g)) { ?>
         <tr>
           <th style="height: 6px; background: none; border: none; border-top: 1px solid #E0E5D3;"></th>
@@ -402,17 +395,16 @@ foreach ($SHOWSTATUSCVAR as $v) {
       <?php } ?>
           </td>
         </tr>
-        
+
       <?php } ?>
-      
+
     </table>
   </div>
-  
+
 <?php if (isset($_GET['fix'])) { ?>
   </body>
 </html>
 <?php } ?>
-
 
 <?php
 /*  free resources */

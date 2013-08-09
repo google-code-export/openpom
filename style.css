@@ -1,6 +1,6 @@
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -37,18 +37,18 @@ input, select {
   margin: 0;
 }
 
-select { 
-  border: 1px solid #BABFBA; 
+select {
+  border: 1px solid #BABFBA;
 }
 
 input[type="submit"] {
   font-weight: bold;
 }
 
-input[type="text"] { 
+input[type="text"] {
   border: 1px solid #BABFBA;
   background-color: #F5F8F3;
-  padding: 1px; 
+  padding: 1px;
 }
 
 h2 {
@@ -116,7 +116,6 @@ a.comment {
     -khtml-opacity: 0.1;
 }
 
-
 /**
  * Links
  */
@@ -129,7 +128,6 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
 
 /**
  * Icon buttons
@@ -189,8 +187,7 @@ span.icon-disa_notif { background-image: url('img/disa_notif.png'); }
 span.icon-bg-ena_notif, span.icon-bg-ena_notif:hover { background-color: #FFE3E4; }
 span.icon-bg-disa_notif, span.icon-bg-disa_notif:hover { background-color: #D5F4D5; }
 
-
-/** 
+/**
  * Top panel
  */
 
@@ -408,7 +405,6 @@ span#metter-wrap select {
   padding: .3em;
 }
 
-
 /**
  * Alert table
  */
@@ -455,14 +451,14 @@ table#alert td {
   border: none;
   border-left: 1px solid #888;
   border-bottom: 1px solid #888;
-  
+
   background-image: url('img/selected.png');
   background-attachment: scroll;
   background-repeat: no-repeat;
   background-position: left -1000px;
 }
 
-table#alert th.checkbox, 
+table#alert th.checkbox,
 table#alert td.checkbox {
   border-left: none;
   text-align: center;
@@ -475,7 +471,7 @@ table#alert th span {
   vertical-align: middle;
 }
 
-table#alert td span, 
+table#alert td span,
 table#alert th span {
   vertical-align: middle;
 }
@@ -547,8 +543,6 @@ table#alert.history td {
     white-space: nowrap;
 }
 
-
-
 /**
  * Box popins
  */
@@ -570,7 +564,7 @@ div.box-content {
   padding: 6px;
 }
 
-div.box-content td, 
+div.box-content td,
 div.box-content th {
   padding: 2px 3px;
   vertical-align: top;
@@ -607,9 +601,6 @@ input.readonly {
   color: #A0A0A0;
   background-color: #C0C0C0;
 }
-
-
-
 
 /**
  * UNKNOWN      orange
@@ -710,12 +701,12 @@ table#popup .inline-middle {
   display: inline-block;
 }
 
-table#popup tr th:first-child, 
+table#popup tr th:first-child,
 table#popup tr td:first-child {
   white-space: nowrap;
 }
 
-table#popup tr th, 
+table#popup tr th,
 table#popup tr td {
   vertical-align: top;
 }
@@ -741,13 +732,13 @@ div#box-popup a#fix {
 #cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow { cursor:pointer;}
 /* ColorBox User Style */
 #cboxOverlay { background:#fff;}
-#colorbox { 
-  border: 1px solid #666; 
+#colorbox {
+  border: 1px solid #666;
   background: #fff;
   border-radius:2px;
   -moz-border-radius: 2px;
   -khtml-border-radius: 2px;
-  -webkit-border-radius: 2px; 
+  -webkit-border-radius: 2px;
   overflow: hidden;
 }
 #cboxContent { /*padding: 5px;*/ }

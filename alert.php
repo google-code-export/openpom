@@ -1,16 +1,15 @@
-<?php 
+<?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
 */
 
-if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die(); 
+if (basename($_SERVER['SCRIPT_NAME']) != "index.php") die();
 if (!isset($_SESSION['USER'])) die();
 ?>
-
 
 <style type="text/css">
 table#alert * {
@@ -93,11 +92,10 @@ if (function_exists('on_alert_row'))
 <?php } /* end while mysql fetch array */ ?>
 </table>
 
-
 <?php
 /*
 mysql_data_seek($rep, 0);
-while($data = mysql_fetch_array($rep, MYSQL_ASSOC)) { 
+while($data = mysql_fetch_array($rep, MYSQL_ASSOC)) {
   echo "<pre>";
   print_r($data);
   echo "</pre>";

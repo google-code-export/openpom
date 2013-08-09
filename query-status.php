@@ -1,16 +1,15 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
 */
 
-
 $QUERY_STATUS['svc'] = "
   SELECT
-    unix_timestamp() - unix_timestamp(SS.last_state_change)  
+    unix_timestamp() - unix_timestamp(SS.last_state_change)
                                            AS LASTCHANGEDIFF,
     SS.last_state_change                   AS LASTCHANGE,
     SS.current_state                       AS STATE,
@@ -42,7 +41,7 @@ $QUERY_STATUS['svc'] = "
       2
     )                                      AS FLAPPING,
     SS.percent_state_change                AS PERCENT,
-    unix_timestamp() - unix_timestamp(SS.status_update_time) 
+    unix_timestamp() - unix_timestamp(SS.status_update_time)
                                            AS UPDATETIMEDIFF,
     SS.status_update_time                  AS UPDATETIME,
     H.address                              AS ADDRESS,
@@ -61,7 +60,7 @@ $QUERY_STATUS['svc'] = "
       ORDER BY OCG.name1
       ASC SEPARATOR ', ')
                                            AS CONTACTGROUP,
-    ( SELECT N.start_time 
+    ( SELECT N.start_time
       FROM ${BACKEND}_notifications AS N
         WHERE N.object_id = SS.service_object_id
       GROUP BY N.start_time DESC
@@ -72,7 +71,7 @@ $QUERY_STATUS['svc'] = "
     SS.current_notification_number         AS COUNTNOTIFY,
     SUBSTRING_INDEX(SS.check_command,'!',1)
                                            AS CHECKNAME,
-    ( SELECT 
+    ( SELECT
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ${BACKEND}_comments AS ACO
       WHERE ACO.object_id = SS.service_object_id
@@ -80,14 +79,14 @@ $QUERY_STATUS['svc'] = "
       AND ACO.author_name != '(Nagios Process)'
       ORDER BY ACO.comment_id DESC
       LIMIT 1 )                            AS ACKCOMMENT,
-    ( SELECT 
+    ( SELECT
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
       FROM ${BACKEND}_scheduleddowntime AS DCO
       WHERE DCO.object_id = SS.service_object_id
       AND DCO.scheduled_end_time >= NOW()
       ORDER BY DCO.scheduleddowntime_id DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
-    ( SELECT 
+    ( SELECT
       concat_ws(';', NCO.author_name, NCO.comment_data)
       FROM ${BACKEND}_comments AS NCO
       WHERE NCO.object_id = SS.service_object_id
@@ -95,8 +94,8 @@ $QUERY_STATUS['svc'] = "
       AND NCO.comment_source = 1
       AND substring_index(NCO.comment_data, ':', 1) = '~disable'
       ORDER BY NCO.comment_id DESC
-      LIMIT 1 )                            AS NOTIFCOMMENT, 
-    ( SELECT 
+      LIMIT 1 )                            AS NOTIFCOMMENT,
+    ( SELECT
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ${BACKEND}_comments AS CO
       WHERE CO.object_id = SS.service_object_id
@@ -132,13 +131,13 @@ $QUERY_STATUS['svc'] = "
     LEFT  JOIN ${BACKEND}_objects AS OCG                ON SCG.contactgroup_object_id = OCG.object_id
   WHERE
     SS.servicestatus_id = define_my_id
-  GROUP BY 
+  GROUP BY
     SS.servicestatus_id
 " ;
 
 $QUERY_STATUS['host'] = "
   SELECT
-    unix_timestamp() - unix_timestamp(HS.last_state_change)  
+    unix_timestamp() - unix_timestamp(HS.last_state_change)
                                            AS LASTCHANGEDIFF,
     HS.last_state_change                   AS LASTCHANGE,
     ( case HS.current_state
@@ -192,7 +191,7 @@ $QUERY_STATUS['host'] = "
       ORDER BY OCG.name1
       ASC SEPARATOR ', ')
                                            AS CONTACTGROUP,
-    ( SELECT N.start_time 
+    ( SELECT N.start_time
       FROM ${BACKEND}_notifications AS N
         WHERE N.object_id = HS.host_object_id
       GROUP BY N.start_time DESC
@@ -203,7 +202,7 @@ $QUERY_STATUS['host'] = "
     HS.current_notification_number         AS COUNTNOTIFY,
     SUBSTRING_INDEX(HS.check_command,'!',1)
                                            AS CHECKNAME,
-    ( SELECT 
+    ( SELECT
       concat_ws(';', ACO.author_name, ACO.comment_data)
       FROM ${BACKEND}_comments AS ACO
       WHERE ACO.object_id = HS.host_object_id
@@ -211,14 +210,14 @@ $QUERY_STATUS['host'] = "
       AND ACO.author_name != '(Nagios Process)'
       ORDER BY ACO.comment_id DESC
       LIMIT 1 )                            AS ACKCOMMENT,
-    ( SELECT 
+    ( SELECT
       concat_ws(';', DCO.author_name, DCO.scheduled_end_time, DCO.comment_data)
       FROM ${BACKEND}_scheduleddowntime AS DCO
       WHERE DCO.object_id = HS.host_object_id
       AND DCO.scheduled_end_time >= NOW()
       ORDER BY DCO.scheduleddowntime_id DESC
       LIMIT 1 )                            AS DOWNCOMMENT,
-    ( SELECT 
+    ( SELECT
       concat_ws(';', NCO.author_name, NCO.comment_data)
       FROM ${BACKEND}_comments AS NCO
       WHERE NCO.object_id = HS.host_object_id
@@ -226,8 +225,8 @@ $QUERY_STATUS['host'] = "
       AND NCO.comment_source = 1
       AND substring_index(NCO.comment_data, ':', 1) = '~disable'
       ORDER BY NCO.comment_id DESC
-      LIMIT 1 )                            AS NOTIFCOMMENT, 
-    ( SELECT 
+      LIMIT 1 )                            AS NOTIFCOMMENT,
+    ( SELECT
       concat_ws(';', CO.author_name, CO.comment_data)
       FROM ${BACKEND}_comments AS CO
       WHERE CO.object_id = HS.host_object_id
@@ -256,7 +255,7 @@ $QUERY_STATUS['host'] = "
     LEFT  JOIN ${BACKEND}_objects AS OCG                ON HCG.contactgroup_object_id = OCG.object_id
   WHERE
     HS.hoststatus_id = define_my_id
-  GROUP BY 
+  GROUP BY
     HS.hoststatus_id
 " ;
 

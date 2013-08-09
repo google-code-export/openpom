@@ -1,7 +1,7 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -17,8 +17,8 @@ require_once("utils.php");
 special_char();
 
 if ( (!isset($_GET['id'])) || (!is_numeric($_GET['id'])) ||
-     (!isset($_GET['type'])) || (!isset($_GET['host'])) || (!isset($_GET['svc'])) 
-   ) 
+     (!isset($_GET['type'])) || (!isset($_GET['host'])) || (!isset($_GET['svc']))
+   )
   die('bad arguments');
 
 $id     = $_GET['id'];
@@ -37,9 +37,9 @@ if (isset($_GET['first']) &&
 else
   $MY_FIRST = 0;
 
-if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
+if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD)))
   die('cannot connect to db');
-if (!mysql_select_db($SQL_DB, $dbconn)) 
+if (!mysql_select_db($SQL_DB, $dbconn))
   die('cannot select db');
 
 $quoted_id = mysql_real_escape_string($id, $dbconn);
@@ -51,10 +51,10 @@ $query = str_replace('define_my_submax', $MY_FIRST + $MY_STEP, $query) ;
 foreach ($HISTORY AS $h => $v) {
   if ( isset($_SESSION['HISTORY'][$h]) )
     $query = str_replace('define_my_'.$h, $v, $query) ;
-  else 
+  else
     $query = str_replace('define_my_'.$h, 0, $query) ;
 }
-    
+
 //echo "<pre>" ;
 //echo $query ;
 //echo "</pre>" ;
@@ -85,7 +85,7 @@ else
     <title><?php echo ucfirst(lang($MYLANG, 'history')) ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
-    <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
+    <meta http-equiv="PRAGMA" content="NO-CACHE" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/lib.js"></script>
@@ -132,7 +132,7 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
             $v = 'nagios';
     }
 
-    if ($k == "color") { 
+    if ($k == "color") {
       if ( ($type == "svc") && ($v == 2) ) $class = "red";
       else if ( ($type == "svc") && ($v == 1) ) $class = "yellow";
       else if ( ($type == "svc") && ($v == 3) ) $class = "orange";
@@ -166,7 +166,7 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
     }
     else if ( ($k == "outputstatus") && (preg_match('/^(~[^:]+):(.*)$/', $v, $cap)) ) {
       $v = $cap[2] ;
-      if ($cap[1] == "~disable") 
+      if ($cap[1] == "~disable")
         $tds[0] = "<td>
           <img src='img/flag_notify.png' width='12px' height='12px' /></td>" ;
     }

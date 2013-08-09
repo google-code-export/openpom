@@ -1,7 +1,7 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -15,11 +15,11 @@ $QUERY_HISTORY['svc'] = "
     sub.entry_time           AS entry_time,
     sub.author_name          AS author_name,
     sub.output               AS outputstatus
-    
+
   FROM ((
 
-    -- ACKNOWLEDGEMENT 
-    SELECT 
+    -- ACKNOWLEDGEMENT
+    SELECT
       ACO.author_name,
       ACO.state,
       '1' AS state_type,
@@ -36,15 +36,15 @@ $QUERY_HISTORY['svc'] = "
   ) UNION (
 
     -- DOWNTIME
-    SELECT 
+    SELECT
       DOW.author_name,
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_servicestatus AS SS2 ON STH.object_id = SS2.service_object_id
-        WHERE SS2.servicestatus_id = define_my_id 
-          AND STH.state_time <= DOW.entry_time 
-        ORDER BY STH.state_time DESC 
-        LIMIT 1 
+        WHERE SS2.servicestatus_id = define_my_id
+          AND STH.state_time <= DOW.entry_time
+        ORDER BY STH.state_time DESC
+        LIMIT 1
       ) AS state,
       '1' AS state_type,
       'downtime' AS type,
@@ -60,15 +60,15 @@ $QUERY_HISTORY['svc'] = "
   ) UNION (
 
     -- COMMENT
-    SELECT 
+    SELECT
       COM.author_name,
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_servicestatus AS SS2 ON STH.object_id = SS2.service_object_id
-        WHERE SS2.servicestatus_id = define_my_id 
-          AND STH.state_time <= COM.entry_time 
-        ORDER BY STH.state_time DESC 
-        LIMIT 1 
+        WHERE SS2.servicestatus_id = define_my_id
+          AND STH.state_time <= COM.entry_time
+        ORDER BY STH.state_time DESC
+        LIMIT 1
       ) AS state,
       '1' AS state_type,
       'comment' AS type,
@@ -111,14 +111,14 @@ $QUERY_HISTORY['svc'] = "
       'statehistory' AS type,
       STH.state_time AS entry_time,
       STH.output
-    FROM ".$BACKEND."_servicestatus AS SS 
+    FROM ".$BACKEND."_servicestatus AS SS
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
       AND define_my_state = 1
     ORDER BY STH.statehistory_id DESC
     LIMIT define_my_submax
 
-  ) UNION ( 
+  ) UNION (
 
     -- FLAPPING
     SELECT
@@ -126,10 +126,10 @@ $QUERY_HISTORY['svc'] = "
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_servicestatus AS SS2 ON STH.object_id = SS2.service_object_id
-        WHERE SS2.servicestatus_id = define_my_id 
-          AND STH.state_time <= F.event_time 
-        ORDER BY STH.state_time DESC 
-        LIMIT 1 
+        WHERE SS2.servicestatus_id = define_my_id
+          AND STH.state_time <= F.event_time
+        ORDER BY STH.state_time DESC
+        LIMIT 1
       ) AS state,
       '0' AS state_type,
       'flapping' AS type,
@@ -158,11 +158,11 @@ $QUERY_HISTORY['host'] = "
     sub.entry_time           AS entry_time,
     sub.author_name          AS author_name,
     sub.output               AS outputstatus
-    
+
   FROM ((
 
-    -- ACKNOWLEDGEMENT 
-    SELECT 
+    -- ACKNOWLEDGEMENT
+    SELECT
       ACO.author_name,
       ACO.state,
       '1' AS state_type,
@@ -179,15 +179,15 @@ $QUERY_HISTORY['host'] = "
   ) UNION (
 
     -- DOWNTIME
-    SELECT 
+    SELECT
       DOW.author_name,
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_hoststatus AS HS2 ON STH.object_id = HS2.host_object_id
-        WHERE HS2.hoststatus_id = define_my_id 
-          AND STH.state_time <= DOW.entry_time 
-        ORDER BY STH.state_time DESC 
-        LIMIT 1 
+        WHERE HS2.hoststatus_id = define_my_id
+          AND STH.state_time <= DOW.entry_time
+        ORDER BY STH.state_time DESC
+        LIMIT 1
       ) AS state,
       '1' AS state_type,
       'downtime' AS type,
@@ -203,15 +203,15 @@ $QUERY_HISTORY['host'] = "
   ) UNION (
 
     -- COMMENT
-    SELECT 
+    SELECT
       COM.author_name,
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_hoststatus AS HS2 ON STH.object_id = HS2.host_object_id
-        WHERE HS2.hoststatus_id = define_my_id 
-          AND STH.state_time <= COM.entry_time 
-        ORDER BY STH.state_time DESC 
-        LIMIT 1 
+        WHERE HS2.hoststatus_id = define_my_id
+          AND STH.state_time <= COM.entry_time
+        ORDER BY STH.state_time DESC
+        LIMIT 1
       ) AS state,
       '1' AS state_type,
       'comment' AS type,
@@ -254,7 +254,7 @@ $QUERY_HISTORY['host'] = "
       'statehistory' AS type,
       STH.state_time AS entry_time,
       STH.output
-    FROM ".$BACKEND."_hoststatus AS HS 
+    FROM ".$BACKEND."_hoststatus AS HS
       JOIN ".$BACKEND."_statehistory AS STH ON STH.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id
       AND define_my_state = 1
@@ -269,10 +269,10 @@ $QUERY_HISTORY['host'] = "
       ( SELECT STH.state
         FROM ".$BACKEND."_statehistory AS STH
           JOIN ".$BACKEND."_hoststatus AS HS2 ON STH.object_id = HS2.host_object_id
-        WHERE HS2.hoststatus_id = define_my_id 
-          AND STH.state_time <= F.event_time 
-        ORDER BY STH.state_time DESC 
-        LIMIT 1 
+        WHERE HS2.hoststatus_id = define_my_id
+          AND STH.state_time <= F.event_time
+        ORDER BY STH.state_time DESC
+        LIMIT 1
       ) AS state,
       '0' AS state_type,
       'flapping' AS type,

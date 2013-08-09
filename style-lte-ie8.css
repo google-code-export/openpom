@@ -15,21 +15,21 @@ table#top span#metter-wrap select {
   height: 20px;
   padding: 1px;
   border: 1px solid #fff;
-  -ms-filter: 
-      "progid:DXImageTransform.Microsoft.chroma(Color=#716f64), 
-      progid:DXImageTransform.Microsoft.chroma(Color=#7f9db9), 
-      progid:DXImageTransform.Microsoft.chroma(Color=#e0dfe3), 
-      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),  
-      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
-      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),  
+  -ms-filter:
+      "progid:DXImageTransform.Microsoft.chroma(Color=#716f64),
+      progid:DXImageTransform.Microsoft.chroma(Color=#7f9db9),
+      progid:DXImageTransform.Microsoft.chroma(Color=#e0dfe3),
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),
       progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff)";
-  filter: 
-      progid:DXImageTransform.Microsoft.chroma(Color=#716f64), 
-      progid:DXImageTransform.Microsoft.chroma(Color=#7f9db9), 
-      progid:DXImageTransform.Microsoft.chroma(Color=#e0dfe3), 
-      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
-      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
-      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff), 
+  filter:
+      progid:DXImageTransform.Microsoft.chroma(Color=#716f64),
+      progid:DXImageTransform.Microsoft.chroma(Color=#7f9db9),
+      progid:DXImageTransform.Microsoft.chroma(Color=#e0dfe3),
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),
+      progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff),
       progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color=#ffffff);
 }
 
@@ -54,4 +54,3 @@ table#top td#wgrad div#white {
     filter: alpha(opacity=10);
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
 }
-

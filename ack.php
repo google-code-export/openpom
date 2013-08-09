@@ -17,7 +17,7 @@ require_once("lang.php");
   <div class="box-title box-title-default">
     <h2><?php echo ucfirst(lang($MYLANG, 'acknowledge')) ?></h2>
   </div>
-  
+
   <div class="box-content" id="box-ack">
     <form action="" method="post" onsubmit="return valid_ack(this, '<?php echo rawurlencode($ILLEGAL_CHAR); ?>');">
       <!-- BEGIN IE FIX -->
@@ -31,32 +31,30 @@ require_once("lang.php");
         <tr>
           <th><?php echo ucfirst(lang($MYLANG, 'comment')) ?></th>
           <td colspan="2">
-            <input type="text" 
-                   maxlength="64" 
-                   name="comment" 
+            <input type="text"
+                   maxlength="64"
+                   name="comment"
                    id="comment" />
           </td>
         </tr>
-        
-        
+
         <tr>
           <td class="height-14"></td>
           <td class="height-14"></td>
           <td class="height-14"></td>
         </tr>
-        
-        
+
         <tr>
           <td></td>
           <td>
             <input type="hidden" name="action" value="ack" />
             <input type="submit" value="OK" />&#160;
-            <input type="submit" 
+            <input type="submit"
                    value="<?php echo ucfirst(lang($MYLANG, 'track')) ?>"
                    onclick="append_track(this.form);" />&#160;
           </td>
           <td align="right">
-            <input type="button"  
+            <input type="button"
                    value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />
           </td>
@@ -64,8 +62,7 @@ require_once("lang.php");
       </table>
     </form>
   </div>
-  
+
   <script type="text/javascript">
     setTimeout(function () { $('#comment').focus(); }, 500);
   </script>
-

@@ -1,7 +1,7 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -14,7 +14,6 @@ if (!isset($_SESSION['USER'])) die();
 require_once("utils.php");
 require_once("lang.php");
 $pat = '/[' . preg_quote($ILLEGAL_CHAR) . ']/' ;
-
 
 /* query string: host */
 if (isset($_GET['host']) && !preg_match($pat, $_GET['host'])) {
@@ -71,7 +70,7 @@ $graph .= (strpos($graph, '?') === false ? '?' : '&')
   <title><?php echo $host; if (!empty($service)) { echo " &#160;&mdash;&#160; ".$service; } ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
-    <meta http-equiv="PRAGMA" content="NO-CACHE" />                                       
+    <meta http-equiv="PRAGMA" content="NO-CACHE" />
     <link rel="StyleSheet" href="style.css" type="text/css" />
     <style type="text/css">
     div { margin-top: 20px; margin-bottom: 30px; }
@@ -83,8 +82,8 @@ $graph .= (strpos($graph, '?') === false ? '?' : '&')
       <div>
         <?php
           $top = '';
-          $uri = $_SERVER['PHP_SELF'] 
-            . '?host=' . $host 
+          $uri = $_SERVER['PHP_SELF']
+            . '?host=' . $host
             . '&service=' . $service;
 
           foreach (array_keys($GRAPH_POPUP_PERIODS) as $p) {
@@ -99,7 +98,7 @@ $graph .= (strpos($graph, '?') === false ? '?' : '&')
           echo $top;
         ?>
       </div>
-      
+
       <img src="<?php echo $graph ?>" />
     </center>
   </body>

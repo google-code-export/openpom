@@ -1,7 +1,7 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -103,7 +103,7 @@ $LANG['en'] = array (
 'vsearch'            => 'launch search',
 'querytime'          => 'query in',
 'end_down'           => 'end time',
-'end'                => 'end', 
+'end'                => 'end',
 'graph_icon'         => 'show graph',
 'fixed'              => 'Fix popup',
 'start_time'         => 'start time',
@@ -118,10 +118,10 @@ $LANG['en'] = array (
 'ena_notif'          => 'enable global notifications',
 'disa_notif'         => 'disable global notifications',
 'ena_popin'          => 'enable status popin',
-'disa_popin'         => 'disable status popin', 
-'notif_warning'      => 'Warning: global notifications are disabled!', 
-'yes'                => 'yes', 
-'no'                 => 'no', 
+'disa_popin'         => 'disable status popin',
+'notif_warning'      => 'Warning: global notifications are disabled!',
+'yes'                => 'yes',
+'no'                 => 'no',
 'state_change'       => 'state change',
 'disabled_since'     => 'disabled since',
 'next_check'         => 'next check',
@@ -275,11 +275,11 @@ $LANG['fr'] = array (
 'ena_notif'          => 'activer les notifications globales',
 'disa_notif'         => 'd&eacute;sactiver les notifications globales',
 'ena_popin'          => 'activer la popin de status',
-'disa_popin'         => 'd&eacute;sactiver la popin de status', 
-'notif_warning'      => 'Attention : les notifications globales sont d&eacute;sactiv&eacute;es !', 
-'yes'                => 'oui', 
-'no'                 => 'non', 
-'state_change'       => 'changement d\'&eacute;tat', 
+'disa_popin'         => 'd&eacute;sactiver la popin de status',
+'notif_warning'      => 'Attention : les notifications globales sont d&eacute;sactiv&eacute;es !',
+'yes'                => 'oui',
+'no'                 => 'non',
+'state_change'       => 'changement d\'&eacute;tat',
 'disabled_since'     => 'd&eacute;sactiv&eacute;es depuis',
 'next_check'         => 'Prochain test',
 'show_history'       => 'historique complet',
@@ -311,7 +311,7 @@ $LANG['fr'] = array (
 'checkstatus'        => 'test: tentative | intervalle | dernier',
 'groupstatus'        => 'groupes: machines | contacts',
 'quicksearch'        => 'recherche rapide',
-'historydisplay'     => 'historique &agrave; afficher', 
+'historydisplay'     => 'historique &agrave; afficher',
 'statuspopin'        => 'popin de statut: information',
 'checkinfo'          => 'type de test | nom du test',
 'checktime'          => 'test latence | dur&eacute;e',
@@ -430,11 +430,11 @@ $LANG['de'] = array (
 'ena_notif'          => 'Benachrichtigung aktivieren (globale)',
 'disa_notif'         => 'Benachrichtigung deaktivieren (globale)',
 'ena_popin'          => 'Status popin aktivieren',
-'disa_popin'         => 'Status popin deaktivieren', 
-'notif_warning'      => 'Warnung: Globale Benachrichtigungen sind deaktiviert!', 
-'yes'                => 'ja', 
-'no'                 => 'nein', 
-'state_change'       => 'Zustands&auml;nderung', 
+'disa_popin'         => 'Status popin deaktivieren',
+'notif_warning'      => 'Warnung: Globale Benachrichtigungen sind deaktiviert!',
+'yes'                => 'ja',
+'no'                 => 'nein',
+'state_change'       => 'Zustands&auml;nderung',
 'disabled_since'     => 'Deaktiviert seit',
 'next_check'         => 'nachste check',
 'show_history'       => 'Ausf&uuml;hrliche Geschichte',
@@ -485,7 +485,7 @@ if ( (isset($_GET['lang'])) && (isset($LANG[substr($_GET['lang'],0,2)])) ) {
   $MYLANG = substr($_GET['lang'],0,2) ;
   $_SESSION['LANG'] = $MYLANG ;
 }
-else if (isset($_SESSION['LANG'])) 
+else if (isset($_SESSION['LANG']))
   $MYLANG = $_SESSION['LANG'] ;
 else
   $_SESSION['LANG'] = $MYLANG ;
@@ -496,7 +496,7 @@ function lang($lang, $key) {
     return "lang error";
   if (strlen($key) > 100)
     return "lang error";
-  if (isset($LANG[$lang][$key])) 
+  if (isset($LANG[$lang][$key]))
     return $LANG[$lang][$key];
   return $key;
 }

@@ -1,12 +1,11 @@
-<?php 
+<?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
 */
-
 
 $QUERY_DOWNTIME_MIXED_ID = "
   select

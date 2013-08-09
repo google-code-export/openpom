@@ -1,7 +1,7 @@
 <?php
 /*
   OpenPOM
- 
+
   Copyright 2010, Exosec
   Licensed under GPL Version 2.
   http://www.gnu.org/licenses/
@@ -18,7 +18,6 @@
   echo "</pre>";
   */
 
-
 /* SESSION (STOCK LANG, REFRESH, LINE_BY_PAGE, ...) */
 require_once("config.php");
 session_name($CODENAME);
@@ -33,9 +32,9 @@ require_once("query-comment.php");
 require_once("query-globalcount.php");
 require_once("utils.php");
 
-if (isset($_SERVER['REMOTE_USER'])) 
+if (isset($_SERVER['REMOTE_USER']))
   $_SESSION['USER'] = strip_tags(addslashes(htmlspecialchars($_SERVER['REMOTE_USER']))) ;
-else 
+else
   die_refresh("no user");
 
 special_char();
@@ -55,10 +54,10 @@ if (isset($_GET['reset'])) {
 require_once("lang.php");
 
 /* SQL CONNECT AND SELECT DB */
-if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD))) 
+if (!($dbconn = mysql_connect($SQL_HOST, $SQL_USER, $SQL_PASSWD)))
   die_refresh("cannot connect to db") ;
 
-if (!mysql_select_db($SQL_DB, $dbconn)) 
+if (!mysql_select_db($SQL_DB, $dbconn))
   die_refresh("cannot select db");
 
 /* UNSET GET OPTIONS ON CANCEL */
@@ -96,12 +95,12 @@ if ($row_global_notif[0] == 0) $global_notif = "ena_notif" ;
 else $global_notif = "disa_notif";
 
 /* PROCESS POST DATA AND SEND CMD TO NAGIOS OR ICINGA */
-if (isset($_POST['action']) 
-      && isset($_POST['target']) 
+if (isset($_POST['action'])
+      && isset($_POST['target'])
       && is_array($_POST['target'])) {
-  
+
   handle_action(
-    $_POST['action'], 
+    $_POST['action'],
     $_POST['target']);
 }
 
@@ -120,15 +119,13 @@ $MY_ACKLISTVAL      = 0;                  //DOWNTIME AND ACK SVC FOR ACK AND DOW
 $MY_NOSVC           = 1;                  //NO SVC FOR CRITICAL HOST
 $MY_DISABLE         = 1;                  //DISABLE ALERT ARE TREATED LIKE ACK AND DOWN
 $MY_SOFT            = 0;                  //SOFT ALERTS (0 print soft alerts)
-$FIRST              = "0";                //FIRST GET ROW 
+$FIRST              = "0";                //FIRST GET ROW
 $MY_TRACK_ANY       = 1 ;                 //TRACK ANYTHING
 
 /* Internal flags used to identify the type of comments set on host
  * and services */
 define('ENTRY_COMMENT_NORMAL', 0x01);
 define('ENTRY_COMMENT_TRACK',  0x02);
-
-
 
 /* GET DEFAULT LEVEL */
 if ( (isset($_GET['defaultlevel'])) && (is_numeric($_GET['defaultlevel'])) &&
@@ -143,7 +140,7 @@ else
 
 /* SELECT LEVEL */
 if ( (isset($_GET['level'])) && (is_numeric($_GET['level'])) &&
-  ($_GET['level'] > 0) && ($_GET['level'] <= $MAXLEVEL) ) 
+  ($_GET['level'] > 0) && ($_GET['level'] <= $MAXLEVEL) )
   $LEVEL = $_GET['level'] ;
 
 select_level($LEVEL);
@@ -176,11 +173,11 @@ if (isset($_GET['order'])) {
 }
 
 /* GET NEXT OR PREVIOUS PAGE */
-if (isset($_GET['prev'])) 
+if (isset($_GET['prev']))
   if ( (is_numeric($_GET['prev'])) && ($_GET['prev'] > 0) )
     $FIRST = $_GET['prev'];
 
-if (isset($_GET['next'])) 
+if (isset($_GET['next']))
   if ( (is_numeric($_GET['next'])) && ($_GET['next'] > 0) )
     $FIRST = $_GET['next'];
 
@@ -192,7 +189,7 @@ if ( (isset($_GET['refresh'])) && (is_numeric($_GET['refresh'])) &&
 }
 else if (isset($_SESSION['REFRESH']))
   $REFRESHTIME = $_SESSION['REFRESH'];
-else 
+else
   $_SESSION['REFRESH'] = $REFRESHTIME;
 
 /* GET DEFAULT MAX LINE PER PAGE */
@@ -222,7 +219,6 @@ else if (isset($_SESSION['FONTSIZE']))
 else
   $_SESSION['FONTSIZE'] = $FONT_SIZE;
 
-
 /* ENABLE/DISABLE QUICK SEARCH */
 if (isset($_GET['quicksearch'])) {
   $QUICKSEARCH = 1;
@@ -241,7 +237,7 @@ if (isset($_GET['frame'])) {
 else if (isset($_GET['option'])) {
   $FRAME = 1;
 }
-else if (isset($_SESSION['FRAME'])) 
+else if (isset($_SESSION['FRAME']))
   $FRAME = $_SESSION['FRAME'];
 $_SESSION['FRAME'] = $FRAME;
 
@@ -266,7 +262,7 @@ if(isset($_GET['option'])) {
   else if (isset($_SESSION['STATUS']['graph'])) unset($_SESSION['STATUS']['graph']) ;
   if (isset($_GET['showall']))   $_SESSION['STATUS']['all']   = 1;
   else if (isset($_SESSION['STATUS']['all']))   unset($_SESSION['STATUS']['all']) ;
-  if ( (isset($_GET['showlimit'])) && (is_numeric($_GET['showlimit'])) ) 
+  if ( (isset($_GET['showlimit'])) && (is_numeric($_GET['showlimit'])) )
     $_SESSION['STATUS']['limit'] = $_GET['showlimit'];
   foreach($STATUSPOPIN AS $key => $val) {
     if ( ( ! isset($_GET[$key]) ) && ( isset($_SESSION['STATUS'][$key]) ) )
@@ -285,7 +281,7 @@ else if (!isset($_SESSION['STATUS'])) {
 }
 
 /* GET DO WE DISPLAY POPIN */
-if (isset($_GET['popin']) 
+if (isset($_GET['popin'])
     && ($_GET['popin'] === '0' || $_GET['popin'] === '1')) {
   $POPIN = $_GET['popin'];
   $_SESSION['POPIN'] = $POPIN;
@@ -295,7 +291,6 @@ if (isset($_GET['popin'])
 } else {
   $_SESSION['POPIN'] = $POPIN;
 }
-
 
 if (!init_columns($err))
     die_refresh($err);
@@ -351,7 +346,6 @@ if (!isset($_GET['json'])) {
     }
 }
 
-
 /* KEEP GET FOR FUTUR LINK */
 if (isset($_GET['n']))
   unset($_GET['n']);
@@ -371,7 +365,6 @@ $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_NEXT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}filter=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}filtering=[^&]+/','',$MY_GET_NO_FILT);
 $MY_GET_NO_FILT = preg_replace('/[?&]{1}clear=[^&]+/','',$MY_GET_NO_FILT);
-
 
 $MY_QUERY_PARTS = array(
     'define_host_search' => '',
@@ -410,12 +403,10 @@ if (!init_filter($err, $FILTER))
 init_orderby();
 terminate_query();
 
-
 /* QUERY AND SET GLOBAL COUNTER */
 $query_glob = str_replace(array_keys($MY_QUERY_PARTS),
                           array_values($MY_QUERY_PARTS),
                           $QUERY_GLOBAL_COUNT);
-
 
 if (!($rep_glob = mysql_query($query_glob, $dbconn))) {
   $errno = mysql_errno($dbconn);
@@ -463,7 +454,7 @@ while ( ($nb_rows <= 0) && ($level <= $MAXLEVEL) ) {
   echo $query;
   echo "</pre>";
   */
- 
+
   $query_start = getmicrotime();
   if (!($rep = mysql_query($query, $dbconn))) {
     $errno = mysql_errno($dbconn);
