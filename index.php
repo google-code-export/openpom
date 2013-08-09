@@ -297,7 +297,7 @@ if (isset($_GET['popin'])
 }
 
 
-if (!init_columns(&$err))
+if (!init_columns($err))
     die_refresh($err);
 
 if (!isset($_GET['json'])) {
@@ -404,7 +404,7 @@ $MY_QUERY_PARTS = array(
   'define_host_service'       =>  mysql_real_escape_string($HOST_SERVICE, $dbconn),
 );
 
-if (!init_filter(&$err, $FILTER))
+if (!init_filter($err, $FILTER))
     die_refresh($err);
 
 init_orderby();

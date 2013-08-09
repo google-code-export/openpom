@@ -38,7 +38,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
   <div class="box-content" id="box-option">
 <?php
 
-if (!init_columns(&$err)) {
+if (!init_columns($err)) {
     echo "$err</div>";
     exit(1);
 }
