@@ -166,6 +166,13 @@ $LANG['en'] = array (
 'statuslimit'        => 'lines: ',
 'showgraph'          => 'graph: ',
 'cvar'               => 'variable:',
+'col_hostname'       => 'equipment',
+'col_address'        => 'IP',
+'col_service'        => 'service',
+'col_groups'         => 'groups',
+'col_output'         => 'status information',
+'col_last'           => 'last check',
+'col_duration'       => 'duration',
 ) ;
 
 /* FRENCH */
@@ -323,6 +330,13 @@ $LANG['fr'] = array (
 'statuslimit'        => 'lignes: ',
 'showgraph'          => 'graphe: ',
 'cvar'               => 'variable :',
+'col_hostname'       => 'equipement',
+'col_address'        => 'IP',
+'col_service'        => 'service',
+'col_groups'         => 'groupes',
+'col_output'         => 'Information',
+'col_last'           => 'dernier test',
+'col_duration'       => 'dur&eacute;e',
 ) ;
 
 $LANG['de'] = array (
@@ -478,6 +492,13 @@ $LANG['de'] = array (
 'statuslimit'        => 'linien: ',
 'showgraph'          => 'graph: ',
 'cvar'               => 'Variable:',
+'col_hostname'       => 'Ger&auml;te',
+'col_address'        => 'IP',
+'col_service'        => 'Dienste',
+'col_groups'         => 'Gruppen',
+'col_output'         => 'status-informationen',
+'col_last'           => 'letzte pr&uuml;fe',
+'col_duration'       => 'Dauer',
 ) ;
 
 /* GET/SET LANG */
@@ -490,7 +511,7 @@ else if (isset($_SESSION['LANG']))
 else
   $_SESSION['LANG'] = $MYLANG ;
 
-function lang($lang, $key) {
+function lang($lang, $key, $fallback = '') {
   global $LANG;
   if ( (empty($key)) || (empty($lang)) )
     return "lang error";
@@ -498,6 +519,8 @@ function lang($lang, $key) {
     return "lang error";
   if (isset($LANG[$lang][$key]))
     return $LANG[$lang][$key];
+  if ($fallback != '')
+    return $fallback;
   return $key;
 }
 

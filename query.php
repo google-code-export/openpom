@@ -645,7 +645,7 @@ function format_header($col, &$def)
     global $MYLANG;
     global $MY_GET_NO_SORT;
 
-    $text = ucfirst(lang($MYLANG, $col));
+    $text = ucfirst(lang($MYLANG, "col_$col", $col));
 
     if (isset($def['sort'])) {
         if ($SORTCOL == $col) {
