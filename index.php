@@ -309,7 +309,6 @@ if (!isset($_GET['json'])) {
             if (isset($_GET["maxlen_$col"]) && is_numeric($_GET["maxlen_$col"]) &&
                 $_GET["maxlen_$col"] > 0 && $_GET["maxlen_$col"] < 1000) {
 
-                pdebug("set MAXLEN_$col = ".$_GET["maxlen_$col"]);
                 $_SESSION["MAXLEN_$col"] = $_GET["maxlen_$col"];
             }
 
