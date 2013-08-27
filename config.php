@@ -213,7 +213,7 @@ $COLUMN_DEFINITION['groups'] = array(
     'key'    => 'g',
 
     /* internal stuff */
-    'filter' => array('define_host_search'  => 'HGO.name1 LIKE %f OR SGO.name1 LIKE %f',
+    'filter' => array('define_host_search'  => 'HGO.name1 LIKE %f',
                       'define_svc_search'   => 'HGO.name1 LIKE %f OR SGO.name1 LIKE %f'),
 );
 
