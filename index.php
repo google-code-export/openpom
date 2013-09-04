@@ -305,16 +305,13 @@ if (!isset($_GET['json'])) {
             continue;
 
         /* max length */
-        if (isset($_GET['option']) && isset($def['lmax'])) {
-            if (isset($_GET["maxlen_$col"]) && is_numeric($_GET["maxlen_$col"]) &&
-                $_GET["maxlen_$col"] > 0 && $_GET["maxlen_$col"] < 1000) {
+        if (isset($_GET['option']) && isset($def['lmax']) &&
+            isset($_GET["maxlen_$col"]) && is_numeric($_GET["maxlen_$col"]) &&
+            $_GET["maxlen_$col"] > 0 && $_GET["maxlen_$col"] < 1000)
+            $_SESSION["MAXLEN_$col"] = $_GET["maxlen_$col"];
 
-                $_SESSION["MAXLEN_$col"] = $_GET["maxlen_$col"];
-            }
-
-            if (isset($_SESSION["MAXLEN_$col"]))
-                $def['lmax'] = $_SESSION["MAXLEN_$col"];
-        }
+        if (isset($_SESSION["MAXLEN_$col"]))
+            $def['lmax'] = $_SESSION["MAXLEN_$col"];
 
         /* display of some columns is not modifiable */
         if (($def['opts'] & COL_MUST_DISPLAY))
