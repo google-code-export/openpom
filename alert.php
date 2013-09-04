@@ -19,10 +19,14 @@ table#alert * {
 
 <table width="100%" id="alert">
     <tr>
-<?php foreach ($COLUMN_DEFINITION as $col => &$def) {
+<?php $number_col_monitor = 0;
+
+      foreach ($COLUMN_DEFINITION as $col => &$def) {
           if (($def['opts'] & COL_ENABLED) == 0 ||
               (isset($_GET['monitor']) && ($def['opts'] & COL_NO_MONITOR)))
               continue;
+
+      $number_col_monitor++;
 ?>
 
         <th class="<?php echo $col ?>">
@@ -35,7 +39,7 @@ table#alert * {
 <?php if (isset($_GET['monitor']) && $global_notif == 'ena_notif') { ?>
     <!-- extra row in monitor mode when global notifications are disabled -->
     <tr>
-        <td id="notif_warning" colspan="<?php echo count($COLS) ?>">
+        <td id="notif_warning" colspan="<?php echo $number_col_monitor ?>">
             <div>
                 <?php echo _('notif_warning'); ?>
             </div>
