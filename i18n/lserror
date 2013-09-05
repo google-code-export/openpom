@@ -35,8 +35,6 @@ exclude
 hide
 flag
 group
-last
-duration
 reload
 curat
 latency
@@ -67,7 +65,6 @@ author_name
 comment_data
 contact_name
 contact_address
-output
 nohistory
 flap
 flap_type
@@ -83,3 +80,13 @@ checkinfo
 checktime
 laststatus
 graph
+col_hostname
+col_address
+col_service
+col_groups
+col_output
+col_last
+col_duration
+col_client
+col_timeleft
+curstat

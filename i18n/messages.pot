@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-05 16:21+0200\n"
+"POT-Creation-Date: 2013-09-06 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,117 +16,259 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../status-event.php:66 ../status-event.php:108 ../status-nagios.php:377
-#: ../status-nagios.php:414
-msgid "on"
-msgstr ""
-
-#: ../status-event.php:93 ../status-event.php:94 ../status-nagios.php:400
-#: ../status-nagios.php:401
-msgid "fixed"
-msgstr ""
-
-#: ../status-event.php:102 ../status-nagios.php:409 ../query.php:879
-msgid "service"
-msgstr ""
-
-#: ../status-event.php:103 ../status-nagios.php:408
-msgid "machine"
-msgstr ""
-
-#: ../status-event.php:114
-msgid "curstat"
-msgstr ""
-
-#: ../status-event.php:120
-msgid "stinfo"
-msgstr ""
-
-#: ../status-event.php:128
-msgid "chktyp"
-msgstr ""
-
-#: ../status-event.php:132 ../down.php:30
-msgid "start_time"
-msgstr ""
-
-#: ../status-event.php:136
-msgid "lastup"
-msgstr ""
-
-#: ../status-event.php:147 ../down.php:39
-msgid "end_down"
-msgstr ""
-
-#: ../status-event.php:160
-msgid "disabled_since"
-msgstr ""
-
-#: ../showlog.php:49 ../history.php:75 ../action.php:238
+#: ../showlog.php:44 ../history.php:70 ../action.php:233
 msgid "next"
 msgstr ""
 
-#: ../showlog.php:55 ../history.php:82 ../action.php:230
+#: ../showlog.php:50 ../history.php:77 ../action.php:225
 msgid "prev"
 msgstr ""
 
-#: ../showlog.php:68 ../showlog.php:78 ../history.php:90
+#: ../showlog.php:63 ../showlog.php:73 ../history.php:85
 msgid "history"
 msgstr ""
 
-#: ../status-nagios.php:66
+#: ../disable.php:18 ../query.php:805 ../action.php:58
+msgid "disable_title"
+msgstr ""
+
+#: ../disable.php:33 ../query.php:811 ../ack.php:32 ../comment.php:33
+#: ../down.php:60
+msgid "comment"
+msgstr ""
+
+#: ../disable.php:54 ../ack.php:53 ../comment.php:54 ../down.php:82
+msgid "track"
+msgstr ""
+
+#: ../disable.php:59 ../ack.php:58 ../option.php:268 ../comment.php:59
+#: ../down.php:87
+msgid "cancel"
+msgstr ""
+
+#: ../query.php:787 ../status-nagios.php:318
+msgid "service"
+msgstr ""
+
+#: ../query.php:791
+msgid "host"
+msgstr ""
+
+#: ../query.php:798
+msgid "graph_icon"
+msgstr ""
+
+#: ../query.php:802 ../action.php:50 ../ack.php:18
+msgid "acknowledge"
+msgstr ""
+
+#: ../query.php:808 ../action.php:54 ../down.php:18
+msgid "downtime"
+msgstr ""
+
+#: ../alert.php:44
+msgid "notif_warning"
+msgstr ""
+
+#: ../history.php:95
+msgid "historyfor"
+msgstr ""
+
+#: ../action.php:35
+msgid "refresh"
+msgstr ""
+
+#: ../action.php:38 ../action.php:248
+msgid "refreshing"
+msgstr ""
+
+#: ../action.php:62 ../comment.php:18
+msgid "comment0"
+msgstr ""
+
+#: ../action.php:66
+msgid "reset_title"
+msgstr ""
+
+#: ../action.php:70
+msgid "recheck"
+msgstr ""
+
+#: ../action.php:89
+msgid "show_log"
+msgstr ""
+
+#: ../action.php:93
+msgid "mode"
+msgstr ""
+
+#: ../action.php:97 ../option.php:35
+msgid "option"
+msgstr ""
+
+#: ../action.php:119 ../action.php:166 ../option.php:91 ../option.php:98
+msgid "level"
+msgstr ""
+
+#: ../action.php:135
+msgid "search"
+msgstr ""
+
+#: ../action.php:141
+msgid "vsearch"
+msgstr ""
+
+#: ../action.php:145
+msgid "clear"
+msgstr ""
+
+#: ../action.php:165
+msgid "title"
+msgstr ""
+
+#: ../action.php:169 ../action.php:184
+msgid "meter"
+msgstr ""
+
+#: ../action.php:251 ../option.php:57
+msgid "second"
+msgstr ""
+
+#: ../action.php:255
+msgid "mode0"
+msgstr ""
+
+#.
+#. OpenPOM
+#.
+#. Copyright 2010, Exosec
+#. Licensed under GPL Version 2.
+#. http://www.gnu.org/licenses/
+#.
+#: ../footer.php:18
+msgid "querytime"
+msgstr ""
+
+#: ../status-nagios.php:63
 msgid "no"
 msgstr ""
 
-#: ../status-nagios.php:67
+#: ../status-nagios.php:64
 msgid "yes"
 msgstr ""
 
-#: ../status-nagios.php:137
+#: ../status-nagios.php:134
 msgid "state_change"
 msgstr ""
 
 #. DOWNSTATUS
-#: ../status-nagios.php:143
+#: ../status-nagios.php:140
 msgid "end"
 msgstr ""
 
-#: ../status-nagios.php:155
+#: ../status-nagios.php:149
 msgid "show_history"
 msgstr ""
 
-#: ../status-nagios.php:449
+#: ../status-nagios.php:286 ../status-nagios.php:323
+msgid "on"
+msgstr ""
+
+#: ../status-nagios.php:309 ../status-nagios.php:310
+msgid "fixed"
+msgstr ""
+
+#: ../status-nagios.php:317
+msgid "machine"
+msgstr ""
+
+#: ../status-nagios.php:358
 msgid "titlemore"
 msgstr ""
 
-#: ../status-nagios.php:449
+#: ../status-nagios.php:358
 msgid "more"
 msgstr ""
 
-#: ../status-nagios.php:463
+#: ../status-nagios.php:372
 msgid "cvar"
 msgstr ""
 
-#: ../disable.php:24 ../query.php:897 ../action.php:58
-msgid "disable_title"
+#: ../option.php:51
+msgid "refreshing0"
 msgstr ""
 
-#: ../disable.php:39 ../query.php:903 ../ack.php:37 ../down.php:65
-#: ../comment.php:39
-msgid "comment"
+#: ../option.php:63
+msgid "lang"
 msgstr ""
 
-#: ../disable.php:62 ../ack.php:60 ../down.php:89 ../comment.php:61
-msgid "track"
+#: ../option.php:81
+msgid "step"
 msgstr ""
 
-#: ../disable.php:67 ../ack.php:65 ../option.php:271 ../down.php:94
-#: ../comment.php:66
-msgid "cancel"
+#: ../option.php:112
+msgid "maxlen"
 msgstr ""
 
-#: ../history.php:100
-msgid "historyfor"
+#. end foreach column
+#: ../option.php:130
+msgid "fontsize"
+msgstr ""
+
+#: ../option.php:141
+msgid "quicksearch"
+msgstr ""
+
+#: ../option.php:151
+msgid "statuspopin"
+msgstr ""
+
+#: ../option.php:154
+msgid "statusall"
+msgstr ""
+
+#: ../option.php:167
+msgid "statuslimit"
+msgstr ""
+
+#: ../option.php:172
+msgid "showgraph"
+msgstr ""
+
+#: ../option.php:181
+msgid "frame"
+msgstr ""
+
+#: ../option.php:191
+msgid "cols"
+msgstr ""
+
+#: ../option.php:230
+msgid "historydisplay"
+msgstr ""
+
+#: ../option.php:272
+msgid "reset0"
+msgstr ""
+
+#: ../down.php:25
+msgid "start_time"
+msgstr ""
+
+#: ../down.php:34
+msgid "end_down"
+msgstr ""
+
+#: ../down.php:43
+msgid "durationnow"
+msgstr ""
+
+#: ../down.php:49
+msgid "hour"
+msgstr ""
+
+#: ../down.php:56
+msgid "minutes"
 msgstr ""
 
 #.
@@ -142,170 +284,6 @@ msgstr ""
 
 #: ../query-history.php:52 ../query-history.php:195
 msgid "scheduled_end_time"
-msgstr ""
-
-#: ../query.php:883
-msgid "host"
-msgstr ""
-
-#: ../query.php:890
-msgid "graph_icon"
-msgstr ""
-
-#: ../query.php:894 ../ack.php:23 ../action.php:50
-msgid "acknowledge"
-msgstr ""
-
-#: ../query.php:900 ../action.php:54 ../down.php:23
-msgid "downtime"
-msgstr ""
-
-#: ../alert.php:41
-msgid "notif_warning"
-msgstr ""
-
-#: ../action.php:35
-msgid "refresh"
-msgstr ""
-
-#: ../action.php:38 ../action.php:253
-msgid "refreshing"
-msgstr ""
-
-#: ../action.php:62 ../comment.php:24
-msgid "comment0"
-msgstr ""
-
-#: ../action.php:66
-msgid "reset_title"
-msgstr ""
-
-#: ../action.php:70
-msgid "recheck"
-msgstr ""
-
-#: ../action.php:94
-msgid "show_log"
-msgstr ""
-
-#: ../action.php:98
-msgid "mode"
-msgstr ""
-
-#: ../action.php:102 ../option.php:37
-msgid "option"
-msgstr ""
-
-#: ../action.php:124 ../action.php:171 ../option.php:93 ../option.php:100
-msgid "level"
-msgstr ""
-
-#: ../action.php:140
-msgid "search"
-msgstr ""
-
-#: ../action.php:146
-msgid "vsearch"
-msgstr ""
-
-#: ../action.php:150
-msgid "clear"
-msgstr ""
-
-#: ../action.php:170
-msgid "title"
-msgstr ""
-
-#: ../action.php:174 ../action.php:189
-msgid "meter"
-msgstr ""
-
-#: ../action.php:256 ../option.php:59
-msgid "second"
-msgstr ""
-
-#: ../action.php:260
-msgid "mode0"
-msgstr ""
-
-#: ../option.php:53
-msgid "refreshing0"
-msgstr ""
-
-#: ../option.php:65
-msgid "lang"
-msgstr ""
-
-#: ../option.php:83
-msgid "step"
-msgstr ""
-
-#: ../option.php:114
-msgid "maxlen"
-msgstr ""
-
-#. end foreach column
-#: ../option.php:132
-msgid "fontsize"
-msgstr ""
-
-#: ../option.php:143
-msgid "quicksearch"
-msgstr ""
-
-#: ../option.php:153
-msgid "statuspopin"
-msgstr ""
-
-#: ../option.php:156
-msgid "statusall"
-msgstr ""
-
-#: ../option.php:169
-msgid "statuslimit"
-msgstr ""
-
-#: ../option.php:174
-msgid "showgraph"
-msgstr ""
-
-#: ../option.php:183
-msgid "frame"
-msgstr ""
-
-#: ../option.php:193
-msgid "cols"
-msgstr ""
-
-#: ../option.php:232
-msgid "historydisplay"
-msgstr ""
-
-#: ../option.php:275
-msgid "reset0"
-msgstr ""
-
-#.
-#. OpenPOM
-#.
-#. Copyright 2010, Exosec
-#. Licensed under GPL Version 2.
-#. http://www.gnu.org/licenses/
-#.
-#: ../footer.php:16
-msgid "querytime"
-msgstr ""
-
-#: ../down.php:48
-msgid "durationnow"
-msgstr ""
-
-#: ../down.php:54
-msgid "hour"
-msgstr ""
-
-#: ../down.php:61
-msgid "minutes"
 msgstr ""
 
 #------ Entry added by addentry.sh ------
@@ -420,12 +398,6 @@ msgstr ""
 msgid "group"
 msgstr ""
 
-msgid "last"
-msgstr ""
-
-msgid "duration"
-msgstr ""
-
 msgid "reload"
 msgstr ""
 
@@ -516,9 +488,6 @@ msgstr ""
 msgid "contact_address"
 msgstr ""
 
-msgid "output"
-msgstr ""
-
 msgid "nohistory"
 msgstr ""
 
@@ -562,6 +531,36 @@ msgid "laststatus"
 msgstr ""
 
 msgid "graph"
+msgstr ""
+
+msgid "col_hostname"
+msgstr ""
+
+msgid "col_address"
+msgstr ""
+
+msgid "col_service"
+msgstr ""
+
+msgid "col_groups"
+msgstr ""
+
+msgid "col_output"
+msgstr ""
+
+msgid "col_last"
+msgstr ""
+
+msgid "col_duration"
+msgstr ""
+
+msgid "col_client"
+msgstr ""
+
+msgid "col_timeleft"
+msgstr ""
+
+msgid "curstat"
 msgstr ""
 
 #------ End of the entries added by addentry.sh ------

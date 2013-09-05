@@ -220,7 +220,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
                      style="vertical-align: middle;"
                      <?php echo $display ? 'checked' : '' ?> />
               <label for="<?php echo "defaultcols_$col" ?>"
-                     style="vertical-align: middle;"><?php echo ucfirst(_($col)) ?></label><br />
+                     style="vertical-align: middle;"><?php echo _col($col) ?></label><br />
 
             <?php } ?>
           </td>

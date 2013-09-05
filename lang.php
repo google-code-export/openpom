@@ -40,4 +40,11 @@ bindtextdomain('messages', 'i18n');
 bind_textdomain_codeset('messages','UTF-8');
 textdomain('messages');
 
+/* handle column names not translated */
+function _col($column_name) {
+    if (($tr = ucfirst(_("col_$column_name"))) == "Col_$column_name")
+        return ucfirst($column_name);
+    return $tr;
+}
+
 ?>

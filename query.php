@@ -644,7 +644,7 @@ function format_header($col, &$def)
     global $SORTDIR;
     global $MY_GET_NO_SORT;
 
-    $text = ucfirst(_($col));
+    $text = _col($col);
 
     if (isset($def['sort'])) {
         if ($SORTCOL == $col) {
