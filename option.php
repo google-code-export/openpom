@@ -151,7 +151,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
             <?php echo ucfirst(_('statuspopin')) ?>
           </th>
           <td colspan="3">
-            <label for="showall" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, 'statusall')) ?></label>
+            <label for="showall" style="vertical-align: middle;"><?php echo ucfirst(_('statusall')) ?></label>
             <input type="checkbox" name="showall" id="showall" value="1"
                    <?php echo (isset($_SESSION['STATUS']['all'])) ? 'checked' : '' ?>
                    style="vertical-align: middle;"
