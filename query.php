@@ -645,7 +645,7 @@ function format_header($col, &$def)
     global $MYLANG;
     global $MY_GET_NO_SORT;
 
-    $text = ucfirst(lang($MYLANG, "col_$col", $col));
+    $text = ucfirst(_($col));
 
     if (isset($def['sort'])) {
         if ($SORTCOL == $col) {
@@ -786,31 +786,31 @@ function format_row_flags($col, &$def, &$data)
 
     if ($data['TYPE'] == "svc")
         echo "<a href=\"$LINK?type=2&host=${data['HOSTNAME']}&service=${data['SERVICE']}\" target=\"_blank\">".
-             "<img src=\"img/flag_svc.png\" border=\"0\" alt=\"S\" title=\"".ucfirst(lang($MYLANG, 'service'))."\" />".
+             "<img src=\"img/flag_svc.png\" border=\"0\" alt=\"S\" title=\"".ucfirst(_('service'))."\" />".
              "</a>";
     else if ($data['TYPE'] == "host")
         echo "<a href=\"$LINK?type=1&host=${data['HOSTNAME']}\" target=\"_blank\">".
-             "<img src=\"img/flag_host.png\" border=\"0\" alt=\"H\" title=\"".ucfirst(lang($MYLANG, 'host'))."\" />".
+             "<img src=\"img/flag_host.png\" border=\"0\" alt=\"H\" title=\"".ucfirst(_('host'))."\" />".
              "</a>";
 
     $g = get_graph('popup', $data['HOSTNAME'], $data['SERVICE']);
     if (!empty($g))
         echo "<a href=\"#\" target=\"_blank\" ".
              "   onclick=\"return pop('$g', '${data['STATUSID']}', $GRAPH_POPUP_WIDTH, $GRAPH_POPUP_HEIGHT);\">".
-             "<img src=\"img/flag_graph.png\" border=\"0\" alt=\"G\" title=\"".ucfirst(lang($MYLANG, 'graph_icon'))."\" />".
+             "<img src=\"img/flag_graph.png\" border=\"0\" alt=\"G\" title=\"".ucfirst(_('graph_icon'))."\" />".
              "</a>";
 
     if ($data['ACK'] == '1')
-        echo '<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(lang($MYLANG, 'acknowledge')).'" />';
+        echo '<img src="img/flag_ack.gif" alt="A" title="'.ucfirst(_('acknowledge')).'" />';
 
     if ($data['NOTIF'] == '0')
-        echo '<img src="img/flag_notify.png" alt="N" title="'.ucfirst(lang($MYLANG, 'disable_title')).'" />';
+        echo '<img src="img/flag_notify.png" alt="N" title="'.ucfirst(_('disable_title')).'" />';
 
     if ($data['DOWNTIME'] > 0)
-        echo '<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(lang($MYLANG, 'downtime')).'" />';
+        echo '<img src="img/flag_downtime.png" alt="D" title="'.ucfirst(_('downtime')).'" />';
 
     if ($data['COMMENT'] & ENTRY_COMMENT_NORMAL)
-        echo '<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(lang($MYLANG, 'comment')).'" />';
+        echo '<img src="img/flag_comment.gif" alt="C" title="'.ucfirst(_('comment')).'" />';
 
     if (!$data['ACTIVE'] && !$data['PASSIVE'])
         echo '<img src="img/flag_no_active_passive.png" />';

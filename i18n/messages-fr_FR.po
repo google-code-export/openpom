@@ -1,0 +1,567 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-05 16:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../status-event.php:66 ../status-event.php:108 ../status-nagios.php:377
+#: ../status-nagios.php:414
+msgid "on"
+msgstr "sur"
+
+#: ../status-event.php:93 ../status-event.php:94 ../status-nagios.php:400
+#: ../status-nagios.php:401
+msgid "fixed"
+msgstr "Fixer en popup"
+
+#: ../status-event.php:102 ../status-nagios.php:409 ../query.php:879
+msgid "service"
+msgstr "service"
+
+#: ../status-event.php:103 ../status-nagios.php:408
+msgid "machine"
+msgstr "equipement"
+
+#: ../status-event.php:114
+msgid "curstat"
+msgstr "etat actuel"
+
+#: ../status-event.php:120
+msgid "stinfo"
+msgstr "Information"
+
+#: ../status-event.php:128
+msgid "chktyp"
+msgstr "type de test"
+
+#: ../status-event.php:132 ../down.php:30
+msgid "start_time"
+msgstr "d&eacute;but"
+
+#: ../status-event.php:136
+msgid "lastup"
+msgstr "mise &agrave; jour"
+
+#: ../status-event.php:147 ../down.php:39
+msgid "end_down"
+msgstr "fin pr&eacute;vue"
+
+#: ../status-event.php:160
+msgid "disabled_since"
+msgstr "d&eacute;sactiv&eacute;es depuis"
+
+#: ../showlog.php:49 ../history.php:75 ../action.php:238
+msgid "next"
+msgstr "page suivante"
+
+#: ../showlog.php:55 ../history.php:82 ../action.php:230
+msgid "prev"
+msgstr "page pr&eacute;c&eacute;dente"
+
+#: ../showlog.php:68 ../showlog.php:78 ../history.php:90
+msgid "history"
+msgstr "historique"
+
+#: ../status-nagios.php:66
+msgid "no"
+msgstr "non"
+
+#: ../status-nagios.php:67
+msgid "yes"
+msgstr "oui"
+
+#: ../status-nagios.php:137
+msgid "state_change"
+msgstr "changement d &eacute;tat"
+
+#. DOWNSTATUS
+#: ../status-nagios.php:143
+msgid "end"
+msgstr "fin"
+
+#: ../status-nagios.php:155
+msgid "show_history"
+msgstr "historique"
+
+#: ../status-nagios.php:449
+msgid "titlemore"
+msgstr "voir plus d information"
+
+#: ../status-nagios.php:449
+msgid "more"
+msgstr "plus"
+
+#: ../status-nagios.php:463
+msgid "cvar"
+msgstr "variable :"
+
+#: ../disable.php:24 ../query.php:897 ../action.php:58
+msgid "disable_title"
+msgstr "d&eacute;sactiver les notifications"
+
+#: ../disable.php:39 ../query.php:903 ../ack.php:37 ../down.php:65
+#: ../comment.php:39
+msgid "comment"
+msgstr "commentaire"
+
+#: ../disable.php:62 ../ack.php:60 ../down.php:89 ../comment.php:61
+msgid "track"
+msgstr "Activer le suivi"
+
+#: ../disable.php:67 ../ack.php:65 ../option.php:271 ../down.php:94
+#: ../comment.php:66
+msgid "cancel"
+msgstr "annuler"
+
+#: ../history.php:100
+msgid "historyfor"
+msgstr "historique pour"
+
+#.
+#. OpenPOM
+#.
+#. Copyright 2010, Exosec
+#. Licensed under GPL Version 2.
+#. http://www.gnu.org/licenses/
+#.
+#: ../query-history.php:52 ../query-history.php:195
+msgid "scheduled_start_time"
+msgstr "d&eacute;but"
+
+#: ../query-history.php:52 ../query-history.php:195
+msgid "scheduled_end_time"
+msgstr "fin"
+
+#: ../query.php:883
+msgid "host"
+msgstr "h&ocirc;te"
+
+#: ../query.php:890
+msgid "graph_icon"
+msgstr "affiche les graphes"
+
+#: ../query.php:894 ../ack.php:23 ../action.php:50
+msgid "acknowledge"
+msgstr "acquitter"
+
+#: ../query.php:900 ../action.php:54 ../down.php:23
+msgid "downtime"
+msgstr "arr&ecirc;t pr&eacute;vu"
+
+#: ../alert.php:41
+msgid "notif_warning"
+msgstr "Attention : les notifications globales sont d&eacute;sactiv&eacute;es !"
+
+#: ../action.php:35
+msgid "refresh"
+msgstr "rafra&icirc;chir"
+
+#: ../action.php:38 ../action.php:253
+msgid "refreshing"
+msgstr "rafra&icirc;chissement dans"
+
+#: ../action.php:62 ../comment.php:24
+msgid "comment0"
+msgstr "ajout commentaire"
+
+#: ../action.php:66
+msgid "reset_title"
+msgstr "R&eacute;initialiser les acquittements, arr&ecirc;t pr&eacute;vu, notifications et commentaires"
+
+#: ../action.php:70
+msgid "recheck"
+msgstr "retester"
+
+#: ../action.php:94
+msgid "show_log"
+msgstr "Nagios LOG"
+
+#: ../action.php:98
+msgid "mode"
+msgstr "mode moniteur"
+
+#: ../action.php:102 ../option.php:37
+msgid "option"
+msgstr "param&egrave;tres"
+
+#: ../action.php:124 ../action.php:171 ../option.php:93 ../option.php:100
+msgid "level"
+msgstr "niveau par d&eacute;faut affich&eacute;"
+
+#: ../action.php:140
+msgid "search"
+msgstr "recherche &lt;cl&eacute;&gt;:&lt;valeur&gt;, op&eacute;rateurs : | & ! *"
+
+#: ../action.php:146
+msgid "vsearch"
+msgstr "lancer la recherche"
+
+#: ../action.php:150
+msgid "clear"
+msgstr "effacer"
+
+#: ../action.php:170
+msgid "title"
+msgstr ""
+
+#: ../action.php:174 ../action.php:189
+msgid "meter"
+msgstr "compteurs affich&eacute;/total: critique, avertissement, inconnu, correct, acquitt&eacute, arr&ecirc;t pr&eacute;vu, notification et test d&eacute;sactiv&eacute;"
+
+#: ../action.php:256 ../option.php:59
+msgid "second"
+msgstr "secondes"
+
+#: ../action.php:260
+msgid "mode0"
+msgstr "quitter le mode moniteur"
+
+#: ../option.php:53
+msgid "refreshing0"
+msgstr "rafra&icirc;chissement toutes les"
+
+#: ../option.php:65
+msgid "lang"
+msgstr "langue"
+
+#: ../option.php:83
+msgid "step"
+msgstr "nombre de lignes affich&eacute;es"
+
+#: ../option.php:114
+msgid "maxlen"
+msgstr "nb. de carat&egrave;res max :"
+
+#. end foreach column
+#: ../option.php:132
+msgid "fontsize"
+msgstr "Taille de la police des alertes"
+
+#: ../option.php:143
+msgid "quicksearch"
+msgstr "recherche rapide"
+
+#: ../option.php:153
+msgid "statuspopin"
+msgstr "popin de statut: information"
+
+#: ../option.php:156
+msgid "statusall"
+msgstr "toutes: "
+
+#: ../option.php:169
+msgid "statuslimit"
+msgstr "lignes: "
+
+#: ../option.php:174
+msgid "showgraph"
+msgstr "graphe: "
+
+#: ../option.php:183
+msgid "frame"
+msgstr "pas de cadre autour de la page"
+
+#: ../option.php:193
+msgid "cols"
+msgstr "Colonnes &agrave; afficher"
+
+#: ../option.php:232
+msgid "historydisplay"
+msgstr "historique &agrave; afficher"
+
+#: ../option.php:275
+msgid "reset0"
+msgstr "R&eacute;initialiser"
+
+#.
+#. OpenPOM
+#.
+#. Copyright 2010, Exosec
+#. Licensed under GPL Version 2.
+#. http://www.gnu.org/licenses/
+#.
+#: ../footer.php:16
+msgid "querytime"
+msgstr "requ&ecirc;te en"
+
+#: ../down.php:48
+msgid "durationnow"
+msgstr "Dur&eacute;e"
+
+#: ../down.php:54
+msgid "hour"
+msgstr "heures"
+
+#: ../down.php:61
+msgid "minutes"
+msgstr "minutes"
+
+# ------ Entry added by addentry.sh ------
+msgid "disable"
+msgstr "d&eacute;sactiver"
+
+msgid "reset"
+msgstr "R&eacute;initialiser"
+
+msgid "filter"
+msgstr "filtrer"
+
+msgid "filtering"
+msgstr "filtrage"
+
+msgid "help"
+msgstr "aide"
+
+msgid "level1"
+msgstr "critique"
+
+msgid "title1"
+msgstr "alerte confirm&eacute;e et critique uniquement"
+
+msgid "level2"
+msgstr "alerte confirm&eacute;e"
+
+msgid "title2"
+msgstr "critique, avertissement et inconnu"
+
+msgid "level3"
+msgstr "confirm&eacute;e et en cours"
+
+msgid "title3"
+msgstr "critique, avertissement et inconnu"
+
+msgid "level4"
+msgstr " + probl&egrave;me connu"
+
+msgid "title4"
+msgstr "alerte confirm&eacute;e, en cours, et probl&egrave;me connu mais aucun service pour un &eacute;quipement avec alerte"
+
+msgid "level5"
+msgstr " + panne r&eacute;seau"
+
+msgid "title5"
+msgstr " niveau 4 + panne r&eacute;seau (parent)"
+
+msgid "level6"
+msgstr "tous les probl&egrave;mes"
+
+msgid "title6"
+msgstr "alerte et probl&egrave;me connu sans restriction"
+
+msgid "level7"
+msgstr "tout"
+
+msgid "title7"
+msgstr "tout sans restriction (+ &eacute;tat ok)"
+
+msgid "level8"
+msgstr "acquitt&eacute;"
+
+msgid "title8"
+msgstr "probl&egrave;me acquitt&eacute; uniquement"
+
+msgid "level9"
+msgstr "arr&ecirc;t pr&eacute;vu"
+
+msgid "title9"
+msgstr "service et &eacute;quipement avec un arr&ecirc;t pr&eacute;vu actuellement"
+
+msgid "level10"
+msgstr "notification d&eacute;sactiv&eacute;e"
+
+msgid "title10"
+msgstr "service et &eacute;quipement avec les notifications d&eacute;sactiv&eacute;es uniquement"
+
+msgid "level11"
+msgstr "critique"
+
+msgid "title11"
+msgstr "alerte critique d &eacute;quipement et service uniquement (confirm&eacute;e et en cours)"
+
+msgid "level12"
+msgstr "avertissement"
+
+msgid "title12"
+msgstr "avertissement de service uniquement (confirm&eacute;e et en cours)"
+
+msgid "level13"
+msgstr "inconnu"
+
+msgid "title13"
+msgstr "service inconnue uniquement (confirm&eacute;e et en cours)"
+
+msgid "level14"
+msgstr "correct"
+
+msgid "title14"
+msgstr "&eacute;tat ok uniquement"
+
+msgid "exclude"
+msgstr "exclu acquitt&eacute;/arr&ecirc;t pr&eacute;vu"
+
+msgid "hide"
+msgstr "masque service pour h&ocirc;te acquitt&eacute;"
+
+msgid "flag"
+msgstr "Etat"
+
+msgid "group"
+msgstr "groupe"
+
+msgid "last"
+msgstr "dernier test"
+
+msgid "duration"
+msgstr "dur&eacute;e"
+
+msgid "reload"
+msgstr ""
+
+msgid "curat"
+msgstr "nombre de test"
+
+msgid "latency"
+msgstr "latence"
+
+msgid "lastchange"
+msgstr "changement d &eacute;tat"
+
+msgid "flapping"
+msgstr "change d &eacute;tat trop souvent"
+
+msgid "apply"
+msgstr "appliquer"
+
+msgid "set"
+msgstr "fixer"
+
+msgid "reverse"
+msgstr "inverser le filtre"
+
+msgid "column"
+msgstr "colonne &agrave; afficher"
+
+msgid "today"
+msgstr "aujourd hui"
+
+msgid "week"
+msgstr "semaine"
+
+msgid "month"
+msgstr "mois"
+
+msgid "year"
+msgstr "ann&eacute;e"
+
+msgid "fix"
+msgstr "fixe"
+
+msgid "ena_notif"
+msgstr "activer les notifications globales"
+
+msgid "disa_notif"
+msgstr "d&eacute;sactiver les notifications globales"
+
+msgid "ena_popin"
+msgstr "activer la popin de status"
+
+msgid "disa_popin"
+msgstr "d&eacute;sactiver la popin de status"
+
+msgid "next_check"
+msgstr "Prochain test"
+
+msgid "linkhistory"
+msgstr "Historique"
+
+msgid "ack"
+msgstr "acquittement"
+
+msgid "down"
+msgstr "arr&ecirc;t pr&eacute;vu"
+
+msgid "com"
+msgstr "commentaire"
+
+msgid "state"
+msgstr "etat"
+
+msgid "notify"
+msgstr "notification"
+
+msgid "entry_time"
+msgstr "date"
+
+msgid "author_name"
+msgstr "auteur"
+
+msgid "comment_data"
+msgstr "commentaire"
+
+msgid "contact_name"
+msgstr "contact"
+
+msgid "contact_address"
+msgstr "adresse du contact"
+
+msgid "output"
+msgstr "donn&eacute;es"
+
+msgid "nohistory"
+msgstr "aucun"
+
+msgid "flap"
+msgstr "variation"
+
+msgid "flap_type"
+msgstr "genre"
+
+msgid "checkname"
+msgstr "nom du check"
+
+msgid "enabled"
+msgstr "activ&eacute;"
+
+msgid "disabled"
+msgstr "d&eacute;sactiv&eacute;"
+
+msgid "notifystatus"
+msgstr "alerte: derni&egrave;re (total) | suivante"
+
+msgid "lastok"
+msgstr "dernier &eacute;tat ok"
+
+msgid "outputstatus"
+msgstr "Information"
+
+msgid "checkstatus"
+msgstr "test: tentative | intervalle | dernier"
+
+msgid "groupstatus"
+msgstr "groupes: machines | contacts"
+
+msgid "checkinfo"
+msgstr "type de test | nom du test"
+
+msgid "checktime"
+msgstr "test latence | dur&eacute;e"
+
+msgid "laststatus"
+msgstr "changement d &eacute;tat | Mise &agrave; jour"
+
+msgid "graph"
+msgstr "graphe"

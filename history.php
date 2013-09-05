@@ -67,14 +67,14 @@ $MY_LAST = $MY_FIRST + $nb_rows;
 if ($nb_rows == $MY_STEP)
   $next = '<span class="icon-btn icon-next"
                  onclick="window.location.href=\'?'.$MY_GET.'&first='.($MY_FIRST + $MY_STEP).'\'"
-                 title="'.ucfirst(lang($MYLANG, 'next')).'"></span>';
+                 title="'.ucfirst(_('next')).'"></span>';
 else
     $next = '';
 
 if ($MY_FIRST > 0)
   $prev = '<span class="icon-btn icon-prev"
                  onclick="window.location.href=\'?'.$MY_GET.'&first='.($MY_FIRST - $MY_STEP).'\'"
-                 title="'.ucfirst(lang($MYLANG, 'prev')).'"></span>';
+                 title="'.ucfirst(_('prev')).'"></span>';
 else
   $prev = '' ;
 
@@ -82,7 +82,7 @@ else
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
-    <title><?php echo ucfirst(lang($MYLANG, 'history')) ?></title>
+    <title><?php echo ucfirst(_('history')) ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />
@@ -92,7 +92,7 @@ else
   </head>
   <body>
     <center>
-      <h1><?php echo ucfirst(lang($MYLANG, 'historyfor'))." ".$host." : ".$svc ; ?></h1>
+      <h1><?php echo ucfirst(_('historyfor'))." ".$host." : ".$svc ; ?></h1>
       <div style="display: inline; text-align: left; margin:0; padding: 0;"><?php echo $prev ; ?> &nbsp; </div>
       <?php echo ($MY_FIRST + 1) . " - " . $MY_LAST; ?>
       <div style="display: inline; text-align: right; margin:0; padding: 0;"> &nbsp; <?php echo $next ; ?></div>
@@ -115,9 +115,9 @@ while ( $row = mysql_fetch_array($rep, MYSQL_ASSOC) ) {
     foreach ($row AS $kh => $vh) {
       if ( ($kh == "state_type") || ($kh == "color") ) continue ;
       if ($kh == 'entry_time')
-        echo '<th><span class="col_sort_down">'.ucfirst(lang($MYLANG, $kh)).'</span></th>';
+        echo '<th><span class="col_sort_down">'.ucfirst(_($kh)).'</span></th>';
       else
-        echo '<th class="'.$kh.'"><span class="col_no_sort">'.ucfirst(lang($MYLANG, $kh)).'</span></th>';
+        echo '<th class="'.$kh.'"><span class="col_no_sort">'.ucfirst(_($kh)).'</span></th>';
     }
     echo "</tr>" ;
     $first_line = 1 ;

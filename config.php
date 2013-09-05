@@ -308,9 +308,9 @@ $TRACK_OK           = "bluegreen";
 /*
   set default lang (supported lang are en, fr and de)
   default lang is "english" or
-  try openpom/index.php?lang=xx where xx is the country abreviation code
+  try openpom/index.php?i18n=xx where xx is the country abreviation code
 */
-$MYLANG             = "en";
+$MYLANG             = "en_US"; 
 
 /* OTHER VARIABLE */
 $CODENAME           = "OpenPOM";

@@ -49,7 +49,7 @@ $QUERY_HISTORY['svc'] = "
       '1' AS state_type,
       'downtime' AS type,
       DOW.entry_time,
-      CONCAT_WS('', DOW.comment_data, ' (".lang($MYLANG, 'scheduled_start_time').": ', DOW.scheduled_start_time, ' ".lang($MYLANG, 'scheduled_end_time').": ', DOW.scheduled_end_time, ')') AS output
+      CONCAT_WS('', DOW.comment_data, ' ("._('scheduled_start_time').": ', DOW.scheduled_start_time, ' "._('scheduled_end_time').": ', DOW.scheduled_end_time, ')') AS output
     FROM ".$BACKEND."_downtimehistory AS DOW
       JOIN ".$BACKEND."_servicestatus AS SS ON DOW.object_id = SS.service_object_id
     WHERE SS.servicestatus_id = define_my_id
@@ -192,7 +192,7 @@ $QUERY_HISTORY['host'] = "
       '1' AS state_type,
       'downtime' AS type,
       DOW.entry_time,
-      CONCAT_WS('', DOW.comment_data, ' (".lang($MYLANG, 'scheduled_start_time').": ', DOW.scheduled_start_time, ' ".lang($MYLANG, 'scheduled_end_time').": ', DOW.scheduled_end_time, ')') AS output
+      CONCAT_WS('', DOW.comment_data, ' ("._('scheduled_start_time').": ', DOW.scheduled_start_time, ' "._('scheduled_end_time').": ', DOW.scheduled_end_time, ')') AS output
     FROM ".$BACKEND."_downtimehistory AS DOW
       JOIN ".$BACKEND."_hoststatus AS HS ON DOW.object_id = HS.host_object_id
     WHERE HS.hoststatus_id = define_my_id

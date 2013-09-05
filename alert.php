@@ -37,7 +37,7 @@ table#alert * {
     <tr>
         <td id="notif_warning" colspan="<?php echo count($COLS) ?>">
             <div>
-                <?php echo lang($MYLANG, 'notif_warning'); ?>
+                <?php echo _('notif_warning'); ?>
             </div>
             <script type="text/javascript">
                 blink_button($('td#notif_warning > div'));

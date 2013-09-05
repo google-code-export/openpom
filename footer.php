@@ -15,7 +15,7 @@
     GPL <span class="ndash">&ndash;</span>
     <a href="http://www.exosec.fr/" target="_blank">Exosec</a> <span class="ndash">&ndash;</span>
     2010&thinsp;-&thinsp;<?php echo date('Y') ?> <span class="ndash">&ndash;</span>
-    <?php echo ucfirst(lang($MYLANG, 'querytime')) ?> <?php echo sprintf($str_query_time, $query_time) ?>
+    <?php echo ucfirst(_('querytime')) ?> <?php echo sprintf($str_query_time, $query_time) ?>
 
   </div>
 

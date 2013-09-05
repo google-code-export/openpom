@@ -1,0 +1,565 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-05 16:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../status-event.php:66 ../status-event.php:108 ../status-nagios.php:377
+#: ../status-nagios.php:414
+msgid "on"
+msgstr "an"
+
+#: ../status-event.php:93 ../status-event.php:94 ../status-nagios.php:400
+#: ../status-nagios.php:401
+msgid "fixed"
+msgstr "Fix popup"
+
+#: ../status-event.php:102 ../status-nagios.php:409 ../query.php:879
+msgid "service"
+msgstr "Dienste"
+
+#: ../status-event.php:103 ../status-nagios.php:408
+msgid "machine"
+msgstr "Ger&auml;te"
+
+#: ../status-event.php:114
+msgid "curstat"
+msgstr "aktueller Status"
+
+#: ../status-event.php:120
+msgid "stinfo"
+msgstr "status-informationen"
+
+#: ../status-event.php:128
+msgid "chktyp"
+msgstr "pr&uuml;fe Typ"
+
+#: ../status-event.php:132 ../down.php:30
+msgid "start_time"
+msgstr "startzeit"
+
+#: ../status-event.php:136
+msgid "lastup"
+msgstr "letztes Aenderung"
+
+#: ../status-event.php:147 ../down.php:39
+msgid "end_down"
+msgstr "endet"
+
+#: ../status-event.php:160
+msgid "disabled_since"
+msgstr "Deaktiviert seit"
+
+#: ../showlog.php:49 ../history.php:75 ../action.php:238
+msgid "next"
+msgstr "n&auml;chste Seite"
+
+#: ../showlog.php:55 ../history.php:82 ../action.php:230
+msgid "prev"
+msgstr "vorherige Seite"
+
+#: ../showlog.php:68 ../showlog.php:78 ../history.php:90
+msgid "history"
+msgstr "geschichte"
+
+#: ../status-nagios.php:66
+msgid "no"
+msgstr "nein"
+
+#: ../status-nagios.php:67
+msgid "yes"
+msgstr "ja"
+
+#: ../status-nagios.php:137
+msgid "state_change"
+msgstr "Zustands&auml;nderung"
+
+#. DOWNSTATUS
+#: ../status-nagios.php:143
+msgid "end"
+msgstr "endet"
+
+#: ../status-nagios.php:155
+msgid "show_history"
+msgstr "Geschichte"
+
+#: ../status-nagios.php:449
+msgid "titlemore"
+msgstr "zeigen mehr Informationen"
+
+#: ../status-nagios.php:449
+msgid "more"
+msgstr "mehr"
+
+#: ../status-nagios.php:463
+msgid "cvar"
+msgstr "Variable:"
+
+#: ../disable.php:24 ../query.php:897 ../action.php:58
+msgid "disable_title"
+msgstr "Benachrichtigung deaktivieren"
+
+#: ../disable.php:39 ../query.php:903 ../ack.php:37 ../down.php:65
+#: ../comment.php:39
+msgid "comment"
+msgstr "Kommentare"
+
+#: ../disable.php:62 ../ack.php:60 ../down.php:89 ../comment.php:61
+msgid "track"
+msgstr "Tracking"
+
+#: ../disable.php:67 ../ack.php:65 ../option.php:271 ../down.php:94
+#: ../comment.php:66
+msgid "cancel"
+msgstr "abbrechen"
+
+#: ../history.php:100
+msgid "historyfor"
+msgstr "geschichte f&uuml;r"
+
+#.
+#. OpenPOM
+#.
+#. Copyright 2010, Exosec
+#. Licensed under GPL Version 2.
+#. http://www.gnu.org/licenses/
+#.
+#: ../query-history.php:52 ../query-history.php:195
+msgid "scheduled_start_time"
+msgstr "geplanten startzeit"
+
+#: ../query-history.php:52 ../query-history.php:195
+msgid "scheduled_end_time"
+msgstr "geplanten endzeit"
+
+#: ../query.php:883
+msgid "host"
+msgstr "Host"
+
+#: ../query.php:890
+msgid "graph_icon"
+msgstr "zeige Grafik"
+
+#: ../query.php:894 ../ack.php:23 ../action.php:50
+msgid "acknowledge"
+msgstr "best&auml;tigen"
+
+#: ../query.php:900 ../action.php:54 ../down.php:23
+msgid "downtime"
+msgstr "Ausfallzeit"
+
+#: ../alert.php:41
+msgid "notif_warning"
+msgstr "Warnung: Globale Benachrichtigungen sind deaktiviert!"
+
+#: ../action.php:35
+msgid "refresh"
+msgstr "aktualisieren"
+
+#: ../action.php:38 ../action.php:253
+msgid "refreshing"
+msgstr "aktualisieren in"
+
+#: ../action.php:62 ../comment.php:24
+msgid "comment0"
+msgstr "Kommentar hinzuf&uuml;gen"
+
+#: ../action.php:66
+msgid "reset_title"
+msgstr "Best&auml;tigt, Ausfallzeit, Benachrichtigung und Kommentare zur&uuml;cksetzen"
+
+#: ../action.php:70
+msgid "recheck"
+msgstr "erneut pr&uuml;fen"
+
+#: ../action.php:94
+msgid "show_log"
+msgstr "Nagios LOG"
+
+#: ../action.php:98
+msgid "mode"
+msgstr "monitor mode"
+
+#: ../action.php:102 ../option.php:37
+msgid "option"
+msgstr "Optionen"
+
+#: ../action.php:124 ../action.php:171 ../option.php:93 ../option.php:100
+msgid "level"
+msgstr "Standard Level"
+
+#: ../action.php:140
+msgid "search"
+msgstr "suche &lt;schl&uuml;ssel&gt;:&lt;wert&gt;, betreiber: | & ! *"
+
+#: ../action.php:146
+msgid "vsearch"
+msgstr "suche starten"
+
+#: ../action.php:150
+msgid "clear"
+msgstr "leeren"
+
+#: ../action.php:170
+msgid "title"
+msgstr ""
+
+#: ../action.php:174 ../action.php:189
+msgid "meter"
+msgstr "Angezeigt/total Z&auml;hler: kritisch, Warnung, Unbekannte, Ok, best&auml;tigen, Ausfallzeit, meldung and pr&uuml;fe deaktivieren"
+
+#: ../action.php:256 ../option.php:59
+msgid "second"
+msgstr "Sekunden"
+
+#: ../action.php:260
+msgid "mode0"
+msgstr "ausfahrt monitor mode"
+
+#: ../option.php:53
+msgid "refreshing0"
+msgstr "aktualisiere alle"
+
+#: ../option.php:65
+msgid "lang"
+msgstr "Sprache"
+
+#: ../option.php:83
+msgid "step"
+msgstr "Anzahl angezeigte Zeilen"
+
+#: ../option.php:114
+msgid "maxlen"
+msgstr "Maximale Anzahl Zeichen:"
+
+#. end foreach column
+#: ../option.php:132
+msgid "fontsize"
+msgstr "Schriftgr&ouml;sse Alarm"
+
+#: ../option.php:143
+msgid "quicksearch"
+msgstr "schnellsuche"
+
+#: ../option.php:153
+msgid "statuspopin"
+msgstr "status popin: informationen"
+
+#: ../option.php:156
+msgid "statusall"
+msgstr "alle: "
+
+#: ../option.php:169
+msgid "statuslimit"
+msgstr "linien: "
+
+#: ../option.php:174
+msgid "showgraph"
+msgstr "graph: "
+
+#: ../option.php:183
+msgid "frame"
+msgstr "Frameumrandung ausblenden"
+
+#: ../option.php:193
+msgid "cols"
+msgstr "Anzuzeigenden Spalten"
+
+#: ../option.php:232
+msgid "historydisplay"
+msgstr "geschichte zur anzeige"
+
+#: ../option.php:275
+msgid "reset0"
+msgstr "zur&uuml;cksetzen"
+
+#.
+#. OpenPOM
+#.
+#. Copyright 2010, Exosec
+#. Licensed under GPL Version 2.
+#. http://www.gnu.org/licenses/
+#.
+#: ../footer.php:16
+msgid "querytime"
+msgstr "Suche in"
+
+#: ../down.php:48
+msgid "durationnow"
+msgstr "Dauer von jetzt"
+
+#: ../down.php:54
+msgid "hour"
+msgstr "stunden"
+
+#: ../down.php:61
+msgid "minutes"
+msgstr "minutes"
+
+# ------ Entry added by addentry.sh ------
+msgid "disable"
+msgstr "deaktivieren"
+
+msgid "reset"
+msgstr "Status zur&uuml;cksetzen"
+
+msgid "filter"
+msgstr "Filter"
+
+msgid "filtering"
+msgstr "filtern"
+
+msgid "help"
+msgstr "Hilfe"
+
+msgid "level1"
+msgstr "kritische"
+
+msgid "title1"
+msgstr "best&auml;tigt and kritische"
+
+msgid "level2"
+msgstr "alarm best&auml;tigt"
+
+msgid "title2"
+msgstr "kritische, warnung, unbekannt"
+
+msgid "level3"
+msgstr "best&auml;tigt and im gange"
+
+msgid "title3"
+msgstr "kritische, warnung, unbekannt"
+
+msgid "level4"
+msgstr " + bekanntes problem"
+
+msgid "title4"
+msgstr " level 3 + bekanntes problem - keinen Dienst f&uuml;r kritische Host"
+
+msgid "level5"
+msgstr " + netzwerkausfall"
+
+msgid "title5"
+msgstr " level 4 + netzwerkausfall (parent)"
+
+msgid "level6"
+msgstr "Alle probleme"
+
+msgid "title6"
+msgstr "keine Einschr&auml;nkung"
+
+msgid "level7"
+msgstr "Alle"
+
+msgid "title7"
+msgstr "alle mit ok-zustand"
+
+msgid "level8"
+msgstr "best&auml;tigen"
+
+msgid "title8"
+msgstr "nur best&auml;tigen"
+
+msgid "level9"
+msgstr "ausfallzeit"
+
+msgid "title9"
+msgstr "nur ausfallzeit"
+
+msgid "level10"
+msgstr "meldung deaktivieren"
+
+msgid "title10"
+msgstr "nur mit meldung deaktivieren"
+
+msgid "level11"
+msgstr "kritische"
+
+msgid "title11"
+msgstr "nur kritische ger&auml;te und dienste (best&auml;tigt and im gange)"
+
+msgid "level12"
+msgstr "Warnungen"
+
+msgid "title12"
+msgstr "nur warnungen dienste (best&auml;tigt and im gange)"
+
+msgid "level13"
+msgstr "unbekannt"
+
+msgid "title13"
+msgstr "nur unbekannt dienste (best&auml;tigt and im gange)"
+
+msgid "level14"
+msgstr "ok"
+
+msgid "title14"
+msgstr "nur ok-zustand"
+
+msgid "exclude"
+msgstr "Best&auml;tigt & Ausfall ausschliessen"
+
+msgid "hide"
+msgstr "Verstecke Dienste von best&auml;tigten Hosts"
+
+msgid "flag"
+msgstr "Zustand"
+
+msgid "group"
+msgstr "Gruppen"
+
+msgid "last"
+msgstr "letzte pr&uuml;fe"
+
+msgid "duration"
+msgstr "Dauer"
+
+msgid "reload"
+msgstr ""
+
+msgid "curat"
+msgstr "aktueller Versuch"
+
+msgid "latency"
+msgstr "pr&uuml;fe Latenz"
+
+msgid "lastchange"
+msgstr "letzte &auml;nderung"
+
+msgid "flapping"
+msgstr "dieser Dienst &quot;flattert&quot;"
+
+msgid "apply"
+msgstr "anwenden"
+
+msgid "set"
+msgstr "setzen"
+
+msgid "reverse"
+msgstr "reverse filter"
+
+msgid "column"
+msgstr "angezeigte Spalten"
+
+msgid "today"
+msgstr "heute"
+
+msgid "week"
+msgstr "woche"
+
+msgid "month"
+msgstr "monat"
+
+msgid "year"
+msgstr "jahr"
+
+msgid "fix"
+msgstr "fixiert"
+
+msgid "ena_notif"
+msgstr "Benachrichtigung aktivieren (globale)"
+
+msgid "disa_notif"
+msgstr "Benachrichtigung deaktivieren (globale)"
+
+msgid "ena_popin"
+msgstr "Status popin aktivieren"
+
+msgid "disa_popin"
+msgstr "Status popin deaktivieren"
+
+msgid "next_check"
+msgstr "nachste check"
+
+msgid "linkhistory"
+msgstr "Geschichte"
+
+msgid "ack"
+msgstr "best&auml;tigen"
+
+msgid "down"
+msgstr "ausfallzeit"
+
+msgid "com"
+msgstr "kommentar"
+
+msgid "state"
+msgstr "zustand"
+
+msgid "notify"
+msgstr "benachrichtigen"
+
+msgid "entry_time"
+msgstr "datume"
+
+msgid "author_name"
+msgstr "autor"
+
+msgid "comment_data"
+msgstr "kommentar"
+
+msgid "contact_name"
+msgstr "kontakt"
+
+msgid "contact_address"
+msgstr "kontakt adresse"
+
+msgid "output"
+msgstr "daten"
+
+msgid "nohistory"
+msgstr "keine"
+
+msgid "flap"
+msgstr "flattert"
+
+msgid "flap_type"
+msgstr "typ"
+
+msgid "checkname"
+msgstr "pr&uuml;fe namen"
+
+msgid "enabled"
+msgstr "aktiviert"
+
+msgid "disabled"
+msgstr "behinderte"
+
+msgid "notifystatus"
+msgstr "meldung: letzte (z&auml;hlen) | n&auml;chste"
+
+msgid "lastok"
+msgstr "letzte ok zustand"
+
+msgid "outputstatus"
+msgstr "status-informationen"
+
+msgid "checkstatus"
+msgstr "pr&uuml;fe: versuch | intervall | letzte"
+
+msgid "groupstatus"
+msgstr "gruppen: host | kontakt"
+
+msgid "checkinfo"
+msgstr "pr&uuml;fe typ | pr&uuml;fe namen"
+
+msgid "checktime"
+msgstr "pr&uuml;fe latenz | dauer von jetzt"
+
+msgid "laststatus"
+msgstr "Letzte &auml;nderung | Letztes Aenderung"
+
+msgid "graph"
+msgstr "graph"

@@ -15,7 +15,7 @@ require_once("lang.php");
 ?>
 
   <div class="box-title box-title-default">
-    <h2><?php echo ucfirst(lang($MYLANG, 'disable_title')) ?></h2>
+    <h2><?php echo ucfirst(_('disable_title')) ?></h2>
   </div>
 
   <div class="box-content" id="box-disable">
@@ -30,7 +30,7 @@ require_once("lang.php");
 
       <table>
         <tr>
-          <th><?php echo ucfirst(lang($MYLANG, 'comment')) ?></th>
+          <th><?php echo ucfirst(_('comment')) ?></th>
           <td colspan="2">
             <input type="text"
                    maxlength="64"
@@ -51,12 +51,12 @@ require_once("lang.php");
             <input type="hidden" name="action" value="disable" />
             <input type="submit" value="OK" />&#160;
             <input type="submit"
-                   value="<?php echo ucfirst(lang($MYLANG, 'track')) ?>"
+                   value="<?php echo ucfirst(_('track')) ?>"
                    onclick="append_track(this.form);" />&#160;
           </td>
           <td align="right">
             <input type="button"
-                   value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   value="<?php echo ucfirst(_('cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />
           </td>
         </tr>

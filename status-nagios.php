@@ -60,8 +60,8 @@ switch ($st_data['CHKTYPE']) {
   case 1: $CHKTYPE = "Passive"; break;
 }
 switch ($st_data['FLAPPING']) {
-  case 0: $FLAPPING = strtoupper(lang($MYLANG, 'no'));  break;
-  case 1: $FLAPPING = strtoupper(lang($MYLANG, 'yes')); break;
+  case 0: $FLAPPING = strtoupper(_('no'));  break;
+  case 1: $FLAPPING = strtoupper(_('yes')); break;
   case 2: $FLAPPING = "N/A"; break;
 }
 
@@ -131,13 +131,13 @@ $STATUSDATA = array (
 'checkinfo'    => $CHKTYPE.", A=${st_data['ACTIVE']}, P=${st_data['PASSIVE']} | ".$CHECKNAME,
 'checktime'    => $LATENCY." | ".$EXEC_TIME,
 'laststatus'   => printtime($LASTCHANGEDIFF)." | ".printtime($UPDATETIMEDIFF),
-'flapping'     => $FLAPPING." ".(($st_data['FLAPPING'] != 2) ? "(".$PERCENT."% ".lang($MYLANG, 'state_change').")" : ""),
+'flapping'     => $FLAPPING." ".(($st_data['FLAPPING'] != 2) ? "(".$PERCENT."% "._('state_change').")" : ""),
 'groupstatus'  => $GROUPS." | ".$CONTACTGROUP,
 'notifystatus' => (($COUNTNOTIFY == 0) ? "N/A (0)" : $LASTNOTIFY." (".$COUNTNOTIFY.") ")." | ".(($NEXTTIMENOTIFYDIFF <= 0) ? "N/A" : printtime($NEXTTIMENOTIFYDIFF)),
 /*ACKSTATUS*/
 ($ACK && count($ACKCOMMENT) > 1) ? 'ackcur' : 'noackcur'            => $ACKCOMMENT[1],
 /*DOWNSTATUS*/
-($DOWNTIME && count($DOWNCOMMENT) > 2) ? 'downcur' : 'nodowncur'    => $DOWNCOMMENT[2]." (".lang($MYLANG, 'end')." ".$DOWNCOMMENT[1].")",
+($DOWNTIME && count($DOWNCOMMENT) > 2) ? 'downcur' : 'nodowncur'    => $DOWNCOMMENT[2]." ("._('end')." ".$DOWNCOMMENT[1].")",
 /*NOTIFYSTATUS*/
 (!$NOTIF && count($NOTIFCOMMENT) > 1) ? 'notifycur' : 'nonotifycur' => $NOTIFCOMMENT[1],
 /*COMMENT*/
@@ -146,7 +146,7 @@ $STATUSDATA = array (
 
 /* Open gitory popup */
 if (count($_SESSION['HISTORY'])) {
-    $STATUSDATA['linkhistory'] = "<a href=\"#\" onClick=\"return pop('history.php?id=$id&type=$type&host=$HOSTNAME&svc=$SERVICE', '$id', '$HISTORY_POPUP_WIDTH', '$HISTORY_POPUP_HEIGHT');\">".ucfirst(lang($MYLANG, 'show_history'))."</a>";
+    $STATUSDATA['linkhistory'] = "<a href=\"#\" onClick=\"return pop('history.php?id=$id&type=$type&host=$HOSTNAME&svc=$SERVICE', '$id', '$HISTORY_POPUP_WIDTH', '$HISTORY_POPUP_HEIGHT');\">".ucfirst(_('show_history'))."</a>";
 }
 
 /* Custom variables */
@@ -283,7 +283,7 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
-    <title><?php echo "$SERVICE " . lang($MYLANG, 'on') . " $HOSTNAME" ?></title>
+    <title><?php echo "$SERVICE " . _('on') . " $HOSTNAME" ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $ENCODING ?>" />
     <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
     <meta http-equiv="PRAGMA" content="NO-CACHE" />
@@ -306,21 +306,21 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
               '<?php echo $_SERVER['REQUEST_URI'] ?>&fix',
               'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);"><img src="img/popup.png"
              border="0"
-             alt="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>"
-             title="<?php echo ucfirst(lang($MYLANG, 'fixed')) ?>" /></a>
+             alt="<?php echo ucfirst(_('fixed')) ?>"
+             title="<?php echo ucfirst(_('fixed')) ?>" /></a>
 
       <table id="popup" onmouseover="restart_popin_hide_timer();">
     <?php } ?>
 
       <tr>
         <th>
-          <?php echo ucfirst(lang($MYLANG, 'machine')) ?> |
-          <?php echo ucfirst(lang($MYLANG, 'service')) ?>
+          <?php echo ucfirst(_('machine')) ?> |
+          <?php echo ucfirst(_('service')) ?>
         </th>
         <td>
           <div <?php if (!isset($_GET['fix'])) { ?> style="padding-right: 20px;" <?php } ?>>
             <?php echo $SERVICE ?>
-            <?php echo lang($MYLANG, 'on') ?>
+            <?php echo _('on') ?>
             <?php echo $HOSTNAME ?> (<?php echo $ADDRESS ?>)
           </div>
         </td>
@@ -341,7 +341,7 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
                 }
       ?>
       <tr>
-        <th><?php if (isset($STATUSHEAD[$key])) echo $STATUSHEAD[$key]; else echo ucfirst(lang($MYLANG, $key)); ?></th>
+        <th><?php if (isset($STATUSHEAD[$key])) echo $STATUSHEAD[$key]; else echo ucfirst(_($key)); ?></th>
         <td><?php echo $STATUSDATA[$key] ; ?></td>
       </tr>
       <?php
@@ -355,7 +355,7 @@ $bottom_fct = 'status_nagios__' . preg_replace('/[^a-z0-9]/i', '_', $CHECKNAME);
           <a href="#"
             onClick="return pop(
                 '<?php echo $_SERVER['REQUEST_URI'] ?>&fix',
-                'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);" title="<?php echo ucfirst(lang($MYLANG, 'titlemore'))?>"><?php echo ucfirst(lang($MYLANG, 'more'))?></a>
+                'popup_nagios_<?php echo $type ?>_<?php echo $id ?>', <?php echo $STATUS_POPUP_WIDTH ?>, <?php echo $STATUS_POPUP_HEIGHT ?>);" title="<?php echo ucfirst(_('titlemore'))?>"><?php echo ucfirst(_('more'))?></a>
         </th>
         <td></td>
       </tr>
@@ -369,7 +369,7 @@ foreach ($SHOWSTATUSCVAR as $v) {
 
       <tr>
         <th>
-          <?php echo ucfirst(lang($MYLANG, 'cvar')) ?>
+          <?php echo ucfirst(_('cvar')) ?>
           <?php echo cvar_alias($v) ?>
         </th>
         <td>

@@ -32,10 +32,10 @@ $page_next = $FIRST + $LINE_BY_PAGE;
             <td id="top-refresh">
                 <div>
                     <span class="icon-btn icon-refesh"
-                          title="<?php echo ucfirst(lang($MYLANG, 'refresh'))?>"
+                          title="<?php echo ucfirst(_('refresh'))?>"
                           onclick="window.location.href='<?php echo $MY_GET ?>';"></span>&thinsp;
 
-                    <span title="<?php echo ucfirst(lang($MYLANG, 'refreshing'))?>"
+                    <span title="<?php echo ucfirst(_('refreshing'))?>"
                           id="refresh-countdown"><?php echo $REFRESHTIME; ?></span>
                 </div>
             </td>
@@ -47,27 +47,27 @@ $page_next = $FIRST + $LINE_BY_PAGE;
                 <div>
                     <span class="icon-btn icon-ack"
                           onclick="clicked_generic_popin('ack.php');"
-                          title="<?php echo ucfirst(lang($MYLANG, 'acknowledge'))?>"></span>&thinsp;
+                          title="<?php echo ucfirst(_('acknowledge'))?>"></span>&thinsp;
 
                     <span class="icon-btn icon-down"
                           onclick="clicked_generic_popin('down.php');"
-                          title="<?php echo ucfirst(lang($MYLANG, 'downtime'))?>"></span>&thinsp;
+                          title="<?php echo ucfirst(_('downtime'))?>"></span>&thinsp;
 
                     <span class="icon-btn icon-disable"
                           onclick="clicked_generic_popin('disable.php');"
-                          title="<?php echo ucfirst(lang($MYLANG, 'disable_title'))?>"></span>&thinsp;
+                          title="<?php echo ucfirst(_('disable_title'))?>"></span>&thinsp;
 
                     <span class="icon-btn icon-comment"
                           onclick="clicked_generic_popin('comment.php');"
-                          title="<?php echo ucfirst(lang($MYLANG, 'comment0'))?>"></span>&thinsp;
+                          title="<?php echo ucfirst(_('comment0'))?>"></span>&thinsp;
 
                     <span class="icon-btn icon-reset"
                           onclick="clicked_generic_action('reset');"
-                          title="<?php echo ucfirst(lang($MYLANG, 'reset_title'))?>"></span>&thinsp;
+                          title="<?php echo ucfirst(_('reset_title'))?>"></span>&thinsp;
 
                     <span class="icon-btn icon-recheck"
                           onclick="clicked_generic_action('recheck');"
-                          title="<?php echo ucfirst(lang($MYLANG, 'recheck'))?>"></span>
+                          title="<?php echo ucfirst(_('recheck'))?>"></span>
                 </div>
             </td>
 
@@ -78,23 +78,23 @@ $page_next = $FIRST + $LINE_BY_PAGE;
                 <div>
                     <?php $popin = $POPIN ? 'disa_popin' : 'ena_popin'; ?>
                     <span class="icon-btn icon-<?php echo $popin ?>"
-                          title="<?php echo ucfirst(lang($MYLANG, $popin))?>"
+                          title="<?php echo ucfirst(_($popin))?>"
                           onclick="window.location.href='<?php echo $MY_GET.'&popin='.(($POPIN+1)%2) ?>';"></span>&thinsp;
 
                     <span class="icon-btn icon-<?php echo $global_notif ?> icon-bg-<?php echo $global_notif ?>"
-                          title="<?php echo ucfirst(lang($MYLANG, $global_notif))?>"
+                          title="<?php echo ucfirst(_($global_notif))?>"
                           onclick="clicked_generic_action('<?php echo $global_notif ?>', false, 'nagios');"></span>&thinsp;
 
                     <span class="icon-btn icon-nagios"
-                          title="<?php echo ucfirst(lang($MYLANG, 'show_log')) ?>"
+                          title="<?php echo ucfirst(_('show_log')) ?>"
                           onclick="<?php echo $GLOBAL_LOGS_ONCLICK ?>"></span>&thinsp;
 
                     <span class="icon-btn icon-monitor"
-                          title="<?php echo ucfirst(lang($MYLANG, 'mode'))?>"
+                          title="<?php echo ucfirst(_('mode'))?>"
                           onclick="window.location.href='?monitor';"></span>&thinsp;
 
                     <span class="icon-btn icon-options"
-                          title="<?php echo ucfirst(lang($MYLANG, 'option'))?>"
+                          title="<?php echo ucfirst(_('option'))?>"
                           onclick="popin('option.php', {
                             onOpen: function() { filtering_has_focus = true; },
                             onClosed: function() { filtering_has_focus = false; }
@@ -113,10 +113,10 @@ $page_next = $FIRST + $LINE_BY_PAGE;
                     for ($l = 1; $l <= $MAXLEVEL; $l++) {
                         if ($l == 8) echo '<optgroup label="&nbsp;"></optgroup>';
                         $selected = ($l == $LEVEL) ? 'selected="selected"' : '';
-                        echo "<option value=\"$l\" title=\"".lang($MYLANG, "title$l")."\" $selected>";
+                        echo "<option value=\"$l\" title=\""._("title$l")."\" $selected>";
                         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                         if ($l < 8) echo "$l)&nbsp;&nbsp;";
-                        echo ucfirst(lang($MYLANG, 'level'.$l));
+                        echo ucfirst(_('level'.$l));
                         echo "</option>";
                     }
                     ?>
@@ -132,17 +132,17 @@ $page_next = $FIRST + $LINE_BY_PAGE;
                        name="filtering"
                        value="<?php echo $FILTER?>"
                        id="filtering"
-                       title="<?php echo ucfirst(lang($MYLANG, 'search'))?>" />
+                       title="<?php echo ucfirst(_('search'))?>" />
             </td>
 
             <td id="top-filter-buttons">
                 <div>
                     <span class="icon-btn icon-vsearch"
-                          title="<?php echo ucfirst(lang($MYLANG, 'vsearch'))?>"
+                          title="<?php echo ucfirst(_('vsearch'))?>"
                           onclick="$('form#filter').submit();"></span>&thinsp;
 
                     <span class="icon-btn icon-clear"
-                          title="<?php echo ucfirst(lang($MYLANG, 'clear'))?>"
+                          title="<?php echo ucfirst(_('clear'))?>"
                           onclick="$('#filtering').val(''); $('form#filter').submit();"></span>
 
                     <?php if (isset($_GET['sort'])) { ?>
@@ -162,11 +162,11 @@ $page_next = $FIRST + $LINE_BY_PAGE;
 
 <?php if (isset($_GET['monitor'])) { ?>
 
-            <td id="top-monitor-level" title="<?php echo ucfirst(lang($MYLANG, 'title'.$level)) ?>">
-                <?php echo "$level) ".ucfirst(lang($MYLANG, 'level'.$level)) ?>
+            <td id="top-monitor-level" title="<?php echo ucfirst(_('title'.$level)) ?>">
+                <?php echo "$level) ".ucfirst(_('level'.$level)) ?>
             </td>
 
-            <td id="top-monitor-glob" title="<?php echo lang($MYLANG, 'meter') ?>">
+            <td id="top-monitor-glob" title="<?php echo _('meter') ?>">
                 <img src="img/flag_critical.png" /><span><?php echo $hit_critical."/".$glob_critical ?></span>
                 <img src="img/flag_warning.png" /><span><?php echo $hit_warning."/".$glob_warning ?></span>
                 <img src="img/flag_unknown.png" /><span><?php echo $hit_unknown."/".$glob_unknown ?></span>
@@ -181,7 +181,7 @@ $page_next = $FIRST + $LINE_BY_PAGE;
 
 <?php if (!isset($_GET['monitor'])) { ?>
 
-            <td id="top-glob" title="<?php echo lang($MYLANG, 'meter') ?>">
+            <td id="top-glob" title="<?php echo _('meter') ?>">
                 <span>
                     <table>
                         <tr>
@@ -222,7 +222,7 @@ $page_next = $FIRST + $LINE_BY_PAGE;
                     <?php if ($has_page_prev) { ?>
                     <span class="icon-btn icon-prev"
                           onclick="window.location.href='<?php echo $MY_GET_NO_NEXT?>&prev=<?php echo $page_prev ?>';"
-                          title="<?php echo ucfirst(lang($MYLANG, 'prev'))?>"></span>&thinsp;
+                          title="<?php echo ucfirst(_('prev'))?>"></span>&thinsp;
                     <?php } ?>
 
                     <span><?php echo "$page_from-$page_to&thinsp;<b>/&thinsp;$total_rows</b>" ?></span>
@@ -230,7 +230,7 @@ $page_next = $FIRST + $LINE_BY_PAGE;
                     <?php if ($has_page_next) { ?>
                     &thinsp;<span class="icon-btn icon-next"
                           onclick="window.location.href='<?php echo $MY_GET_NO_NEXT?>&next=<?php echo $page_next ?>';"
-                          title="<?php echo ucfirst(lang($MYLANG, 'next'))?>"></span>
+                          title="<?php echo ucfirst(_('next'))?>"></span>
                     <?php } ?>
                 </div>
             </td>
@@ -245,14 +245,14 @@ $page_next = $FIRST + $LINE_BY_PAGE;
 
 <?php if (isset($_GET['monitor'])) { ?>
             <td id="top-monitor-refresh">
-                <?php echo ucfirst(lang($MYLANG, 'refreshing')) ?>
+                <?php echo ucfirst(_('refreshing')) ?>
                 <span id="refresh-countdown"
                       style="vertical-align: baseline;"><?php echo $REFRESHTIME; ?></span>
-                <?php echo lang($MYLANG, 'second') ?>
+                <?php echo _('second') ?>
             </td>
 
             <td id="top-monitor-stop">
-                <a href="index.php"><?php echo ucfirst(lang($MYLANG, 'mode0'))?></a>
+                <a href="index.php"><?php echo ucfirst(_('mode0'))?></a>
             </td>
 <?php } ?>
 

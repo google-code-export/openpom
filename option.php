@@ -32,7 +32,7 @@ if (preg_match('/[?&]{1}level=([0-9]+)/',$_SERVER['HTTP_REFERER'], $relevel))
 ?>
 
   <div class="box-title box-title-default">
-    <h2><?php echo ucfirst(lang($MYLANG, 'option'))?></h2>
+    <h2><?php echo ucfirst(_('option'))?></h2>
   </div>
 
   <div class="box-content" id="box-option">
@@ -48,37 +48,37 @@ if (!init_columns($err)) {
     <table>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'refreshing0')) ?>
+            <?php echo ucfirst(_('refreshing0')) ?>
           </th>
           <td colspan="3">
             <input type="text" maxlength="4"
                    name="refresh" id="refresh"
                    value="<?php echo $_SESSION['REFRESH'] ?>" />
-            &#160;<?php echo lang($MYLANG, 'second')?>
+            &#160;<?php echo _('second')?>
             (min 10, max 3600)
           </td>
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'lang')) ?>
+            <?php echo ucfirst(_('lang')) ?>
           </th>
           <td colspan="3">
-            <?php foreach(array_keys($LANG) AS $lang) { ?>
-              <input type="radio" name="lang"
+            <?php foreach($LANG AS $lang => $display) { ?>
+              <input type="radio" name="i18n" 
                      id="<?php echo $lang ?>"
                      value="<?php echo $lang ?>"
                      <?php echo ($_SESSION['LANG'] == $lang) ? 'checked' : ''?>
                      style="vertical-align: middle;" />
 
               <label for="<?php echo $lang ?>" style="vertical-align: middle;">
-                <?php echo $lang ?>
+                <?php echo $display ?>
               </label>&#160;&#160;
             <?php } ?>
           </td>
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'step')) ?>
+            <?php echo ucfirst(_('step')) ?>
           </th>
           <td colspan="3">
             <input type="text" maxlength="3" name="defaultstep"
@@ -88,14 +88,14 @@ if (!init_columns($err)) {
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'level')) ?>
+            <?php echo ucfirst(_('level')) ?>
           </th>
           <td colspan="3">
             <select name="defaultlevel">
             <?php for ($sub_level=1; $sub_level <= $MAXLEVEL; $sub_level++) { ?>
               <option value="<?php echo $sub_level?>" <?php echo ($sub_level==$_SESSION['LEVEL'])?"selected":""?>>
               <?php if ($sub_level < 8) echo $sub_level.")&nbsp;" ; else echo "&nbsp;&nbsp;&nbsp;&nbsp;" ; ?>
-              <?php echo ucfirst(lang($MYLANG, 'level'.$sub_level))?></option>
+              <?php echo ucfirst(_('level'.$sub_level))?></option>
             <?php } ?>
             </select>
           </td>
@@ -109,8 +109,8 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
 
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'maxlen')) ?>
-            <?php echo ucfirst(lang($MYLANG, $col)) ?>
+            <?php echo ucfirst(_('maxlen')) ?>
+            <?php echo ucfirst(_($col)) ?>
           </th>
           <td colspan="3">
             <input type="text" maxlength="3"
@@ -127,7 +127,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
 
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'fontsize')) ?>
+            <?php echo ucfirst(_('fontsize')) ?>
           </th>
           <td colspan="3">
             <input type="text" maxlength="3"
@@ -138,7 +138,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'quicksearch')) ?>
+            <?php echo ucfirst(_('quicksearch')) ?>
           </th>
           <td colspan="3">
             <input type="checkbox" name="quicksearch" value="0"
@@ -148,7 +148,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'statuspopin')) ?>
+            <?php echo ucfirst(_('statuspopin')) ?>
           </th>
           <td colspan="3">
             <label for="showall" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, 'statusall')) ?></label>
@@ -164,12 +164,12 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
                               document.getElementById('showlimit').className='';
                             };" />
             &nbsp;&nbsp;
-            <?php echo ucfirst(lang($MYLANG, 'statuslimit')) ?>
+            <?php echo ucfirst(_('statuslimit')) ?>
             <input type="text" maxlength="2"
                    name="showlimit" id="showlimit"
                    value="<?php echo $_SESSION['STATUS']['limit'] ?>" <?php if (isset($_SESSION['STATUS']['all'])) echo "readonly='readonly' class='readonly' " ; ?>/>
             &nbsp;&nbsp;
-            <label for="showgraph" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, 'showgraph')) ?></label>
+            <label for="showgraph" style="vertical-align: middle;"><?php echo ucfirst(_('showgraph')) ?></label>
             <input type="checkbox" name="showgraph" id="showgraph" value="1"
                    <?php echo (isset($_SESSION['STATUS']['graph'])) ? 'checked' : '' ?>
                    style="vertical-align: middle;" />
@@ -178,7 +178,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
 
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'frame')) ?>
+            <?php echo ucfirst(_('frame')) ?>
           </th>
           <td colspan="3">
             <input type="checkbox" name="frame" value="0"
@@ -188,7 +188,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'cols')) ?>
+            <?php echo ucfirst(_('cols')) ?>
           </th>
           <td>
             <?php
@@ -220,14 +220,14 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
                      style="vertical-align: middle;"
                      <?php echo $display ? 'checked' : '' ?> />
               <label for="<?php echo "defaultcols_$col" ?>"
-                     style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $col)) ?></label><br />
+                     style="vertical-align: middle;"><?php echo ucfirst(_($col)) ?></label><br />
 
             <?php } ?>
           </td>
         </tr>
         <tr>
           <th>
-            <?php echo ucfirst(lang($MYLANG, 'historydisplay')) ?>
+            <?php echo ucfirst(_('historydisplay')) ?>
           </th>
           <td>
             <?php
@@ -244,7 +244,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
                      value="1"
                      style="vertical-align: middle;"
                      <?php echo (isset($_SESSION['HISTORY'][$key])) ? 'checked' : '' ?> />
-              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(lang($MYLANG, $key)) ?></label><br />
+              <label for="<?php echo $key ?>" style="vertical-align: middle;"><?php echo ucfirst(_($key)) ?></label><br />
 
               <?php
               if ($i == (int) ($count / 2) ) echo '</td><td colspan="2">';
@@ -265,11 +265,11 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
           <td colspan="2">
             <input type="submit" name="option" value="OK" />&#160;
             <input type="button" name="cancel"
-                   value="<?php echo ucfirst(lang($MYLANG, 'cancel')) ?>"
+                   value="<?php echo ucfirst(_('cancel')) ?>"
                    onclick="$.fn.colorbox.close();" />&#160;
           </td>
           <td align="right">
-            <input type="submit" name="reset" value="<?php echo ucfirst(lang($MYLANG, 'reset0')) ?>" />
+            <input type="submit" name="reset" value="<?php echo ucfirst(_('reset0')) ?>" />
           </td>
         </tr>
       </table>
