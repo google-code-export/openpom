@@ -642,7 +642,6 @@ function format_header($col, &$def)
 {
     global $SORTCOL;
     global $SORTDIR;
-    global $MYLANG;
     global $MY_GET_NO_SORT;
 
     $text = ucfirst(_($col));
@@ -777,7 +776,6 @@ function format_row_checkbox($col, &$def, &$data)
 
 function format_row_flags($col, &$def, &$data)
 {
-    global $MYLANG;
     global $LINK;
     global $GRAPH_POPUP_WIDTH;
     global $GRAPH_POPUP_HEIGHT;
