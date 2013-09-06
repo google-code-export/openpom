@@ -517,7 +517,7 @@ function terminate_query()
         else if (isset($def['cvar'])) {
             $cvar = sqlquote($def['cvar']);
 
-            if (($def['opts'] & COL_FILTER)) {
+            if (($def['opts'] & (COL_FILTER|COL_DEPEND))) {
                 $MY_QUERY_PARTS['define_cvar_host_cols'] .= "
                     , HCVAR_$col.varvalue AS HCVAR_$col
                     , NULL AS SCVAR_$col ";
