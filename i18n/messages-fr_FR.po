@@ -554,7 +554,7 @@ msgid "col_last"
 msgstr "dernier test"
 
 msgid "col_duration"
-msgstr "duration"
+msgstr "dur&eacute;e"
 
 msgid "col_client"
 msgstr "client"
