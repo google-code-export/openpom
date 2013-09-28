@@ -13,5 +13,5 @@ for i in `ls -d */ | awk '{ if(match($0, /(.+)\//, cap)) print cap[1]; }'`; do
   fi
 done
 
-service httpd restart
+[ "$NO_HTTPD_RESTART" == "1" ] || service httpd restart
 
