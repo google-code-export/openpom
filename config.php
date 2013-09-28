@@ -63,64 +63,67 @@ define('COL_DEPEND',            0x0200);    /* internal: column is used by anoth
 
 /* Supported types of columns:
  * - Non-SQL custom columns, like "checkbox" or "flags"
- * - SQL columns from union sub-queries, like "hostname"
+ * - Base SQL columns from union sub-queries, like "hostname"
  * - SQL columns from custom variables, like "client" (exemple below)
  * - SQL columns from expressions put on the main wrap query, like "duration"
  *
- * Non-SQL custom columns:
- * - have a look to query.php for exemples
- * - implement a format_header_<column> function
- * - implement a format_row_<column> function
- * - supported properties: sort, opts
+ * For each column, the following function can be implemented in order to
+ * customize displaying of the data. i18n can be handled for new columns
+ * by adding a COL_<name> entry in gettext *.po files.
  *
- * SQL columns from union sub-queries:
- * - have a look to sub-queries of $QUERY in query.php
- * - supported properties: sort, opts, data, key, filter, lmax
+ * Supported properties in column definition arrays:
  *
- * SQL columns from custom variables:
- * - supported properties: opts, lmax, key
- * - overridable auto-defined properties: sort, data, filter
- * - have a look at init_column() in query.php for defaults
- * - provides two SQL column: HCVAR_<column>, SCVAR_<column>
+ *    opts
+ *    The value represent a OR'ed list of COL_* option flags. Checkout the
+ *    list of available flags defined above. Flags marked internal must not
+ *    be used here.
  *
- * SQL columns from expressions:
- * - supported properties: opts, lmax
- * - overridable auto-defined properties: sort, data
- * - have a look at init_column() in query.php for defaults
- * - provides SQL column: EXPR_<column>
+ *    sort
+ *    Array of ORDER BY specifications: first element is an SQL column or an
+ *    SQL expression, second element is ASC or DESC.
  *
- * HCVAR_<column>, SCVAR_<column> and EXPR_<column> SQL columns can be
- * used as intermediate columns. They can be referenced in properties of other
- * columns: sort, expr. Intermediate columns does not necessarily need to
- * present in the $COLUMN_ENABLED array.
+ *    data
+ *    Name of the SQL column to use as data value for the column. If an array
+ *    is provided, the first non-NULL value is used. This property is
+ *    automatically set for "cvar" and "expr" columns (see below) but can
+ *    be customized.
  *
- * Property sort:
- * Array of ORDER BY specifications: first element is an SQL column or an
- * SQL expression, second element is ASC or DESC.
+ *    lmax
+ *    This property acts on display behavior. It truncates the value to the
+ *    given number of characters. When the property is set on a column, an
+ *    option is automatically added to the settings popin so the user can
+ *    customize the maximum length.
  *
- * Property opts:
- * Bit field or OR'ed COL_* constants, see above.
+ *    key
+ *    Sortcut for filters to address a particular column. Only one character
+ *    length keys are supported.
  *
- * Property data:
- * The SQL column to use as data value for the column. If an array is provided,
- * the first non-NULL value is used. This array mode is tipically used to
- * display custom variable values: either the one on the service or the host.
+ *    filter
+ *    This array represent the SQL columns to use in order to construct a
+ *    WHERE statement coresponding to the filter. This is mostly marked
+ *    below as "internal stuff" because of base SQL column names used in
+ *    the $QUERY template from query.php. This property is automatically
+ *    set for "cvar" columns (see below) but can be customized.
  *
- * Property key:
- * Sortcut for filters to address a particular column.
+ *    cvar
+ *    Column data is to be retrieved from a Nagios custom variable. Both
+ *    host and service values are fetched and will be available respectively
+ *    as HCVAR_<column_name>, SCVAR_<column_name> SQL columns. The name of
+ *    the custom variable must not include the leading underscode. If not
+ *    explicitly defined, the data property is automatically set so that
+ *    the service value is displayed if defined, otherwize the host value.
  *
- * Property filter:
- * For each sub-query, the SQL column to use in order to construct a WHERE
- * statement coresponding to the filter. Table aliases depends on the names
- * of $QUERY in query.php, that's why it's marked "internal stuff" below.
+ *    is_ref
+ *    Boolean value that modifies behavior of "cvar" columns (see above). It
+ *    indicates that the name provided in the "cvar" property is actually the
+ *    name of another custom variable. The value of the referenced variable
+ *    is taken instead. Obviously it implies the referenced variable name is
+ *    unique within the Nagios configuration.
  *
- * Property lmax:
- * Truncate values of the column to that many characters.
- *
- * Property is_ref:
- * For custom variable columns (require cvar). The value of the custom
- * variable correspond to the name of another custom variable. The later
- * must be unique.
+ *    expr
+ *    Column data is the result of an SQL expression and will be available
+ *    in an EXPR_<column_name> SQL column. The expression can depend on
+ *    any available SQL column, including other "expr" and "cvar" columns.
  */
 $COLUMN_DEFINITION = array();
 
