@@ -6,11 +6,12 @@
 ###########################################
 
 
-for i in `ls -d */ | awk '{ if(match($0, /(.+)\//, cap)) print cap[1]; }'`; do
-  if [ -e messages-"$i".po ];then
+for i in messages-*.po; do
     echo "$i"
-    msgfmt -o "$i"/LC_MESSAGES/messages.mo messages-"$i".po
-  fi
+    localedir=${i#messages-}
+    localedir=${localedir%.po}
+    mkdir -p "$localedir/LC_MESSAGES"
+    msgfmt -o "$localedir/LC_MESSAGES/messages.mo" "$i"
 done
 
 [ "$NO_HTTPD_RESTART" == "1" ] || service httpd restart
