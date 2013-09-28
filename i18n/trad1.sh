@@ -22,12 +22,10 @@ mv messages.pot.merge messages.pot
 ./addentry.sh
 
 # ----- PO -----
-for i in `ls -d */ | awk '{ if(match($0, /(.+)\//, cap)) print cap[1]; }'`; do
-  if [ -e messages-"$i".po ];then
+for i in messages-*.po; do
     echo "$i"
-    msgmerge --no-wrap -N messages-"$i".po messages.pot > messages-"$i".po.new
-    mv messages-"$i".po.new messages-"$i".po
-  fi
+    msgmerge --no-wrap -N "$i" messages.pot > "$i".new
+    mv "$i"{.new,}
 done
 
 echo 'You can now translate the files in each .po and then launch trad2.sh to apply the changes'
