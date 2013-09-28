@@ -5,10 +5,14 @@
 ###############################################
 # ----- POT -----
 # find all php files to create the .pot
-find .. -xtype f -name "*.php" | xgettext --add-comments -L PHP --from-code=UTF-8 -o messages.pot.new -f -
+find .. -xtype f -name "*.php" \
+    |xgettext \
+         --add-comments -L PHP --from-code=UTF-8 \
+         -o messages.pot.new -f -
 
 # merge with the old .pot
-msgmerge --no-wrap -N messages.pot messages.pot.new > messages.pot.merge
+msgmerge --no-wrap -N messages.pot \
+    messages.pot.new > messages.pot.merge
 
 rm messages.pot.new
 
