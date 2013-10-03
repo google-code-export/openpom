@@ -110,7 +110,7 @@ foreach ($COLUMN_DEFINITION as $col => $def) {
         <tr>
           <th>
             <?php echo ucfirst(_('maxlen')) ?>
-            <?php echo ucfirst(_($col)) ?>
+            <?php echo ucfirst(_col($col)) ?>
           </th>
           <td colspan="3">
             <input type="text" maxlength="3"
