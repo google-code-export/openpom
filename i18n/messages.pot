@@ -452,7 +452,7 @@ msgstr ""
 msgid "disa_popin"
 msgstr ""
 
-msgid "next_check"
+msgid "nextcheck"
 msgstr ""
 
 msgid "linkhistory"

@@ -454,7 +454,7 @@ msgstr "activer la popin de status"
 msgid "disa_popin"
 msgstr "d&eacute;sactiver la popin de status"
 
-msgid "next_check"
+msgid "nextcheck"
 msgstr "Prochain test"
 
 msgid "linkhistory"
