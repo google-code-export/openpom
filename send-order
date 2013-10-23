@@ -23,29 +23,57 @@
 # exec 2>> $out
 # set -x
 
-[ $# -ne 2 ] && exit 2
+if (( $# != 2 )); then
+    logger -p error -t "${0##*/}" -- "Invalid arguments"
+    exit 2
+fi
 
 MAX_EXTCMD=30  ### MAX EXTERNAL COMMAND
 SLEEP_TIME=5   ### SLEEP X SECONDS AFTER MAX_EXTCMD IS REACHED
 
-local_cmdfile="$1"
-shift 1
+FIFO="$1" ; shift
 
-oIFS=$IFS ; IFS=$'\n'
-orders=( $@ )
-IFS=$oIFS
-
-if [ ! -p "${local_cmdfile}" ] ; then
-  echo "${local_cmdfile} is not a named pipe" 1>&2
-  exit 2
+if [[ ! -p "${FIFO}" ]] ; then
+    logger -p error -t "${0##*/}" -- "${FIFO}: not a named pipe"
+    exit 2
 fi
 
-for ((i=0 ; i < "${#orders[@]}" ; i++)) ; do
-  if [ $i -gt 0 -a $(($i%$MAX_EXTCMD)) -eq 0 ] ; then
-      sleep $SLEEP_TIME
-  fi
+send_pipe()
+{
+    (( $# != 1 )) && return 1
 
-  cat > "${local_cmdfile}" <<< "${orders[$i]}"
+    local order="$1"
+
+    #logger -p error -t "${0##*/}" -- ">>>> $1 (local)"
+    echo "${order}" > "${FIFO}" \
+        || STATUS=1
+}
+
+oIFS="$IFS" ; IFS=$'\n'
+set -f; orders=( $1 ); set +f
+IFS="${oIFS}"
+
+STATUS=0
+cpt=0
+for order in "${orders[@]}"; do
+    (( cpt++ ))
+    IFS='; '
+    set -f; set -- ${order}; set +f
+    IFS="$oIFS"
+
+    # $1 [1363550322]
+    # $2 SCHEDULE_FORCED_SVC_CHECK
+    # $3 host
+    # $4 PING
+    # $5 1363550322
+
+    send_pipe "${order}"
+
+    # pause $SLEEP_TIME every $MAX_EXTCMD entries
+    if (( cpt == MAX_EXTCMD )); then
+        sleep "${SLEEP_TIME}"
+        cpt=0
+    fi
 done
 
-exit $?
+exit "${STATUS}"
